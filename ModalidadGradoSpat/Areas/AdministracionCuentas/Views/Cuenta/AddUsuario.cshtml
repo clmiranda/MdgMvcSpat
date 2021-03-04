@@ -1,0 +1,136 @@
+﻿@model User
+@{
+    Layout = null;
+}
+<style>
+    .form-group i {
+        cursor: pointer;
+    }
+</style>
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+
+<form asp-action="PostUsuario" method="post" autocomplete="off" onsubmit="return jQueryAjaxPost(this);">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="idNombres">Nombre(s)</label>
+            <input type="text" class="form-control" asp-for="Nombres" name="Nombres" id="idNombres" placeholder="Ingresa el(los) Nombre(s)">
+            @Html.ValidationMessageFor(x => x.Nombres, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="idApellidos">Apellido(s)</label>
+            <input type="text" class="form-control" asp-for="Apellidos" name="Apellidos" id="idApellidos" placeholder="Ingresa el(los) Apellido(s)">
+            @Html.ValidationMessageFor(x => x.Apellidos, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="idEmail">Correo Electr&oacute;nico</label>
+        <input type="text" class="form-control" asp-for="Email" name="Email" id="idEmail" placeholder="Ingresa el Correo del Usuario a Registrar">
+        @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="idUsername">Nombre de Usuario</label>
+            <input type="text" class="form-control" asp-for="UserName" name="UserName" autocomplete="off" id="idUsername" placeholder="Ingresa el Nombre de Usuario">
+            @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="idPassword">Contrase&ntilde;a</label>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" asp-for="Password" name="Password" autocomplete="off" id="idPassword" placeholder="Ingresa la Contraseña">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="far fa-eye"></i></span>
+                </div>
+            </div>
+            @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+            <ul class="text-left text-success">
+                <li id="charac">Requiere M&iacute;nimo 8 caracteres</li>
+                <li id="lower">Necesita una Min&uacute;scula</li>
+                <li id="mayus">Necesita una May&uacute;scula</li>
+                <li id="numbe">Necesita un N&uacute;mero (0-9)</li>
+                <li id="special">Necesita un Caracter Especial (*,+)</li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="idDomicilio">Domicilio</label>
+        <input type="text" class="form-control" asp-for="Domicilio" name="Domicilio" id="idDomicilio" placeholder="Ingresa el Domicilio">
+        @Html.ValidationMessageFor(x => x.Domicilio, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="idFechaNac">Fecha de Nacimiento</label>
+            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" data-toggle="datepicker" asp-for="FechaNacimiento" name="FechaNacimiento" id="idFechaNac" placeholder="Ingresa la Fecha de Nacimiento" readonly>
+            @Html.ValidationMessageFor(x => x.FechaNacimiento, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="idNumero">N&uacute;mero de Celular</label>
+            <input type="text" class="form-control" onkeypress="return isNumber(event);" asp-for="NumeroCelular" name="NumeroCelular" id="idNumero" placeholder="Ingresa el Numero de Celular">
+            @Html.ValidationMessageFor(x => x.NumeroCelular, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="idMasculino">Sexo</label>
+        <div class="form-check">
+            <input class="form-check-input" asp-for="Sexo" type="radio" id="idMasculino" name="Sexo" value="Masculino" checked>
+            <label class="form-check-label" for="idMasculino">
+                Masculino
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" asp-for="Sexo" type="radio" id="idFemenino" name="Sexo" value="Femenino">
+            <label class="form-check-label" for="idFemenino">
+                Femenino
+            </label>
+        </div>
+        @Html.ValidationMessageFor(x => x.Sexo, "", new { @class = "text-danger" })
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+
+    var togglePassword = document.querySelector('.fa-eye');
+    var password = document.querySelector('#idPassword');
+    togglePassword.addEventListener('click', function (e) {
+        var type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+    $(document).ready(function () {
+        var mayus = new RegExp("^(?=.*[A-Z])");
+        var special = new RegExp("^(?=.*[!@@#$%&*])");
+        var numbe = new RegExp("^(?=.*[0-9])");
+        var lower = new RegExp("^(?=.*[a-z])");
+        var charac = new RegExp("^(?=.{8,})");
+
+        var regExp = [mayus, special, numbe, lower, charac];
+        var elem = [$("#mayus"), $("#special"), $("#numbe"), $("#lower"), $("#charac")];
+
+        $("#idPassword").on("keyup", function () {
+            var pass = $("#idPassword").val();
+            for (var i = 0; i < 5; i++) {
+                if (regExp[i].test(pass)) {
+                    elem[i].hide();
+                }
+                else {
+                    elem[i].show();
+                }
+            }
+        });
+    });
+    function isNumber(evt) {
+        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+            return false;
+        return true;
+    }
+    $('[data-toggle="datepicker"]').datepicker({
+        format: "dd/MM/yyyy",
+        language: "es-ES",
+        autoHide: "true",
+        zIndex: 2048
+    });
+</script>

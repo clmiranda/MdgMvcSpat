@@ -1,0 +1,76 @@
+﻿@model User
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<form method="post" asp-action="UpdateUser" onsubmit="return showFormAux(this);" autocomplete="off">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <div class="form-group">
+        <label for="idUserEmail">Este es el Email con el que se ha creado la cuenta</label>
+        <input type="email" class="form-control" id="idUserEmail" value="@Model.Email" disabled readonly>
+    </div>
+    <div class="form-group">
+        <label for="idUserUsername">Nombre de Usuario</label>
+        <input type="text" class="form-control" id="idUserUsername" asp-for="UserName" value="@Model.UserName" placeholder="Ingresa Nombre de Usuario">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="idUserNombre">Nombre(s)</label>
+            <input type="text" class="form-control" asp-for="Nombres" value="@Model.Nombres" id="idUserNombre" placeholder="Ingresa tu(s) Nombre(s)">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="idUserApellido">Apellido(s)</label>
+            <input type="text" class="form-control" asp-for="Apellidos" value="@Model.Apellidos" id="idUserApellido" placeholder="Ingresa tu(s) Apellido(s)">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="idUserDomicilio">Domicilio</label>
+        <input type="text" class="form-control" asp-for="Domicilio" value="@Model.Domicilio" id="idUserDomicilio" placeholder="Ingresa tu Domicilio">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="idUserNumeroCelular">N&uacute;mero de Celular</label>
+            <input type="text" class="form-control" onkeypress="return isNumber(event);" asp-for="NumeroCelular" value="@Model.NumeroCelular" id="idUserNumeroCelular" placeholder="Ingresa tu Numero de Celular">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="idUserSexo">Sexo</label>
+            <select class="form-control" asp-for="Sexo" value="@Model.Sexo" id="idUserSexo">
+                @if (Model.Sexo == null || Model.Sexo.Equals("Masculino"))
+                {
+                    <option value="Masculino" selected>Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                }
+                else
+                {
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino" selected>Femenino</option>
+                }
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            @if (Model.FechaNacimiento.ToShortDateString().Equals("01/01/0001"))
+            {
+                <label for="idUserFechaNac">Fecha de Nacimiento</label>
+                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@DateTime.Now.ToShortDateString()" id="idUserFechaNac" readonly>
+            }
+            else
+            {
+                <label for="idUserFechaNac">Fecha de Nacimiento (@Model.Edad a&ntilde;os)</label>
+                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@Model.FechaNacimiento.ToShortDateString()" id="idUserFechaNac" readonly>
+            }
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mx-auto">Guardar Cambios</button>
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+
+    $('[data-toggle="datepicker"]').datepicker({
+        format: "dd/MM/yyyy",
+        language: "es-ES",
+        autoHide: "true"
+    });
+    function isNumber(evt) {
+        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+            return false;
+        return true;
+    }
+</script>

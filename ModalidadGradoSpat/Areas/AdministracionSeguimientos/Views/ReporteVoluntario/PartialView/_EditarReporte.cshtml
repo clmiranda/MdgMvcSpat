@@ -1,0 +1,82 @@
+﻿@model ReporteSeguimiento
+@{
+    Layout = null;
+}
+<style>
+    .file {
+        visibility: hidden;
+        position: absolute;
+    }
+</style>
+@if (Model == null)
+{
+    <div class="card col-sm-12 col-md-10 mx-auto">
+        <div class="card-body">
+            <h5 class="card-title">Error</h5>
+            <p class="card-text">El reporte ya fue enviado,ya no se puede editar.</p>
+        </div>
+    </div>
+}
+else
+{
+<form asp-action="SendReporte" method="post" onsubmit="return showFormAux(this);" autocomplete="off">
+    <input asp-for="Id" type="hidden" value="@Model.Id" />
+    <input asp-for="SeguimientoId" type="hidden" value="@Model.SeguimientoId" />
+    <div class="row">
+        <div class="form-group col">
+            <label for="idEstadoMascota">Breve descripci&oacute;n del estado actual de la mascota: </label>
+            <textarea type="text" asp-for="EstadoMascota" class="form-control" id="idEstadoMascota"></textarea>
+            @Html.ValidationMessageFor(x => x.EstadoMascota, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col">
+            <label for="idEstadoHogar">En que estado se encuentra el hogar de la mascota: </label>
+            <select asp-for="EstadoHogarMascota" class="form-control" id="idEstadoHogar">
+                <option value="Bueno">Bueno</option>
+                <option value="Regular">Regular</option>
+                <option value="Malo">Malo</option>
+            </select>
+            @*<input type="text" asp-for="EstadoHogarMascota" class="form-control" id="inputEstHogMas" />*@
+            @Html.ValidationMessageFor(x => x.EstadoHogarMascota, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-12">
+            <label for="inputDesc">Ingrese la Descripci&oacute;n del Reporte: </label>
+            <textarea asp-for="Observaciones" class="form-control" id="inputDesc"></textarea>
+            @Html.ValidationMessageFor(x => x.Observaciones, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-sm-12 col-md-6">
+            <label for="imgReporte">Seleccione la Imagen de la Mascota: </label>
+            <input asp-for="Foto" accept="image/*" class="file" type='file' id="imgReporte" />
+            <div class="input-group my-3">
+                <input id="inputFile" type="text" class="form-control" disabled placeholder="Cargar Imagen">
+                <div class="input-group-append">
+                    <button type="button" class="browse btn btn-primary">Navegar...</button>
+                </div>
+            </div>
+            <div class="mx-auto">
+                <img src="https://placehold.it/80x80" class="img-thumbnail" id="prevImg">
+            </div>
+            @Html.ValidationMessageFor(x => x.Foto, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary offset-md-11">Guardar</button>
+</form>
+
+    <script>
+        $(document).on("click", ".browse", function () {
+            var file = $(this).parents().find(".file");
+            file.trigger("click");
+        });
+        $('input[type="file"]').change(function (e) {
+            var fileName = e.target.files[0].name;
+            $("#inputFile").val(fileName);
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("prevImg").src = e.target.result;
+            };
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+        });
+    </script>
+}

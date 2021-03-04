@@ -1,0 +1,163 @@
+﻿@model ContratoAdopcion
+@{
+    Layout = null;
+}
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<div class="card rounded col-sm-12 col-lg-10 mx-auto">
+    <div class="card-body">
+        @if (Model == null)
+        {
+            <p class="text-center">El contrato no se puede visualizar, Id de mascota incorrecto.</p>
+        }
+        else
+        {
+            if (Model.Mascota != null)
+            {
+                <p class="text-center">
+                    El contrato no puede visualizarse porque ya fue enviado y actualmente
+                    se encuentra en proceso de revisi&oacute;n.
+                </p>
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary" onclick="window.location='@Url.Action("Index","Inicio", new { area=""})'">Volver a Inicio</button>
+                </div>
+            }
+            else
+            {
+                <h3 class="card-title"><b>FORMULARIO DE ADOPCION</b></h3>
+                <form asp-action="PostContrato" autocomplete="off" onsubmit="return showFormAux(this);" method="post">
+                    <div class="form-row">
+                        <input type="hidden" asp-for="@Model.FechaSolicitudAdopcion" />
+                        <input type="hidden" asp-for="@Model.FechaAdopcion" />
+                        <input type="hidden" asp-for="@Model.Estado" />
+                        <input type="hidden" asp-for="@Model.MascotaId" value="@Model.MascotaId" />
+                        <div class="form-group col-sm-12">
+                            <label for="idNombres">Ingresa tu(s) Nombre(s):</label>
+                            <input type="text" id="idNombres" class="form-control" asp-for="@Model.Nombres" placeholder="Ingresa tu(s) Nombre(s)" />
+                            @Html.ValidationMessageFor(x => x.Nombres, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label for="idApellidos">Ingresa tu(s) Apellido(s):</label>
+                            <input type="text" id="idApellidos" class="form-control" asp-for="@Model.Apellidos" placeholder="Ingresa tu(s) Apellido(s)" />
+                            @Html.ValidationMessageFor(x => x.Apellidos, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="idCi">Ingresa tu Carnet de Identidad:</label>
+                            <input type="text" id="idCi" class="form-control" asp-for="@Model.Ci" placeholder="Ingresa tu Carnet de Identidad" />
+                            @Html.ValidationMessageFor(x => x.Ci, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="idNumero">Ingresa tu N&uacute;mero de Celular/Telefono:</label>
+                            <input type="text" id="idNumero" class="form-control" asp-for="@Model.NumeroCelular" placeholder="Ingresa tu Numero de Celular/Telefono" />
+                            @Html.ValidationMessageFor(x => x.NumeroCelular, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label for="idDomicilio">Ingresa tu Domicilio:</label>
+                            <textarea id="idDomicilio" class="form-control" asp-for="@Model.Domicilio" placeholder="Ingresa tu Domicilio"></textarea>
+                            @Html.ValidationMessageFor(x => x.Domicilio, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label for="idP1">Pregunta 1:</label>
+                            <p>¿Cu&aacute;l es la raz&oacute;n por la que quieres adoptar?</p>
+                            <textarea id="idP1" class="form-control" asp-for="@Model.Pregunta1" placeholder="Ingresa tu Respuesta"></textarea>
+                            @Html.ValidationMessageFor(x => x.Pregunta1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="idP2">Pregunta 2:</label>
+                            <p>
+                                Una nueva mascota es una gran responsabilidad que tendras por varios a&ntilde;os, ¿Est&aacute;s seguro de que
+                                la cuidar&aacute;s durante todo ese tiempo?
+                            </p>
+                            <textarea id="idP2" class="form-control" asp-for="@Model.Pregunta2" placeholder="Ingresa tu Respuesta"></textarea>
+                            @Html.ValidationMessageFor(x => x.Pregunta2, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="idP3">Pregunta 3:</label>
+                            <p>
+                                ¿Est&aacute;s de acuerdo a enviarnos fotos de la mascota, y a recibir visitas cada cierto tiempo
+                                para asegurarnos de que la mascota est&aacute; siendo bien cuidada?
+                            </p>
+                            <textarea id="idP3" class="form-control" asp-for="@Model.Pregunta3" placeholder="Ingresa tu Respuesta"></textarea>
+                            @Html.ValidationMessageFor(x => x.Pregunta3, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="idP4">Pregunta 4:</label>
+                            <p>
+                                ¿Est&aacute;s consciente de que si la mascota no esta siendo bien cuidada o evitas enviarnos fotos o
+                                recibir las visitas de los voluntarios, deber&aacute;s entregar voluntariamente a la mascota?
+                            </p>
+                            <textarea id="idP4" class="form-control" asp-for="@Model.Pregunta4" placeholder="Ingresa tu Respuesta"></textarea>
+                            @Html.ValidationMessageFor(x => x.Pregunta4, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="idP5">Pregunta 5:</label>
+                            <p>
+                                ¿Est&aacute;s consciente de que tener una mascota implica nuevos gastos, vacunas, medicinas o atenci&oacute;n
+                                veterinaria cuando enferme?
+                            </p>
+                            <textarea id="idP5" class="form-control" asp-for="@Model.Pregunta5" placeholder="Ingresa tu Respuesta"></textarea>
+                            @Html.ValidationMessageFor(x => x.Pregunta5, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="idP6">Pregunta 6:</label>
+                            <p>
+                                ¿Est&aacute;s consciente que la adopci&oacute;n es personal? Lo cual significa que no puedes regalar o
+                                vender a la mascota.
+                            </p>
+                            <textarea id="idP6" class="form-control" asp-for="@Model.Pregunta6" placeholder="Ingresa tu Respuesta"></textarea>
+                            @Html.ValidationMessageFor(x => x.Pregunta6, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="idP1">Pregunta 7:</label>
+                            <p>¿Vives en una casa, departamento propio o en alquiler?</p>
+                            <textarea id="idP7" class="form-control" asp-for="@Model.Pregunta7" placeholder="Ingresa tu Respuesta"></textarea>
+                            @Html.ValidationMessageFor(x => x.Pregunta7, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-check col-sm-12">
+                            <input type="checkbox" asp-for="@Model.TerminosCondiciones" class="form-check-input" id="idTermsConditions">
+                            <label class="form-check-label" for="idTermsConditions">Acepto los <a href="@Url.Action("TerminosDeAdopcion","Adopciones", new { area=""})" target="_blank">Terminos y Condiciones del Contrato.</a></label><br />
+                            @Html.ValidationMessageFor(x => x.TerminosCondiciones, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Enviar Datos</button>
+                    </div>
+                </form>
+                <script type="text/javascript">
+                    var defaultRangeValidator = $.validator.methods.range;
+                    $.validator.methods.range = function (value, element, param) {
+                        if (element.type === 'checkbox') {
+                            // if it's a checkbox return true if it is checked
+                            return element.checked;
+                        } else {
+                            // otherwise run the default validation function
+                            return defaultRangeValidator.call(this, value, element, param);
+                        }
+                    }
+                    function setInputFilter(textbox, inputFilter) {
+                        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                            textbox.addEventListener(event, function () {
+                                if (inputFilter(this.value)) {
+                                    this.oldValue = this.value;
+                                    this.oldSelectionStart = this.selectionStart;
+                                    this.oldSelectionEnd = this.selectionEnd;
+                                } else if (this.hasOwnProperty("oldValue")) {
+                                    this.value = this.oldValue;
+                                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                                } else {
+                                    this.value = "";
+                                }
+                            });
+                        });
+                    }
+                    setInputFilter(document.getElementById("idCi"), function (value) {
+                        return /^-?\d*$/.test(value);
+                    });
+                    setInputFilter(document.getElementById("idNumero"), function (value) {
+                        return /^-?\d*$/.test(value);
+                        //return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 100);
+                    });
+                </script>
+            }
+        }
+    </div>
+</div>

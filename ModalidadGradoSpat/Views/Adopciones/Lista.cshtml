@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Mascota>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    button[disabled] {
+        cursor: not-allowed;
+    }
+
+    @@media (max-width: 767px) {
+        .card {
+            width: auto;
+        }
+    }
+
+    @@media (min-width: 768px) {
+        .card {
+            width: 300px;
+        }
+    }
+    .pointer {
+        cursor: pointer;
+    }
+</style>
+<p class="mb-4">
+    En esta vista se visualizan las mascotas de nuestros albergues que estan listas para
+    recibir el amor de su nueva familia, para ello tienes
+    que cumplir una serie de requisitos y esperar nuestra aprobacion para posteriormente
+    llevar un seguimiento del cuidado de la mascota que adoptes.
+</p>
+<div id="view-all">
+    @await Html.PartialAsync("PartialView/_Lista", Model)
+</div>

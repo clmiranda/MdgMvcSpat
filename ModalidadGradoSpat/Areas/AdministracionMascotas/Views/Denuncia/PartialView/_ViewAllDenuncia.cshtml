@@ -1,0 +1,241 @@
+﻿@model IEnumerable<Denuncia>
+@{
+    Layout = null;
+}
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<div class="container-fluid">
+    <div class="form-row">
+        <form class="form-inline formulario" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
+            @*<input type="hidden" name="currentPage" value="@ViewData["currentPage"]" />*@
+            <div class="form-group mr-sm-3 mr-md-5">
+                @*<form method="post" asp-action="ReturnVista">*@
+                @* averiguar como enviar el parametro seleccionado del dropdown al action del controller para filtrar la cantidad de elementos *@
+                Elementos por P&aacute;gina: <select name="sizePage" @*asp-items="Model.ListaSelectItem"*@ class="form-control form-control-sm dropdown-toggle">
+                    @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
+                    {
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    }
+                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
+                    {
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    }
+                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
+                    {
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    }
+                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
+                    {
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                    }
+                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
+                    {
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100" selected>100</option>
+                    }
+                </select>
+                @*</form>*@
+            </div>
+            <div class="form-group">
+                <input autocomplete="off" type="text" class="form-control mr-md-3" name="search" value="@ViewData["search"]">
+                <button id="buscar" type="submit" class="btn btn-primary mr-sm-3">Buscar</button>
+                <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
+            </div>
+        </form>
+    </div>
+    <div class="input-group mb-3">
+        <button role="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nueva Denuncia');" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#form-modal">Agregar Denuncia</button>
+    </div>
+    <div class="table-responsive">
+        <table id="tableDenuncia" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titulo</th>
+                    <th>Descripcion</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyDenuncia">
+                @if (Model.Count() <= 0)
+                {
+                    <tr>
+                        <td colspan="4"><h1 class="text-center">No hay registros para mostrar.</h1></td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td width="5%">
+                                @item.Id
+                            </td>
+                            <td width="30%">
+                                @item.Titulo
+                            </td>
+                            <td width="50%">
+                                @item.Descripcion
+                            </td>
+                            <td width="15%">
+                                <button type="button" onclick="location.href='@Url.Action("MascotaView", "Mascota",new { id=item.Id, area="AdministracionMascotas"})'" class="btn btn-success"><i class="fa fa-eye fa-2" aria-hidden="true"></i></button>
+                                <button type="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=item.Id,area="AdministracionMascotas"})','Actualizar Denuncia');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                                <form asp-action="DeleteDenuncia" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                                    @*<input type="submit" class="btn btn-danger" />*@
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-trash fa-2" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Id</th>
+                    <th>Titulo</th>
+                    <th>Descripcion</th>
+                    <th>Acciones</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<!-- pager -->
+<nav class="table-responsive">
+    <form asp-action="ReturnVista" method="post" onsubmit="return send(this);">
+        <input type="hidden" name="sizePage" value="@ViewData["itemsPerPage"]" />
+        <input type="hidden" name="search" value="@ViewData["search"]" />
+        <input type="hidden" name="currentPage" />
+        <ul class="pagination justify-content-center d-flex flex-wrap">
+            @if (int.Parse(ViewData["currentPage"].ToString()) > 1)
+            {
+                <li class="page-item">
+                    <button class="page-link" value="1" onclick="GetValueButton(this.value)">First</button>
+                </li>
+                <li class="page-item">
+                    @{ int p = int.Parse(ViewData["currentPage"].ToString()) - 1;}
+                    <button class="page-link" value="@p" onclick="GetValueButton(this.value)">Previous</button>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <button type="button" class="page-link">First<span class="sr-only"></span></button>
+                </li>
+                <li class="page-item">
+                    <button type="button" class="page-link">Previous<span class="sr-only"></span></button>
+                </li>
+            }
+
+            @for (var pagina = 1; pagina <= int.Parse(ViewData["totalPages"].ToString()); pagina++)
+            {
+                <li class="page-item @(pagina == int.Parse(ViewData["currentPage"].ToString()) ? "active" : "")">
+                    @if (pagina == int.Parse(ViewData["currentPage"].ToString()))
+                    {
+                        <button type="button" class="page-link" value="@pagina" role="button">@(pagina)<span class="sr-only"></span></button>
+                    }
+                    else
+                    {
+                        <button class="page-link" value="@pagina" onclick="GetValueButton(this.value)">@(pagina)</button>
+                    }
+                </li>
+            }
+
+            @if (int.Parse(ViewData["currentPage"].ToString()) < int.Parse(ViewData["totalPages"].ToString()))
+            {
+                <li class="page-item">
+                    @{int n = int.Parse(ViewData["currentPage"].ToString()) + 1;}
+                    <button class="page-link" value="@n" onclick="GetValueButton(this.value)">Next</button>
+                </li>
+                <li class="page-item">
+                    <button class="page-link" value="@ViewData["totalPages"]" onclick="GetValueButton(this.value)">Last</button>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <button type="button" class="page-link">Next<span class="sr-only"></span></button>
+                </li>
+                <li class="page-item">
+                    <button type="button" class="page-link">Last<span class="sr-only"></span></button>
+                </li>
+            }
+        </ul>
+    </form>
+</nav>
+<script>
+    function GetValueButton(val) {
+        $("[name='currentPage']").val(val);
+    }
+    $("#resetear").on("click", function () {
+        $("select option").val("10");
+        $("input[name='search']").val("");
+    });
+    $(document).ready(function () {
+        if ($('.formulario input').val() == "") {
+            $('#buscar').prop('disabled', true);
+        }
+        $('.formulario input').keyup(function () {
+            $('#buscar').prop('disabled', this.value == "" ? true : false);
+        })
+    });
+    $('select').on('change', function () {
+        try {
+            $.ajax({
+                type: "POST",
+                url: this.form.action,
+                data: new FormData(this.form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#view-all').html(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    });
+    send = form => {
+        try {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#view-all').html(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            return false;
+        } catch (e) {
+            console.log(e);
+        }
+    };
+</script>

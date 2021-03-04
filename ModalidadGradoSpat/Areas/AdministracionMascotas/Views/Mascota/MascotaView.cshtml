@@ -1,0 +1,38 @@
+﻿@model Mascota
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    button[disabled] {
+        cursor: not-allowed;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12 col-lg-8 mx-auto">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-update" data-toggle="tab" href="#tab-update" role="button" aria-controls="tab-update" aria-selected="true">Actualizar Mascota</a>
+                @*@if (Model.Id != 0)
+                    {*@
+                <a class="nav-item nav-link" id="nav-fotos" data-toggle="tab" href="#tab-fotos" role="button" aria-controls="tab-fotos" aria-selected="false">Fotos</a>
+                @*}
+                    else
+                    {
+                        <button class="nav-item nav-link" id="nav-fotos" data-toggle="tab" href="#tab-fotos" role="tab" aria-controls="tab-fotos" aria-selected="false" disabled>Fotos</button>
+                    }*@
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="tab-update" role="tabpanel" aria-labelledby="nav-update">
+                <div id="body-content-view">
+                    @await Html.PartialAsync("PartialView/_Mascota.cshtml", Model)
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab-fotos" role="tabpanel" aria-labelledby="nav-fotos">
+                <div id="body-content-action">
+                    @await Html.PartialAsync("PartialView/_Fotos.cshtml", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

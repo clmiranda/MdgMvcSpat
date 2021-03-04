@@ -1,0 +1,109 @@
+﻿@model ReporteSeguimiento
+@{
+    Layout = null;
+}
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<form asp-action="SaveFecha" onsubmit="return jQueryAjaxPost(this);" autocomplete="off" method="post">
+    <div class="form-row">
+        <input type="hidden" asp-for="@Model.Id" />
+        <div class="form-group mb-5 col-md-6">
+            <label for="idFecha">Ingrese la Fec>ha Inicial del Seguimiento:</label>
+            <input id="idFecha" asp-for="@Model.Fecha" value="@Model.Fecha.Date.ToShortDateString()" type="text" placeholder="Ingrese la Nueva Fecha del Reporte" class="form-control" data-toggle="datepicker" readonly>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $.validator.unobtrusive.parse(document);
+
+    $(function () {
+        $('input[id="idFecha"]').daterangepicker({
+            autoApply: true,
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 2021,
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Dom",
+                    "Lun",
+                    "Mar",
+                    "Mie",
+                    "Jue",
+                    "Vie",
+                    "Sab"
+                ],
+                "monthNames": [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                "firstDay": 1
+            }
+        });
+    });
+    @*$("#idFecha").change(function () {
+        $("button[type='submit']").removeAttr('disabled');
+    })
+    $('#idFecha').datepicker({
+        format: "dd/MM/yyyy",
+        language: "es-ES",
+        autoHide: "true",
+        zIndex: 2048,
+        date: "@Model.Fecha.Day/@Model.Fecha.Month/@Model.Fecha.Year"
+    });
+        if ('@TempData["alertsuccess"]' != "") {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: 'success',
+            title: '@TempData["alertsuccess"]'
+        })
+    }
+    else if ('@TempData["alerterror"]' != "") {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: 'error',
+            title: '@TempData["alerterror"]'
+        })
+    }*@
+</script>

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Seguimiento>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<p class="mb-4">
+    Esta vista est&aacute; dise&ntilde;ada para administrar los seguimientos de las adopciones
+    que se realizan a las mascotas adoptadas.
+</p>
+<div id="view-all">
+    @await Html.PartialAsync("PartialView/_Lista", Model)
+</div>

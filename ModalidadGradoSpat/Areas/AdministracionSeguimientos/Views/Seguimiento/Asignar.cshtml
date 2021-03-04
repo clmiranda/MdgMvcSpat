@@ -1,0 +1,11 @@
+﻿@model Tuple<IEnumerable<User>, Seguimiento>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<p class="mb-4">
+    Esta vista est&aacute; dise&ntilde;ada para asignar un voluntario al presente seguimiento,
+    puede modificar el voluntario al cual se va a asignar.
+</p>
+<div id="view-all">
+    @await Html.PartialAsync("PartialView/_Asignar", Model)
+</div>

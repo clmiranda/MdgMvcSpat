@@ -1,0 +1,11 @@
+﻿@model User
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p class="text-justify">
+    Aqu&iacute; podr&aacute;s editar tu perfil de usuario.
+</p>
+<div id="body-content-action">
+    @await Html.PartialAsync("PartialView/_EditarPerfil", Model)
+</div>

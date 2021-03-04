@@ -1,0 +1,39 @@
+﻿@model ContratoAdopcion
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="card text-justify rounded-lg mb-3 mx-auto">
+        <div class="card-header">
+            <h4>Informaci&oacute;n del Adoptante</h4>
+        </div>
+        <div class="card-body text-success">
+            <p class="card-text">
+                <strong>Nombre Completo del Adoptante: </strong>@Model.Nombres @Model.Apellidos<br /><br />
+                <strong>Carnet de Identidad: </strong>@Model.Ci<br /><br />
+                <strong>Domicilio: </strong>@Model.Domicilio<br /><br />
+                <strong>N&uacute;mero de Celular: </strong>@Model.NumeroCelular<br /><br />
+                <strong>Fecha de Solicitud de Adopci&oacute;n: </strong>@Model.FechaSolicitudAdopcion.ToShortDateString()
+            </p>
+        </div>
+    </div>
+    <div class="card text-justify rounded-lg mb-3 mx-auto">
+        <div class="card-header">
+            <h4>Informaci&oacute;n de la Mascota</h4>
+        </div>
+        <div class="card-body text-success">
+            <p class="card-text">
+                <strong>Nombre de la Mascota: </strong>@Model.Mascota.Nombre<br /><br />
+                @if (Model.Mascota.Esterilizado)
+                {<strong>Esterilizada: </strong>@:La Mascota se encuentra esterilizada.<br /><br />
+                }
+                else
+                { <strong>Esterilizada: </strong>@:La Mascota no se encuentra esterilizada.<br /><br />
+                }
+                <strong>Sexo de la Mascota: </strong>@Model.Mascota.Sexo<br /><br />
+                <strong>Tama&ntilde;o de la Mascota: </strong>@Model.Mascota.Tamaño<br /><br />
+                <strong>Descripci&oacute;n de la Mascota: </strong>@Model.Mascota.Descripcion
+            </p>
+        </div>
+    </div>
+</div>
