@@ -1,0 +1,40 @@
+﻿@model string[]
+@{
+    Layout = null;
+}
+<form class="text-center" asp-action="PostRoles" method="post" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+    <div class="custom-control custom-checkbox mb-3">
+        <input name="RolesUsuario[]" value="Administrador" class="custom-control-input" type="checkbox" id="idAdmin">
+        <label class="custom-control-label" for="idAdmin">
+            Administrador
+        </label>
+    </div>
+    <div class="custom-control custom-checkbox mb-3">
+        <input name="RolesUsuario[]" value="Voluntario" class="custom-control-input" type="checkbox" id="idVoluntario">
+        <label class="custom-control-label" for="idVoluntario">
+            Voluntario
+        </label>
+    </div>
+    <div class="custom-control custom-checkbox mb-3">
+        <input name="RolesUsuario[]" value="Moderador" class="custom-control-input" type="checkbox" id="idModerador">
+        <label class="custom-control-label" for="idModerador">
+            Moderador
+        </label>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    @foreach (var item in Model)
+    {
+        if (item.Equals("Administrador"))
+        { <text>$("#idAdmin").prop('checked', true);</text> }
+        else if (item.Equals("Voluntario"))
+        { <text>$("#idVoluntario").prop('checked', true);</text> }
+        else if (item.Equals("Moderador"))
+        { <text>$("#idModerador").prop('checked', true);</text> }
+    }
+</script>

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ReporteSeguimiento>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    button[disabled] {
+        cursor: not-allowed;
+    }
+</style>
+<p class="mb-4">
+    Esta vista est&aacute; dise&ntilde;ada para administrar los reportes del seguimiento actual,
+    el administrador podr&aacute; agregar reportes como tambi&eacute;n modificar las fechas
+    en las que se realizan los mismos, bas&aacute;ndose en el rango de 3 reportes como m&iacute;nimo
+    hasta 10 reportes como m&aacute;ximo.
+</p>
+
+<div id="view-all">
+    @await Html.PartialAsync("PartialView/_ListaReportes", Model)
+</div>

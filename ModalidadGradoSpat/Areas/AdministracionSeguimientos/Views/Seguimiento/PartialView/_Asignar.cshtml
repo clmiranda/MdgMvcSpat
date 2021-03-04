@@ -1,0 +1,86 @@
+﻿@model Tuple<IEnumerable<User>, Seguimiento>
+@{
+    Layout = null;
+}
+<style>
+    .rounded {
+        border-radius: .55rem !important
+    }
+</style>
+@*<script src="~/archivos/js/iniciaDatatable.js"></script>*@
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<div class="container-fluid">
+    @if (Model.Item2.Estado.Equals("Pendiente"))
+    {
+        <div class="col-12 alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>
+                Se ha enviado la solicitud de asignacion al Voluntario @Model.Item2.User.Nombres @Model.Item2.User.Apellidos,
+                mientras la asignaci&oacute;n del Seguimiento se encuentre pendiente, no podr&aacute;a asignar a otro Voluntario.
+            </strong>
+        </div>
+    }
+    else if (Model.Item2.Estado.Equals("Asignado"))
+    {
+        <div class="col-12 alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>El seguimiento actual se encuentra asignado al Voluntario @Model.Item2.User.Nombres @Model.Item2.User.Apellidos</strong>
+        </div>
+    }
+    <div class="row mx-auto">
+        <div id="valor" class="col-12">
+            <div class="card rounded text-center">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <strong>Domicilio del Adoptante</strong>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Direcci&oacute;n del Adoptante:  @Model.Item2.ContratoAdopcion.Domicilio</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mx-auto">
+        <div id="accordion" class="col-12">
+            @foreach (var item in @Model.Item1)
+            {
+                <div class="card">
+                    <div role="button" data-toggle="collapse" data-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
+                        <div class="card-header" id="heading-@item.Id">
+                            <h5 class="mb-0">
+                                Voluntario: @item.Nombres @item.Apellidos
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div id="collapse-@item.Id" class="collapse" aria-labelledby="heading-@item.Id" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>
+                                Direcci&oacute;n: @item.Domicilio<br />
+                                Edad: @item.Edad<br />
+                                N&uacute;mero de Celular: @item.NumeroCelular<br />
+                                Correo Electr&oacute;nico: @item.Email
+                            </p>
+                            @if (Model.Item2.Estado.Equals("Pendiente"))
+                            {
+                                <button type="submit" class="btn btn-success" disabled><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
+                            }
+                            else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
+                            {
+                                <button type="submit" class="btn btn-success" disabled><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
+                                <form asp-action="RemoveUserChecked" asp-route-idUser="@item.Id" method="post" onsubmit="return removeVoluntarioChecked(this);">
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="CheckAsignar" asp-route-idUser="@item.Id" method="post" onsubmit="return jQueryAjaxPostList(this);">
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

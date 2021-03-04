@@ -1,0 +1,219 @@
+﻿@model UserForRegister
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Asociacion Protectora de Animales Tarija</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/sbadmin2/vendor/jquery/jquery.min.js"></script>
+    <script src="~/sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="~/sbadmin2/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+    <!-- Custom fonts for this template-->
+    <link href="~/sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="~/sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            </div>
+                            <form class="user" asp-action="SendDataRegister" asp-controller="Cuenta" method="post">
+                                <div class="form-group">
+                                    <input asp-for="Nombres" type="text" class="form-control form-control-user" id="inputNombres" name="Nombres" placeholder="Ingrese su(s) Nombre(s)" autofocus>
+                                    @Html.ValidationMessageFor(x => x.Nombres, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Apellidos" type="text" class="form-control form-control-user" id="inputApellidos" name="Apellidos" placeholder="Ingrese su(s) Apellido(s)">
+                                    @Html.ValidationMessageFor(x => x.Apellidos, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Domicilio" type="text" class="form-control form-control-user" id="inputDomicilio" name="Domicilio" placeholder="Ingrese su Domicilio">
+                                    @Html.ValidationMessageFor(x => x.Domicilio, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="NumeroCelular" onkeypress="return isNumber(event)" type="text" class="form-control form-control-user" id="inputNumeroCelular" name="NumeroCelular" placeholder="Ingrese su Numero de Celular">
+                                    @Html.ValidationMessageFor(x => x.NumeroCelular, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Edad" onkeypress="return isNumber(event)" type="text" class="form-control form-control-user" id="inputEdad" name="Edad" placeholder="Ingrese su Edad">
+                                    @Html.ValidationMessageFor(x => x.Edad, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Email" type="email" title="Ingrese un Email válido" class="form-control form-control-user" id="inputEmail" name="Email" placeholder="Ingrese su Correo Electrónico">
+                                    @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Username" type="text" class="form-control form-control-user" id="inputUsername" name="Username" placeholder="Ingrese su Nombre de Usuario">
+                                    @Html.ValidationMessageFor(x => x.Username, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input asp-for="Password" type="password" class="form-control form-control-user" id="inputPassword" name="Password" placeholder="Ingresa tu Contraseña">
+                                        <div class="input-group-append">
+                                            <button id="showPassword" class="btn btn-primary" type="button"> <span class="fa fa-eye-slash icon"></span> </button>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                                    <ul>
+                                        <li id="charac">Requiere M&iacute;nimo 8 caracteres</li>
+                                        <li id="lower">Necesita una Min&uacute;scula</li>
+                                        <li id="mayus">Necesita una May&uacute;scula</li>
+                                        <li id="numbe">Necesita un N&uacute;mero (0-9)</li>
+                                        <li id="special">Necesita un Caracter Especial (*,+)</li>
+                                    </ul>
+                                </div>
+                                @*<div class="form-group">
+                                        <input type="password" class="form-control form-control-user" id="inputConfirmPass" placeholder="Confirme su Contraseña">
+                                        <ul>
+                                            <li id="textConfirmPass">Las contraseñas no coinciden</li>
+                                        </ul>
+                                    </div>*@
+                                <div class="form-group">
+                                    <input asp-for="ConfirmPassword" type="password" class="form-control form-control-user" id="inputConfirmPassword" name="ConfirmPassword" placeholder="Repite la Contraseña">
+                                    @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>Seleccione su Sexo:</label><br />
+                                    <div class="form-check-inline">
+                                        <input asp-for="Sexo" class="form-check-input" type="radio" name="Sexo" id="radioMasculino" value="Masculino" checked>
+                                        <label class="form-check-label" for="radioMasculino">
+                                            Masculino
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <input asp-for="Sexo" class="form-check-input" type="radio" name="Sexo" id="radioFemenino" value="Femenino">
+                                        <label class="form-check-label" for="radioFemenino">
+                                            Femenino
+                                        </label>
+                                    </div>
+                                    @Html.ValidationMessageFor(x => x.Sexo, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Estado" type="hidden" id="inputEstado" name="Estado" value="Activo">
+                                </div>
+                                <button class="btn btn-primary btn-user btn-block" type="submit">
+                                    Registrar Cuenta
+                                </button>
+                                <hr>
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="@Url.Action("Login","Cuenta")">Ya tienes una Cuenta? Inicia Sesi&oacute;n</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+                if ('@TempData["alerta2"]' != '') {
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  onOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+    icon: 'error',
+  title: '@TempData["alerta2"]'
+})
+    }
+        //$("#inputConfirmPass").on("keyup", function () {
+        //    var aux = $("#inputPassword").val();
+        //    var aux2 = $("#inputConfirmPass").val();
+        //    if (aux != aux2) {
+        //        $('#textConfirmPass').show();
+        //    }
+        //    else if (aux == aux2 || aux2 == "") {
+        //        $('#textConfirmPass').hide();
+        //    }
+        //});
+        function isNumber(evt) {
+            var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+            if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                return false;
+
+            return true;
+        }
+        $("#showPassword").on("click", function () {
+            var cambio = document.getElementById("inputPassword");
+            if (cambio.type == "password") {
+                cambio.type = "text";
+                $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+            } else {
+                cambio.type = "password";
+                $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+            }
+        });
+        $(document).ready(function () {
+            var mayus = new RegExp("^(?=.*[A-Z])");
+            var special = new RegExp("^(?=.*[!@@#$%&*])");
+            var numbe = new RegExp("^(?=.*[0-9])");
+            var lower = new RegExp("^(?=.*[a-z])");
+            var charac = new RegExp("^(?=.{8,})");
+
+            var regExp = [mayus, special, numbe, lower, charac];
+            var elem = [$("#mayus"), $("#special"), $("#numbe"), $("#lower"), $("#charac")];
+
+            $("#inputPassword").on("keyup", function () {
+                var pass = $("#inputPassword").val();
+                for (var i = 0; i < 5; i++) {
+                    if (regExp[i].test(pass)) {
+                        elem[i].hide();
+                    }
+                    else {
+                        elem[i].show();
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script src="@Url.Content("~/archivos/lib/jquery-validation/dist/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/archivos/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/sbadmin2/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

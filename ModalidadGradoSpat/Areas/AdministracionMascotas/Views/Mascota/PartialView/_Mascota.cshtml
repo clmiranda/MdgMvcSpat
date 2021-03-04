@@ -1,0 +1,153 @@
+﻿@model Mascota
+<div class="card">
+    @if (Model == null)
+    {
+        <div class="card-body">
+            <p class="text-center">No se puede mostrar la informaci&oacute;n, la mascota no existe o el id de la denuncia es incorrecto.</p>
+        </div>
+    }
+    else
+    {
+<div class="card-body">
+    @if (Model.Id == 0)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong class="text-center">Podr&aacute;s asignar las Fotos cuando se agreguen los Datos de la Mascota</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    <form asp-action="AddOrEditMascota" asp-controller="Mascota" onsubmit="return showForm(this);" autocomplete="off" method="post">
+        @if (Model.Id != 0)
+        {
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
+        }
+        else
+        {
+            <input type="hidden" asp-for="Id" value="0" />
+        }
+        <input type="hidden" asp-for="DenunciaId" />
+        @*<input type="hidden" asp-for="EstadoSituacion" value="Registrado" class="form-control" />*@
+        <div class="row">
+            <div class="form-group col-md-12 mt-3 mb-3">
+                <label for="idNombre">Ingrese el Nombre de la Mascota</label>
+                @if (Model != null)
+                {
+                    <input id="idNombre" type="text" asp-for="Nombre" class="form-control" value="@Model.Nombre" />
+                }
+                else
+                {
+                    <input id="idNombre" type="text" asp-for="Nombre" class="form-control" value="" />
+                }
+                @Html.ValidationMessageFor(x => x.Nombre, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-12 mb-3">
+                <label for="idNombre">Ingrese la Descripci&oacute;n de la Mascota</label>
+                <input id="idDesc" type="text" asp-for="Descripcion" class="form-control" value="@Model.Descripcion" />
+                @Html.ValidationMessageFor(x => x.Descripcion, "", new { @class = "text-danger" })
+            </div>
+            <div id="idCheckSexo" class="form-group col-md-6 mb-3">
+                <label>Elija el Sexo de la Mascota:</label>
+                <div class="form-check">
+                    <input class="form-check-input @(Model.Sexo == "Macho" ? "selected" : "")" type="radio" name="Sexo" id="radioButtonSexo1" value="Macho" asp-for="Sexo">
+                    <label class="form-check-label" for="radioButtonSexo1">
+                        Macho
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input @(Model.Sexo == "Hembra" ? "selected" : "")" type="radio" name="Sexo" id="radioButtonSexo2" value="Hembra" asp-for="Sexo">
+                    <label class="form-check-label" for="radioButtonSexo2">
+                        Hembra
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(x => x.Sexo, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="idTamano">Ingrese el tamaño de la Mascota (Ej: Pequeño, Mediano, etc.)</label>
+                @if (Model != null)
+                {
+                    <input id="idTamano" type="text" value="@Model.Tamaño" asp-for="Tamaño" class="form-control" />
+                }
+                else
+                {
+                    <input id="idTamano" type="text" value="" asp-for="Tamaño" class="form-control" />
+                }
+                @Html.ValidationMessageFor(x => x.Tamaño, "", new { @class = "text-danger" })
+            </div>
+            <div id="idCheckEsterilizado" class="form-group col-md-6 mb-3">
+                <label>¿La Mascota se encuentra esterilizada?:</label>
+                <div class="form-check">
+                    <input class="form-check-input @(Model.Esterilizado == true ? "selected" : "")" type="radio" name="Esterilizado" id="radioButtonPositivo" value="true" asp-for="Esterilizado">
+                    <label class="form-check-label" for="radioButtonPositivo">
+                        S&iacute;
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input @(Model.Esterilizado == false ? "selected" : "")" type="radio" name="Esterilizado" id="radioButtonNegativo" value="false" asp-for="Esterilizado">
+                    <label class="form-check-label" for="radioButtonNegativo">
+                        No
+                    </label>
+                </div>
+                @*@if (Model.Esterilizado != null)
+                    {*@
+                @*@if (Model.Esterilizado == true)
+                    {
+                        <script>
+                            $("#radioButtonPositivo").attr("checked", true);
+                        </script>
+                    }
+                    else
+                    {
+                        <script>
+                            $("#radioButtonNegativo").attr("checked", true);
+                        </script>
+                    }*@
+                @*}
+                    else
+                    {
+                        <script>
+                            $("#radioButtonPositivo").attr("checked", true);
+                        </script>
+                    }*@
+                @Html.ValidationMessageFor(x => x.Esterilizado, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="idEdad">Ingrese la Edad aproximada de la Mascota (Ej: 2 meses, 1 a&ntilde;o, etc.)</label>
+                @if (Model != null)
+                {
+                    <input id="idEdad" type="text" value="@Model.Edad" asp-for="Edad" class="form-control" />
+                }
+                else
+                {
+                    <input id="idEdad" type="text" value="" asp-for="Edad" class="form-control" />
+                }
+                @Html.ValidationMessageFor(x => x.Edad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+            @if (Model.Id == 0)
+            {
+                <button type="submit" class="btn btn-primary">
+                    Registrar
+                </button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary">
+                    Modificar
+                </button>
+            }
+    </form>
+</div>
+        @*<script type="text/javascript">
+                $("#idButtonSend").prop('disabled', true);
+                $('#idNombre, #idCheckSexo, #idTamano, #idCheckEsterilizado, #idEdad').keyup(function () {
+                    if ($('#idNombre').val() != "" || $('#idCheckSexo').val() != "" || $('#idTamano').val() != "" || $('#idCheckEsterilizado').val() != "" || $('#idEdad').val() != "")
+                        $("#idButtonSend").removeAttr('disabled');
+                });
+            </script>*@
+    }
+</div>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+</script>

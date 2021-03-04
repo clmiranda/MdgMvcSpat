@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModalidadGradoSpat", "ModalidadGradoSpat\ModalidadGradoSpat.csproj", "{22578625-ABCF-4282-A1D7-54B3606D5364}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DATA", "DATA\DATA.csproj", "{ADF6F433-7FC9-4863-861A-A4E8965517B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22578625-ABCF-4282-A1D7-54B3606D5364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22578625-ABCF-4282-A1D7-54B3606D5364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22578625-ABCF-4282-A1D7-54B3606D5364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22578625-ABCF-4282-A1D7-54B3606D5364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF6F433-7FC9-4863-861A-A4E8965517B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF6F433-7FC9-4863-861A-A4E8965517B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF6F433-7FC9-4863-861A-A4E8965517B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF6F433-7FC9-4863-861A-A4E8965517B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5FFE48A5-DCDD-434A-A3CE-A379B163F4CD}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,152 @@
+﻿@model Seguimiento
+@{
+    Layout = null;
+}
+<style>
+    button[disabled] {
+        cursor: not-allowed;
+    }
+</style>
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+
+<button class="btn btn-success" onclick="location.href='@Url.Action("DetalleSeguimiento", "ReporteVoluntario", new { id=Model.ContratoAdopcion.Id, area="AdministracionSeguimientos" })'">Detalle Adopci&oacute;n</button>
+<div class="table-responsive mt-sm-3 mt-md-5">
+    <table id="example" class="table table-bordered table-hover" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyDetalleSeguimiento">
+
+            @foreach (var item in Model.ReporteSeguimientos)
+            {
+                <tr>
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @if (item.Observaciones == null@*&& DateTime.Now.Date < item.FechaRealizada.Date*@)
+{
+@*TimeSpan t = item.FechaRealizada.Date.Subtract(DateTime.Now.Date);
+    <p><strong>Faltan @t.Days d&iacute;a(s) para realizar el reporte.</strong></p>*@
+<p>El reporte a&uacute;n no fue realizado.</p>
+}
+@*else @if (item.Observaciones == null && DateTime.Now.Date > item.FechaRealizada.Date)
+       {
+           TimeSpan t = DateTime.Now.Date.Subtract(item.FechaRealizada.Date);
+        <p><strong>El reporte no fue realizado, ya pasaron @t.Days d&iacute;a(s) desde la fecha del reporte.</strong></p>
+    }
+    else if (item.Observaciones == null && DateTime.Now.Date.Equals(item.FechaRealizada.Date))
+    {
+        <p><strong>La fecha para realizar el reporte es hoy.</strong></p>
+    }*@
+else
+{
+    <p>
+        @item.Observaciones
+    </p>
+}
+                    </td>
+                    <td>
+                        @if (item.Estado.Equals("Enviado"))
+                        {
+                            <p>
+                                @item.Fecha.Date.ToShortDateString()
+                            </p>
+                        }
+                        else
+                        {
+                            <p>No definido.</p>
+                        }
+                    </td>
+                    <td>
+                        @if (item.Estado.Equals("Enviado"))
+                        {
+                            <h5><span class="badge badge-pill p-2 badge-danger">@item.Estado</span></h5>
+                        }
+                        else
+                        {
+                            <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
+                        }
+                    </td>
+                    <td>
+                        @if (item.Estado.Equals("Enviado"))
+                        {
+                            <button role="button" class="btn btn-info" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                        }
+                        else
+                        {
+                            @*<button role="button" onclick="showInPopup('@Url.Action("AddReporte","VoluntarioSeguimientos",new { id=item.Id},Context.Request.Scheme)','Agregar Nuevo Reporte');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>*@
+                            <button role="button" class="btn btn-info" onclick="location.href = '@Url.Action("EditarReporte","ReporteVoluntario", new { id=item.Id })'"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<!--<div class="modal fade bd-example-modal-lg" id="form-modal" tabindex="-1" role="dialog"--> @*aria-labelledby="modalDenunciaLabel"*@
+<!--aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>-->
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "processing": true,
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                "buttons": {
+                    "copy": "Copiar",
+                    "colvis": "Visibilidad"
+                }
+            }
+        });
+    });
+</script>

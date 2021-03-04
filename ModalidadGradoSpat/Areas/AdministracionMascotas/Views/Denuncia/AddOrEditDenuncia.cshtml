@@ -1,0 +1,28 @@
+﻿@model Denuncia
+@{
+    Layout = null;
+}
+@* Se eliminaron las referencias de jquery-validate, ya que no hacen falta
+    porque los mismos ya se hacen referencia en el _Layout, y eso seria hacer doble referencia.*@
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<form asp-action="AddOrEditDenuncia" method="post" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    @*<input id="inputEstado" asp-for="Estado" type="hidden" value="Activo" />*@
+    <div class="form-group">
+        <label for="inputTitulo">Ingrese la T&iacute;tulo de la Denuncia</label>
+        <input asp-for="Titulo" name="Titulo" type="text" class="form-control" id="inputTitulo" placeholder="Ingrese el Titulo" />
+        @Html.ValidationMessageFor(x => x.Titulo, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <label for="textAreaDescripcion">Ingrese la Descripci&oacute;n de la Denuncia</label>
+        <input asp-for="Descripcion" name="Descripcion" type="text" class="form-control" id="textAreaDescripcion" placeholder="Ingrese la Descripcion" />
+        @Html.ValidationMessageFor(x => x.Descripcion, "", new { @class = "text-danger" })
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+</script>

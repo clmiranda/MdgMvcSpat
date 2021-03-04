@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Seguimiento>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="view-all">
+    @await Html.PartialAsync("PartialView/_Lista", Model)
+</div>
