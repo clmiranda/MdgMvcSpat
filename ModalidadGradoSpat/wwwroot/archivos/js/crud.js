@@ -1,15 +1,15 @@
-﻿$(function () {
-    $("#loaderbody").addClass('hide');
+﻿//$(function () {
+//    $("#loaderbody").addClass('hide');
 
-    $(document).bind('ajaxStart', function () {
-        $("#loaderbody").removeClass('hide');
-    }).bind('ajaxStop', function () {
-        $("#loaderbody").addClass('hide');
-    });
-});
+//    $(document).bind('ajaxStart', function () {
+//        $("#loaderbody").removeClass('hide');
+//    }).bind('ajaxStop', function () {
+//        $("#loaderbody").addClass('hide');
+//    });
+//});
 
 showInPopup = (url, title) => {
-    $.ajax({
+    jQuery.ajax({
         type: "GET",
         url: url,
         success: function (res) {
@@ -18,6 +18,9 @@ showInPopup = (url, title) => {
             $('#form-modal').modal('show');
         }
     })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            window.location.href = "/Home/Error";
+        })
 };
 
 //postInPopup = (url, title) => {
@@ -42,7 +45,7 @@ jQueryAjaxPost = form => {
     //$.validator.unobtrusive.parse(datos);
     if ($("form").valid()) {
         try {
-            $.ajax({
+            jQuery.ajax({
                 type: "POST",
                 url: form.action,
                 data: new FormData(form),
@@ -67,6 +70,9 @@ jQueryAjaxPost = form => {
                     console.log(err);
                 }
             })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    window.location.href = "/Home/Error";
+                })
             //para prevenir el evento submit del form
             return false;
         } catch (e) {
@@ -101,13 +107,15 @@ jQueryAjaxDelete = form => {
                         console.log(err);
                     }
                 })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        window.location.href = "/Home/Error";
+                    })
                 return false;
             }
         })
     } catch (e) {
         console.log(e);
     }
-    return false;
 };
 
 jQueryAjaxPostList = form => {
@@ -125,6 +133,9 @@ jQueryAjaxPostList = form => {
                 console.log(err);
             }
         })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                window.location.href = "/Home/Error";
+            })
         //para prevenir el evento submit del form
         return false;
     } catch (e) {
@@ -158,6 +169,9 @@ jQueryAjaxPostAlterno = form => {
                 console.log(err);
             }
         })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                window.location.href = "/Home/Error";
+            })
         //para prevenir el evento submit del form
         return false;
     } catch (e) {
@@ -189,6 +203,9 @@ showForm = form => {
                     console.log(err);
                 }
             })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    window.location.href = "/Home/Error";
+                })
             //para prevenir el evento submit del form
             return false;
         } catch (e) {
@@ -226,13 +243,15 @@ jQueryAjaxDeleteForm = form => {
                         console.log(err);
                     }
                 })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        window.location.href = "/Home/Error";
+                    })
                 return false;
             }
         })
     } catch (e) {
         console.log(e);
     }
-    return false;
 };
 
 jQueryAjaxDeleteForm2 = form => {
@@ -260,13 +279,15 @@ jQueryAjaxDeleteForm2 = form => {
                         console.log(err);
                     }
                 })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        window.location.href = "/Home/Error";
+                    })
                 return false;
             }
         })
     } catch (e) {
         console.log(e);
     }
-    return false;
 };
 
 
@@ -296,13 +317,15 @@ removeVoluntarioChecked = form => {
                         console.log(err);
                     }
                 })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        window.location.href = "/Home/Error";
+                    })
                 return false;
             }
         })
     } catch (e) {
         console.log(e);
     }
-    return false;
 };
 
 
@@ -354,6 +377,9 @@ showFormAux = form => {
                     console.log(err);
                 }
             })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    window.location.href = "/Home/Error";
+                })
             return false;
         } catch (e) {
             console.log(e);

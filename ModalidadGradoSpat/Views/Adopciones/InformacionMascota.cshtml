@@ -80,13 +80,15 @@ else
         <div class="card rounded col-sm-12 col-lg-8">
             <div class="card-body">
                 <h3 class="card-title"><b>@Model.Nombre</b></h3>
+
                 <hr class="solid">
+
                 <h3 class="card-title"><b>Acerca de la Mascota</b></h3>
-                <p class="card-text"><b>Sexo:</b> @Model.Sexo   /   <b>Edad:</b> @Model.Edad   /   <b>Tamaño:</b> @Model.Tamaño</p>
-                @*<p class="card-text"><b>Edad:</b> @Model.Edad</p>
-                    <p class="card-text"><b>Tamaño:</b> @Model.Tamaño</p>*@
+                <p class="card-text"><b>Sexo Mascota:</b> @Model.Sexo   /   <b>Edad Mascota:</b> @Model.Edad   /   <b>Tama&ntilde;o Mascota:</b> @Model.Tamaño</p>
+
                 <hr class="solid">
-                @if (Model.Esterilizado == true)
+
+                @if (Model.Esterilizado)
                 {
                     <p class="card-text"><b>Esterilizado:</b> La mascota se encuentra esterilizada.</p>
                 }
@@ -94,19 +96,20 @@ else
                 {
                     <p class="card-text"><b>Esterilizado:</b> La mascota no se encuentra esterilizada.</p>
                 }
-                <p class="card-text"><b>Descripcion de nuestra mascota:</b> @Model.Descripcion</p>
+                <p class="card-text"><b>Caracter&iacute;sticas:</b> @Model.Caracteristicas</p>
+                <p class="card-text"><b>Rasgos Particulares:</b> @Model.RasgosParticulares</p>
             </div>
         </div>
         <div class="card rounded col-sm-12 col-lg-3">
             <div class="card-body">
-                <button id="buttonAdoptar" onclick="location.href='@Url.Action("ContratoAdopcion","Adopciones",new { id=Model.Id, area=""},Context.Request.Scheme)'" type="button" class="btn btn-primary btn-block rounded-pill"><i class="fa fa-paw fa-2x" aria-hidden="true"></i>Quiero Adoptar</button>
+                <button id="btnAdoptar" onclick="location.href='@Url.Action("ContratoAdopcion","Adopciones",new { id=Model.Id, area=""},Context.Request.Scheme)'" type="button" class="btn btn-primary btn-block rounded-pill"><i class="fa fa-paw fa-2x" aria-hidden="true"></i>Quiero Adoptar</button>
                 @if (Model.EstadoSituacion == "Inactivo")
                 {
                     <div class="alert alert-warning mt-5" role="alert">
                         <p class="text-center">La mascota actualmente no est&aacute; en adopci&oacute;n.</p>
                     </div>
                     <script>
-                        $("#buttonAdoptar").prop('disabled', true);
+                        $("#btnAdoptar").prop('disabled', true);
                     </script>
                 }
                 else if (Model.ContratoAdopcion != null)
@@ -124,37 +127,9 @@ else
                         </div>
                     }
                     <script>
-                        $("#buttonAdoptar").prop('disabled', true);
+                        $("#btnAdoptar").prop('disabled', false);
                     </script>
                 }
-                @*else if (Model.EstadoSituacion == "Registrado")
-                    {
-                        <div class="alert alert-warning mt-5" role="alert">
-                            La Mascota aun no se encuentra disponible para ser adoptada.
-                        </div>
-                        <script>
-                            $("#buttonAdoptar").prop('disabled', true);
-                        </script>
-                    }
-                    else if (Model.EstadoSituacion == "Adopcion en Proceso")
-                    {
-                        <div class="alert alert-warning mt-5" role="alert">
-                            La Mascota se encuentra actualmente en un proceso de adopcion.
-                        </div>
-                        <script>
-                            $("#buttonAdoptar").prop('disabled', true);
-                        </script>
-                    }
-                    else if (Model.EstadoSituacion == "Tratamiento")
-                    {
-                        <div class="alert alert-warning mt-5" role="alert">
-                            La Mascota se encuentra actualmente en un tratamiento para
-                            en su pronta recuperacion buscar una familia que la adopte.
-                        </div>
-                        <script>
-                            $("#buttonAdoptar").prop('disabled', true);
-                        </script>
-                    }*@
             </div>
         </div>
     </div>

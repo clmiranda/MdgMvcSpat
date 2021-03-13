@@ -47,48 +47,49 @@ namespace ModalidadGradoSpat.Controllers
         {
             if (ModelState.IsValid)
             {
-                    //enviar objeto user y token para la session
-                    //var resul = await rest.Login(usu, "api/Auth/login");
-                    //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                    var request = new RestRequest("api/Auth/login/", Method.POST).AddJsonBody(usu);
-                    try
+                //enviar objeto user y token para la session
+                //var resul = await rest.Login(usu, "api/Auth/login");
+                //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/Auth/login/", Method.POST).AddJsonBody(usu);
+                try
+                {
+                    var response = await client.ExecuteAsync(request);
+                    if (!response.IsSuccessful)
                     {
-                        var response = await client.ExecuteAsync(request);
-                        if (!response.IsSuccessful)
-                            throw new Exception(response.Content);
-                        dynamic valor = JsonConvert.DeserializeObject(response.Content);
-                        User user = JsonConvert.DeserializeObject<User>(Convert.ToString(valor["user"]));
-                        string token = valor["token"];
-                        HttpContext.Session.SetString("JWToken", token);
-                        HttpContext.Session.SetString("SesionUser", JsonConvert.SerializeObject(user));
-                        return RedirectToAction("Index", "Inicio", new { area = "" });
+                        //if (response.ResponseStatus == ResponseStatus.Error)
+                        //{
+                        //    throw new Exception();
+                        //}
+                        //if (response.Content == "")
+                        //    throw new Exception(response.ErrorException.InnerException.Message);
+                        //else
+                        throw new Exception(response.Content);
                     }
-                    catch (Exception ex)
-                    {
-                        TempData["alerterror"] = ex.Message.ToString();
-                    }
+                    dynamic valor = JsonConvert.DeserializeObject(response.Content);
+                    User user = JsonConvert.DeserializeObject<User>(Convert.ToString(valor["user"]));
+                    string token = valor["token"];
+                    HttpContext.Session.SetString("JWToken", token);
+                    HttpContext.Session.SetString("SesionUser", JsonConvert.SerializeObject(user));
+                    //return RedirectToAction("Index", "Inicio", new { area = "" });
+                    return Json(new { url = Url.Action("Index", "Inicio") });
+                }
+                catch (Exception ex)
+                {
+                    //if (ex.Message != null)
+                    //    TempData["alerterror"] = ex.Message;
+                    //else
+                    //{
+                    if (ex.Message == "")
+                        throw new Exception();
+
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = (string)msg["mensaje"];
+                    //}
+                }
             }
-            return RedirectToAction("Login", "Cuenta", new { area = "" });
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialViews/_Login", usu) });
+            //return RedirectToAction("Login", "Cuenta", new { area = "" });
         }
-        //[HttpPost]
-        //public async Task<IActionResult> SendDataRegister(UserForRegister usu)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            var aux = await rest2.PostAsync(usu, "api/Auth/register", HttpContext.Session.GetString("JWToken"));
-        //            TempData["alertsuccess"] = aux.ToString();
-        //            return RedirectToAction("Login", "Cuenta");
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            dynamic error = JsonConvert.DeserializeObject( ex.Message);
-        //            TempData["alerterror"] = error[0]["description"].ToString();
-        //        }
-        //    }
-        //    return RedirectToAction("Registro", "Cuenta");
-        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendDataForgotPassword(ForgotPassword dto)
@@ -102,12 +103,15 @@ namespace ModalidadGradoSpat.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     //var aux = await rest3.PostAsync(dto, "api/Auth/forgotpassword", HttpContext.Session.GetString("JWToken"));
-                    TempData["alertsuccess"] = "Email enviado a su Correo Electrónico, debe ingresar al enlace enviado para reestablecer su Contraseña.";
+                    TempData["alertsuccess"] = "Email enviado a su correo electrónico, debe ingresar al enlace enviado para reestablecer su Contraseña.";
                     return RedirectToAction("Login", "Cuenta", new { area = "" });
                 }
                 catch (Exception ex)
                 {
-                    TempData["alerterror"] = ex.Message.ToString();
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                 }
             }
             return Json(new { html = Helper.RenderRazorViewToString(this, "PartialViews/_ForgotPassword", dto) });
@@ -126,16 +130,15 @@ namespace ModalidadGradoSpat.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     //var aux = await rest4.PostAsync(new { Email = valor.Email, Password = valor.Password }, "api/Auth/ResetPasswordExterno", HttpContext.Session.GetString("JWToken"));
-                    TempData["alertsuccess"] = "Su contraseña se ha restaurado de manera correcta.";
+                    TempData["alertsuccess"] = "Contraseña restaurada de manera correcta.";
                     return RedirectToAction("Login", "Cuenta", new { area = "" });
                 }
                 catch (Exception ex)
                 {
-                    var error = JsonConvert.DeserializeObject<IEnumerable<IdentityError>>(ex.Message);
-                    foreach (var item in error)
-                    {
-                        TempData["alerterror"] = item.Description;
-                    }
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                 }
             }
             return Json(new { html = Helper.RenderRazorViewToString(this, "PartialViews/_ResetPassword", valor) });

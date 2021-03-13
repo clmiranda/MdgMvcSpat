@@ -152,13 +152,16 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         var response = await client.ExecuteAsync<Denuncia>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
-                        TempData["alertsuccess"] = "Denuncia creada exitosamente.";
+                        TempData["alertsuccess"] = "Denuncia creada.";
                         var vista = await Listado();
                         return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllDenuncia", vista) });
                     }
                     catch (Exception ex)
                     {
-                        TempData["alerterror"] = ex.Message.ToString();
+                        if (ex.Message == "")
+                            throw new Exception();
+                        dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                        TempData["alerterror"] = msg["mensaje"];
                         return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEditDenuncia", model) });
                     }
                 }
@@ -172,13 +175,16 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         var response = await client.ExecuteAsync<Denuncia>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
-                        TempData["alertsuccess"] = "Denuncia modificada exitosamente.";
+                        TempData["alertsuccess"] = "Denuncia actualizada.";
                         var vista = await Listado();
                         return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllDenuncia", vista) });
                     }
                     catch (Exception ex)
                     {
-                        TempData["alerterror"] = ex.Message.ToString();
+                        if (ex.Message == "")
+                            throw new Exception();
+                        dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                        TempData["alerterror"] = msg["mensaje"];
                         return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEditDenuncia", model) });
                     }
                 }
@@ -206,7 +212,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new { isValid = false });
             }
         }

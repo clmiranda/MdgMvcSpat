@@ -81,7 +81,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _lista) });
             }
         }
@@ -102,7 +105,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 //var modelo = await rest.GetAsync(idcontrato, "api/ContratoAdopcion/DetailAdopcion/" + idcontrato, HttpContext.Session.GetString("JWToken"));
                 return Json(new { /*isValid = false*/ html = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", _contratoAdopcion)/*, html2 = Helper.RenderRazorViewToString(this, "_ViewContratoAprobacion", contratoAdopcion)*/ });
             }
@@ -127,7 +133,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TempData["alerterror"] = ex.Message.ToString();
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                     //var modelo = await rest.GetAsync(idcontrato, "api/ContratoAdopcion/DetailAdopcion/" + idcontrato, HttpContext.Session.GetString("JWToken"));
                     return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddContratoRechazo", contrato) });
                 }
@@ -153,7 +162,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TempData["alerterror"] = ex.ToString();
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                     return Json(new {/* isValid = false,*/ html = Helper.RenderRazorViewToString(this, "AddContratoCancelado", contrato) });
                 }
                 //var modelo = await rest.GetAsync(idcontrato, "api/ContratoAdopcion/DetailAdopcion/" + idcontrato, HttpContext.Session.GetString("JWToken"));

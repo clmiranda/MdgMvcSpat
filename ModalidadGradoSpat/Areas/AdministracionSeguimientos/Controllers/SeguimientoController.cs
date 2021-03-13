@@ -79,7 +79,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TempData["alerterror"] = ex.Message.ToString();
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                     return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "EditSeguimiento", modelo) });
                 }
             }
@@ -149,7 +152,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new { /*isValid = false*/ html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllVoluntarios", new Tuple<IEnumerable<User>, Seguimiento>(_listaVolun, _seguimiento)) });
             }
         }

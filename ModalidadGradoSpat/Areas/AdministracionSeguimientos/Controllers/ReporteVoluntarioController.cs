@@ -7,6 +7,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,7 +55,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
             }
         }
@@ -76,19 +80,20 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
             }
         }
         public async Task<IActionResult> Detalle(int id)
         {
-            //idSeguimiento = id;
-            //var resul = await restReporte.GetAsync("api/ReporteSeguimiento/"+id+ "/GetReportesForVoluntario", HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
             var response = await client.GetAsync<Seguimiento>(request);
-            //var responseGet = await client.ExecuteGetAsync(requestGet);
-            //var obj = JsonConvert.DeserializeObject<Seguimiento>(responseGet.Content);
+            //if (response == null)
+            //    return NotFound();
             return View(response);
         }
 
@@ -102,15 +107,24 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendReporte(ReporteSeguimiento reporteSeguimiento)
+        public async Task<IActionResult> SendReporte(ReporteSeguimiento reporte)
         {
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario", Method.POST).AddJsonBody(reporteSeguimiento);
+                //var request = new RestRequest("api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario", Method.PUT).AddJsonBody(reporteSeguimiento);
+                var request = new RestRequest("api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario", Method.PUT).AddParameter("Id", reporte.Id).AddParameter("SeguimientoId", reporte.SeguimientoId).AddParameter("EstadoMascota", reporte.EstadoMascota).AddParameter("EstadoHogarMascota", reporte.EstadoHogarMascota).AddParameter("Observaciones", reporte.Observaciones);
+                using (var stream = new MemoryStream())
+                {
+                    //reporteSeguimiento.Foto.CopyTo(stream);
+                    var r = stream.ToArray();
+                    request.AddFile(reporte.Foto.Name, r, reporte.Foto.FileName);
+                    //request.AddHeader("content-type", "multipart/form-data");
+                }
                 try
                 {
                     //var resul = await restReporte.PutAsync(reporteSeguimiento, "api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario");
+                    //request.AddFile(reporteSeguimiento.Foto.Name, reporteSeguimiento.Foto.FileName);
                     var response = await client.ExecuteAsync<ReporteSeguimiento>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
@@ -119,10 +133,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TempData["alerterror"] = ex.Message.ToString();
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                 }
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PartialView/_EditarReporte", reporteSeguimiento) });
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PartialView/_EditarReporte", reporte) });
         }
 
         public async Task<IActionResult> EditarReporte(int id)

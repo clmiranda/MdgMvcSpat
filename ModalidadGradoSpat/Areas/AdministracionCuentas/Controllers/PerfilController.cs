@@ -54,11 +54,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 }
                 catch (Exception ex)
                 {
-                    var error = JsonConvert.DeserializeObject<IEnumerable<IdentityError>>(ex.Message);
-                    foreach (var item in error)
-                    {
-                        TempData["alerterror"] = item.Description;
-                    }
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                 }
             }
             return Json(new { /*isValid = false*/html = Helper.RenderRazorViewToString(this, "PartialView/_EditarPerfil", user) });
@@ -87,7 +86,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TempData["alerterror"] = ex.Message.ToString();
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                 }
             }
             return Json(new { /*isValid= false,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_ResetPassword", dto) });
