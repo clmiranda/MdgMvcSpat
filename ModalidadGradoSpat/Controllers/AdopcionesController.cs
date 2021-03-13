@@ -22,16 +22,9 @@ namespace ModalidadGradoSpat.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
-        public async Task<IActionResult> Lista(/*int? sizePage = 10, int? pageNumber = 1, string search = "", string filter = "Adopcion"*/)
+        public async Task<IActionResult> Lista()
         {
-            //ViewData["page"] = pageNumber;
-            //ViewData["size"] = sizePage;
-            //ViewData["filter"] = filter;
-            //ViewData["search"] = search;
-            //var resul = await pagination.GetAsync(1, "api/Mascota/GetAllMascotaAdopcion?Busqueda=" + search + "&PageNumber=" + pageNumber + "&PageSize=" + sizePage+ "&Filter="+filter, HttpContext.Session.GetString("JWToken"));
             ViewData["filter"] = "Adopcion";
-            //pagesize = 10; pagenumber = 1; filtrado = "Adopcion";
-            //ViewData["search"] = "";
             var vista = await Listado();
             return View(vista);
         }
@@ -55,21 +48,10 @@ namespace ModalidadGradoSpat.Controllers
             //var mascota = await rest.GetAsync(id, "api/Mascota/GetMascota/" + id, HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetMascota/" + id, Method.GET);
-            try
-            {
                 var response = await client.ExecuteAsync<Mascota>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception(response.Content);
                 //if (mascota==null)
                 //    return RedirectToAction("StatusCodeHandle", "Error", new { statusCode = 404 });
                 return View(JsonConvert.DeserializeObject<ContratoAdopcion>(response.Content));
-            }
-            catch (Exception)
-            {
-                return View(null);
-                //TempData["alerterror"] = ex.Message.ToString();
-                //return RedirectToAction("Lista", "Adopciones", new { area = "" }); ;
-            }
         }
         public IActionResult TerminosDeAdopcion()
         {
@@ -82,44 +64,22 @@ namespace ModalidadGradoSpat.Controllers
             //var user = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("SesionUser"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ContratoAdopcion/GetContratoByIdMascota/" + id, Method.GET);
-            try
-            {
+            //try
+            //{
                 //var resul = await rest2.GetAsync(id, "api/ContratoAdopcion/GetContratoByIdMascota/" + id, HttpContext.Session.GetString("JWToken"));
                 var response = await client.ExecuteAsync<ContratoAdopcion>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception(response.Content);
-                else
-                {
+                //else
+                //{
                     if (response.Data != null)
                         return View(response.Data);
                     else
                         return View(new ContratoAdopcion { MascotaId = id });
-                }
-            }
-            catch (Exception)
-            {
-                return View(null);
-            }
-            //if (resul != null)
-            //{
-            //contrato = new ContratoAdopcionDto
-            //{
-            //    User = user,
-            //    ContratoAdopcion = resul
-            //};
-            //    return RedirectToAction("StatusCodeHandle", "Error", new { statusCode = 404 });
+                //}
             //}
-            //else
+            //catch (Exception)
             //{
-            //ContratoAdopcion aux = new ContratoAdopcion { MascotaId = id };
-            //contrato = new ContratoAdopcionDto
-            //{
-            //    User = user,
-            //    ContratoAdopcion = aux
-            //};
+            //    return View(null);
             //}
-            //}
-            //return View( new ContratoAdopcion());
         }
         //public IActionResult ContratoAdopcionFotos() {
         //    Foto foto = new Foto { 
@@ -148,7 +108,8 @@ namespace ModalidadGradoSpat.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TempData["alerterror"] = ex.Message.ToString();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                 }
             }
             return Json(new { isValid = false/*, html = Helper.RenderRazorViewToString(this, "Adopciones/PartialView/_ContratoAdopcion", modelo)*/ });

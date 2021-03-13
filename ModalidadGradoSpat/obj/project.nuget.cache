@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qzLgKh/yPTJfRj+130/TUAP49mKF0HagwDUZXjbsgnjeOUlj+3gK4KOrsgLj4kzVSq6KwhaHfShcmWzKm92Fug==",
+  "dgSpecHash": "SIXTZdQIFQ2kk06JJ8LD9wQXU02uopKv1olV4PFazyKgVekcYvjh5xjBFQcX/YbIJZj9eujDraEOjqj3ozZcIg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Usuario\\source\\repos\\ModalidadGradoSpat\\ModalidadGradoSpat\\ModalidadGradoSpat.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,8 @@
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\2.2.0\\microsoft.aspnetcore.cryptography.keyderivation.2.2.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.dataprotection\\2.2.0\\microsoft.aspnetcore.dataprotection.2.2.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.dataprotection.abstractions\\2.2.0\\microsoft.aspnetcore.dataprotection.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.diagnostics\\2.2.0\\microsoft.aspnetcore.diagnostics.2.2.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.diagnostics.abstractions\\2.2.0\\microsoft.aspnetcore.diagnostics.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.hosting.abstractions\\2.2.0\\microsoft.aspnetcore.hosting.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.hosting.server.abstractions\\2.2.0\\microsoft.aspnetcore.hosting.server.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
@@ -52,6 +54,8 @@
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.1.12\\microsoft.extensions.dependencyinjection.abstractions.3.1.12.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.dependencymodel\\3.1.6\\microsoft.extensions.dependencymodel.3.1.6.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\2.2.0\\microsoft.extensions.fileproviders.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\2.2.0\\microsoft.extensions.fileproviders.physical.2.2.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\2.2.0\\microsoft.extensions.filesystemglobbing.2.2.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\2.2.0\\microsoft.extensions.hosting.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.identity.core\\2.2.0\\microsoft.extensions.identity.core.2.2.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.identity.stores\\2.2.0\\microsoft.extensions.identity.stores.2.2.0.nupkg.sha512",

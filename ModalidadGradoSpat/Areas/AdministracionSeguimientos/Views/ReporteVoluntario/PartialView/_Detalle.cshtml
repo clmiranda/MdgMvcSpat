@@ -8,29 +8,50 @@
     }
 </style>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+@if (Model == null)
+{
+    <div class="card col-sm-12 col-md-10 mx-auto">
+        <div class="card-body">
+            <h5 class="card-title">Error</h5>
+            <p class="card-text">Id incorrecto, el seguimiento no existe.</p>
+        </div>
+    </div>
+}
+else
+{
+    @if (Model.ReporteSeguimientos.Any(x => x.Fecha.ToShortDateString().Equals(DateTime.Now.ToShortDateString())))
+    {
+        <div class="alert alert-warning alert-dismissible fade show my-3 bg-warning" role="alert">
+            <strong>Hay un reporte por realizar hoy!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
 
-<button class="btn btn-success" onclick="location.href='@Url.Action("DetalleSeguimiento", "ReporteVoluntario", new { id=Model.ContratoAdopcion.Id, area="AdministracionSeguimientos" })'">Detalle Adopci&oacute;n</button>
-<div class="table-responsive mt-sm-3 mt-md-5">
-    <table id="example" class="table table-bordered table-hover" style="width:100%">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Descripcion</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="tbodyDetalleSeguimiento">
+    <button class="btn btn-success" onclick="location.href='@Url.Action("DetalleSeguimiento", "ReporteVoluntario", new { id=Model.ContratoAdopcion.Id, area="AdministracionSeguimientos" })'">Detalle Adopci&oacute;n</button>
 
-            @foreach (var item in Model.ReporteSeguimientos)
-            {
+    <div class="table-responsive my-3">
+        <table id="example" class="table table-bordered table-hover" style="width:100%">
+            <thead>
                 <tr>
-                    <td>
-                        @item.Id
-                    </td>
-                    <td>
-                        @if (item.Observaciones == null@*&& DateTime.Now.Date < item.FechaRealizada.Date*@)
+                    <th>Id</th>
+                    <th>Descripcion</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyDetalleSeguimiento">
+
+                @foreach (var item in Model.ReporteSeguimientos)
+                {
+                    <tr id="tr-@item.Id">
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            @if (item.Observaciones == null@*&& DateTime.Now.Date < item.FechaRealizada.Date*@)
 {
 @*TimeSpan t = item.FechaRealizada.Date.Subtract(DateTime.Now.Date);
     <p><strong>Faltan @t.Days d&iacute;a(s) para realizar el reporte.</strong></p>*@
@@ -51,73 +72,60 @@ else
         @item.Observaciones
     </p>
 }
-                    </td>
-                    <td>
-                        @if (item.Estado.Equals("Enviado"))
-                        {
+                        </td>
+                        <td>
                             <p>
                                 @item.Fecha.Date.ToShortDateString()
                             </p>
-                        }
-                        else
-                        {
-                            <p>No definido.</p>
-                        }
-                    </td>
-                    <td>
-                        @if (item.Estado.Equals("Enviado"))
-                        {
-                            <h5><span class="badge badge-pill p-2 badge-danger">@item.Estado</span></h5>
-                        }
-                        else
-                        {
-                            <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
-                        }
-                    </td>
-                    <td>
-                        @if (item.Estado.Equals("Enviado"))
-                        {
-                            <button role="button" class="btn btn-info" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
-                        }
-                        else
-                        {
-                            @*<button role="button" onclick="showInPopup('@Url.Action("AddReporte","VoluntarioSeguimientos",new { id=item.Id},Context.Request.Scheme)','Agregar Nuevo Reporte');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>*@
-                            <button role="button" class="btn btn-info" onclick="location.href = '@Url.Action("EditarReporte","ReporteVoluntario", new { id=item.Id })'"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
-                        }
-                    </td>
+                        </td>
+                        <td>
+                            @if (item.Estado.Equals("Enviado"))
+                            {
+                                <h5><span class="badge badge-pill p-2 badge-danger">@item.Estado</span></h5>
+                            }
+                            else
+                            {
+                                <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
+                            }
+                        </td>
+                        <td>
+                            @if (!item.Fecha.Date.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) || item.Estado.Equals("Enviado"))
+                            {
+                                <button role="button" class="btn btn-info" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                            }
+                            else
+                            {
+                                @*<button role="button" onclick="showInPopup('@Url.Action("AddReporte","VoluntarioSeguimientos",new { id=item.Id},Context.Request.Scheme)','Agregar Nuevo Reporte');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>*@
+                                <button role="button" class="btn btn-info" onclick="location.href = '@Url.Action("EditarReporte","ReporteVoluntario", new { id=item.Id })'"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Id</th>
+                    <th>Descripcion</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>Id</th>
-                <th>Descripcion</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-<!--<div class="modal fade bd-example-modal-lg" id="form-modal" tabindex="-1" role="dialog"--> @*aria-labelledby="modalDenunciaLabel"*@
-<!--aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-            </div>
-        </div>
+            </tfoot>
+        </table>
     </div>
-</div>-->
-<script>
+    <script>
+    @foreach (var item in Model.ReporteSeguimientos)
+	{
+		    @if (item.Fecha.Date.ToShortDateString().Equals(DateTime.Now.ToShortDateString()))
+             {
+                <text>
+                    $("#tr-@item.Id").addClass("alert alert-warning bg-warning text-dark");
+                </text>
+             }
+    }
     $(document).ready(function () {
         $('#example').DataTable({
+            "order": [],
             "processing": true,
             "language": {
                 "sProcessing": "Procesando...",
@@ -149,4 +157,5 @@ else
             }
         });
     });
-</script>
+    </script>
+}

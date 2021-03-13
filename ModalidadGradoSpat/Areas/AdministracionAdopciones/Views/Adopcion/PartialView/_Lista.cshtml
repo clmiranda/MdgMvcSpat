@@ -137,14 +137,6 @@
                                         </div>
                                     </div>
                                 </form>
-                                <script>
-                                $('[data-toggle="datepicker"]').datepicker({
-                                    format: "dd/MM/yyyy",
-                                    language: "es-ES",
-                                    autoHide: "true"
-                                    //date: "@item.FechaAdopcion.Year-@item.FechaAdopcion.Month-@item.FechaAdopcion.Day"
-                                });
-                                </script>
                             }
                             else
                             {
@@ -259,6 +251,12 @@
     </form>
 </nav>
 <script>
+    $('[data-toggle="datepicker"]').datepicker({
+        format: "dd/MM/yyyy",
+        language: "es-ES",
+        autoHide: "true"
+    });
+
     function GetValueButton(val) {
         $("[name='currentPage']").val(val);
     }

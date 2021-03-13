@@ -125,6 +125,35 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.DataProtection.Abstractions.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Diagnostics/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.Abstractions": "2.2.0",
+          "Microsoft.AspNetCore.Hosting.Abstractions": "2.2.0",
+          "Microsoft.AspNetCore.Http.Extensions": "2.2.0",
+          "Microsoft.AspNetCore.WebUtilities": "2.2.0",
+          "Microsoft.Extensions.FileProviders.Physical": "2.2.0",
+          "Microsoft.Extensions.Logging.Abstractions": "2.2.0",
+          "Microsoft.Extensions.Options": "2.2.0",
+          "System.Diagnostics.DiagnosticSource": "4.5.0",
+          "System.Reflection.Metadata": "1.6.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Diagnostics.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Diagnostics.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Diagnostics.Abstractions/2.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Diagnostics.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Diagnostics.Abstractions.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Hosting.Abstractions/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -783,6 +812,28 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Physical/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "2.2.0",
+          "Microsoft.Extensions.FileSystemGlobbing": "2.2.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.dll": {}
+        }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing/2.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll": {}
         }
       },
       "Microsoft.Extensions.Hosting.Abstractions/2.2.0": {
@@ -2794,6 +2845,32 @@
         "microsoft.aspnetcore.dataprotection.abstractions.nuspec"
       ]
     },
+    "Microsoft.AspNetCore.Diagnostics/2.2.0": {
+      "sha512": "RobNuZecn/eefWVApOE+OWAZXCdgfzm8pB7tBvJkahsjWfn1a+bLM9I2cuKlp/9aFBok1O/oDXlgYSvaQYu/yg==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.diagnostics/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Diagnostics.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Diagnostics.xml",
+        "microsoft.aspnetcore.diagnostics.2.2.0.nupkg.sha512",
+        "microsoft.aspnetcore.diagnostics.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Diagnostics.Abstractions/2.2.0": {
+      "sha512": "pva9ggfUDtnJIKzv0+wxwTX7LduDx6xLSpMqWwdOJkW52L0t31PI78+v+WqqMpUtMzcKug24jGs3nTFpAmA/2g==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.diagnostics.abstractions/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Diagnostics.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Diagnostics.Abstractions.xml",
+        "microsoft.aspnetcore.diagnostics.abstractions.2.2.0.nupkg.sha512",
+        "microsoft.aspnetcore.diagnostics.abstractions.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.Hosting.Abstractions/2.2.0": {
       "sha512": "ubycklv+ZY7Kutdwuy1W4upWcZ6VFR8WUXU7l7B2+mvbDBBPAcfpi+E+Y5GFe+Q157YfA3C49D2GCjAZc7Mobw==",
       "type": "package",
@@ -3545,6 +3622,32 @@
         "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
         "microsoft.extensions.fileproviders.abstractions.2.2.0.nupkg.sha512",
         "microsoft.extensions.fileproviders.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.FileProviders.Physical/2.2.0": {
+      "sha512": "tbDHZnBJkjYd9NjlRZ9ondDiv1Te3KYCTW2RWpR1B0e1Z8+EnFRo7qNnHkkSCixLdlPZzhjlX24d/PixQ7w2dA==",
+      "type": "package",
+      "path": "microsoft.extensions.fileproviders.physical/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.xml",
+        "microsoft.extensions.fileproviders.physical.2.2.0.nupkg.sha512",
+        "microsoft.extensions.fileproviders.physical.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.FileSystemGlobbing/2.2.0": {
+      "sha512": "ZSsHZp3PyW6vk37tDEdypjgGlNtpJ0EixBMOfUod2Thx7GtwfFSAQXUQx8a8BN8vfWKGGMbp7jPWdoHx/At4wQ==",
+      "type": "package",
+      "path": "microsoft.extensions.filesystemglobbing/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.xml",
+        "microsoft.extensions.filesystemglobbing.2.2.0.nupkg.sha512",
+        "microsoft.extensions.filesystemglobbing.nuspec"
       ]
     },
     "Microsoft.Extensions.Hosting.Abstractions/2.2.0": {
@@ -8323,6 +8426,7 @@
     ".NETCoreApp,Version=v3.1": [
       "DATA >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.1.12",
+      "Microsoft.AspNetCore.Diagnostics >= 2.2.0",
       "Microsoft.AspNetCore.Http >= 2.2.2",
       "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation >= 3.1.12",
       "Microsoft.CodeAnalysis.Razor >= 3.1.12",
@@ -8381,6 +8485,10 @@
             "target": "Package",
             "version": "[3.1.12, )"
           },
+          "Microsoft.AspNetCore.Diagnostics": {
+            "target": "Package",
+            "version": "[2.2.0, )"
+          },
           "Microsoft.AspNetCore.Http": {
             "target": "Package",
             "version": "[2.2.2, )"
@@ -8438,7 +8546,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.104\\RuntimeIdentifierGraph.json"
       }
     }
   }

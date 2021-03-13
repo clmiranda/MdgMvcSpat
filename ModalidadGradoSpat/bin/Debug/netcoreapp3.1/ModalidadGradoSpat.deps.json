@@ -26,6 +26,7 @@
         "dependencies": {
           "DATA": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "3.1.12",
+          "Microsoft.AspNetCore.Diagnostics": "2.2.0",
           "Microsoft.AspNetCore.Http": "2.2.2",
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "3.1.12",
           "Microsoft.CodeAnalysis.Razor": "3.1.12",
@@ -56,8 +57,8 @@
           "Microsoft.AspNetCore.DataProtection.Abstractions.Reference": "3.1.0.0",
           "Microsoft.AspNetCore.DataProtection.Reference": "3.1.0.0",
           "Microsoft.AspNetCore.DataProtection.Extensions": "3.1.0.0",
-          "Microsoft.AspNetCore.Diagnostics.Abstractions": "3.1.0.0",
-          "Microsoft.AspNetCore.Diagnostics": "3.1.0.0",
+          "Microsoft.AspNetCore.Diagnostics.Abstractions.Reference": "3.1.0.0",
+          "Microsoft.AspNetCore.Diagnostics.Reference": "3.1.0.0",
           "Microsoft.AspNetCore.Diagnostics.HealthChecks": "3.1.0.0",
           "Microsoft.AspNetCore": "3.1.0.0",
           "Microsoft.AspNetCore.HostFiltering": "3.1.0.0",
@@ -126,8 +127,8 @@
           "Microsoft.Extensions.FileProviders.Abstractions.Reference": "3.1.0.0",
           "Microsoft.Extensions.FileProviders.Composite": "3.1.0.0",
           "Microsoft.Extensions.FileProviders.Embedded": "3.1.0.0",
-          "Microsoft.Extensions.FileProviders.Physical": "3.1.0.0",
-          "Microsoft.Extensions.FileSystemGlobbing": "3.1.0.0",
+          "Microsoft.Extensions.FileProviders.Physical.Reference": "3.1.0.0",
+          "Microsoft.Extensions.FileSystemGlobbing.Reference": "3.1.0.0",
           "Microsoft.Extensions.Hosting.Abstractions.Reference": "3.1.0.0",
           "Microsoft.Extensions.Hosting": "3.1.0.0",
           "Microsoft.Extensions.Http": "3.1.0.0",
@@ -374,6 +375,20 @@
         }
       },
       "Microsoft.AspNetCore.DataProtection.Abstractions/2.2.0": {},
+      "Microsoft.AspNetCore.Diagnostics/2.2.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.Abstractions": "2.2.0",
+          "Microsoft.AspNetCore.Hosting.Abstractions": "2.2.0",
+          "Microsoft.AspNetCore.Http.Extensions": "2.2.0",
+          "Microsoft.AspNetCore.WebUtilities": "2.2.0",
+          "Microsoft.Extensions.FileProviders.Physical": "2.2.0",
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.12",
+          "Microsoft.Extensions.Options": "3.1.12",
+          "System.Diagnostics.DiagnosticSource": "4.7.1",
+          "System.Reflection.Metadata": "1.6.0"
+        }
+      },
+      "Microsoft.AspNetCore.Diagnostics.Abstractions/2.2.0": {},
       "Microsoft.AspNetCore.Hosting.Abstractions/2.2.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting.Server.Abstractions": "2.2.0",
@@ -965,6 +980,13 @@
           "Microsoft.Extensions.Primitives": "3.1.12"
         }
       },
+      "Microsoft.Extensions.FileProviders.Physical/2.2.0": {
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "2.2.0",
+          "Microsoft.Extensions.FileSystemGlobbing": "2.2.0"
+        }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing/2.2.0": {},
       "Microsoft.Extensions.Hosting.Abstractions/2.2.0": {
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "3.1.12",
@@ -2352,13 +2374,13 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Diagnostics.Abstractions/3.1.0.0": {
+      "Microsoft.AspNetCore.Diagnostics.Abstractions.Reference/3.1.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Diagnostics.Abstractions.dll": {}
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Diagnostics/3.1.0.0": {
+      "Microsoft.AspNetCore.Diagnostics.Reference/3.1.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Diagnostics.dll": {}
         },
@@ -2772,13 +2794,13 @@
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.FileProviders.Physical/3.1.0.0": {
+      "Microsoft.Extensions.FileProviders.Physical.Reference/3.1.0.0": {
         "compile": {
           "Microsoft.Extensions.FileProviders.Physical.dll": {}
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.FileSystemGlobbing/3.1.0.0": {
+      "Microsoft.Extensions.FileSystemGlobbing.Reference/3.1.0.0": {
         "compile": {
           "Microsoft.Extensions.FileSystemGlobbing.dll": {}
         },
@@ -3899,6 +3921,20 @@
       "path": "microsoft.aspnetcore.dataprotection.abstractions/2.2.0",
       "hashPath": "microsoft.aspnetcore.dataprotection.abstractions.2.2.0.nupkg.sha512"
     },
+    "Microsoft.AspNetCore.Diagnostics/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RobNuZecn/eefWVApOE+OWAZXCdgfzm8pB7tBvJkahsjWfn1a+bLM9I2cuKlp/9aFBok1O/oDXlgYSvaQYu/yg==",
+      "path": "microsoft.aspnetcore.diagnostics/2.2.0",
+      "hashPath": "microsoft.aspnetcore.diagnostics.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Diagnostics.Abstractions/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pva9ggfUDtnJIKzv0+wxwTX7LduDx6xLSpMqWwdOJkW52L0t31PI78+v+WqqMpUtMzcKug24jGs3nTFpAmA/2g==",
+      "path": "microsoft.aspnetcore.diagnostics.abstractions/2.2.0",
+      "hashPath": "microsoft.aspnetcore.diagnostics.abstractions.2.2.0.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Hosting.Abstractions/2.2.0": {
       "type": "package",
       "serviceable": true,
@@ -4171,6 +4207,20 @@
       "sha512": "sha512-EcnaSsPTqx2MGnHrmWOD0ugbuuqVT8iICqSqPzi45V5/MA1LjUNb0kwgcxBGqizV1R+WeBK7/Gw25Jzkyk9bIw==",
       "path": "microsoft.extensions.fileproviders.abstractions/2.2.0",
       "hashPath": "microsoft.extensions.fileproviders.abstractions.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.FileProviders.Physical/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tbDHZnBJkjYd9NjlRZ9ondDiv1Te3KYCTW2RWpR1B0e1Z8+EnFRo7qNnHkkSCixLdlPZzhjlX24d/PixQ7w2dA==",
+      "path": "microsoft.extensions.fileproviders.physical/2.2.0",
+      "hashPath": "microsoft.extensions.fileproviders.physical.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.FileSystemGlobbing/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZSsHZp3PyW6vk37tDEdypjgGlNtpJ0EixBMOfUod2Thx7GtwfFSAQXUQx8a8BN8vfWKGGMbp7jPWdoHx/At4wQ==",
+      "path": "microsoft.extensions.filesystemglobbing/2.2.0",
+      "hashPath": "microsoft.extensions.filesystemglobbing.2.2.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Hosting.Abstractions/2.2.0": {
       "type": "package",
@@ -5164,12 +5214,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Diagnostics.Abstractions/3.1.0.0": {
+    "Microsoft.AspNetCore.Diagnostics.Abstractions.Reference/3.1.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Diagnostics/3.1.0.0": {
+    "Microsoft.AspNetCore.Diagnostics.Reference/3.1.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -5514,12 +5564,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.FileProviders.Physical/3.1.0.0": {
+    "Microsoft.Extensions.FileProviders.Physical.Reference/3.1.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.FileSystemGlobbing/3.1.0.0": {
+    "Microsoft.Extensions.FileSystemGlobbing.Reference/3.1.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

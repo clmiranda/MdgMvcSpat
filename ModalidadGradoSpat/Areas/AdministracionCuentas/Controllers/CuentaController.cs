@@ -56,18 +56,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 }
                 catch (Exception ex)
                 {
-                    try
-                    {
-                        var error = JsonConvert.DeserializeObject<IEnumerable<IdentityError>>(ex.Message);
-                        foreach (var item in error)
-                        {
-                            TempData["alerterror"] = item.Description;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        TempData["alerterror"] = "Ha ocurrido un error.";
-                    }
+                        if (ex.Message == "")
+                            throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
                 }
             }
             return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddUsuario", user) });
@@ -94,7 +86,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AsignarRoles", RolesUsuario) });
             }
         }

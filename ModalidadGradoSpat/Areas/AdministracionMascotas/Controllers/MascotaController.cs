@@ -85,11 +85,14 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 //var getMascota = await rest2.GetAsync(iddenuncia, "api/Denuncia/GetDenuncia/" + iddenuncia, HttpContext.Session.GetString("JWToken"));
-                return Json(new { /*isValid=true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Content) });
+                return Json(new { /*isValid=true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new { /*isValid = false, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
             }
         }
@@ -106,11 +109,14 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "La foto fue eliminada exitosamente.";
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Content) });
+                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new {/* isValid = false, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
             }
             //var denuncia = await rest2.GetAsync(iddenuncia, "api/Denuncia/GetDenuncia/" + iddenuncia, HttpContext.Session.GetString("JWToken"));
@@ -136,7 +142,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     }
                     catch (Exception ex)
                     {
-                        TempData["alerterror"] = ex.Message.ToString();
+                        if (ex.Message == "")
+                            throw new Exception();
+                        dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                        TempData["alerterror"] = msg["mensaje"];
                         return Json(new { /*isValid = false, */html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", model) });
                     }
                     //var mascota = await restMascota.GetAsync(1, "api/Mascota/GetLastRegister/", HttpContext.Session.GetString("JWToken"));
@@ -157,7 +166,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     }
                     catch (Exception ex)
                     {
-                        TempData["alerterror"] = ex.Message.ToString();
+                        if (ex.Message == "")
+                            throw new Exception();
+                        dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                        TempData["alerterror"] = msg["mensaje"];
                         return Json(new {/* isValid = false,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", model) });
                     }
                     //var mascota = await restMascota.GetAsync(model.Id, "api/Mascota/GetMascota/"+model.Id, HttpContext.Session.GetString("JWToken"));
@@ -176,14 +188,17 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 var response = await client.ExecuteAsync<string>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
-                TempData["alertsuccess"] = response.Content;
+                TempData["alertsuccess"] = "Estado actualizado correctamente.";
                 ViewData["filter"] = filtrado; ViewData["search"] = busqueda;
                 var vista = await Listado();
                 return Json(new { html= Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista) });
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", _listaMascota) });
             }
         }
@@ -210,14 +225,17 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 //dynamic valor = JsonConvert.DeserializeObject(resul);
                 //string mensaje = valor["mensaje"];
                 //TempData["idcaso"] = valor["idcaso"];
-                TempData["alertsuccess"] = response.Content;
+                TempData["alertsuccess"] = "El fue eliminado de manera exitosa.";
                 ViewData["filter"] = filtrado; ViewData["search"] = busqueda;
                 var vista = await Listado();
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista) });
             }
             catch (Exception ex)
             {
-                TempData["alerterror"] = ex.Message.ToString();
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
                 return Json(new { isValid = false });
             }
         }
