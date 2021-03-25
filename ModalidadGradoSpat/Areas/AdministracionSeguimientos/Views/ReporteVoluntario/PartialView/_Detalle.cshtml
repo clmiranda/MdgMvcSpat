@@ -19,7 +19,7 @@
 }
 else
 {
-    @if (Model.ReporteSeguimientos.Any(x => x.Fecha.ToShortDateString().Equals(DateTime.Now.ToShortDateString())))
+    @if (Model.ReporteSeguimientos.Any(x => x.Fecha.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) && !x.Estado.Equals("Enviado")))
     {
         <div class="alert alert-warning alert-dismissible fade show my-3 bg-warning" role="alert">
             <strong>Hay un reporte por realizar hoy!</strong>
@@ -46,18 +46,20 @@ else
 
                 @foreach (var item in Model.ReporteSeguimientos)
                 {
-                    <tr id="tr-@item.Id">
-                        <td>
-                            @item.Id
-                        </td>
-                        <td>
-                            @if (item.Observaciones == null@*&& DateTime.Now.Date < item.FechaRealizada.Date*@)
+                    @if (!item.Estado.Equals("Enviado"))
+                    {
+                        <tr>
+                            <td>
+                                @item.Id
+                            </td>
+                            <td>
+                                @if (item.Observaciones == null@*&& DateTime.Now.Date < item.FechaRealizada.Date*@)
 {
-@*TimeSpan t = item.FechaRealizada.Date.Subtract(DateTime.Now.Date);
+            @*TimeSpan t = item.FechaRealizada.Date.Subtract(DateTime.Now.Date);
     <p><strong>Faltan @t.Days d&iacute;a(s) para realizar el reporte.</strong></p>*@
-<p>El reporte a&uacute;n no fue realizado.</p>
-}
-@*else @if (item.Observaciones == null && DateTime.Now.Date > item.FechaRealizada.Date)
+            <p>El reporte a&uacute;n no fue realizado.</p>
+        }
+            @*else @if (item.Observaciones == null && DateTime.Now.Date > item.FechaRealizada.Date)
        {
            TimeSpan t = DateTime.Now.Date.Subtract(item.FechaRealizada.Date);
         <p><strong>El reporte no fue realizado, ya pasaron @t.Days d&iacute;a(s) desde la fecha del reporte.</strong></p>
@@ -66,40 +68,41 @@ else
     {
         <p><strong>La fecha para realizar el reporte es hoy.</strong></p>
     }*@
-else
-{
-    <p>
-        @item.Observaciones
-    </p>
-}
-                        </td>
-                        <td>
-                            <p>
-                                @item.Fecha.Date.ToShortDateString()
-                            </p>
-                        </td>
-                        <td>
-                            @if (item.Estado.Equals("Enviado"))
-                            {
-                                <h5><span class="badge badge-pill p-2 badge-danger">@item.Estado</span></h5>
-                            }
-                            else
-                            {
-                                <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
-                            }
-                        </td>
-                        <td>
-                            @if (!item.Fecha.Date.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) || item.Estado.Equals("Enviado"))
-                            {
-                                <button role="button" class="btn btn-info" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
-                            }
-                            else
-                            {
-                                @*<button role="button" onclick="showInPopup('@Url.Action("AddReporte","VoluntarioSeguimientos",new { id=item.Id},Context.Request.Scheme)','Agregar Nuevo Reporte');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>*@
-                                <button role="button" class="btn btn-info" onclick="location.href = '@Url.Action("EditarReporte","ReporteVoluntario", new { id=item.Id })'"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
-                            }
-                        </td>
-                    </tr>
+            else
+            {
+                <p>
+                    @item.Observaciones
+                </p>
+            }
+                            </td>
+                            <td>
+                                <p>
+                                    @item.Fecha.Date.ToShortDateString()
+                                </p>
+                            </td>
+                            <td>
+                                @if (item.Estado.Equals("Enviado"))
+                                {
+                                    <h5><span class="badge badge-pill p-2 badge-danger">@item.Estado</span></h5>
+                                }
+                                else
+                                {
+                                    <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
+                                }
+                            </td>
+                            <td>
+                                @if (!item.Fecha.Date.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) || item.Estado.Equals("Enviado"))
+                                {
+                                    <button role="button" class="btn btn-info" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                                }
+                                else
+                                {
+                                    @*<button role="button" class="btn btn-info" onclick="location.href = '@Url.Action("EditarReporte","ReporteVoluntario", new { id=item.Id })'"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>*@
+                                    <button type="button" asp-action="EditReporte" onclick="showInPopup('@Url.Action("EditReporte","ReporteVoluntario",new { id=item.Id,area="AdministracionSeguimientos"})','Editar Reporte');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                                }
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
             <tfoot>
@@ -114,15 +117,6 @@ else
         </table>
     </div>
     <script>
-    @foreach (var item in Model.ReporteSeguimientos)
-	{
-		    @if (item.Fecha.Date.ToShortDateString().Equals(DateTime.Now.ToShortDateString()))
-             {
-                <text>
-                    $("#tr-@item.Id").addClass("alert alert-warning bg-warning text-dark");
-                </text>
-             }
-    }
     $(document).ready(function () {
         $('#example').DataTable({
             "order": [],

@@ -8,79 +8,69 @@
             cursor: not-allowed;
         }
     </style>
-    <div class="row my-3">
-        <form class="form-inline formulario" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
+        <form class="form-inline formulario my-3" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
             @*<input type="hidden" name="pageNumber" value="@ViewData["page"]" />*@
             @*<input type="hidden" name="search" value="@ViewData["search"]" />*@
-            <div class="form-group mr-sm-3 mr-md-5">
+            <div class="form-group">
                 Filtro: <select name="filter" class="form-control dropdown-toggle">
                     @if (ViewData["filter"].ToString().Equals("Activo"))
                     {
-                    <option value="Activo" selected>Activo</option>
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Asignado">Asignado</option>
-                    }
-                    else if (ViewData["filter"].ToString().Equals("Pendiente"))
-                    {
-                    <option value="Activo">Activo</option>
-                    <option value="Pendiente" selected>Pendiente</option>
-                    <option value="Asignado">Asignado</option>
+                        <option value="Activo" selected>Activo</option>
+                        <option value="Asignado">Asignado</option>
                     }
                     else if (ViewData["filter"].ToString().Equals("Asignado"))
                     {
-                    <option value="Activo">Activo</option>
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Asignado" selected>Asignado</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Asignado" selected>Asignado</option>
                     }
                 </select>
             </div>
-            <div class="form-group mr-sm-3 mr-md-5">
-                Cantidad: <select name="sizePage" @*asp-items="Model.ListaSelectItem"*@ class="form-control form-control-sm dropdown-toggle mr-sm-3">
+            <div class="form-group mx-sm-3">
+                Cantidad: <select name="sizePage" @*asp-items="Model.ListaSelectItem"*@ class="form-control dropdown-toggle">
                     @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
                     {
-                    <option value="5" selected>5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
                     }
                     else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
                     {
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
                     }
                     else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
                     {
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20" selected>20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
                     }
                     else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
                     {
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50" selected>50</option>
-                    <option value="100">100</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
                     }
                     else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
                     {
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100" selected>100</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100" selected>100</option>
                     }
                 </select>
-                <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
             </div>
+            <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
         </form>
-    </div>
     <div class="table-responsive">
         <table id="tableSeguimiento" class="table table-striped table-bordered table-hover" style="width:100%">
             <thead>
@@ -104,7 +94,7 @@
                     foreach (var item in Model)
                     {
                 <tr @*data-toggle="collapse" data-target="#accordion"*@>
-                    <td style="width:10px;">
+                    <td>
                         @*<button type="button" class="fa fa-angle-right" data-toggle="collapse" data-target="#accordion"></button>*@
                         @item.Id
                     </td>
@@ -120,14 +110,14 @@
                     <td>
                         De @item.FechaInicio.ToShortDateString() a @item.FechaConclusion.ToShortDateString()
                     </td>
-                    <td>
+                    <td class="d-flex">
                         @*@if (item.CantidadVisitas > 0)
                             {
                                 <button role="button" class="btn btn-primary" disabled><i class="fa fa-pencil" aria-hidden="true"></i></button>
                             }
                             else
                             {*@
-                        <button role="button" class="btn btn-primary" onclick="showInPopup('@Url.Action("EditSeguimiento","Seguimiento", new { item.Id, area="AdministracionSeguimientos" },Context.Request.Scheme)', 'Actualizar Seguimiento');" data-toggle="modal" data-target="#form-modal"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                        @*<button role="button" class="btn btn-primary" onclick="showInPopup('@Url.Action("EditSeguimiento","Seguimiento", new { item.Id, area="AdministracionSeguimientos" },Context.Request.Scheme)', 'Actualizar Seguimiento');" data-toggle="modal" data-target="#form-modal"><i class="fa fa-pencil" aria-hidden="true"></i></button>*@
                         @*}*@
                         @*<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Fechas", "AdministrarSeguimientos",new { id=item.Id})'"><i class="fa fa-plus" aria-hidden="true"></i></button>*@
                         <a role="button" class="btn btn-info" href="@Url.Action("Asignar","Seguimiento", new { item.Id, area="AdministracionSeguimientos"})"><i class="fa fa-user" aria-hidden="true"></i></a>

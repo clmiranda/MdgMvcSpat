@@ -108,32 +108,47 @@ else
                     <div class="alert alert-warning mt-5" role="alert">
                         <p class="text-center">La mascota actualmente no est&aacute; en adopci&oacute;n.</p>
                     </div>
-                    <script>
-                        $("#btnAdoptar").prop('disabled', true);
-                    </script>
                 }
-                else if (Model.ContratoAdopcion != null)
+                else if (Model.EstadoSituacion == "Adoptada")
                 {
-                    @if (Model.ContratoAdopcion.Estado.Equals("Pendiente"))
-                    {
-                        <div class="alert alert-warning mt-5" role="alert">
-                            <p class="text-center">La mascota actualmente se encuentra en un proceso de adopcion.</p>
-                        </div>
-                    }
-                    else if (Model.ContratoAdopcion.Estado.Equals("Aprobado"))
-                    {
-                        <div class="alert alert-warning mt-5" role="alert">
-                            <p class="text-center">La mascota actualmente ha sido adoptada.</p>
-                        </div>
-                    }
-                    <script>
-                        $("#btnAdoptar").prop('disabled', false);
-                    </script>
+                    <div class="alert alert-warning mt-5" role="alert">
+                        <p class="text-center">La mascota ha sido adoptada.</p>
+                    </div>
                 }
+                else if (Model.EstadoSituacion == "En Proceso")
+                {
+                    <div class="alert alert-warning mt-5" role="alert">
+                        <p class="text-center">La mascota se encuentra en un proceso de adopci&oacute;n.</p>
+                    </div>
+                }
+                @*else if (Model.ContratoAdopcion != null)
+        {
+            @if (Model.ContratoAdopcion.Estado.Equals("Pendiente"))
+            {
+                <div class="alert alert-warning mt-5" role="alert">
+                    <p class="text-center">La mascota actualmente se encuentra en un proceso de adopcion.</p>
+                </div>
+            }
+            else if (Model.ContratoAdopcion.Estado.Equals("Aprobado"))
+            {
+                <div class="alert alert-warning mt-5" role="alert">
+                    <p class="text-center">La mascota ha sido adoptada.</p>
+                </div>
+            }
+            <script>
+                $("#btnAdoptar").prop('disabled', false);
+            </script>
+        }*@
             </div>
         </div>
     </div>
     <script type="text/javascript">
         $('.carousel').carousel();
+        @if (Model.EstadoSituacion.Equals("Inactivo")||Model.EstadoSituacion.Equals("Adoptada")|| Model.EstadoSituacion.Equals("En Proceso"))
+        {
+        <text>
+        $("#btnAdoptar").prop('disabled', true);
+        </text>
+        }
     </script>
 }

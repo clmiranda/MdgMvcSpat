@@ -11,7 +11,7 @@ namespace DATA.Models
         //    CasoMascotas = new HashSet<CasoMascota>();
         //}
         [Required(ErrorMessage = "El título de la denuncia es requerida.")]
-        [StringLength(100,ErrorMessage = "El titulo no debe sobrepasar los 100 caracteres.")]
+        [StringLength(maximumLength: 100,ErrorMessage = "El titulo no debe sobrepasar los 100 caracteres.")]
         public string Titulo { get; set; }
         [Required(ErrorMessage ="La descripción de la denuncia es requerida.")]
         public string Descripcion { get; set; }

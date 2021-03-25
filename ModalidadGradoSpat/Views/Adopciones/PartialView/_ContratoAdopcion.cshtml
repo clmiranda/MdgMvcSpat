@@ -8,18 +8,24 @@
         @if (Model == null)
         {
             <p class="text-center">El contrato no se puede visualizar, Id de mascota incorrecto.</p>
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary" onclick="window.location='@Url.Action("Index","Inicio", new { area=""})'">Volver a Inicio</button>
+            </div>
         }
         else
         {
             if (Model.Mascota != null)
             {
-                <p class="text-center">
-                    El contrato no puede visualizarse porque ya fue enviado y actualmente
-                    se encuentra en proceso de revisi&oacute;n.
-                </p>
-                <div class="col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary" onclick="window.location='@Url.Action("Index","Inicio", new { area=""})'">Volver a Inicio</button>
-                </div>
+                if (Model.Mascota.EstadoSituacion == "Inactivo" || Model.Mascota.EstadoSituacion == "Adoptada" || Model.Mascota.EstadoSituacion == "En Proceso")
+                {
+                    <p class="text-center">
+                        El contrato no puede visualizarse porque ya fue enviado y actualmente
+                        se encuentra en proceso de revisi&oacute;n.
+                    </p>
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary" onclick="window.location='@Url.Action("Index","Inicio", new { area=""})'">Volver a Inicio</button>
+                    </div>
+                }
             }
             else
             {

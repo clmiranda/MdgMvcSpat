@@ -1,4 +1,5 @@
 ﻿@model Mascota
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <div class="card">
     @if (Model == null)
     {
@@ -32,34 +33,34 @@
                 <div class="row">
                     <div class="form-group col-md-12 mt-3 mb-3">
                         <label for="idNombre">Ingrese el Nombre de la Mascota</label>
-                        <input id="idNombre" type="text" asp-for="Nombre" class="form-control" value="@Model.Nombre" />
+                        <input id="idNombre" type="text" asp-for="Nombre" class="form-control" />
                         @Html.ValidationMessageFor(x => x.Nombre, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group col-md-12 mb-3">
                         <label for="idEspecie">Ingrese la Especie</label>
-                        <input id="idEspecie" type="text" asp-for="Especie" class="form-control" value="@Model.Especie" />
+                        <input id="idEspecie" type="text" asp-for="Especie" class="form-control" />
                         @Html.ValidationMessageFor(x => x.Especie, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <label for="idCarac">Ingrese la Caracter&iacute;sticas de la Mascota:</label>
-                        <textarea id="idCarac" type="text" asp-for="Caracteristicas" class="form-control" value="@Model.Caracteristicas"></textarea>
+                        <textarea id="idCarac" type="text" asp-for="Caracteristicas" class="form-control"></textarea>
                         @Html.ValidationMessageFor(x => x.Caracteristicas, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <label for="idRasgos">Ingrese los Rasgos Particulares de la Mascota:</label>
-                        <textarea id="idRasgos" type="text" asp-for="RasgosParticulares" class="form-control" value="@Model.RasgosParticulares"></textarea>
+                        <textarea id="idRasgos" type="text" asp-for="RasgosParticulares" class="form-control"></textarea>
                         @Html.ValidationMessageFor(x => x.RasgosParticulares, "", new { @class = "text-danger" })
                     </div>
                     <div id="idCheckSexo" class="form-group col-md-6 mb-3">
                         <label>Elija el Sexo de la Mascota:</label>
                         <div class="form-check">
-                            <input class="form-check-input @(Model.Sexo == "Macho" ? "selected" : "")" type="radio" name="Sexo" id="radioButtonSexo1" value="Macho" asp-for="Sexo">
+                            <input class="form-check-input" type="radio" id="radioButtonSexo1" value="Macho" asp-for="Sexo" checked>
                             <label class="form-check-label" for="radioButtonSexo1">
                                 Macho
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input @(Model.Sexo == "Hembra" ? "selected" : "")" type="radio" name="Sexo" id="radioButtonSexo2" value="Hembra" asp-for="Sexo">
+                            <input class="form-check-input" type="radio" id="radioButtonSexo2" value="Hembra" asp-for="Sexo">
                             <label class="form-check-label" for="radioButtonSexo2">
                                 Hembra
                             </label>
@@ -68,19 +69,19 @@
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <label for="idTamano">Ingrese el tamaño de la Mascota (Ej: Pequeño, Mediano, etc.)</label>
-                        <input id="idTamano" type="text" value="@Model.Tamaño" asp-for="Tamaño" class="form-control" />
+                        <input id="idTamano" type="text" asp-for="Tamaño" class="form-control" />
                         @Html.ValidationMessageFor(x => x.Tamaño, "", new { @class = "text-danger" })
                     </div>
                     <div id="idCheckEsterilizado" class="form-group col-md-6 mb-3">
                         <label>¿La Mascota se encuentra esterilizada?:</label>
                         <div class="form-check">
-                            <input class="form-check-input @(Model.Esterilizado == true ? "selected" : "")" type="radio" name="Esterilizado" id="radioButtonPositivo" value="true" asp-for="Esterilizado">
+                            <input class="form-check-input" type="radio" id="radioButtonPositivo" value="true" asp-for="Esterilizado" checked>
                             <label class="form-check-label" for="radioButtonPositivo">
                                 S&iacute;
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input @(Model.Esterilizado == false ? "selected" : "")" type="radio" name="Esterilizado" id="radioButtonNegativo" value="false" asp-for="Esterilizado">
+                            <input class="form-check-input" type="radio" id="radioButtonNegativo" value="false" asp-for="Esterilizado">
                             <label class="form-check-label" for="radioButtonNegativo">
                                 No
                             </label>
@@ -89,7 +90,7 @@
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <label for="idEdad">Ingrese la Edad aproximada de la Mascota (Ej: 2 meses, 1 a&ntilde;o, etc.)</label>
-                        <input id="idEdad" type="text" value="@Model.Edad" asp-for="Edad" class="form-control" />
+                        <input id="idEdad" type="text" asp-for="Edad" class="form-control" />
                         @Html.ValidationMessageFor(x => x.Edad, "", new { @class = "text-danger" })
                     </div>
                 </div>

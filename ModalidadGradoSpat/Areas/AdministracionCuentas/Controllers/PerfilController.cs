@@ -29,11 +29,21 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/User/GetUser/" + id, Method.GET);
-                //var user = await rest.GetAsync(1, "api/User/GetUser/" + id, HttpContext.Session.GetString("JWToken"));
-                var response = await client.ExecuteAsync<User>(request);
-                //if (!response.IsSuccessful)
-                //    throw new Exception(response.Content);
-                return View(response.Data);
+            //var user = await rest.GetAsync(1, "api/User/GetUser/" + id, HttpContext.Session.GetString("JWToken"));
+            var response = await client.ExecuteAsync<User>(request);
+            if (!response.IsSuccessful)
+            {
+                switch (response.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                }
+            }
+            //if (!response.IsSuccessful)
+            //    throw new Exception(response.Content);
+            return View(response.Data);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -74,7 +84,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/User/ResetPassword/"+ id, Method.PUT).AddParameter("Password",dto.Password);
+                var request = new RestRequest("api/User/ResetPassword/" + id, Method.PUT).AddParameter("Password", dto.Password);
                 try
                 {
                     //var resul = await restReset.PutAsync(dto.Password, "api/User/ResetPassword/" + id, HttpContext.Session.GetString("JWToken"));

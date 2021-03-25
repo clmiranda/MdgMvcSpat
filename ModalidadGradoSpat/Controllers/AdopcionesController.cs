@@ -48,10 +48,20 @@ namespace ModalidadGradoSpat.Controllers
             //var mascota = await rest.GetAsync(id, "api/Mascota/GetMascota/" + id, HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetMascota/" + id, Method.GET);
-                var response = await client.ExecuteAsync<Mascota>(request);
-                //if (mascota==null)
-                //    return RedirectToAction("StatusCodeHandle", "Error", new { statusCode = 404 });
-                return View(JsonConvert.DeserializeObject<ContratoAdopcion>(response.Content));
+            var response = await client.ExecuteAsync<Mascota>(request);
+            if (!response.IsSuccessful)
+            {
+                switch (response.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                }
+            }
+            //if (mascota==null)
+            //    return RedirectToAction("StatusCodeHandle", "Error", new { statusCode = 404 });
+            return View(response.Data);
         }
         public IActionResult TerminosDeAdopcion()
         {
@@ -66,15 +76,25 @@ namespace ModalidadGradoSpat.Controllers
             var request = new RestRequest("api/ContratoAdopcion/GetContratoByIdMascota/" + id, Method.GET);
             //try
             //{
-                //var resul = await rest2.GetAsync(id, "api/ContratoAdopcion/GetContratoByIdMascota/" + id, HttpContext.Session.GetString("JWToken"));
-                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
-                //else
-                //{
-                    if (response.Data != null)
-                        return View(response.Data);
-                    else
-                        return View(new ContratoAdopcion { MascotaId = id });
-                //}
+            //var resul = await rest2.GetAsync(id, "api/ContratoAdopcion/GetContratoByIdMascota/" + id, HttpContext.Session.GetString("JWToken"));
+            var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+            if (!response.IsSuccessful)
+            {
+                switch (response.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                }
+            }
+            //else
+            //{
+            if (response.Data != null)
+                return View(response.Data);
+            else
+                return View(new ContratoAdopcion { MascotaId = id });
+            //}
             //}
             //catch (Exception)
             //{
@@ -104,10 +124,12 @@ namespace ModalidadGradoSpat.Controllers
                     //idContrato = int.Parse(res);
                     //return RedirectToAction("Index", "Inicio");
                     TempData["alertsuccess"] = "Contrato enviado, nos comunicaremos con usted en caso de cumplir los requisitos.";
-                    return Json(new { isValid=true, html = Helper.RenderRazorViewToString(this, "Adopciones/PartialView/_ContratoAdopcion", response.Data) });
+                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ContratoAdopcion", response.Data) });
                 }
                 catch (Exception ex)
                 {
+                    if (ex.Message == "")
+                        throw new Exception();
                     dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                     TempData["alerterror"] = msg["mensaje"];
                 }
