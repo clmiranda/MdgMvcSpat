@@ -1,4 +1,5 @@
-﻿using DATA.Models;
+﻿using ClosedXML.Excel;
+using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static ModalidadGradoSpat.Helper;
@@ -50,75 +52,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
 
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_ViewAllDenuncia", vista));
         }
-        //public async Task<IActionResult> Mascota(int id)
-        //{
-        //    //iddenuncia = id;
-        //    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-        //    var request = new RestRequest("api/Mascota/GetMascotaDenuncia/" + id, Method.GET);
-        //    try
-        //    {
-        //        //var modelo = await restMascota.GetAsync(id, "api/Mascota/GetMascotaDenuncia/" + id, HttpContext.Session.GetString("JWToken"));
-        //        //var client = new RestClient(url);
-        //        var response = await client.ExecuteAsync<Mascota>(request);
-        //        if (!response.IsSuccessful)
-        //            throw new Exception(response.Content);
-
-
-        //        if (response.Content != null)
-        //        {
-        //            mascota = response.Data;
-        //            return View(mascota);
-        //        }
-        //        return View(new Mascota { DenunciaId = id });
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return View(null);
-        //    }
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> EstablecerFotoPrincipal(int id, int idfoto)
-        //{
-        //    //var mascota= await restMascota.PostAsync("api/Fotos/Mascota/" + id + "/SetFotoPrincipalMascota/" + idfoto, HttpContext.Session.GetString("JWToken"));
-        //    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-        //    var request = new RestRequest("api/Fotos/Mascota/" + id + "/SetFotoPrincipalMascota/" + idfoto, Method.POST);
-        //    try
-        //    {
-        //        var response = await client.ExecuteAsync<Mascota>(request);
-        //        if (!response.IsSuccessful)
-        //            throw new Exception(response.Content);
-        //        //var getMascota = await rest2.GetAsync(iddenuncia, "api/Denuncia/GetDenuncia/" + iddenuncia, HttpContext.Session.GetString("JWToken"));
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Content) });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["alerterror"] = ex.Message.ToString();
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", mascota) });
-        //    }
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> EliminarFotoMascota(int idmascota, int idfoto)
-        //{
-        //    //var resul = await rest3.DeleteAsync("api/Fotos/Mascota/" + idmascota + "/EliminarFotoMascota/" + idfoto);
-        //    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-        //    var request = new RestRequest("api/Fotos/Mascota/" + idmascota + "/EliminarFotoMascota/" + idfoto, Method.DELETE);
-        //    try
-        //    {
-        //        var response = await client.ExecuteAsync<Mascota>(request);
-        //        if (!response.IsSuccessful)
-        //            throw new Exception(response.Content);
-        //        TempData["alertsuccess"] = "La foto fue eliminada exitosamente.";
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Content) });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["alerterror"] = ex.Message.ToString();
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", mascota) });
-        //    }
-        //    //var denuncia = await rest2.GetAsync(iddenuncia, "api/Denuncia/GetDenuncia/" + iddenuncia, HttpContext.Session.GetString("JWToken"));
-        //}
 
         [NoDirectAccess]
         public async Task<IActionResult> AddOrEditDenuncia(int id = 0)
@@ -130,8 +63,18 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 //var modelo = await rest2.GetAsync(id, "api/Denuncia/GetDenuncia/" + id, HttpContext.Session.GetString("JWToken"));
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Denuncia/GetDenuncia/" + id, Method.GET);
-                var response = await client.GetAsync<Denuncia>(request);
-                return View(response);
+                var response = await client.ExecuteAsync<Denuncia>(request);
+                if (!response.IsSuccessful)
+                {
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return BadRequest();
+                        case "NotFound":
+                            return NotFound();
+                    }
+                }
+                return View(response.Data);
             }
         }
         [HttpPost]
@@ -232,6 +175,98 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             ViewData["totalPages"] = head["totalPages"].ToString();
             var vista = responseGet.Data;
             return vista;
+        }
+        public async Task<IActionResult> ExcelDenuncias()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Denuncia/GetAll", Method.GET);
+            var response = await client.ExecuteAsync<IEnumerable<Denuncia>>(request);
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Denuncias");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Titulo";
+                worksheet.Cell(currentRow, 3).Value = "Descripcion";
+                worksheet.Cell(currentRow, 4).Value = "Nombre de Mascota";
+                foreach (var denuncia in response.Data)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = denuncia.Id;
+                    worksheet.Cell(currentRow, 2).Value = denuncia.Titulo;
+                    worksheet.Cell(currentRow, 3).Value = denuncia.Descripcion;
+                    if (denuncia.Mascota==null)
+                        worksheet.Cell(currentRow, 4).Value = "No tiene mascota creada";
+                    else
+                        worksheet.Cell(currentRow, 4).Value = denuncia.Mascota.Nombre;
+                }
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "denuncias.xlsx");
+                }
+            }
+        }
+        public async Task<IActionResult> ExcelMascotas()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Mascota/GetAll", Method.GET);
+            var response = await client.ExecuteAsync<IEnumerable<Mascota>>(request);
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Mascotas");
+                int currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Nombre";
+                worksheet.Cell(currentRow, 3).Value = "Sexo";
+                worksheet.Cell(currentRow, 4).Value = "Especie";
+                worksheet.Cell(currentRow, 5).Value = "Caracteristicas";
+                worksheet.Cell(currentRow, 6).Value = "Rasgos Particulares";
+                worksheet.Cell(currentRow, 7).Value = "Tamaño";
+                worksheet.Cell(currentRow, 8).Value = "Edad";
+                worksheet.Cell(currentRow, 9).Value = "Estado";
+                worksheet.Cell(currentRow, 10).Value = "Fecha de Registro";
+                worksheet.Cell(currentRow, 11).Value = "Id Denuncia";
+                worksheet.Cell(currentRow, 12).Value = "Titulo Denuncia";
+                foreach (var mascota in response.Data)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = mascota.Id;
+                    worksheet.Cell(currentRow, 2).Value = mascota.Nombre;
+                    worksheet.Cell(currentRow, 3).Value = mascota.Sexo;
+                    worksheet.Cell(currentRow, 4).Value = mascota.Especie;
+                    worksheet.Cell(currentRow, 5).Value = mascota.Caracteristicas;
+                    worksheet.Cell(currentRow, 6).Value = mascota.RasgosParticulares;
+                    worksheet.Cell(currentRow, 7).Value = mascota.Tamaño;
+                    worksheet.Cell(currentRow, 8).Value = mascota.Edad;
+                    worksheet.Cell(currentRow, 9).Value = mascota.EstadoSituacion;
+                    worksheet.Cell(currentRow, 10).Value = mascota.FechaAgregado.ToShortDateString();
+                    if (mascota.Denuncia == null) {
+                        worksheet.Cell(currentRow, 11).Value = "No tiene denuncia creada.";
+                        worksheet.Cell(currentRow, 12).Value = "No tiene denuncia creada.";
+                    }
+                    else
+                    {
+                        worksheet.Cell(currentRow, 11).Value = mascota.Denuncia.Id;
+                        worksheet.Cell(currentRow, 12).Value = mascota.Denuncia.Titulo;
+                    }
+                }
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "mascotas.xlsx");
+                }
+            }
         }
     }
 }

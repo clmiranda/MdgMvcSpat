@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
 {
@@ -51,7 +52,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Se ha asignado el seguimiento.";
                 ViewData["filter"] = filtrado;
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", response.Data) });
+                var vista = await Listado();
+                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
             {
@@ -76,7 +78,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Se ha rechazado el seguimiento.";
                 ViewData["filter"] = filtrado;
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", response.Data) });
+                var vista = await Listado();
+                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
             {
@@ -91,45 +94,78 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
-            var response = await client.GetAsync<Seguimiento>(request);
+            var response = await client.ExecuteAsync<Seguimiento>(request);
+            if (!response.IsSuccessful)
+            {
+                switch (response.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                }
+            }
             //if (response == null)
             //    return NotFound();
-            return View(response);
+            return View(response.Data);
         }
 
         public async Task<IActionResult> DetalleSeguimiento(int id)
         {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ContratoAdopcion/DetailAdopcion/" + id, Method.GET);
-                var response = await client.GetAsync<ContratoAdopcion>(request);
-                return View(response);
+                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+            if (!response.IsSuccessful)
+            {
+                switch (response.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                    default:
+                        throw new Exception();
+                }
+            }
+            return View(response.Data);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendReporte(ReporteSeguimiento reporte)
+        public async Task<IActionResult> SendReporte(ReporteSeguimiento reporte, IFormFile Foto)
         {
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 //var request = new RestRequest("api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario", Method.PUT).AddJsonBody(reporteSeguimiento);
-                var request = new RestRequest("api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario", Method.PUT).AddParameter("Id", reporte.Id).AddParameter("SeguimientoId", reporte.SeguimientoId).AddParameter("EstadoMascota", reporte.EstadoMascota).AddParameter("EstadoHogarMascota", reporte.EstadoHogarMascota).AddParameter("Observaciones", reporte.Observaciones);
+                var request = new RestRequest("api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario", Method.PUT)./*AddJsonBody(reporte)*/AddParameter("Id", reporte.Id).AddParameter("SeguimientoId", reporte.SeguimientoId).AddParameter("EstadoMascota", reporte.EstadoMascota).AddParameter("Observaciones", reporte.Observaciones);
                 using (var stream = new MemoryStream())
                 {
                     //reporteSeguimiento.Foto.CopyTo(stream);
-                    var r = stream.ToArray();
-                    request.AddFile(reporte.Foto.Name, r, reporte.Foto.FileName);
+                    //var r = stream.ToArray();
+                    request.Files.Add(new FileParameter
+                    {
+                        Name = "Foto",
+                        Writer = (s) => {
+                            //var stream = input(imageObject);
+                            Foto.CopyTo(s);
+                            //stream.Dispose();
+                        },
+                        FileName = Foto.FileName,
+                        ContentType = Foto.ContentType,
+                        ContentLength = Foto.Length
+                    });
                     //request.AddHeader("content-type", "multipart/form-data");
                 }
                 try
                 {
                     //var resul = await restReporte.PutAsync(reporteSeguimiento, "api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario");
                     //request.AddFile(reporteSeguimiento.Foto.Name, reporteSeguimiento.Foto.FileName);
-                    var response = await client.ExecuteAsync<ReporteSeguimiento>(request);
+                    var response = await client.ExecuteAsync<Seguimiento>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "El Reporte fue enviado exitosamente.";
-                    return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditarReporte", response.Data) });
+                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Detalle", response.Data) });
                 }
                 catch (Exception ex)
                 {
@@ -139,23 +175,36 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     TempData["alerterror"] = msg["mensaje"];
                 }
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PartialView/_EditarReporte", reporte) });
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "EditReporte", reporte) });
         }
 
-        public async Task<IActionResult> EditarReporte(int id)
+        [NoDirectAccess]
+        public async Task<IActionResult> EditReporte(int id)
         {
             //var modelo = await restReporte.GetAsync(id, "api/ReporteSeguimiento/" + id + "/GetById/", HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestGet = new RestRequest("api/ReporteSeguimiento/GetById/" + id, Method.GET);
-            var responseGet = await client.GetAsync<ReporteSeguimiento>(requestGet);
-            return View(responseGet);
+            var request = new RestRequest("api/ReporteSeguimiento/GetById/" + id, Method.GET);
+            var response = await client.ExecuteAsync<ReporteSeguimiento>(request);
+            if (!response.IsSuccessful)
+            {
+                switch (response.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                    default:
+                        throw new Exception();
+                }
+            }
+            return View(response.Data);
         }
 
 
         public async Task<IEnumerable<Seguimiento>> Listado()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestGet = new RestRequest("api/Seguimiento/ListVoluntarioSeguimientos", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
+            var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimiento", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
             var responseGet = await client.ExecuteAsync<IEnumerable<Seguimiento>>(requestGet);
             var header = responseGet.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
             var head = JObject.Parse(header.Value.ToString());

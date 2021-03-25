@@ -18,7 +18,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
     public class SeguimientoController : Controller
     {
         private static RestClient client;
-        private static IEnumerable<Seguimiento> _listaSeg;
         private static IEnumerable<User> _listaVolun;
         private static Seguimiento _seguimiento;
         //private static IEnumerable<ReporteSeguimiento> _listaReportes;
@@ -47,88 +46,39 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             var vista = await Listado();
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
-        [NoDirectAccess]
-        public async Task<IActionResult> EditSeguimiento(int id = 0)
-        {
-            //var resul = await rest.GetAsync(id, "api/Seguimiento/GetSeguimiento/" + id, HttpContext.Session.GetString("JWToken"));
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
-            var response = await client.ExecuteAsync<Seguimiento>(request);
-            return View(response.Data);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveSeguimiento(Seguimiento modelo)
-        {
-            if (ModelState.IsValid)
-            {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/Seguimiento/UpdateFecha/", Method.PUT).AddJsonBody(modelo);
-                try
-                {
-                    //var resul = await rest.PutAsync(modelo, "api/Seguimiento/UpdateFecha");
-                    var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(request);
-                    if (!response.IsSuccessful)
-                        throw new Exception(response.Content);
-                    _listaSeg = response.Data;
-                    ViewData["filter"] = filtrado;
-                    //ViewData["itemsPerPage"] = pagesize;
-                    var lista = await Listado();
-                    TempData["alertsuccess"] = "Rango de fecha actualizada.";
-                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", lista) });
-                }
-                catch (Exception ex)
-                {
-                    if (ex.Message == "")
-                        throw new Exception();
-                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
-                    TempData["alerterror"] = msg["mensaje"];
-                    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "EditSeguimiento", modelo) });
-                }
-            }
-            return Json(new { isValid = false/*, html = Helper.RenderRazorViewToString(this, "EditSeguimiento", modelo)*/ });
-        }
-
-
-
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> CrearReporte(int id)
-        //{
-        //    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-        //    var request = new RestRequest("api/ReporteSeguimiento/CrearReporte/", Method.POST);
-        //    try
-        //    {
-        //        var response = await client.ExecuteAsync<Seguimiento>(request);
-        //        if (!response.IsSuccessful)
-        //            throw new Exception(response.Content);
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", response.Data) });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["alerterror"] = ex.Message.ToString();
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _seguimiento) });
-        //    }
-        //}
-
-
-
-
         public async Task<IActionResult> Asignar(int id)
         {
             idSeguimiento = id;
             //var listaVoluntarios = await restVoluntario.GetAsync("api/Seguimiento/GetAllVoluntarios/", HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var requestVolun = new RestRequest("api/Seguimiento/GetAllVoluntarios/", Method.GET);
-            var responseVolun = await client.GetAsync<IEnumerable<User>>(requestVolun);
-            _listaVolun = responseVolun;
+            var responseVolun = await client.ExecuteAsync<IEnumerable<User>>(requestVolun);
+            if (!responseVolun.IsSuccessful)
+            {
+                switch (responseVolun.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                }
+            }
+            _listaVolun = responseVolun.Data;
             //var seguimiento = await rest.GetAsync(id, "api/Seguimiento/GetSeguimiento/" + id, HttpContext.Session.GetString("JWToken"));
             var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
-            var responseSeg = await client.GetAsync<Seguimiento>(requestSeg);
-            _seguimiento = responseSeg;
-            var tupleModel = new Tuple<IEnumerable<User>, Seguimiento>(responseVolun, responseSeg);
+            var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
+            if (!responseSeg.IsSuccessful)
+            {
+                switch (responseSeg.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                }
+            }
+            _seguimiento = responseSeg.Data;
+            var tupleModel = new Tuple<IEnumerable<User>, Seguimiento>(responseVolun.Data, responseSeg.Data);
             return View(tupleModel);
         }
         [HttpPost]
@@ -136,7 +86,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         public async Task<IActionResult> CheckAsignar(int idUser)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/User/" + idUser, Method.PUT);
+            var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/CheckAsignar/" + idUser, Method.PUT);
             try
             {
                 //var resul = await restVoluntario.PutAsync("api/Seguimiento/" + idSeguimiento + "/User/" + idUser);
@@ -144,11 +94,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 if (!responseUser.IsSuccessful)
                     throw new Exception(responseUser.Content);
                 TempData["alertsuccess"] = "Usuario asignado correctamente.";
-                //var seguimiento = await rest.GetAsync(idSeguimiento, "api/Seguimiento/GetSeguimiento/" + idSeguimiento, HttpContext.Session.GetString("JWToken"));
-                //var listaVoluntarios = await restVoluntario.GetAsync("api/Seguimiento/GetAllVoluntarios/", HttpContext.Session.GetString("JWToken"));
-                var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
-                var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllVoluntarios", new Tuple<IEnumerable<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
+                //var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
+                //var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
+                return Json(new { isValid = true, url = Url.Action("Lista", "Seguimiento", new {area= "AdministracionSeguimientos" }) /*html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<IEnumerable<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) */});
             }
             catch (Exception ex)
             {
@@ -156,7 +104,33 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { /*isValid = false*/ html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllVoluntarios", new Tuple<IEnumerable<User>, Seguimiento>(_listaVolun, _seguimiento)) });
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<IEnumerable<User>, Seguimiento>(_listaVolun, _seguimiento)) });
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveVoluntarioChecked(int idUser)
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var requestUserVolun = new RestRequest("api/Seguimiento/"+ idSeguimiento + "/RemoveVoluntarioChecked/" + idUser, Method.PUT);
+            try
+            {
+                //var resul = await restVoluntario.PutAsync("api/Seguimiento/" + idSeguimiento + "/User/" + idUser);
+                var responseUser = await client.ExecuteAsync<IEnumerable<User>>(requestUserVolun);
+                if (!responseUser.IsSuccessful)
+                    throw new Exception(responseUser.Content);
+                TempData["alertsuccess"] = "Usuario asignado correctamente.";
+                var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
+                var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
+                return Json(new {/* isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<IEnumerable<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
+                return Json(new { /*isValid = false,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<IEnumerable<User>, Seguimiento>(_listaVolun, _seguimiento)) });
             }
         }
         public async Task<IEnumerable<Seguimiento>> Listado()

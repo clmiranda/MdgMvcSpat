@@ -61,8 +61,14 @@
             </div>
         </form>
     </div>
-    <div class="input-group mb-3">
-        <button role="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nueva Denuncia');" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#form-modal">Agregar Denuncia</button>
+    <div class="input-group my-3">
+        <button role="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nueva Denuncia');" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#form-modal">Agregar Denuncia</button>
+        <form asp-action="ExcelDenuncias">
+            <button role="button" type="submit" class="btn btn-primary btn-lg mr-3">Excel Denuncias</button>
+        </form>
+        <form asp-action="ExcelMascotas">
+            <button role="button" type="submit" class="btn btn-primary btn-lg">Excel Mascotas</button>
+        </form>
     </div>
     <div class="table-responsive">
         <table id="tableDenuncia" class="table table-striped table-bordered" style="width:100%">
@@ -71,6 +77,7 @@
                     <th>Id</th>
                     <th>Titulo</th>
                     <th>Descripcion</th>
+                    <th>Nombre Mascota</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -85,27 +92,37 @@
                 {
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td width="5%">
-                                @item.Id
-                            </td>
-                            <td width="30%">
-                                @item.Titulo
-                            </td>
-                            <td width="50%">
-                                @item.Descripcion
-                            </td>
-                            <td width="15%">
-                                <button type="button" onclick="location.href='@Url.Action("MascotaView", "Mascota",new { id=item.Id, area="AdministracionMascotas"})'" class="btn btn-success"><i class="fa fa-eye fa-2" aria-hidden="true"></i></button>
-                                <button type="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=item.Id,area="AdministracionMascotas"})','Actualizar Denuncia');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
-                                <form asp-action="DeleteDenuncia" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                                    @*<input type="submit" class="btn btn-danger" />*@
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="fa fa-trash fa-2" aria-hidden="true"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+            <tr>
+                <td width="5%">
+                    @item.Id
+                </td>
+                <td width="20%">
+                    @item.Titulo
+                </td>
+                <td width="40%">
+                    @item.Descripcion
+                </td>
+                <td width="20%">
+                    @if (item.Mascota != null)
+                    {
+                        @item.Mascota.Nombre
+                    }
+                    else
+                    {
+                        <p>No tiene mascota creada.</p>
+                    }
+                </td>
+                <td width="15%">
+                    <button type="button" onclick="location.href='@Url.Action("MascotaView", "Mascota",new { id=item.Id, area="AdministracionMascotas"})'" class="btn btn-success"><i class="fa fa-eye fa-2" aria-hidden="true"></i></button>
+                    <button type="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=item.Id,area="AdministracionMascotas"})','Actualizar Denuncia');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                    <form asp-action="DeleteDenuncia" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                        @*<input type="submit" class="btn btn-danger" />*@
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-trash fa-2" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
                     }
                 }
             </tbody>
@@ -114,6 +131,7 @@
                     <th>Id</th>
                     <th>Titulo</th>
                     <th>Descripcion</th>
+                    <th>Nombre Mascota</th>
                     <th>Acciones</th>
                 </tr>
             </tfoot>

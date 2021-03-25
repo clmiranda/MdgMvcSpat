@@ -9,10 +9,13 @@
             <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
         </form>
     </div>
-        <div class="offset-md-2">
-            <h5><span class="badge badge-pill p-2 badge-primary">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaConclusion.ToShortDateString()</span></h5>
-</div>
+    <div class="offset-md-3">
+        <h5><span class="badge badge-pill p-2 badge-primary">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaConclusion.ToShortDateString()</span></h5>
     </div>
+    <div class="offset-md-4">
+        <button role="button" class="btn btn-primary" onclick="showInPopup('@Url.Action("EditSeguimiento","ReporteSeguimiento", new { id=Model.Id, area="AdministracionSeguimientos" },Context.Request.Scheme)', 'Actualizar Seguimiento');" data-toggle="modal" data-target="#form-modal"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+    </div>
+</div>
 
     <div class="table-responsive">
         <table id="example" data-order='[[2, "asc"]]' class="table table-bordered table-hover" style="width:100%">
@@ -45,12 +48,13 @@
                         <td style="width:15%">
                             @*@if (item.Estado == "Activo")
                             {*@
-                                <form asp-action="SaveFecha" onsubmit="return send(this);" autocomplete="off" method="post">
-                                    <input type="hidden" name="Id" value="@item.Id" />
-                                    <div class="input-group">
-                                        <input id="idFecha-@item.Id" name="Fecha" value="@item.Fecha.Date.ToShortDateString()" type="text" class="form-control" data-toggle="datepicker" readonly>
-                                    </div>
-                                </form>
+                            <form asp-action="SaveFecha" autocomplete="off" method="post">
+                                <input type="hidden" name="Id" value="@item.Id" />
+                                <input type="hidden" name="SeguimientoId" value="@item.SeguimientoId" />
+                                <div class="input-group">
+                                    <input id="idFecha-@item.Id" name="Fecha" value="@item.Fecha.Date.ToShortDateString()" type="text" class="form-control" data-toggle="datepicker" readonly>
+                                </div>
+                            </form>
                             @*}
                             else
                             {
@@ -58,7 +62,30 @@
                             }*@
                         </td>
                         <td>
-                            @item.Estado
+                            @if (item.Estado.Equals("Activo"))
+                            {
+                                <h5>
+                                    <span class="badge badge-pill p-2 badge-warning">
+                                        @item.Estado
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.Estado.Equals("Asignado"))
+                            {
+                                <h5>
+                                    <span class="badge badge-pill p-2 badge-info">
+                                        @item.Estado
+                                    </span>
+                                </h5>
+                            }
+                            else
+                            {
+                                <h5>
+                                    <span class="badge badge-pill p-2 badge-primary">
+                                        @item.Estado
+                                    </span>
+                                </h5>
+                            }
                         </td>
                         <td>
                             @if (item.Estado.Equals("Enviado"))
@@ -185,6 +212,9 @@
                             console.log(err);
                         }
                     })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            window.location.href = "/Home/Error";
+                        })
                     return false;
                 } catch (e) {
                     console.log(e);

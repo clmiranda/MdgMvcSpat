@@ -1,0 +1,74 @@
+﻿@model Seguimiento
+@{
+    Layout = null;
+}
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<form asp-action="SaveSeguimiento" onsubmit="return jQueryAjaxPost(this);" autocomplete="off" method="post">
+    <div class="form-row">
+        <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
+        <input id="inicial" type="hidden" name="RangoFechas[]" />
+        <input id="final" type="hidden" name="RangoFechas[]" />
+        <div class="form-group mb-5 col-md-6">
+            <label for="idDateRange">Ingrese la Fecha Inicial del Seguimiento:</label>
+            <input id="idDateRange" type="text" placeholder="Fecha Inicial" aria-label="First name" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+
+
+    $('#idDateRange').daterangepicker({
+        "autoApply": true,
+        "showDropdowns": true,
+        "minYear": 2021,
+        "locale": {
+            "format": "DD/MM/YYYY",
+            "separator": " ",
+            "applyLabel": "Apply",
+            "cancelLabel": "Cancel",
+            "fromLabel": "From",
+            "toLabel": "To",
+            "customRangeLabel": "Custom",
+            "weekLabel": "W",
+            "daysOfWeek": [
+                "Dom",
+                "Lun",
+                "Mar",
+                "Mie",
+                "Jue",
+                "Vie",
+                "Sab"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],
+            "firstDay": 1
+        },
+        "startDate": "@Model.FechaInicio.ToShortDateString()",
+        "endDate": "@Model.FechaConclusion.ToShortDateString()",
+        "opens": "center"
+    });
+    $('#idDateRange').on("change", function (e) {
+        var rango = [];
+        rango = this.value.split(' ');
+        $('#inicial').val(rango[0]);
+        $('#final').val(rango[1]);
+    });
+</script>

@@ -2,7 +2,7 @@
 @{
     Layout = null;
 }
-<form asp-action="CancelarAdopcion" asp-controller="AdministrarAdopciones" method="post" onsubmit="return jQueryAjaxPostAlterno(this);" autocomplete="off">
+<form asp-action="CancelarAdopcion" method="post" onsubmit="return jQueryAjaxPostAlterno(this);" autocomplete="off">
     <input asp-for="ContratoAdopcionId" type="hidden" value="@Model.ContratoAdopcionId" />
     <div class="form-group">
         <label for="inputTitulo">Ingrese la Raz&oacute;n de la Cancelaci&oacute;n del Contrato</label>

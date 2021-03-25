@@ -26,14 +26,21 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         public async Task<IActionResult> ListaReportes(int id)
         {
-            //idSeguimiento = id;
-            //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            //var request = new RestRequest("api/ReporteSeguimiento/" + id + "/GetReportesForAdmin/", Method.GET);
-            //var response = await client.ExecuteAsync<IEnumerable<ReporteSeguimiento>>(request);
-            //ViewData["id"] = id;
-            var valor = await GetSeguimiento(id);
-            _seguimiento = valor;
-            return View(valor);
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
+            var response = await client.ExecuteAsync<Seguimiento>(request);
+            if (!response.IsSuccessful)
+            {
+                switch (response.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                }
+            }
+            _seguimiento = response.Data;
+            return View(response.Data);
         }
         //[NoDirectAccess]
         //public async Task<IActionResult> EditReporte(int id = 0)
@@ -44,6 +51,54 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         //    var response = await client.ExecuteAsync<ReporteSeguimiento>(request);
         //    return View(response.Data);
         //}
+        [NoDirectAccess]
+        public async Task<IActionResult> EditSeguimiento(int id = 0)
+        {
+            //var resul = await rest.GetAsync(id, "api/Seguimiento/GetSeguimiento/" + id, HttpContext.Session.GetString("JWToken"));
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
+            var response = await client.ExecuteAsync<Seguimiento>(request);
+            if (!response.IsSuccessful)
+            {
+                switch (response.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                }
+            }
+            return View(response.Data);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveSeguimiento(Seguimiento modelo)
+        {
+            if (ModelState.IsValid)
+            {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/Seguimiento/UpdateFecha/", Method.PUT).AddJsonBody(modelo);
+                try
+                {
+                    //var resul = await rest.PutAsync(modelo, "api/Seguimiento/UpdateFecha");
+                    var response = await client.ExecuteAsync<Seguimiento>(request);
+                    if (!response.IsSuccessful)
+                        throw new Exception(response.Content);
+                    //ViewData["filter"] = filtrado;
+                    TempData["alertsuccess"] = "Rango de fecha actualizada.";
+                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", response.Data) });
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
+                    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "EditSeguimiento", modelo) });
+                }
+            }
+            return Json(new { isValid = false/*, html = Helper.RenderRazorViewToString(this, "EditSeguimiento", modelo)*/ });
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveFecha(ReporteSeguimiento modelo)
@@ -119,13 +174,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 TempData["alerterror"] = msg["mensaje"];
                 return Json(new { /*isValid = false */ html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", _seguimiento) });
             }
-        }
-        public async Task<Seguimiento> GetSeguimiento(int id)
-        {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ReporteSeguimiento/" + id + "/GetReportesForAdmin", Method.GET);
-            var response = await client.ExecuteAsync<Seguimiento>(request);
-            return response.Data;
         }
     }
 }

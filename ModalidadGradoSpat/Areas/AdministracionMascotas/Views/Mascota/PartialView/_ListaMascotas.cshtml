@@ -3,11 +3,10 @@
     Layout = null;
 }
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="form-row">
+<div class="form-row mt-sm-5 mb-sm-3">
     <form class="form-inline formulario" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
-        @*<input type="hidden" name="currentPage" value="@ViewData["currentPage"]" />*@
         <div class="form-group">
-            Filtro: <select name="filter" class="form-control form-control-sm dropdown-toggle mr-sm-3">
+            Filtro: <select name="filter" class="form-control form-control-sm dropdown-toggle mr-sm-5">
                 @if (ViewData["filter"].ToString() == "All")
                 {
                     <option value="All" selected>Todos</option>
@@ -19,8 +18,10 @@
                     <option value="Adopcion" selected>En Adopci&oacute;n</option>
                 }
             </select>
+        </div>
+        <div class="form-group">
             Elementos por P&aacute;gina:
-            <select name="sizePage" class="form-control form-control-sm dropdown-toggle mr-sm-3 mr-md-5">
+            <select name="sizePage" class="form-control form-control-sm dropdown-toggle mr-sm-5">
                 @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
                 {
                     <option value="5" selected>5</option>
@@ -65,8 +66,8 @@
             @*</form>*@
         </div>
         <div class="form-group">
-            <input autocomplete="off" type="text" class="form-control mr-md-3" name="search" value="@ViewData["search"]">
-            <button id="buscar" type="submit" class="btn btn-primary mr-sm-3">Buscar</button>
+            <input autocomplete="off" type="text" class="form-control" name="search" value="@ViewData["search"]">
+            <button id="buscar" type="submit" class="btn btn-primary mr-sm-5">Buscar</button>
             <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
         </div>
     </form>
@@ -103,7 +104,7 @@
                         <td>
                             @item.Nombre
                         </td>
-                        <td>
+                        <td width="25%">
                             @if (item.EstadoSituacion.ToUpper().Equals("ADOPTADA"))
                             {
                                 <p><strong>La mascota ya fue adoptada.</strong></p>
@@ -129,27 +130,6 @@
                                             <option value="Inactivo" selected>Inactivo</option>
                                         </select>
                                     }
-                                    @*@if (item.EstadoSituacion == "Registrado")
-                                        {
-                                            <option value="Registrado" selected>Registrado</option>
-                                            <option value="En Adopcion">Para Adopci&oacute;n</option>
-                                            <option value="Tratamiento">En Tratamiento</option>
-                                        }
-                                        else if (item.EstadoSituacion == "En Adopcion")
-                                        {
-                                            <option value="Registrado">Registrado</option>
-                                            <option value="En Adopcion" selected>Para Adopci&oacute;n</option>
-                                            <option value="Tratamiento">En Tratamiento</option>
-                                        }
-                                        else if (item.EstadoSituacion == "Tratamiento")
-                                        {
-                                            <option value="Registrado">Registrado</option>
-                                            <option value="En Adopcion">Para Adopci&oacute;n</option>
-                                            <option value="Tratamiento" selected>En Tratamiento</option>
-                                        }*@
-                                    @*<button type="submit" class="btn btn-info d-inline">
-                                            <i class="fa fa-edit fa-2" aria-hidden="true"></i>
-                                        </button>*@
                                 </form>
                             }
                         </td>
@@ -279,12 +259,15 @@
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                    $('#view-all').html(res);
+                    $('#view-all').html(res.html);
                 },
                 error: function (err) {
                     console.log(err);
                 }
             })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    window.location.href = "/Home/Error";
+                })
             return false;
         } catch (e) {
             console.log(e);

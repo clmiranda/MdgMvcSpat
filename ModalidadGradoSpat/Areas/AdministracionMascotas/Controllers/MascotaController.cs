@@ -44,7 +44,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             //var client = new RestClient(url);
             //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var vista = await Listado();
-            return Json(Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista));
+            return Json(new {html= Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista) });
         }
         public async Task<IActionResult> MascotaView(int id)
         {
@@ -57,10 +57,20 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 //var client = new RestClient(url);
                 var response = await client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
-                    throw new Exception(response.Content);
+                {
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return BadRequest();
+                        case "NotFound":
+                            return NotFound();
+                        default:
+                            throw new Exception();
+                    }
+                }
 
 
-                if (response.Content != null)
+                if (response.Data != null)
                 {
                     _mascota = response.Data;
                     return View(_mascota);
@@ -138,7 +148,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Registrado correctamente.";
-                        return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", response.Data)/*, html2 = Helper.RenderRazorViewToString(this, "Denuncia/PartialView/_Fotos", JsonConvert.DeserializeObject<Mascota>(response.Content))*/ });
+                        return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", response.Data), html2 = Helper.RenderRazorViewToString(this, "PartialView/_Fotos",response.Data) });
                     }
                     catch (Exception ex)
                     {
@@ -242,7 +252,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public async Task<IEnumerable<Mascota>> Listado()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestGet = new RestRequest("api/Mascota/GetAllMascotas", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
+            var requestGet = new RestRequest("api/Mascota/GetAllMascotaAdmin", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
             var responseGet = await client.ExecuteAsync<IEnumerable<Mascota>>(requestGet);
             var header = responseGet.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
             var head = JObject.Parse(header.Value.ToString());

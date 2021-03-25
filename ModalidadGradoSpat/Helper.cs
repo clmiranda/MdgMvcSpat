@@ -42,7 +42,7 @@ namespace ModalidadGradoSpat
                 if (filterContext.HttpContext.Request.GetTypedHeaders().Referer == null ||
          filterContext.HttpContext.Request.GetTypedHeaders().Host.Host.ToString() != filterContext.HttpContext.Request.GetTypedHeaders().Referer.Host.ToString())
                 {
-                    filterContext.HttpContext.Response.Redirect("/");
+                    filterContext.HttpContext.Response.Redirect("/Inicio/Index");
                 }
             }
         }

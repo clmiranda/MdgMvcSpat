@@ -55,9 +55,18 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             //var resul = await rest.GetAsync(id, "api/ContratoAdopcion/DetailAdopcion/" + id, HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ContratoAdopcion/DetailAdopcion/" + id, Method.GET);
-                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
-                _contratoAdopcion = response.Data;
-                return View(_contratoAdopcion);
+            var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+            if (!response.IsSuccessful) {
+                switch (response.StatusCode.ToString())
+                {
+                    case "BadRequest":
+                        return BadRequest();
+                    case "NotFound":
+                        return NotFound();
+                }
+            }
+            _contratoAdopcion = response.Data;
+            return View(_contratoAdopcion);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -77,7 +86,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 //ViewData["currentPage"] = pagenumber;
                 //ViewData["search"] = busqueda;
                 var vista = await Listado();
-                return Json(new {html= Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
             {
@@ -129,7 +138,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Contrato rechazado, se ha creado un informe de la razon del Rechazo";
-                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", response.Data), html2 = Helper.RenderRazorViewToString(this, "PartialView/_InformeContrato", response.Data) });
+                    return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeContrato", response.Data) });
                 }
                 catch (Exception ex)
                 {
@@ -158,7 +167,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Contrato cancelado, se ha creado un informe de la razon de la Cancelacion.";
-                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", response.Data), html2 = Helper.RenderRazorViewToString(this, "PartialView/_InformeContrato", response.Data) });
+                    return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeContrato", response.Data) });
                 }
                 catch (Exception ex)
                 {

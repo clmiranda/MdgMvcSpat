@@ -39,8 +39,7 @@ jQueryAjaxPost = form => {
     //var datos = $("form")
     //    .removeData("validator") /* added by the raw jquery.validate plugin */
     //    .removeData("unobtrusiveValidation");  /* added by the jquery unobtrusive plugin*/
-    event.preventDefault();
-    //alert($("form").valid());
+    event.preventDefault(); 
 
     //$.validator.unobtrusive.parse(datos);
     if ($("form").valid()) {
@@ -82,6 +81,7 @@ jQueryAjaxPost = form => {
 };
 
 jQueryAjaxDelete = form => {
+    event.preventDefault();
     try {
         Swal.fire({
             title: '¿Estás seguro de eliminar este registro?',
@@ -90,7 +90,8 @@ jQueryAjaxDelete = form => {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Eliminar'
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.value) {
                 $.ajax({
@@ -215,6 +216,7 @@ showForm = form => {
 };
 
 jQueryAjaxDeleteForm = form => {
+    event.preventDefault();
     try {
         Swal.fire({
             title: '¿Estás seguro de eliminar este registro?',
@@ -255,6 +257,7 @@ jQueryAjaxDeleteForm = form => {
 };
 
 jQueryAjaxDeleteForm2 = form => {
+    event.preventDefault();
     try {
         Swal.fire({
             title: '¿Estás seguro de eliminar este registro?',
@@ -292,41 +295,41 @@ jQueryAjaxDeleteForm2 = form => {
 
 
 
-removeVoluntarioChecked = form => {
-    try {
-        Swal.fire({
-            title: '¿Estás seguro de desvincular al usuario de este seguimiento?',
-            text: "El seguimiento actual se desvinculara del usuario seleccionado.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar'
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: new FormData(form),
-                    contentType: false,
-                    processData: false,
-                    success: function (res) {
-                        $('#view-all').html(res.html);
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        window.location.href = "/Home/Error";
-                    })
-                return false;
-            }
-        })
-    } catch (e) {
-        console.log(e);
-    }
-};
+//removeVoluntarioChecked = form => {
+//    try {
+//        Swal.fire({
+//            title: '¿Estás seguro de desvincular al usuario de este seguimiento?',
+//            text: "El seguimiento actual se desvinculara del usuario seleccionado.",
+//            icon: 'warning',
+//            showCancelButton: true,
+//            confirmButtonColor: '#3085d6',
+//            cancelButtonColor: '#d33',
+//            confirmButtonText: 'Aceptar'
+//        }).then((result) => {
+//            if (result.value) {
+//                $.ajax({
+//                    type: "POST",
+//                    url: form.action,
+//                    data: new FormData(form),
+//                    contentType: false,
+//                    processData: false,
+//                    success: function (res) {
+//                        $('#view-all').html(res.html);
+//                    },
+//                    error: function (err) {
+//                        console.log(err);
+//                    }
+//                })
+//                    .fail(function (jqXHR, textStatus, errorThrown) {
+//                        window.location.href = "/Home/Error";
+//                    })
+//                return false;
+//            }
+//        })
+//    } catch (e) {
+//        console.log(e);
+//    }
+//};
 
 
 

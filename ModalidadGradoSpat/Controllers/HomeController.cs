@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Controllers
 {
@@ -28,8 +29,9 @@ namespace ModalidadGradoSpat.Controllers
             return View();
         }
 
+        [NoDirectAccess]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int? id)
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
