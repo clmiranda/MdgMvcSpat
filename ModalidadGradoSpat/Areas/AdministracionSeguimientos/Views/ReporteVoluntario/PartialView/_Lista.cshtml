@@ -32,7 +32,6 @@
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
                 }
                 else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
                 {
@@ -40,7 +39,6 @@
                     <option value="10" selected>10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
                 }
                 else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
                 {
@@ -48,7 +46,6 @@
                     <option value="10">10</option>
                     <option value="20" selected>20</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
                 }
                 else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
                 {
@@ -56,15 +53,6 @@
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50" selected>50</option>
-                    <option value="100">100</option>
-                }
-                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
-                {
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100" selected>100</option>
                 }
             </select>
             <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>

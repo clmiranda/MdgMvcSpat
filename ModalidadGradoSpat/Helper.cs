@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +43,8 @@ namespace ModalidadGradoSpat
                 if (filterContext.HttpContext.Request.GetTypedHeaders().Referer == null ||
          filterContext.HttpContext.Request.GetTypedHeaders().Host.Host.ToString() != filterContext.HttpContext.Request.GetTypedHeaders().Referer.Host.ToString())
                 {
-                    filterContext.HttpContext.Response.Redirect("/Inicio/Index");
+                    filterContext.Result = new RedirectToRouteResult(new
+                           RouteValueDictionary(new { controller = "Cuenta", action = "Login", area = "" }));
                 }
             }
         }

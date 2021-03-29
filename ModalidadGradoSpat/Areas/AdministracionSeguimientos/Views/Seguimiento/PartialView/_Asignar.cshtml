@@ -9,24 +9,22 @@
 </style>
 @*<script src="~/archivos/js/iniciaDatatable.js"></script>*@
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="container-fluid">
     @*@if (Model.Item2.Estado.Equals("Pendiente"))
-    {
-        <div class="col-12 alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>
-                Se ha enviado la solicitud de asignacion al Voluntario @Model.Item2.User.Nombres @Model.Item2.User.Apellidos,
-                mientras la asignaci&oacute;n del Seguimiento se encuentre pendiente, no podr&aacute;a asignar a otro Voluntario.
-            </strong>
-        </div>
-    }
-    else if (Model.Item2.Estado.Equals("Asignado"))
-    {
-        <div class="col-12 alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>El seguimiento actual se encuentra asignado al Voluntario @Model.Item2.User.Nombres @Model.Item2.User.Apellidos</strong>
-        </div>
-    }*@
-    <div class="row mx-auto">
-        <div id="valor" class="col-12">
+        {
+            <div class="col-12 alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>
+                    Se ha enviado la solicitud de asignacion al Voluntario @Model.Item2.User.Nombres @Model.Item2.User.Apellidos,
+                    mientras la asignaci&oacute;n del Seguimiento se encuentre pendiente, no podr&aacute;a asignar a otro Voluntario.
+                </strong>
+            </div>
+        }
+        else if (Model.Item2.Estado.Equals("Asignado"))
+        {
+            <div class="col-12 alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>El seguimiento actual se encuentra asignado al Voluntario @Model.Item2.User.Nombres @Model.Item2.User.Apellidos</strong>
+            </div>
+        }*@
+    <div class="mx-auto mb-3">
             <div class="card rounded text-center">
                 <div class="card-header">
                     <h5 class="mb-0">
@@ -37,53 +35,77 @@
                     <p class="card-text">Direcci&oacute;n del Adoptante:  @Model.Item2.ContratoAdopcion.Domicilio</p>
                 </div>
             </div>
-        </div>
     </div>
-    <div class="row mx-auto">
-        <div id="accordion" class="col-12">
+    <div class="mx-auto">
+        <div id="accordion">
             @foreach (var item in @Model.Item1)
             {
                 <div class="card">
                     <div role="button" data-toggle="collapse" data-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
-                        <div class="card-header" id="heading-@item.Id">
-                            <h5 class="mb-0">
+                        <div class="card-header d-md-flex justify-content-md-between" id="heading-@item.Id">
+                            <h5>
                                 Voluntario: @item.Nombres @item.Apellidos
                             </h5>
+                            @if (Model.Item2.Estado.Equals("Pendiente") && item.Id == Model.Item2.UserId)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill p-2 badge-warning">
+                                        Solicitud Pendiente
+                                    </span>
+                                </h5>
+                            }
+                            else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill p-2 badge-primary">
+                                        Voluntario Asignado
+                                    </span>
+                                </h5>
+                            }
                         </div>
                     </div>
 
                     <div id="collapse-@item.Id" class="collapse" aria-labelledby="heading-@item.Id" data-parent="#accordion">
-                        <div class="card-body">
-                            <p>
-                                Direcci&oacute;n: @item.Domicilio<br />
-                                Edad: @item.Edad<br />
-                                N&uacute;mero de Celular: @item.NumeroCelular<br />
-                                Correo Electr&oacute;nico: @item.Email
-                            </p>
-                            @if (Model.Item2.Estado.Equals("Pendiente"))
-                            {
-                                <button type="submit" class="btn btn-success" disabled><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
-                            }
-                            else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
-                            {
-                                <button type="submit" class="btn btn-success" disabled><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
-                                <form asp-action="RemoveVoluntarioChecked" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
-                                    <button type="submit" class="btn btn-danger"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
-                                </form>
-                            }
-                            else
-                            {
-                                <form asp-action="CheckAsignar" asp-route-idUser="@item.Id" method="post" onsubmit="return checkVoluntario(this);">
-                                    <button type="submit" class="btn btn-success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
-                                </form>
-                            }
+                        <div class="card-body row">
+                            <div class="col">
+                                <p class="card-text">
+                                    Direcci&oacute;n: @item.Domicilio
+                                </p>
+                                <p class="card-text">
+                                    Edad: @item.Edad a&ntilde;o(s)
+                                </p>
+                                <p class="card-text">
+                                    N&uacute;mero de Celular: @item.NumeroCelular
+                                </p>
+                                <p class="card-text">
+                                    Correo Electr&oacute;nico: @item.Email
+                                </p>
+                            </div>
+                            <div class="col">
+                                @if (Model.Item2.Estado.Equals("Pendiente"))
+                                {
+                                    <button type="submit" class="btn btn-success" disabled><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
+                                }
+                                else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
+                                {
+                                    @*<button type="submit" class="btn btn-success" disabled><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>*@
+                                    <form asp-action="RemoveVoluntarioChecked" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
+                                        <button type="submit" class="btn btn-danger"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form asp-action="CheckAsignar" asp-route-idUser="@item.Id" method="post" onsubmit="return checkVoluntario(this);">
+                                        <button type="submit" class="btn btn-success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
+                                    </form>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             }
         </div>
     </div>
-</div>
 <script type="text/javascript">
     checkVoluntario = form => {
         try {

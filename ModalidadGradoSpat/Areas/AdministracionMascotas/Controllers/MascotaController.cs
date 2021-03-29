@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModalidadGradoSpat.Reports;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -263,6 +264,17 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             var vista = responseGet.Data;
             _listaMascota = responseGet.Data;
             return vista;
+        }
+        public async Task<IActionResult> ExcelMascotas()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Mascota/GetAll", Method.GET);
+            var response = await client.ExecuteAsync<IEnumerable<Mascota>>(request);
+            var content = ReportMascota.ExcelMascotas(response.Data);
+            return File(
+                content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Mascotas.xlsx");
         }
     }
 }

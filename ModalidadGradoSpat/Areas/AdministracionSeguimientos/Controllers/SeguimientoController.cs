@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModalidadGradoSpat.Reports;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -146,6 +147,28 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             ViewData["totalPages"] = head["totalPages"].ToString();
             var vista = responseGet.Data;
             return vista;
+        }
+        public async Task<IActionResult> ExcelSeguimientos()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Seguimiento/GetAll", Method.GET);
+            var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(request);
+            var content = ReportSeguimientoReporte.ExcelSeguimientos(response.Data);
+            return File(
+                content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Seguimientos.xlsx");
+        }
+        public async Task<IActionResult> ExcelReportes()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/ReporteSeguimiento/GetAll", Method.GET);
+            var response = await client.ExecuteAsync<IEnumerable<ReporteSeguimiento>>(request);
+            var content = ReportSeguimientoReporte.ExcelReportes(response.Data);
+            return File(
+                content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "SeguimientoReportes.xlsx");
         }
     }
 }

@@ -3,8 +3,8 @@
     Layout = null;
 }
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="form-row mt-sm-5 mb-sm-3">
-    <form class="form-inline formulario" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
+<div class="form-row my-3">
+    <form class="form-inline formulario mr-3" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
         <div class="form-group">
             Filtro: <select name="filter" class="form-control form-control-sm dropdown-toggle mr-sm-5">
                 @if (ViewData["filter"].ToString() == "All")
@@ -70,6 +70,9 @@
             <button id="buscar" type="submit" class="btn btn-primary mr-sm-5">Buscar</button>
             <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
         </div>
+    </form>
+    <form asp-action="ExcelMascotas">
+        <button role="button" type="submit" class="btn btn-primary btn-lg">Excel Mascotas</button>
     </form>
 </div>
 <div class="table-responsive">

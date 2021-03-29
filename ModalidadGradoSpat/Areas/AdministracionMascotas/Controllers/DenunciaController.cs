@@ -3,6 +3,7 @@ using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModalidadGradoSpat.Reports;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -132,7 +133,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     }
                 }
             }
-            return Json(new { isValid = false});
+            return Json(new { isValid = false });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -181,92 +182,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Denuncia/GetAll", Method.GET);
             var response = await client.ExecuteAsync<IEnumerable<Denuncia>>(request);
-            using (var workbook = new XLWorkbook())
-            {
-                var worksheet = workbook.Worksheets.Add("Denuncias");
-                var currentRow = 1;
-                worksheet.Cell(currentRow, 1).Value = "Id";
-                worksheet.Cell(currentRow, 2).Value = "Titulo";
-                worksheet.Cell(currentRow, 3).Value = "Descripcion";
-                worksheet.Cell(currentRow, 4).Value = "Nombre de Mascota";
-                foreach (var denuncia in response.Data)
-                {
-                    currentRow++;
-                    worksheet.Cell(currentRow, 1).Value = denuncia.Id;
-                    worksheet.Cell(currentRow, 2).Value = denuncia.Titulo;
-                    worksheet.Cell(currentRow, 3).Value = denuncia.Descripcion;
-                    if (denuncia.Mascota==null)
-                        worksheet.Cell(currentRow, 4).Value = "No tiene mascota creada";
-                    else
-                        worksheet.Cell(currentRow, 4).Value = denuncia.Mascota.Nombre;
-                }
-                using (var stream = new MemoryStream())
-                {
-                    workbook.SaveAs(stream);
-                    var content = stream.ToArray();
-
-                    return File(
+            var content = ReportDenuncia.ExcelDenuncias(response.Data);
+            return File(
                         content,
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "denuncias.xlsx");
-                }
-            }
-        }
-        public async Task<IActionResult> ExcelMascotas()
-        {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Mascota/GetAll", Method.GET);
-            var response = await client.ExecuteAsync<IEnumerable<Mascota>>(request);
-            using (var workbook = new XLWorkbook())
-            {
-                var worksheet = workbook.Worksheets.Add("Mascotas");
-                int currentRow = 1;
-                worksheet.Cell(currentRow, 1).Value = "Id";
-                worksheet.Cell(currentRow, 2).Value = "Nombre";
-                worksheet.Cell(currentRow, 3).Value = "Sexo";
-                worksheet.Cell(currentRow, 4).Value = "Especie";
-                worksheet.Cell(currentRow, 5).Value = "Caracteristicas";
-                worksheet.Cell(currentRow, 6).Value = "Rasgos Particulares";
-                worksheet.Cell(currentRow, 7).Value = "Tamaño";
-                worksheet.Cell(currentRow, 8).Value = "Edad";
-                worksheet.Cell(currentRow, 9).Value = "Estado";
-                worksheet.Cell(currentRow, 10).Value = "Fecha de Registro";
-                worksheet.Cell(currentRow, 11).Value = "Id Denuncia";
-                worksheet.Cell(currentRow, 12).Value = "Titulo Denuncia";
-                foreach (var mascota in response.Data)
-                {
-                    currentRow++;
-                    worksheet.Cell(currentRow, 1).Value = mascota.Id;
-                    worksheet.Cell(currentRow, 2).Value = mascota.Nombre;
-                    worksheet.Cell(currentRow, 3).Value = mascota.Sexo;
-                    worksheet.Cell(currentRow, 4).Value = mascota.Especie;
-                    worksheet.Cell(currentRow, 5).Value = mascota.Caracteristicas;
-                    worksheet.Cell(currentRow, 6).Value = mascota.RasgosParticulares;
-                    worksheet.Cell(currentRow, 7).Value = mascota.Tamaño;
-                    worksheet.Cell(currentRow, 8).Value = mascota.Edad;
-                    worksheet.Cell(currentRow, 9).Value = mascota.EstadoSituacion;
-                    worksheet.Cell(currentRow, 10).Value = mascota.FechaAgregado.ToShortDateString();
-                    if (mascota.Denuncia == null) {
-                        worksheet.Cell(currentRow, 11).Value = "No tiene denuncia creada.";
-                        worksheet.Cell(currentRow, 12).Value = "No tiene denuncia creada.";
-                    }
-                    else
-                    {
-                        worksheet.Cell(currentRow, 11).Value = mascota.Denuncia.Id;
-                        worksheet.Cell(currentRow, 12).Value = mascota.Denuncia.Titulo;
-                    }
-                }
-                using (var stream = new MemoryStream())
-                {
-                    workbook.SaveAs(stream);
-                    var content = stream.ToArray();
-
-                    return File(
-                        content,
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "mascotas.xlsx");
-                }
-            }
+                        "Denuncias.xlsx");
         }
     }
 }

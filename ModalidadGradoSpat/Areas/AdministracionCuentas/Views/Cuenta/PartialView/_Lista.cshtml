@@ -1,8 +1,13 @@
 ﻿@model IEnumerable<User>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <div class="container-fluid">
-    <div class="input-group mb-3">
-        <button type="button" data-toggle="modal" onclick="showInPopup('@Url.Action("AddUsuario","Cuenta", new { area="AdministracionCuentas"})', 'Agregar Usuario');" class="btn btn-primary btn-lg">Agregar Usuario</button>
+    <div class="d-flex justify-content-between">
+        <div class="mb-3">
+            <button type="button" data-toggle="modal" onclick="showInPopup('@Url.Action("AddUsuario","Cuenta", new { area="AdministracionCuentas"})', 'Agregar Usuario');" class="btn btn-primary btn-lg">Agregar Usuario</button>
+        </div>
+        <form class="mb-3" asp-action="ExcelUsuario">
+            <button role="button" type="submit" class="btn btn-primary btn-lg">Excel Usuarios</button>
+        </form>
     </div>
     <div class="table-responsive">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -22,40 +27,43 @@
             <tbody id="tbodyCuentas">
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Nombres @item.Apellidos</td>
-                        <td>@item.Domicilio</td>
-                        <td>@item.UserName</td>
-                        <td>@item.Email</td>
-                        <td>@item.FechaNacimiento.ToShortDateString()</td>
-                        <td>@item.Edad a&ntilde;os</td>
-                        <td>
-                            @if (item.Roles == null)
-                            {
-                                <p class="text-center">No tiene roles asignados.</p>
-                            }
-                            else
-                            {
-                                <p class="text-center">
-                                    @foreach (var rol in item.Roles)
-                                    {
-                                        @rol<br />
-                                    }
-                                </p>
-                            }
-                        </td>
-                        <td>
-                            @if (item.Roles.Contains("SuperAdministrador"))
-                            {
-                                <button type="button" class="btn btn-primary" disabled>Asignar Roles</button>
-                            }
-                            else
-                            {
-                                <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">Asignar Roles</button>
-                            }
-                        </td>
-                    </tr>
+                    @if (!item.Roles.Any(x => x.Equals("SuperAdministrador")))
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Nombres @item.Apellidos</td>
+                            <td>@item.Domicilio</td>
+                            <td>@item.UserName</td>
+                            <td>@item.Email</td>
+                            <td>@item.FechaNacimiento.ToShortDateString()</td>
+                            <td>@item.Edad a&ntilde;os</td>
+                            <td>
+                                @if (item.Roles == null)
+                                {
+                                    <p class="text-center">No tiene roles asignados.</p>
+                                }
+                                else
+                                {
+                                    <p class="text-center">
+                                        @foreach (var rol in item.Roles)
+                                        {
+                                            @rol<br />
+                                        }
+                                    </p>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Roles.Contains("SuperAdministrador"))
+                                {
+                                    <button type="button" class="btn btn-primary" disabled>Asignar Roles</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">Asignar Roles</button>
+                                }
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
             <tfoot>
