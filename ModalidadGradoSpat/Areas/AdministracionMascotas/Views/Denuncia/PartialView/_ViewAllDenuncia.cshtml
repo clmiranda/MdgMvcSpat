@@ -64,10 +64,7 @@
     <div class="input-group my-3">
         <button role="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nueva Denuncia');" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#form-modal">Agregar Denuncia</button>
         <form asp-action="ExcelDenuncias">
-            <button role="button" type="submit" class="btn btn-primary btn-lg mr-3">Excel Denuncias</button>
-        </form>
-        <form asp-action="ExcelMascotas">
-            <button role="button" type="submit" class="btn btn-primary btn-lg">Excel Mascotas</button>
+            <button role="button" type="submit" class="btn btn-primary btn-lg">Excel Denuncias</button>
         </form>
     </div>
     <div class="table-responsive">

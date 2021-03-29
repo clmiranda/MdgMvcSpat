@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModalidadGradoSpat.Reports;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -184,7 +185,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         public async Task<IEnumerable<ContratoAdopcion>> Listado()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ContratoAdopcion/GetAllAdopcionesPendientes", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
+            var request = new RestRequest("api/ContratoAdopcion/GetAllContratos", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
             var response = await client.ExecuteAsync<IEnumerable<ContratoAdopcion>>(request);
             var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
             var head = JObject.Parse(header.Value.ToString());
@@ -195,6 +196,28 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             var vista = response.Data;
             _lista = vista;
             return vista;
+        }
+        public async Task<IActionResult> ExcelContrato()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/ContratoAdopcion/GetAll", Method.GET);
+            var response = await client.ExecuteAsync<IEnumerable<ContratoAdopcion>>(request);
+            var content = ReportAdopcion.ExcelAdopciones(response.Data);
+            return File(
+                content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Adopciones.xlsx");
+        }
+        public async Task<IActionResult> ExcelContratoRechazoCancelado()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/ContratoAdopcion/GetAllRechazoCancelado", Method.GET);
+            var response = await client.ExecuteAsync<IEnumerable<ContratoRechazo>>(request);
+            var content = ReportAdopcion.ExcelAdopcionesRechazadas(response.Data);
+            return File(
+                content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "AdopcionesRechazadas.xlsx");
         }
     }
 }

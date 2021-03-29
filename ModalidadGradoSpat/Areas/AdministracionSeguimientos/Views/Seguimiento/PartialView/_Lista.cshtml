@@ -1,151 +1,159 @@
 ﻿@model IEnumerable<Seguimiento>
-    @{
-        Layout = null;
+@{
+    Layout = null;
+}
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<style>
+    button[disabled] {
+        cursor: not-allowed;
     }
-    @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-    <style>
-        button[disabled] {
-            cursor: not-allowed;
-        }
-    </style>
-        <form class="form-inline formulario my-3" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
-            @*<input type="hidden" name="pageNumber" value="@ViewData["page"]" />*@
-            @*<input type="hidden" name="search" value="@ViewData["search"]" />*@
-            <div class="form-group">
-                Filtro: <select name="filter" class="form-control dropdown-toggle">
-                    @if (ViewData["filter"].ToString().Equals("Activo"))
-                    {
-                        <option value="Activo" selected>Activo</option>
-                        <option value="Asignado">Asignado</option>
-                    }
-                    else if (ViewData["filter"].ToString().Equals("Asignado"))
-                    {
-                        <option value="Activo">Activo</option>
-                        <option value="Asignado" selected>Asignado</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group mx-sm-3">
-                Cantidad: <select name="sizePage" @*asp-items="Model.ListaSelectItem"*@ class="form-control dropdown-toggle">
-                    @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
-                    {
-                        <option value="5" selected>5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
-                    {
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
-                    {
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20" selected>20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
-                    {
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50" selected>50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
-                    {
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100" selected>100</option>
-                    }
-                </select>
-            </div>
-            <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
-        </form>
-    <div class="table-responsive">
-        <table id="tableSeguimiento" class="table table-striped table-bordered table-hover" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Mascota</th>
-                    <th>Adpotante</th>
-                    <th>Rango Fechas Seguimiento</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tbodySeguimiento">
-                @if (Model.Count() <= 0)
+</style>
+<div class="d-md-flex justify-content-md-between my-3">
+    <form class="form-inline" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
+        @*<input type="hidden" name="pageNumber" value="@ViewData["page"]" />*@
+        @*<input type="hidden" name="search" value="@ViewData["search"]" />*@
+        <div class="form-group mr-3">
+            Filtro: <select name="filter" class="form-control dropdown-toggle">
+                @if (ViewData["filter"].ToString().Equals("Activo"))
                 {
+                    <option value="Activo" selected>Activo</option>
+                    <option value="Asignado">Asignado</option>
+                }
+                else if (ViewData["filter"].ToString().Equals("Asignado"))
+                {
+                    <option value="Activo">Activo</option>
+                    <option value="Asignado" selected>Asignado</option>
+                }
+            </select>
+        </div>
+        <div class="form-group mr-3">
+            Cantidad: <select name="sizePage" @*asp-items="Model.ListaSelectItem"*@ class="form-control dropdown-toggle">
+                @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
+                {
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
+                {
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
+                {
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20" selected>20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
+                {
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50" selected>50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
+                {
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100" selected>100</option>
+                }
+            </select>
+        </div>
+        <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
+    </form>
+    <form asp-action="ExcelSeguimientos">
+        <button role="button" type="submit" class="btn btn-primary">Excel Seguimientos</button>
+    </form>
+    <form asp-action="ExcelReportes">
+        <button role="button" type="submit" class="btn btn-primary">Excel Reportes</button>
+    </form>
+</div>
+<div class="table-responsive">
+    <table id="tableSeguimiento" class="table table-striped table-bordered table-hover" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Mascota</th>
+                <th>Adpotante</th>
+                <th>Rango Fechas Seguimiento</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbodySeguimiento">
+            @if (Model.Count() <= 0)
+            {
                 <tr>
                     <td colspan="5"><h1 class="text-center">No hay registros para mostrar.</h1></td>
                 </tr>
-                }
-                else
+            }
+            else
+            {
+                foreach (var item in Model)
                 {
-                    foreach (var item in Model)
-                    {
-                <tr @*data-toggle="collapse" data-target="#accordion"*@>
-                    <td>
-                        @*<button type="button" class="fa fa-angle-right" data-toggle="collapse" data-target="#accordion"></button>*@
-                        @item.Id
-                    </td>
-                    <td>
-                        Nombre: @item.ContratoAdopcion.Mascota.Nombre /
-                        Tama&ntilde;o: @item.ContratoAdopcion.Mascota.Tamaño /
-                        Sexo: @item.ContratoAdopcion.Mascota.Sexo
-                    </td>
-                    <td>
-                        Nombre Completo:  @item.ContratoAdopcion.Nombres @item.ContratoAdopcion.Apellidos /
-                        Direcci&oacute;n:  @item.ContratoAdopcion.Domicilio
-                    </td>
-                    <td>
-                        De @item.FechaInicio.ToShortDateString() a @item.FechaConclusion.ToShortDateString()
-                    </td>
-                    <td class="d-flex">
-                        @*@if (item.CantidadVisitas > 0)
-                            {
-                                <button role="button" class="btn btn-primary" disabled><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                            }
-                            else
-                            {*@
-                        @*<button role="button" class="btn btn-primary" onclick="showInPopup('@Url.Action("EditSeguimiento","Seguimiento", new { item.Id, area="AdministracionSeguimientos" },Context.Request.Scheme)', 'Actualizar Seguimiento');" data-toggle="modal" data-target="#form-modal"><i class="fa fa-pencil" aria-hidden="true"></i></button>*@
-                        @*}*@
-                        @*<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Fechas", "AdministrarSeguimientos",new { id=item.Id})'"><i class="fa fa-plus" aria-hidden="true"></i></button>*@
-                        <a role="button" class="btn btn-info" href="@Url.Action("Asignar","Seguimiento", new { item.Id, area="AdministracionSeguimientos"})"><i class="fa fa-user" aria-hidden="true"></i></a>
-                        <a role="button" class="btn btn-warning" href="@Url.Action("ListaReportes","ReporteSeguimiento", new { id=item.Id, area="AdministracionSeguimientos"})"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    </td>
-                </tr>
-                    }
+                    <tr @*data-toggle="collapse" data-target="#accordion"*@>
+                        <td>
+                            @*<button type="button" class="fa fa-angle-right" data-toggle="collapse" data-target="#accordion"></button>*@
+                            @item.Id
+                        </td>
+                        <td>
+                            Nombre: @item.ContratoAdopcion.Mascota.Nombre /
+                            Tama&ntilde;o: @item.ContratoAdopcion.Mascota.Tamaño /
+                            Sexo: @item.ContratoAdopcion.Mascota.Sexo
+                        </td>
+                        <td>
+                            Nombre Completo:  @item.ContratoAdopcion.Nombres @item.ContratoAdopcion.Apellidos /
+                            Direcci&oacute;n:  @item.ContratoAdopcion.Domicilio
+                        </td>
+                        <td>
+                            De @item.FechaInicio.ToShortDateString() a @item.FechaConclusion.ToShortDateString()
+                        </td>
+                        <td class="d-flex">
+                            @*@if (item.CantidadVisitas > 0)
+                                {
+                                    <button role="button" class="btn btn-primary" disabled><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                }
+                                else
+                                {*@
+                            @*<button role="button" class="btn btn-primary" onclick="showInPopup('@Url.Action("EditSeguimiento","Seguimiento", new { item.Id, area="AdministracionSeguimientos" },Context.Request.Scheme)', 'Actualizar Seguimiento');" data-toggle="modal" data-target="#form-modal"><i class="fa fa-pencil" aria-hidden="true"></i></button>*@
+                            @*}*@
+                            @*<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Fechas", "AdministrarSeguimientos",new { id=item.Id})'"><i class="fa fa-plus" aria-hidden="true"></i></button>*@
+                            <a role="button" class="btn btn-info" href="@Url.Action("Asignar","Seguimiento", new { item.Id, area="AdministracionSeguimientos"})"><i class="fa fa-user" aria-hidden="true"></i></a>
+                            <a role="button" class="btn btn-warning" href="@Url.Action("ListaReportes","ReporteSeguimiento", new { id=item.Id, area="AdministracionSeguimientos"})"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
                 }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Datos Mascota</th>
-                    <th>Datos Adpotante</th>
-                    <th>Rango Fechas Seguimiento</th>
-                    <th>Acciones</th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <!-- pager -->
-    <nav class="table-responsive">
-        <form asp-action="ReturnVista" method="post" onsubmit="return send(this);">
-            <input type="hidden" name="sizePage" value="@ViewData["itemsPerPage"]" />
-            <input type="hidden" name="currentPage" />
-            <ul class="pagination justify-content-center d-flex flex-wrap">
-                @if (int.Parse(ViewData["currentPage"].ToString()) > 1)
-                {
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Datos Mascota</th>
+                <th>Datos Adpotante</th>
+                <th>Rango Fechas Seguimiento</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<!-- pager -->
+<nav class="table-responsive">
+    <form asp-action="ReturnVista" method="post" onsubmit="return send(this);">
+        <input type="hidden" name="sizePage" value="@ViewData["itemsPerPage"]" />
+        <input type="hidden" name="currentPage" />
+        <ul class="pagination justify-content-center d-flex flex-wrap">
+            @if (int.Parse(ViewData["currentPage"].ToString()) > 1)
+            {
                 <li class="page-item">
                     <button class="page-link" value="1" onclick="GetValueButton(this.value)">First</button>
                 </li>
@@ -153,33 +161,33 @@
                     @{ int p = int.Parse(ViewData["currentPage"].ToString()) - 1;}
                     <button class="page-link" value="@p" onclick="GetValueButton(this.value)">Previous</button>
                 </li>
-                }
-                else
-                {
+            }
+            else
+            {
                 <li class="page-item">
                     <button type="button" class="page-link">First<span class="sr-only"></span></button>
                 </li>
                 <li class="page-item">
                     <button type="button" class="page-link">Previous<span class="sr-only"></span></button>
                 </li>
-                }
+            }
 
-                @for (var pagina = 1; pagina <= int.Parse(ViewData["totalPages"].ToString()); pagina++)
-                {
+            @for (var pagina = 1; pagina <= int.Parse(ViewData["totalPages"].ToString()); pagina++)
+            {
                 <li class="page-item @(pagina == int.Parse(ViewData["currentPage"].ToString()) ? "active" : "")">
                     @if (pagina == int.Parse(ViewData["currentPage"].ToString()))
-                        {
-                    <button type="button" class="page-link" value="@pagina" role="button">@(pagina)<span class="sr-only"></span></button>
-                        }
-                        else
-                        {
-                    <button class="page-link" value="@pagina" onclick="GetValueButton(this.value)">@(pagina)</button>
-                        }
+                    {
+                        <button type="button" class="page-link" value="@pagina" role="button">@(pagina)<span class="sr-only"></span></button>
+                    }
+                    else
+                    {
+                        <button class="page-link" value="@pagina" onclick="GetValueButton(this.value)">@(pagina)</button>
+                    }
                 </li>
-                }
+            }
 
-                @if (int.Parse(ViewData["currentPage"].ToString()) < int.Parse(ViewData["totalPages"].ToString()))
-                {
+            @if (int.Parse(ViewData["currentPage"].ToString()) < int.Parse(ViewData["totalPages"].ToString()))
+            {
                 <li class="page-item">
                     @{int n = int.Parse(ViewData["currentPage"].ToString()) + 1;}
                     <button class="page-link" value="@n" onclick="GetValueButton(this.value)">Next</button>
@@ -187,64 +195,64 @@
                 <li class="page-item">
                     <button class="page-link" value="@ViewData["totalPages"]" onclick="GetValueButton(this.value)">Last</button>
                 </li>
-                }
-                else
-                {
+            }
+            else
+            {
                 <li class="page-item">
                     <button type="button" class="page-link">Next<span class="sr-only"></span></button>
                 </li>
                 <li class="page-item">
                     <button type="button" class="page-link">Last<span class="sr-only"></span></button>
                 </li>
+            }
+        </ul>
+    </form>
+</nav>
+<script>
+    function GetValueButton(val) {
+        $("[name='currentPage']").val(val);
+    }
+    $("#resetear").on("click", function () {
+        $("select[name='filter'] option").val("Activo");
+        $("select[name='sizePage'] option").val("10");
+    });
+    send = form => {
+        try {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#view-all').html(res);
+                },
+                error: function (err) {
+                    console.log(err);
                 }
-            </ul>
-        </form>
-    </nav>
-    <script>
-        function GetValueButton(val) {
-            $("[name='currentPage']").val(val);
+            })
+            return false;
+        } catch (e) {
+            console.log(e);
         }
-        $("#resetear").on("click", function () {
-            $("select[name='filter'] option").val("Activo");
-            $("select[name='sizePage'] option").val("10");
-        });
-        send = form => {
-            try {
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: new FormData(form),
-                    contentType: false,
-                    processData: false,
-                    success: function (res) {
-                        $('#view-all').html(res);
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
-                return false;
-            } catch (e) {
-                console.log(e);
-            }
-        };
-        $('select').on('change', function () {
-            try {
-                $.ajax({
-                    type: "POST",
-                    url: this.form.action,
-                    data: new FormData(this.form),
-                    contentType: false,
-                    processData: false,
-                    success: function (res) {
-                        $('#view-all').html(res);
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
-            } catch (e) {
-                console.log(e);
-            }
-        });
-    </script>
+    };
+    $('select').on('change', function () {
+        try {
+            $.ajax({
+                type: "POST",
+                url: this.form.action,
+                data: new FormData(this.form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#view-all').html(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    });
+</script>

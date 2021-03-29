@@ -82,6 +82,12 @@
             <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
         </div>
     </form>
+    <form asp-action="ExcelContrato">
+        <button role="button" type="submit" class="btn btn-primary btn-lg mr-3">Excel Contratos</button>
+    </form>
+    <form asp-action="ExcelContratoRechazoCancelado">
+        <button role="button" type="submit" class="btn btn-primary btn-lg mr-3">Excel Contratos Rechazados</button>
+    </form>
 </div>
 <div class="table-responsive mt-sm-3 mt-md-5">
     <table id="tableAdminContratos" class="table table-striped table-bordered" style="width:100%">

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Controllers
 {
@@ -29,6 +30,12 @@ namespace ModalidadGradoSpat.Controllers
             //TempData["alerta"] = alerta;
             return View();
         }
+        [NoDirectAccess]
+        public ActionResult ConfirmEmail()
+        {
+            TempData["alertsuccess"] = "Email verificado correctamente.";
+            return RedirectToAction("Login","Cuenta", new { area="" });
+        }
         public ActionResult Registro()
         {
             return View();
@@ -39,7 +46,8 @@ namespace ModalidadGradoSpat.Controllers
         }
         public ActionResult ResetPassword(string email, string token)
         {
-            return View();
+            var model = new ResetPassword { Token = token, Email = email };
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -71,7 +79,7 @@ namespace ModalidadGradoSpat.Controllers
                     HttpContext.Session.SetString("JWToken", token);
                     HttpContext.Session.SetString("SesionUser", JsonConvert.SerializeObject(user));
                     //return RedirectToAction("Index", "Inicio", new { area = "" });
-                    return Json(new { url = Url.Action("Index", "Inicio") });
+                    return Json(new { url = Url.Action("Index", "Inicio", new { area=""}) });
                 }
                 catch (Exception ex)
                 {
@@ -104,7 +112,7 @@ namespace ModalidadGradoSpat.Controllers
                         throw new Exception(response.Content);
                     //var aux = await rest3.PostAsync(dto, "api/Auth/forgotpassword", HttpContext.Session.GetString("JWToken"));
                     TempData["alertsuccess"] = "Email enviado a su correo electrónico, debe ingresar al enlace enviado para reestablecer su Contraseña.";
-                    return RedirectToAction("Login", "Cuenta", new { area = "" });
+                    return Json(new { url = Url.Action("Login", "Cuenta", new { area = "" }) });
                 }
                 catch (Exception ex)
                 {
@@ -123,15 +131,15 @@ namespace ModalidadGradoSpat.Controllers
         {
             if (ModelState.IsValid)
             {
-                var request = new RestRequest("api/Auth/ResetPasswordExterno", Method.POST).AddParameter("Email", valor.Email).AddParameter("Password", valor.Password);
+                var request = new RestRequest("api/Auth/ResetPasswordExterno", Method.POST).AddJsonBody(valor);
                 try
                 {
                     var response = await client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     //var aux = await rest4.PostAsync(new { Email = valor.Email, Password = valor.Password }, "api/Auth/ResetPasswordExterno", HttpContext.Session.GetString("JWToken"));
-                    TempData["alertsuccess"] = "Contraseña restaurada de manera correcta.";
-                    return RedirectToAction("Login", "Cuenta", new { area = "" });
+                    TempData["alertsuccess"] = "Contraseña restaurada correctamente.";
+                    return Json(new { url = Url.Action("Login", "Cuenta", new { area = "" }) });
                 }
                 catch (Exception ex)
                 {
