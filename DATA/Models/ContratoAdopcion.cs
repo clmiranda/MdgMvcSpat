@@ -23,19 +23,19 @@ namespace DATA.Models
         [Required(ErrorMessage = "Para ponernos en contacto contigo, debes proporcionar tu numero de Telefono/Celular")]
         public string NumeroCelular { get; set; }
         [Required(ErrorMessage = "Debes responder la pregunta.")]
-        public string Pregunta1 { get; set; }
+        public string Respuesta1 { get; set; }
         [Required(ErrorMessage = "Debes responder la pregunta.")]
-        public string Pregunta2 { get; set; }
+        public string Respuesta2 { get; set; }
         [Required(ErrorMessage = "Debes responder la pregunta.")]
-        public string Pregunta3 { get; set; }
+        public string Respuesta3 { get; set; }
         [Required(ErrorMessage = "Debe responder la pregunta.")]
-        public string Pregunta4 { get; set; }
+        public string Respuesta4 { get; set; }
         [Required(ErrorMessage = "Debes responder la pregunta.")]
-        public string Pregunta5 { get; set; }
+        public string Respuesta5 { get; set; }
         [Required(ErrorMessage = "Debes responder la pregunta.")]
-        public string Pregunta6 { get; set; }
+        public string Respuesta6 { get; set; }
         [Required(ErrorMessage = "Debes responder la pregunta.")]
-        public string Pregunta7 { get; set; }
+        public string Respuesta7 { get; set; }
         //[Required(ErrorMessage = "Debe completar el campo.")]
         //public string CasaPropia { get; set; }
         //[Required(ErrorMessage = "Debe ingresar la razon por la cual quiere adoptar.")]

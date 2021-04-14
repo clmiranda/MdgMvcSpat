@@ -32,6 +32,7 @@
     <Folder Include="Areas\AdministracionMascotas\Models\" />
     <Folder Include="Areas\AdministracionSeguimientos\Data\" />
     <Folder Include="Areas\AdministracionSeguimientos\Models\" />
+    <Folder Include="wwwroot\archivos\ley\" />
   </ItemGroup>
 
   <ItemGroup>

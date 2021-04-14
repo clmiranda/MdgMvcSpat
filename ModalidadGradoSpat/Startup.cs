@@ -71,7 +71,7 @@ namespace ModalidadGradoSpat
             else
             {
                 //app.UseExceptionHandler("/Error");
-                app.UseStatusCodePagesWithRedirects("/Error/{0}");
+                app.UseStatusCodePagesWithRedirects("/Home/Error/{0}");
                 //app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             }
@@ -123,7 +123,7 @@ pattern: "AdministracionSeguimientos/{controller=}/{action=}/{id?}");
 
                 endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Cuenta}/{action=Login}/{id?}");
+                pattern: "{controller=Adopciones}/{action=Lista}/{id?}");
             });
         }
     }

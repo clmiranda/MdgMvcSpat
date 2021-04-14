@@ -71,6 +71,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             idUser = id;
             return View(roles);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> PostRoles(string[] RolesUsuario)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -99,6 +101,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/User/GetUsers/", Method.GET);
             var response = await client.ExecuteAsync/*<IEnumerable<User>>*/(request);
+            if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                throw new Exception();
             var vista = JsonConvert.DeserializeObject<IEnumerable<User>>(response.Content);
             return vista;
         }
@@ -107,12 +111,19 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             //var request = new RestRequest("api/User/GetUser", Method.GET);
             //var response = await client.ExecuteAsync<IEnumerable<User>>(request);
-            var lista = await Listado();
-            var content = ReportUser.ExcelUsers(lista);
-            return File(
-                content,
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "Usuarios.xlsx");
+            try
+            {
+                var lista = await Listado();
+                var content = ReportUser.ExcelUsers(lista);
+                return File(
+                    content,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "Usuarios.xlsx");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

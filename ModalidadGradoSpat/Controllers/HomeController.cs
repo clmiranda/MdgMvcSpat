@@ -29,11 +29,25 @@ namespace ModalidadGradoSpat.Controllers
             return View();
         }
 
-        [NoDirectAccess]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error(int? id)
+        //[NoDirectAccess]
+        [Route("Home/Error/{StatusCode}")]
+        public IActionResult StatusCodeHandle(int statusCode)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            switch (statusCode)
+            {
+                case 401:
+                    ViewBag.Error = "401";
+                    break;
+                case 403:
+                    ViewBag.Error = "403";
+                    break;
+                case 404:
+                    ViewBag.Error = "404";
+                    break;
+                default:
+                    break;
+            }
+            return View();
         }
     }
 }

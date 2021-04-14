@@ -120,7 +120,32 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 var responseUser = await client.ExecuteAsync<IEnumerable<User>>(requestUserVolun);
                 if (!responseUser.IsSuccessful)
                     throw new Exception(responseUser.Content);
-                TempData["alertsuccess"] = "Usuario asignado correctamente.";
+                TempData["alertsuccess"] = "Se ha desvinculado al usuario del seguimiento.";
+                var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
+                var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
+                return Json(new {/* isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<IEnumerable<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
+                return Json(new { /*isValid = false,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<IEnumerable<User>, Seguimiento>(_listaVolun, _seguimiento)) });
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveVoluntarioPendiente(int idUser)
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/RemoveVoluntarioPendiente/" + idUser, Method.PUT);
+            try
+            {
+                var responseUser = await client.ExecuteAsync<IEnumerable<User>>(requestUserVolun);
+                if (!responseUser.IsSuccessful)
+                    throw new Exception(responseUser.Content);
+                TempData["alertsuccess"] = "Se ha cancelado la solicitud de asignación al usuario.";
                 var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
                 var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
                 return Json(new {/* isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<IEnumerable<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
@@ -138,14 +163,16 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimiento", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-            var responseGet = await client.ExecuteAsync<IEnumerable<Seguimiento>>(requestGet);
-            var header = responseGet.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
+            var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(requestGet);
+            if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                throw new Exception();
+            var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
             var head = JObject.Parse(header.Value.ToString());
             ViewData["currentPage"] = head["currentPage"].ToString();
             ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
             ViewData["totalItems"] = head["totalItems"].ToString();
             ViewData["totalPages"] = head["totalPages"].ToString();
-            var vista = responseGet.Data;
+            var vista = response.Data;
             return vista;
         }
         public async Task<IActionResult> ExcelSeguimientos()
