@@ -56,26 +56,35 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             //var resul = await rest.GetAsync(id, "api/ContratoAdopcion/DetailAdopcion/" + id, HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ContratoAdopcion/DetailAdopcion/" + id, Method.GET);
-            var response = await client.ExecuteAsync<ContratoAdopcion>(request);
-            if (!response.IsSuccessful) {
-                switch (response.StatusCode.ToString())
+            try
+            {
+                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                if (!response.IsSuccessful)
                 {
-                    case "BadRequest":
-                        return BadRequest();
-                    case "NotFound":
-                        return NotFound();
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return StatusCode(400);
+                        case "NotFound":
+                            return StatusCode(404);
+                        default:
+                            throw new Exception();
+                    }
                 }
+                _contratoAdopcion = response.Data;
+                return View(_contratoAdopcion);
             }
-            _contratoAdopcion = response.Data;
-            return View(_contratoAdopcion);
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateFecha(ContratoAdopcion contrato)
+        public async Task<IActionResult> UpdateFecha(int id, DateTime FechaAdopcion)
         {
-            //var resul = await rest.PutAsync(contrato, "api/ContratoAdopcion/UpdateFecha");
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ContratoAdopcion/UpdateFecha", Method.PUT).AddJsonBody(contrato);
+            var request = new RestRequest("api/ContratoAdopcion/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaAdopcion", FechaAdopcion);
             try
             {
                 var response = await client.ExecuteAsync<ContratoAdopcion>(request);
@@ -83,9 +92,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Fecha actualizada exitosamente.";
                 ViewData["filter"] = filtrado;
-                //ViewData["itemsPerPage"] = pagesize;
-                //ViewData["currentPage"] = pagenumber;
-                //ViewData["search"] = busqueda;
                 var vista = await Listado();
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
@@ -111,7 +117,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "El contrato se ha aprobado correctamente, se ha creado el seguimiento respectivo.";
-                return Json(new { /*isValid = true,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", response.Data)/*, html2 = Helper.RenderRazorViewToString(this, "PartialView/_InformeContrato", response.Data)*/ });
+                return Json(new { /*isValid = true,*/ html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", response.Data)/*, html2 = Helper.RenderRazorViewToString(this, "PartialView/_InformeContrato", response.Data)*/ });
             }
             catch (Exception ex)
             {
@@ -120,7 +126,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
                 //var modelo = await rest.GetAsync(idcontrato, "api/ContratoAdopcion/DetailAdopcion/" + idcontrato, HttpContext.Session.GetString("JWToken"));
-                return Json(new { /*isValid = false*/ html = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", _contratoAdopcion)/*, html2 = Helper.RenderRazorViewToString(this, "_ViewContratoAprobacion", contratoAdopcion)*/ });
+                return Json(new { /*isValid = false*/ html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", _contratoAdopcion)/*, html2 = Helper.RenderRazorViewToString(this, "_ViewContratoAprobacion", contratoAdopcion)*/ });
             }
             //var modelo = await rest.GetAsync(idcontrato, "api/ContratoAdopcion/DetailAdopcion/" + idcontrato, HttpContext.Session.GetString("JWToken"));
         }
@@ -186,38 +192,78 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ContratoAdopcion/GetAllContratos", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-            var response = await client.ExecuteAsync<IEnumerable<ContratoAdopcion>>(request);
-            var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
-            var head = JObject.Parse(header.Value.ToString());
-            ViewData["currentPage"] = head["currentPage"].ToString();
-            ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
-            ViewData["totalItems"] = head["totalItems"].ToString();
-            ViewData["totalPages"] = head["totalPages"].ToString();
-            var vista = response.Data;
-            _lista = vista;
-            return vista;
+                var response = await client.ExecuteAsync<IEnumerable<ContratoAdopcion>>(request);
+                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                    throw new Exception();
+                var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
+                var head = JObject.Parse(header.Value.ToString());
+                ViewData["currentPage"] = head["currentPage"].ToString();
+                ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
+                ViewData["totalItems"] = head["totalItems"].ToString();
+                ViewData["totalPages"] = head["totalPages"].ToString();
+                var vista = response.Data;
+                _lista = vista;
+                return vista;
         }
         public async Task<IActionResult> ExcelContrato()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ContratoAdopcion/GetAll", Method.GET);
-            var response = await client.ExecuteAsync<IEnumerable<ContratoAdopcion>>(request);
-            var content = ReportAdopcion.ExcelAdopciones(response.Data);
-            return File(
-                content,
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "Adopciones.xlsx");
+            try
+            {
+                var response = await client.ExecuteAsync<IEnumerable<ContratoAdopcion>>(request);
+                if (!response.IsSuccessful)
+                {
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return StatusCode(400);
+                        case "NotFound":
+                            return StatusCode(404);
+                        default:
+                            throw new Exception();
+                    }
+                }
+                var content = ReportAdopcion.ExcelAdopciones(response.Data);
+                return File(
+                    content,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "Adopciones.xlsx");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
         public async Task<IActionResult> ExcelContratoRechazoCancelado()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ContratoAdopcion/GetAllRechazoCancelado", Method.GET);
-            var response = await client.ExecuteAsync<IEnumerable<ContratoRechazo>>(request);
-            var content = ReportAdopcion.ExcelAdopcionesRechazadas(response.Data);
-            return File(
-                content,
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "AdopcionesRechazadas.xlsx");
+            try
+            {
+                var response = await client.ExecuteAsync<IEnumerable<ContratoRechazo>>(request);
+                if (!response.IsSuccessful)
+                {
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return StatusCode(400);
+                        case "NotFound":
+                            return StatusCode(404);
+                        default:
+                            throw new Exception();
+                    }
+                }
+                var content = ReportAdopcion.ExcelAdopcionesRechazadas(response.Data);
+                return File(
+                    content,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "AdopcionesRechazadas.xlsx");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

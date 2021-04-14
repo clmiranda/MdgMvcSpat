@@ -28,19 +28,28 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
-            var response = await client.ExecuteAsync<Seguimiento>(request);
-            if (!response.IsSuccessful)
+            try
             {
-                switch (response.StatusCode.ToString())
+                var response = await client.ExecuteAsync<Seguimiento>(request);
+                if (!response.IsSuccessful)
                 {
-                    case "BadRequest":
-                        return BadRequest();
-                    case "NotFound":
-                        return NotFound();
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return StatusCode(400);
+                        case "NotFound":
+                            return StatusCode(404);
+                        default:
+                            throw new Exception();
+                    }
                 }
+                _seguimiento = response.Data;
+                return View(response.Data);
             }
-            _seguimiento = response.Data;
-            return View(response.Data);
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
         //[NoDirectAccess]
         //public async Task<IActionResult> EditReporte(int id = 0)
@@ -57,18 +66,27 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             //var resul = await rest.GetAsync(id, "api/Seguimiento/GetSeguimiento/" + id, HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
-            var response = await client.ExecuteAsync<Seguimiento>(request);
-            if (!response.IsSuccessful)
+            try
             {
-                switch (response.StatusCode.ToString())
+                var response = await client.ExecuteAsync<Seguimiento>(request);
+                if (!response.IsSuccessful)
                 {
-                    case "BadRequest":
-                        return BadRequest();
-                    case "NotFound":
-                        return NotFound();
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return StatusCode(400);
+                        case "NotFound":
+                            return StatusCode(404);
+                        default:
+                            throw new Exception();
+                    }
                 }
+                return View(response.Data);
             }
-            return View(response.Data);
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

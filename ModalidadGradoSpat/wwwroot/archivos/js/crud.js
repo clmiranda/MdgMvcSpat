@@ -192,13 +192,8 @@ showForm = form => {
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                        if (res.html2 != null) {
-                            $('#body-content-action').html(res.html2);
-                        }
-                        $('#body-content-view').html(res.html);
-                    //else {
-                    //    $('#body-content-action').html(res.html2);
-                    //}
+                    $('#body-content-view').html(res.html);
+                    $('#body-content-action').html(res.html2);
                 },
                 error: function (err) {
                     console.log(err);

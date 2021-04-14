@@ -30,20 +30,29 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/User/GetUser/" + id, Method.GET);
             //var user = await rest.GetAsync(1, "api/User/GetUser/" + id, HttpContext.Session.GetString("JWToken"));
-            var response = await client.ExecuteAsync<User>(request);
-            if (!response.IsSuccessful)
+            try
             {
-                switch (response.StatusCode.ToString())
+                var response = await client.ExecuteAsync<User>(request);
+                if (!response.IsSuccessful)
                 {
-                    case "BadRequest":
-                        return BadRequest();
-                    case "NotFound":
-                        return NotFound();
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return StatusCode(400);
+                        case "NotFound":
+                            return StatusCode(404);
+                        default:
+                            throw new Exception();
+                    }
                 }
+                //if (!response.IsSuccessful)
+                //    throw new Exception(response.Content);
+                return View(response.Data);
             }
-            //if (!response.IsSuccessful)
-            //    throw new Exception(response.Content);
-            return View(response.Data);
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

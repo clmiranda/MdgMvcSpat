@@ -1,14 +1,16 @@
 ﻿@model Mascota
-@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="card">
-    @if (Model == null)
-    {
+@if (Model == null)
+{
+    <div class="card">
         <div class="card-body">
             <p class="text-center">No se puede mostrar la informaci&oacute;n, la mascota no existe o el id de la denuncia es incorrecto.</p>
         </div>
-    }
-    else
-    {
+    </div>
+}
+else
+{
+    @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+    <div class="card">
         <div class="card-body">
             @if (Model.Id == 0)
             {
@@ -20,15 +22,8 @@
                 </div>
             }
             <form asp-action="AddOrEditMascota" asp-controller="Mascota" onsubmit="return showForm(this);" autocomplete="off" method="post">
-                @if (Model.Id != 0)
-                {
-                    <input type="hidden" asp-for="Id" value="@Model.Id" />
-                }
-                else
-                {
-                    <input type="hidden" asp-for="Id" value="0" />
-                }
-                <input type="hidden" asp-for="DenunciaId" />
+                <input type="hidden" asp-for="Id" value="@Model.Id"/>
+                <input type="hidden" asp-for="DenunciaId" value="@Model.DenunciaId" />
                 @*<input type="hidden" asp-for="EstadoSituacion" value="Registrado" class="form-control" />*@
                 <div class="row">
                     <div class="form-group col-md-12 mt-3 mb-3">
@@ -108,8 +103,8 @@
                 }
             </form>
         </div>
-    }
-</div>
-<script type="text/javascript" language=javascript>
-    $.validator.unobtrusive.parse(document);
-</script>
+        <script type="text/javascript" language=javascript>
+            $.validator.unobtrusive.parse(document);
+        </script>
+    </div>
+}

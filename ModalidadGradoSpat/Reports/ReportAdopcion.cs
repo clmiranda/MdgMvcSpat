@@ -42,13 +42,13 @@ namespace ModalidadGradoSpat.Reports
                     worksheet.Cell(currentRow, 5).Value = adopcion.NumeroCelular;
                     worksheet.Cell(currentRow, 6).Value = adopcion.FechaSolicitudAdopcion;
                     worksheet.Cell(currentRow, 7).Value = adopcion.Estado;
-                    worksheet.Cell(currentRow, 8).Value = adopcion.Pregunta1;
-                    worksheet.Cell(currentRow, 9).Value = adopcion.Pregunta2;
-                    worksheet.Cell(currentRow, 10).Value = adopcion.Pregunta3;
-                    worksheet.Cell(currentRow, 11).Value = adopcion.Pregunta4;
-                    worksheet.Cell(currentRow, 12).Value = adopcion.Pregunta5;
-                    worksheet.Cell(currentRow, 13).Value = adopcion.Pregunta6;
-                    worksheet.Cell(currentRow, 14).Value = adopcion.Pregunta7;
+                    worksheet.Cell(currentRow, 8).Value = adopcion.Respuesta1;
+                    worksheet.Cell(currentRow, 9).Value = adopcion.Respuesta2;
+                    worksheet.Cell(currentRow, 10).Value = adopcion.Respuesta3;
+                    worksheet.Cell(currentRow, 11).Value = adopcion.Respuesta4;
+                    worksheet.Cell(currentRow, 12).Value = adopcion.Respuesta5;
+                    worksheet.Cell(currentRow, 13).Value = adopcion.Respuesta6;
+                    worksheet.Cell(currentRow, 14).Value = adopcion.Respuesta7;
                     if (adopcion.Mascota == null)
                     {
                         worksheet.Cell(currentRow, 15).Value = "Sin datos";

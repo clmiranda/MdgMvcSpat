@@ -20,30 +20,21 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         private static RestClient client;
         private static Mascota _mascota;
         private static IEnumerable<Mascota> _listaMascota;
-        private static int? pagesize = 10; private static int? pagenumber = 1; private static string busqueda = ""; private static string filtrado = "Adopcion";
+        private static int? pagesize = 10; private static int? pagenumber = 1; private static string busqueda = "";
         public MascotaController()
         {
             client = new RestClient("https://localhost:44398/");
         }
         public async Task<IActionResult> Index()
         {
-            //var client = new RestClient(url);
-            //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             ViewData["search"] = busqueda;
-            ViewData["filter"] = filtrado;
-            //pagesize = 10; pagenumber = 1; busqueda = ""; filtrado = "Adopcion";
             var vista = await Listado();
-            //var lista = await rest.GetAsync("api/Mascota/GetAllMascotas", HttpContext.Session.GetString("JWToken"));
             return View(vista);
         }
-        public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1, string filter = "Adopcion", string search = "")
+        public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1, string search = "")
         {
-            pagesize = sizePage; pagenumber = currentPage; busqueda = search; filtrado = filter;
-            //ViewData["currentPage"] = currentPage;
-            //ViewData["itemsPerPage"] = sizePage;
-            ViewData["filter"] = filter; ViewData["search"] = search;
-            //var client = new RestClient(url);
-            //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            pagesize = sizePage; pagenumber = currentPage; busqueda = search;
+            ViewData["search"] = search;
             var vista = await Listado();
             return Json(new {html= Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista) });
         }
@@ -57,30 +48,26 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 //var modelo = await restMascota.GetAsync(id, "api/Mascota/GetMascotaDenuncia/" + id, HttpContext.Session.GetString("JWToken"));
                 //var client = new RestClient(url);
                 var response = await client.ExecuteAsync<Mascota>(request);
-                if (!response.IsSuccessful)
-                {
-                    switch (response.StatusCode.ToString())
-                    {
-                        case "BadRequest":
-                            return BadRequest();
-                        case "NotFound":
-                            return NotFound();
-                        default:
-                            throw new Exception();
-                    }
-                }
-
+                //if (!response.IsSuccessful)
+                //{
+                //    switch (response.StatusCode.ToString())
+                //    {
+                //        case "BadRequest":
+                //            return StatusCode(400);
+                //        case "NotFound":
+                //            return StatusCode(404);
+                //        default:
+                //            throw new Exception();
+                //    }
+                //}
 
                 if (response.Data != null)
-                {
                     _mascota = response.Data;
-                    return View(_mascota);
-                }
-                return View(new Mascota { DenunciaId = id });
+                return View(response.Data);
             }
             catch (Exception)
             {
-                return View(null);
+                return StatusCode(500);
             }
         }
         [HttpPost]
@@ -200,7 +187,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Estado actualizado correctamente.";
-                ViewData["filter"] = filtrado; ViewData["search"] = busqueda;
+                ViewData["search"] = busqueda;
                 var vista = await Listado();
                 return Json(new { html= Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista) });
             }
@@ -237,7 +224,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 //string mensaje = valor["mensaje"];
                 //TempData["idcaso"] = valor["idcaso"];
                 TempData["alertsuccess"] = "El fue eliminado de manera exitosa.";
-                ViewData["filter"] = filtrado; ViewData["search"] = busqueda;
+                ViewData["search"] = busqueda;
                 var vista = await Listado();
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista) });
             }
@@ -253,28 +240,49 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public async Task<IEnumerable<Mascota>> Listado()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestGet = new RestRequest("api/Mascota/GetAllMascotaAdmin", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-            var responseGet = await client.ExecuteAsync<IEnumerable<Mascota>>(requestGet);
-            var header = responseGet.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
+            var requestGet = new RestRequest("api/Mascota/GetAllMascotaAdmin", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize);
+            var response = await client.ExecuteAsync<IEnumerable<Mascota>>(requestGet);
+            if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                throw new Exception();
+            var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
             var head = JObject.Parse(header.Value.ToString());
             ViewData["currentPage"] = head["currentPage"].ToString();
             ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
             ViewData["totalItems"] = head["totalItems"].ToString();
             ViewData["totalPages"] = head["totalPages"].ToString();
-            var vista = responseGet.Data;
-            _listaMascota = responseGet.Data;
+            var vista = response.Data;
+            _listaMascota = response.Data;
             return vista;
         }
         public async Task<IActionResult> ExcelMascotas()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetAll", Method.GET);
-            var response = await client.ExecuteAsync<IEnumerable<Mascota>>(request);
-            var content = ReportMascota.ExcelMascotas(response.Data);
-            return File(
-                content,
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "Mascotas.xlsx");
+            try
+            {
+                var response = await client.ExecuteAsync<IEnumerable<Mascota>>(request);
+                if (!response.IsSuccessful)
+                {
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return StatusCode(400);
+                        case "NotFound":
+                            return StatusCode(404);
+                        default:
+                            throw new Exception();
+                    }
+                }
+                var content = ReportMascota.ExcelMascotas(response.Data);
+                return File(
+                    content,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "Mascotas.xlsx");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

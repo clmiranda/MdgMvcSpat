@@ -7,23 +7,7 @@
         border-radius: .55rem !important
     }
 </style>
-@*<script src="~/archivos/js/iniciaDatatable.js"></script>*@
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-    @*@if (Model.Item2.Estado.Equals("Pendiente"))
-        {
-            <div class="col-12 alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>
-                    Se ha enviado la solicitud de asignacion al Voluntario @Model.Item2.User.Nombres @Model.Item2.User.Apellidos,
-                    mientras la asignaci&oacute;n del Seguimiento se encuentre pendiente, no podr&aacute;a asignar a otro Voluntario.
-                </strong>
-            </div>
-        }
-        else if (Model.Item2.Estado.Equals("Asignado"))
-        {
-            <div class="col-12 alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>El seguimiento actual se encuentra asignado al Voluntario @Model.Item2.User.Nombres @Model.Item2.User.Apellidos</strong>
-            </div>
-        }*@
     <div class="mx-auto mb-3">
             <div class="card rounded text-center">
                 <div class="card-header">
@@ -49,7 +33,7 @@
                             @if (Model.Item2.Estado.Equals("Pendiente") && item.Id == Model.Item2.UserId)
                             {
                                 <h5>
-                                    <span class="badge badge-pill p-2 badge-warning">
+                                    <span class="badge badge-pill p-1 badge-warning">
                                         Solicitud Pendiente
                                     </span>
                                 </h5>
@@ -57,7 +41,7 @@
                             else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
                             {
                                 <h5>
-                                    <span class="badge badge-pill p-2 badge-primary">
+                                    <span class="badge badge-pill p-1 badge-primary">
                                         Voluntario Asignado
                                     </span>
                                 </h5>
@@ -82,9 +66,11 @@
                                 </p>
                             </div>
                             <div class="col">
-                                @if (Model.Item2.Estado.Equals("Pendiente"))
+                                @if (Model.Item2.Estado.Equals("Pendiente") && item.Id == Model.Item2.UserId)
                                 {
-                                    <button type="submit" class="btn btn-success" disabled><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
+                                    <form asp-action="RemoveVoluntarioPendiente" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
+                                        <button type="submit" class="btn btn-warning"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
+                                    </form>
                                 }
                                 else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
                                 {
@@ -93,7 +79,7 @@
                                         <button type="submit" class="btn btn-danger"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
                                     </form>
                                 }
-                                else
+                                else if(Model.Item2.Estado.Equals("Activo"))
                                 {
                                     <form asp-action="CheckAsignar" asp-route-idUser="@item.Id" method="post" onsubmit="return checkVoluntario(this);">
                                         <button type="submit" class="btn btn-success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
@@ -141,7 +127,44 @@
         try {
             Swal.fire({
                 title: '¿Estás seguro de desvincular al usuario de este seguimiento?',
-                text: "El seguimiento actual se desvinculara del usuario seleccionado.",
+                text: "El seguimiento actual se desvinculará del usuario seleccionado.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.action,
+                        data: new FormData(form),
+                        contentType: false,
+                        processData: false,
+                        success: function (res) {
+                            $('#view-all').html(res.html);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            window.location.href = "/Home/Error";
+                        })
+                    return false;
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    };
+    removePendiente = form => {
+        event.preventDefault();
+        try {
+            Swal.fire({
+                title: '¿Estás seguro de cancelar la solicitud pendiente de seguimiento a este usuario?',
+                text: "El seguimiento actual estará activo nuevamente para ser asignado.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

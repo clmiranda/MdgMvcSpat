@@ -94,40 +94,56 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
-            var response = await client.ExecuteAsync<Seguimiento>(request);
-            if (!response.IsSuccessful)
+            try
             {
-                switch (response.StatusCode.ToString())
+                var response = await client.ExecuteAsync<Seguimiento>(request);
+                if (!response.IsSuccessful)
                 {
-                    case "BadRequest":
-                        return BadRequest();
-                    case "NotFound":
-                        return NotFound();
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return StatusCode(400);
+                        case "NotFound":
+                            return StatusCode(404);
+                        default:
+                            throw new Exception();
+                    }
                 }
+                //if (response == null)
+                //    return NotFound();
+                return View(response.Data);
             }
-            //if (response == null)
-            //    return NotFound();
-            return View(response.Data);
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         public async Task<IActionResult> DetalleSeguimiento(int id)
         {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ContratoAdopcion/DetailAdopcion/" + id, Method.GET);
-                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
-            if (!response.IsSuccessful)
+            try
             {
-                switch (response.StatusCode.ToString())
+                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                if (!response.IsSuccessful)
                 {
-                    case "BadRequest":
-                        return BadRequest();
-                    case "NotFound":
-                        return NotFound();
-                    default:
-                        throw new Exception();
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return BadRequest();
+                        case "NotFound":
+                            return NotFound();
+                        default:
+                            throw new Exception();
+                    }
                 }
+                return View(response.Data);
             }
-            return View(response.Data);
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
@@ -184,20 +200,27 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             //var modelo = await restReporte.GetAsync(id, "api/ReporteSeguimiento/" + id + "/GetById/", HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ReporteSeguimiento/GetById/" + id, Method.GET);
-            var response = await client.ExecuteAsync<ReporteSeguimiento>(request);
-            if (!response.IsSuccessful)
+            try
             {
-                switch (response.StatusCode.ToString())
+                var response = await client.ExecuteAsync<ReporteSeguimiento>(request);
+                if (!response.IsSuccessful)
                 {
-                    case "BadRequest":
-                        return BadRequest();
-                    case "NotFound":
-                        return NotFound();
-                    default:
-                        throw new Exception();
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return BadRequest();
+                        case "NotFound":
+                            return NotFound();
+                        default:
+                            throw new Exception();
+                    }
                 }
+                return View(response.Data);
             }
-            return View(response.Data);
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
 
@@ -205,14 +228,16 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimiento", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-            var responseGet = await client.ExecuteAsync<IEnumerable<Seguimiento>>(requestGet);
-            var header = responseGet.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
+            var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(requestGet);
+            if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                throw new Exception();
+            var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
             var head = JObject.Parse(header.Value.ToString());
             ViewData["currentPage"] = head["currentPage"].ToString();
             ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
             ViewData["totalItems"] = head["totalItems"].ToString();
             ViewData["totalPages"] = head["totalPages"].ToString();
-            var vista = responseGet.Data;
+            var vista = response.Data;
             _listaSeg = vista;
             return vista;
         }

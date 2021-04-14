@@ -64,18 +64,27 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 //var modelo = await rest2.GetAsync(id, "api/Denuncia/GetDenuncia/" + id, HttpContext.Session.GetString("JWToken"));
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Denuncia/GetDenuncia/" + id, Method.GET);
-                var response = await client.ExecuteAsync<Denuncia>(request);
-                if (!response.IsSuccessful)
+                try
                 {
-                    switch (response.StatusCode.ToString())
+                    var response = await client.ExecuteAsync<Denuncia>(request);
+                    if (!response.IsSuccessful)
                     {
-                        case "BadRequest":
-                            return BadRequest();
-                        case "NotFound":
-                            return NotFound();
+                        switch (response.StatusCode.ToString())
+                        {
+                            case "BadRequest":
+                                return StatusCode(400);
+                            case "NotFound":
+                                return StatusCode(404);
+                            default:
+                                throw new Exception();
+                        }
                     }
+                    return View(response.Data);
                 }
-                return View(response.Data);
+                catch (Exception)
+                {
+                    return StatusCode(500);
+                }
             }
         }
         [HttpPost]
@@ -165,28 +174,49 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         }
         public async Task<IEnumerable<Denuncia>> Listado()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestGet = new RestRequest("api/Denuncia/GetAllDenuncias", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", sizepage);
-            var responseGet = await client.ExecuteAsync<IEnumerable<Denuncia>>(requestGet);
-            var header = responseGet.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
-            var head = JObject.Parse(header.Value.ToString());
-            ViewData["currentPage"] = head["currentPage"].ToString();
-            ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
-            ViewData["totalItems"] = head["totalItems"].ToString();
-            ViewData["totalPages"] = head["totalPages"].ToString();
-            var vista = responseGet.Data;
-            return vista;
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var requestGet = new RestRequest("api/Denuncia/GetAllDenuncias", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", sizepage);
+                var response = await client.ExecuteAsync<IEnumerable<Denuncia>>(requestGet);
+                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                    throw new Exception();
+                var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
+                var head = JObject.Parse(header.Value.ToString());
+                ViewData["currentPage"] = head["currentPage"].ToString();
+                ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
+                ViewData["totalItems"] = head["totalItems"].ToString();
+                ViewData["totalPages"] = head["totalPages"].ToString();
+                var vista = response.Data;
+                return vista;
         }
         public async Task<IActionResult> ExcelDenuncias()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Denuncia/GetAll", Method.GET);
-            var response = await client.ExecuteAsync<IEnumerable<Denuncia>>(request);
-            var content = ReportDenuncia.ExcelDenuncias(response.Data);
-            return File(
-                        content,
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "Denuncias.xlsx");
+            try
+            {
+                var response = await client.ExecuteAsync<IEnumerable<Denuncia>>(request);
+                if (!response.IsSuccessful)
+                {
+                    switch (response.StatusCode.ToString())
+                    {
+                        case "BadRequest":
+                            return StatusCode(400);
+                        case "NotFound":
+                            return StatusCode(404);
+                        default:
+                            throw new Exception();
+                    }
+                }
+                var content = ReportDenuncia.ExcelDenuncias(response.Data);
+                return File(
+                            content,
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "Denuncias.xlsx");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
