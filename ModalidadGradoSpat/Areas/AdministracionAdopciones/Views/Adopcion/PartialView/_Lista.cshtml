@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<ContratoAdopcion>
-    <style>
-        tr.hiddentablerow td {
-            padding: 0;
-        }
-    </style>
+<style>
+    tr.hiddentablerow td {
+        padding: 0;
+    }
+</style>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <div class="row">
-    <form class="form-inline formulario" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
-        @*<input type="hidden" name="pageNumber" value="@ViewData["page"]" />*@
-        @*<input type="hidden" name="search" value="@ViewData["search"]" />*@
+    <form class="form-inline" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
         <div class="form-group mr-sm-3 mr-md-5">
             Filtro: <select name="filter" class="form-control dropdown-toggle">
                 @if (ViewData["filter"].ToString().Equals("Aprobado"))
@@ -49,7 +50,6 @@
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
                 }
                 else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
                 {
@@ -57,7 +57,6 @@
                     <option value="10" selected>10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
                 }
                 else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
                 {
@@ -65,7 +64,6 @@
                     <option value="10">10</option>
                     <option value="20" selected>20</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
                 }
                 else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
                 {
@@ -73,29 +71,23 @@
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50" selected>50</option>
-                    <option value="100">100</option>
-                }
-                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
-                {
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100" selected>100</option>
                 }
             </select>
-            <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
+            <div class="form-group">
+                <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
+            </div>
         </div>
     </form>
     <form asp-action="ExcelContrato">
-        <button role="button" type="submit" class="btn btn-primary btn-lg mr-3">Excel Contratos</button>
+        <button role="button" type="submit" class="btn btn-primary mr-3">Excel Contratos</button>
     </form>
     <form asp-action="ExcelContratoRechazoCancelado">
-        <button role="button" type="submit" class="btn btn-primary btn-lg mr-3">Excel Contratos Rechazados</button>
+        <button role="button" type="submit" class="btn btn-primary mr-3">Excel Contratos Rechazados</button>
     </form>
+    <button type="button" onclick="location.href='@Url.Action("Adopciones","Graficas",new { area="AdministracionSeguimientos"})'" class="btn btn-primary mr-3">Gr&aacute;ficas</button>
 </div>
 <div class="table-responsive mt-sm-3 mt-md-5">
-    <table id="tableAdminContratos" class="table table-bordered" style="width:100%">
+    <table id="tableAdminContratos" class="table table-bordered">
         <thead>
             <tr>
                 <th></th>
@@ -140,7 +132,7 @@
                                 <form method="post" asp-action="UpdateFecha" onsubmit="return false;">
                                     <input type="hidden" name="Id" value="@item.Id" />
                                     <div class="input-group">
-                                        <input id="datePicker-@item.Id" class="form-control" type="text" data-toggle="datepicker" name="FechaAdopcion" value="@item.FechaAdopcion.ToShortDateString()" readonly />
+                                        <input id="datePicker-@item.Id" class="form-control" type="text" data-toggle="datepicker" name="FechaAdopcion" value="@item.FechaAdopcion.Date.ToShortDateString()" readonly />
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-primary">
                                                 <i class="fas fa-calendar-alt"></i>
@@ -265,10 +257,28 @@
     </form>
 </nav>
 <script>
-    $('[data-toggle="datepicker"]').datepicker({
-        format: "dd/MM/yyyy",
-        language: "es-ES",
-        autoHide: "true"
+    $(document).ready(function () {
+        var url = "/archivos/js/daterangepicker.js";
+        $.getScript(url);
+        $('[data-toggle="datepicker"]').on('change', function () {
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: this.form.action,
+                    data: new FormData(this.form),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        $('#view-all').html(res.html);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            } catch (e) {
+                console.log(e);
+            }
+        })
     });
 
     function GetValueButton(val) {
@@ -289,25 +299,6 @@
     //        $(this).find('i').toggleClass('fa fa-plus-square fa fa-minus-square');
     //    });
     //});
-    $('[data-toggle="datepicker"]').on('change', function () {
-        try {
-            $.ajax({
-                type: "POST",
-                url: this.form.action,
-                data: new FormData(this.form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    $('#view-all').html(res.html);
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
-        } catch (e) {
-            console.log(e);
-        }
-    })
     $('select').on('change', function () {
         try {
             $.ajax({
@@ -327,4 +318,24 @@
             console.log(e);
         }
     });
+    send = form => {
+        try {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#view-all').html(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+            return false;
+        } catch (e) {
+            console.log(e);
+        }
+    };
 </script>

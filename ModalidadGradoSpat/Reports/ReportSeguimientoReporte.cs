@@ -70,7 +70,7 @@ namespace ModalidadGradoSpat.Reports
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = reporte.Id;
-                    worksheet.Cell(currentRow, 2).Value = reporte.EstadoMascota;
+                    worksheet.Cell(currentRow, 2).Value = reporte.EstadoHogarMascota;
                     worksheet.Cell(currentRow, 3).Value = reporte.Observaciones;
                     worksheet.Cell(currentRow, 4).Value = reporte.Fecha;
                     worksheet.Cell(currentRow, 5).Value = reporte.Estado;

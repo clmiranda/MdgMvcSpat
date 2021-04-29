@@ -1,0 +1,109 @@
+﻿@model List<DATA.DTOs.Graficas.DataGraficaDto>
+@{
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Nombre).ToList());
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Cantidad.ToString()).ToList());
+}
+<style>
+    @@media (max-width: 767px) {
+        .chart-container {
+            height: 300px;
+        }
+    }
+
+    @@media (min-width: 768px) {
+        .chart-container {
+            height: 600px;
+        }
+    }
+</style>
+
+<form method="post" asp-action="ReturnVistaReporteSeguimientos">
+    <select class="form-control" name="filtrado">
+        @if (ViewData["filter"].Equals("3 meses"))
+        {
+            <option value="3 meses" selected>&Uacute;ltimos 3 meses</option>
+            <option value="6 meses">&Uacute;ltimos 6 meses</option>
+            <option value="9 meses">&Uacute;ltimos 9 meses</option>
+            <option value="12 meses">&Uacute;ltimos 12 meses</option>
+        }
+        else @if (ViewData["filter"].Equals("6 meses"))
+   {
+    <option value="3 meses">&Uacute;ltimos 3 meses</option>
+    <option value="6 meses" selected>&Uacute;ltimos 6 meses</option>
+    <option value="9 meses">&Uacute;ltimos 9 meses</option>
+    <option value="12 meses">&Uacute;ltimos 12 meses</option>
+}
+else @if (ViewData["filter"].Equals("9 meses"))
+       {
+        <option value="3 meses">&Uacute;ltimos 3 meses</option>
+        <option value="6 meses">&Uacute;ltimos 6 meses</option>
+        <option value="9 meses" selected>&Uacute;ltimos 9 meses</option>
+        <option value="12 meses">&Uacute;ltimos 12 meses</option>
+    }
+    else @if (ViewData["filter"].Equals("12 meses"))
+   {
+    <option value="3 meses">&Uacute;ltimos 3 meses</option>
+    <option value="6 meses">&Uacute;ltimos 3 meses</option>
+    <option value="9 meses">&Uacute;ltimos 6 meses</option>
+    <option value="12 meses" selected>&Uacute;ltimos 12 meses</option>
+}
+    </select>
+</form>
+<div class="card box-body">
+    <div class="chart-container">
+        <canvas id="chart" style="width:100%;"></canvas>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+    $('select').on('change', function () {
+        try {
+            $.ajax({
+                type: "POST",
+                url: this.form.action,
+                data: new FormData(this.form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#contenido').html(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    });
+    $(function () {
+        var chartName = "chart";
+        var ctx = document.getElementById(chartName).getContext('2d');
+        var speedData = {
+            labels: @Html.Raw(XLabels),
+            datasets: [{
+                label: "Registros por Mes",
+                data: @Html.Raw(YValues),
+                borderWidth: 5,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)'
+            }]
+        };
+
+        var chartOptions = {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                    boxWidth: 80,
+                    fontColor: 'red'
+                }
+            }
+        };
+
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: speedData,
+            options: chartOptions
+        });
+    });
+</script>

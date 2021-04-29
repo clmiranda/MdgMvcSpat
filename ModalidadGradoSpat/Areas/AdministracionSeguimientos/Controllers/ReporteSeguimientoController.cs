@@ -90,7 +90,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveSeguimiento(Seguimiento modelo)
+        public async Task<IActionResult> UpdateFechaSeguimiento(Seguimiento modelo)
         {
             if (ModelState.IsValid)
             {
@@ -119,11 +119,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveFecha(ReporteSeguimiento modelo)
+        public async Task<IActionResult> UpdateFechaReporte(ReporteSeguimiento modelo)
         {
             ModelState.Clear();
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ReporteSeguimiento/SaveReporteSeguimientoAdmin", Method.PUT).AddJsonBody(modelo);
+            var request = new RestRequest("api/ReporteSeguimiento/UpdateFecha/", Method.PUT).AddJsonBody(modelo);
             try
             {
                 //var resul = await restReporte.PutAsync(modelo, "api/ReporteSeguimiento/SaveReporteSeguimientoAdmin");

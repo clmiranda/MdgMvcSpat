@@ -14,7 +14,6 @@
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
                 }
                 else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
                 {
@@ -22,7 +21,6 @@
                     <option value="10" selected>10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
                 }
                 else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
                 {
@@ -30,7 +28,6 @@
                     <option value="10">10</option>
                     <option value="20" selected>20</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
                 }
                 else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
                 {
@@ -40,20 +37,11 @@
                     <option value="50" selected>50</option>
                     <option value="100">100</option>
                 }
-                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
-                {
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100" selected>100</option>
-                }
             </select>
-            @*</form>*@
         </div>
         <div class="form-group">
             <input autocomplete="off" type="text" class="form-control" name="search" value="@ViewData["search"]">
-            <button id="buscar" type="submit" class="btn btn-primary mr-sm-5">Buscar</button>
+            <button id="buscar" type="submit" class="btn btn-primary mr-sm-5" disabled>Buscar</button>
             <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
         </div>
     </form>
@@ -67,12 +55,12 @@
             <tr>
                 <th>Id</th>
                 <th>Titulo Denuncia de Mascota</th>
-                @*<th>Titulo Caso de Mascota</th>*@
                 <th>Nombre de Mascota</th>
                 <th>Cambio de Estado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
-        <tbody id="tbodySituacionMascota">
+        <tbody id="tbodyMascotas">
             @if (Model.Count() <= 0)
             {
                 <tr>
@@ -94,25 +82,25 @@
                             @item.Nombre
                         </td>
                         <td width="25%">
-                            @if (item.EstadoSituacion.ToUpper().Equals("ADOPTADA"))
+                            @if (item.Estado.ToUpper().Equals("ADOPTADA"))
                             {
                                 <p><strong>La mascota ya fue adoptada.</strong></p>
                             }
-                            else if (item.EstadoSituacion.ToUpper().Equals("EN PROCESO"))
+                            else if (item.Estado.ToUpper().Equals("EN PROCESO"))
                             {
                                 <p><strong>La mascota se encuentra en proceso de adopci&oacute;n.</strong></p>
                             }
                             else
                             {
                                 <form asp-action="CambiarEstado" asp-route-id="@item.Id">
-                                    @if (item.EstadoSituacion.ToUpper().Equals("ACTIVO"))
+                                    @if (item.Estado.ToUpper().Equals("ACTIVO"))
                                     {
                                         <select name="estado" class="form-control d-inline" @*onchange="return showChangedState()"*@>
                                             <option value="Activo" selected>Activo</option>
                                             <option value="Inactivo">Inactivo</option>
                                         </select>
                                     }
-                                    else if (item.EstadoSituacion.ToUpper().Equals("INACTIVO"))
+                                    else if (item.Estado.ToUpper().Equals("INACTIVO"))
                                     {
                                         <select name="estado" class="form-control d-inline" @*onchange="return showChangedState()"*@>
                                             <option value="Activo">Activo</option>
@@ -122,6 +110,9 @@
                                 </form>
                             }
                         </td>
+                        <td width="10px">
+                            <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Lista","ReporteTratamiento", new {id=item.Id, area="AdministracionMascotas"})'"><i class="fas fa-list"></i></button>
+                        </td>
                     </tr>
                 }
             }
@@ -130,9 +121,9 @@
             <tr>
                 <th>Id</th>
                 <th>Titulo Denuncia de Mascota</th>
-                @*<th>Titulo Caso de Mascota</th>*@
                 <th>Nombre de Mascota</th>
                 <th>Cambio de Estado</th>
+                <th>Acciones</th>
             </tr>
         </tfoot>
     </table>
@@ -209,9 +200,6 @@
         $("input[name='search']").val("");
     });
     $(document).ready(function () {
-        if ($('.formulario input').val() == "") {
-            $('#buscar').prop('disabled', true);
-        }
         $('.formulario input').keyup(function () {
             $('#buscar').prop('disabled', this.value == "" ? true : false);
         })
@@ -225,7 +213,7 @@
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                        $('#view-all').html(res.html);
+                    $('#view-all').html(res.html);
                     //$('#example').DataTable().draw();
                 },
                 error: function (err) {

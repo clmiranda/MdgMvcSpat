@@ -58,6 +58,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateUser(User user)
         {
+            ModelState.Clear();
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));

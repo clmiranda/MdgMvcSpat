@@ -8,7 +8,6 @@
     }
 </style>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-
 <form asp-action="PostUsuario" method="post" autocomplete="off" onsubmit="return jQueryAjaxPost(this);">
     <div class="form-row">
         <div class="form-group col-md-6">
@@ -59,7 +58,7 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="idFechaNac">Fecha de Nacimiento</label>
-            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" data-toggle="datepicker" asp-for="FechaNacimiento" name="FechaNacimiento" id="idFechaNac" placeholder="Ingresa la Fecha de Nacimiento" readonly>
+            <input type="text" class="form-control" value="@DateTime.Now.Date.ToShortDateString()" data-toggle="datepicker" asp-for="FechaNacimiento" name="FechaNacimiento" id="idFechaNac" placeholder="Ingresa la Fecha de Nacimiento" readonly>
             @Html.ValidationMessageFor(x => x.FechaNacimiento, "", new { @class = "text-danger" })
         </div>
         <div class="form-group col-md-6">
@@ -92,6 +91,8 @@
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
 
+    var url = "/archivos/js/daterangepicker.js";
+    $.getScript(url);
     var togglePassword = document.querySelector('.fa-eye');
     var password = document.querySelector('#idPassword');
     togglePassword.addEventListener('click', function (e) {
@@ -127,10 +128,4 @@
             return false;
         return true;
     }
-    $('[data-toggle="datepicker"]').datepicker({
-        format: "dd/MM/yyyy",
-        language: "es-ES",
-        autoHide: "true",
-        zIndex: 2048
-    });
 </script>

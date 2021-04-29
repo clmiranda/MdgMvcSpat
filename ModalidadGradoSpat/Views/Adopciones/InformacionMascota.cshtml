@@ -103,52 +103,116 @@ else
         <div class="card rounded col-sm-12 col-lg-3">
             <div class="card-body">
                 <button id="btnAdoptar" onclick="location.href='@Url.Action("ContratoAdopcion","Adopciones",new { id=Model.Id, area=""},Context.Request.Scheme)'" type="button" class="btn btn-primary btn-block rounded-pill"><i class="fa fa-paw fa-2x" aria-hidden="true"></i>Quiero Adoptar</button>
-                @if (Model.EstadoSituacion == "Inactivo")
+                @if (Model.Estado == "Inactivo")
                 {
                     <div class="alert alert-warning mt-5" role="alert">
                         <p class="text-center">La mascota actualmente no est&aacute; en adopci&oacute;n.</p>
                     </div>
                 }
-                else if (Model.EstadoSituacion == "Adoptada")
+                else if (Model.Estado == "Adoptada")
                 {
                     <div class="alert alert-warning mt-5" role="alert">
                         <p class="text-center">La mascota ha sido adoptada.</p>
                     </div>
                 }
-                else if (Model.EstadoSituacion == "En Proceso")
+                else if (Model.Estado == "En Proceso")
                 {
                     <div class="alert alert-warning mt-5" role="alert">
                         <p class="text-center">La mascota se encuentra en un proceso de adopci&oacute;n.</p>
                     </div>
                 }
-                @*else if (Model.ContratoAdopcion != null)
-        {
-            @if (Model.ContratoAdopcion.Estado.Equals("Pendiente"))
-            {
-                <div class="alert alert-warning mt-5" role="alert">
-                    <p class="text-center">La mascota actualmente se encuentra en un proceso de adopcion.</p>
-                </div>
-            }
-            else if (Model.ContratoAdopcion.Estado.Equals("Aprobado"))
-            {
-                <div class="alert alert-warning mt-5" role="alert">
-                    <p class="text-center">La mascota ha sido adoptada.</p>
-                </div>
-            }
-            <script>
-                $("#btnAdoptar").prop('disabled', false);
-            </script>
-        }*@
             </div>
         </div>
     </div>
     <script type="text/javascript">
         $('.carousel').carousel();
-        @if (Model.EstadoSituacion.Equals("Inactivo")||Model.EstadoSituacion.Equals("Adoptada")|| Model.EstadoSituacion.Equals("En Proceso"))
+        @if (Model.Estado.Equals("Inactivo")||Model.Estado.Equals("Adoptada")|| Model.Estado.Equals("En Proceso"))
         {
         <text>
         $("#btnAdoptar").prop('disabled', true);
         </text>
         }
     </script>
+    @if (Model.ReporteTratamientos.Count() > 0)
+    {
+        <style>
+            ul.timeline {
+                list-style-type: none;
+                position: relative;
+                padding-left: 1.5rem;
+            }
+
+                /* Timeline vertical line */
+                ul.timeline:before {
+                    content: ' ';
+                    background: #ddd;
+                    display: inline-block;
+                    position: absolute;
+                    left: 16px;
+                    width: 4px;
+                    height: 100%;
+                    z-index: 400;
+                    border-radius: 1rem;
+                }
+
+            li.timeline-item {
+                margin: 20px 0;
+            }
+
+            /* Timeline item arrow */
+            .timeline-arrow {
+                border-top: 0.5rem solid transparent;
+                border-right: 0.5rem solid #ddd;
+                border-bottom: 0.5rem solid transparent;
+                display: block;
+                position: absolute;
+                left: 2rem;
+            }
+
+            /* Timeline item circle marker */
+            li.timeline-item::before {
+                content: ' ';
+                background: #00ff21;
+                display: inline-block;
+                position: absolute;
+                border-radius: 50%;
+                border: 3px solid #ddd;
+                left: 11px;
+                width: 14px;
+                height: 14px;
+                z-index: 400;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            }
+        </style>
+        <div class="row">
+            <div class="col-lg-7 mx-auto">
+
+                <!-- Timeline -->
+                <ul class="timeline">
+                    @foreach (var item in Model.ReporteTratamientos)
+                    {
+                        <li class="timeline-item bg-white rounded ml-3 p-4 shadow">
+                            <div class="timeline-arrow"></div>
+                            <div class="d-flex justify-content-between">
+                                <p class="text-primary">@item.Titulo</p>
+                                <p class="float-right text-primary">@item.FechaCreacion.ToShortDateString()</p>
+                            </div>
+                            <p class="mt-4">@item.Descripcion</p>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">
+                    No existen reportes de tratamiento creados para esta mascota.
+                </p>
+            </div>
+        </div>
+    }
 }

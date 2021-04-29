@@ -84,10 +84,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckAsignar(int idUser)
+        public async Task<IActionResult> AsignarSeguimiento(int idUser)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/CheckAsignar/" + idUser, Method.PUT);
+            var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/AsignarSeguimiento/" + idUser, Method.PUT);
             try
             {
                 //var resul = await restVoluntario.PutAsync("api/Seguimiento/" + idSeguimiento + "/User/" + idUser);
@@ -110,10 +110,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveVoluntarioChecked(int idUser)
+        public async Task<IActionResult> QuitarAsignacion(int idUser)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestUserVolun = new RestRequest("api/Seguimiento/"+ idSeguimiento + "/RemoveVoluntarioChecked/" + idUser, Method.PUT);
+            var requestUserVolun = new RestRequest("api/Seguimiento/"+ idSeguimiento + "/QuitarAsignacion/" + idUser, Method.PUT);
             try
             {
                 //var resul = await restVoluntario.PutAsync("api/Seguimiento/" + idSeguimiento + "/User/" + idUser);
@@ -136,10 +136,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveVoluntarioPendiente(int idUser)
+        public async Task<IActionResult> CancelarAsignacion(int idUser)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/RemoveVoluntarioPendiente/" + idUser, Method.PUT);
+            var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/QuitarAsignacion/" + idUser, Method.PUT);
             try
             {
                 var responseUser = await client.ExecuteAsync<IEnumerable<User>>(requestUserVolun);

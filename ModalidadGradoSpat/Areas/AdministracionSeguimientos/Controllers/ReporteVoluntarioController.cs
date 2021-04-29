@@ -40,13 +40,12 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Asignar(int id)
+        public async Task<IActionResult> Aceptar(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/"+id+ "/AsignarSeguimiento", Method.POST);
+            var request = new RestRequest("api/Seguimiento/"+id+ "/AceptarSeguimientoVoluntario", Method.POST);
             try
             {
-                //var resul = await rest.PostAsync("api/Seguimiento/" + id + "/AsignarSeguimiento/", HttpContext.Session.GetString("JWToken"));
                 var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
@@ -69,10 +68,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         public async Task<IActionResult> Rechazar(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/" + id + "/RechazarSeguimiento", Method.POST);
+            var request = new RestRequest("api/Seguimiento/" + id + "/RechazarSeguimientoVoluntario", Method.POST);
             try
             {
-                //var resul = await rest.PostAsync("api/Seguimiento/" + id + "/AsignarSeguimiento/", HttpContext.Session.GetString("JWToken"));
                 var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
@@ -93,7 +91,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         public async Task<IActionResult> Detalle(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
+            var request = new RestRequest("api/Seguimiento/GetSeguimientoForVoluntario/" + id, Method.GET);
             try
             {
                 var response = await client.ExecuteAsync<Seguimiento>(request);
@@ -153,30 +151,22 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                //var request = new RestRequest("api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario", Method.PUT).AddJsonBody(reporteSeguimiento);
-                var request = new RestRequest("api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario", Method.PUT)./*AddJsonBody(reporte)*/AddParameter("Id", reporte.Id).AddParameter("SeguimientoId", reporte.SeguimientoId).AddParameter("EstadoMascota", reporte.EstadoMascota).AddParameter("Observaciones", reporte.Observaciones);
+                var request = new RestRequest("api/ReporteSeguimiento/SendReporte", Method.PUT).AddParameter("Id", reporte.Id).AddParameter("SeguimientoId", reporte.SeguimientoId).AddParameter("EstadoHogarMascota", reporte.EstadoHogarMascota).AddParameter("Observaciones", reporte.Observaciones);
                 using (var stream = new MemoryStream())
                 {
-                    //reporteSeguimiento.Foto.CopyTo(stream);
-                    //var r = stream.ToArray();
                     request.Files.Add(new FileParameter
                     {
                         Name = "Foto",
                         Writer = (s) => {
-                            //var stream = input(imageObject);
                             Foto.CopyTo(s);
-                            //stream.Dispose();
                         },
                         FileName = Foto.FileName,
                         ContentType = Foto.ContentType,
                         ContentLength = Foto.Length
                     });
-                    //request.AddHeader("content-type", "multipart/form-data");
                 }
                 try
                 {
-                    //var resul = await restReporte.PutAsync(reporteSeguimiento, "api/ReporteSeguimiento/UpdateReporteSeguimientoVoluntario");
-                    //request.AddFile(reporteSeguimiento.Foto.Name, reporteSeguimiento.Foto.FileName);
                     var response = await client.ExecuteAsync<Seguimiento>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
