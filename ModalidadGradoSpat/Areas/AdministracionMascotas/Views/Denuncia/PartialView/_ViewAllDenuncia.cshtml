@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<Denuncia>
-@{
-    Layout = null;
-}
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="container-fluid">
     <div class="form-row">
         <form class="form-inline formulario" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
             @*<input type="hidden" name="currentPage" value="@ViewData["currentPage"]" />*@
@@ -56,7 +52,7 @@
             </div>
             <div class="form-group">
                 <input autocomplete="off" type="text" class="form-control mr-md-3" name="search" value="@ViewData["search"]">
-                <button id="buscar" type="submit" class="btn btn-primary mr-sm-3">Buscar</button>
+                <button id="buscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
                 <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
             </div>
         </form>
@@ -136,7 +132,6 @@
             </tfoot>
         </table>
     </div>
-</div>
 <!-- pager -->
 <nav class="table-responsive">
     <form asp-action="ReturnVista" method="post" onsubmit="return send(this);">
@@ -209,9 +204,6 @@
         $("input[name='search']").val("");
     });
     $(document).ready(function () {
-        if ($('.formulario input').val() == "") {
-            $('#buscar').prop('disabled', true);
-        }
         $('.formulario input').keyup(function () {
             $('#buscar').prop('disabled', this.value == "" ? true : false);
         })

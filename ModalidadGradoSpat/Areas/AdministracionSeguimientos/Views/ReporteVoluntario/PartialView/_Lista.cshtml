@@ -8,8 +8,8 @@
     }
 </style>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="row my-3">
-    <form class="form-inline formulario" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
+<div class="d-md-flex justify-content-md-between my-3">
+    <form class="form-inline" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
         <div class="form-group mr-sm-3 mr-md-5">
             Filtro: <select name="filter" class="form-control dropdown-toggle">
                 @if (ViewData["filter"].ToString().Equals("Asignado"))
@@ -101,7 +101,7 @@
                         <td>
                             @if (item.Estado.Equals("Pendiente"))
                             {
-                                <form id="asignar-@item.Id" asp-action="Asignar" asp-route-id="@item.Id" method="post" onsubmit="return jQueryAjaxPostList(this);">
+                                <form id="asignar-@item.Id" asp-action="Aceptar" asp-route-id="@item.Id" method="post" onsubmit="return jQueryAjaxPostList(this);">
                                     <button type="submit" class="btn btn-primary">Aceptar</button>
                                 </form>
                                 <form id="rechazar-@item.Id" asp-action="Rechazar" asp-route-id="@item.Id" method="post" onsubmit="return jQueryAjaxPostList(this);">

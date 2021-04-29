@@ -1,5 +1,8 @@
 ﻿@model User
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <form method="post" asp-action="UpdateUser" onsubmit="return showFormAux(this);" autocomplete="off">
     <input type="hidden" asp-for="Id" value="@Model.Id" />
     <div class="form-group">
@@ -48,12 +51,12 @@
             @if (Model.FechaNacimiento.ToShortDateString().Equals("01/01/0001"))
             {
                 <label for="idUserFechaNac">Fecha de Nacimiento</label>
-                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@DateTime.Now.ToShortDateString()" id="idUserFechaNac" readonly>
+                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@DateTime.Now.Date.ToShortDateString()" id="idUserFechaNac" readonly>
             }
             else
             {
                 <label for="idUserFechaNac">Fecha de Nacimiento (@Model.Edad a&ntilde;os)</label>
-                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@Model.FechaNacimiento.ToShortDateString()" id="idUserFechaNac" readonly>
+                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@Model.FechaNacimiento.Date.ToShortDateString()" id="idUserFechaNac" readonly>
             }
         </div>
     </div>
@@ -61,12 +64,8 @@
 </form>
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-
-    $('[data-toggle="datepicker"]').datepicker({
-        format: "dd/MM/yyyy",
-        language: "es-ES",
-        autoHide: "true"
-    });
+    var url = "/archivos/js/daterangepicker.js";
+    $.getScript(url);
     function isNumber(evt) {
         var iKeyCode = (evt.which) ? evt.which : evt.keyCode
         if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))

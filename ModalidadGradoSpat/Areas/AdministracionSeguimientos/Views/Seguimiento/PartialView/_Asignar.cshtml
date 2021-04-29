@@ -68,20 +68,20 @@
                             <div class="col">
                                 @if (Model.Item2.Estado.Equals("Pendiente") && item.Id == Model.Item2.UserId)
                                 {
-                                    <form asp-action="RemoveVoluntarioPendiente" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
+                                    <form asp-action="CancelarAsignacion" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
                                         <button type="submit" class="btn btn-warning"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
                                     </form>
                                 }
                                 else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
                                 {
                                     @*<button type="submit" class="btn btn-success" disabled><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>*@
-                                    <form asp-action="RemoveVoluntarioChecked" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
+                                    <form asp-action="QuitarAsignacion" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
                                         <button type="submit" class="btn btn-danger"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
                                     </form>
                                 }
                                 else if(Model.Item2.Estado.Equals("Activo"))
                                 {
-                                    <form asp-action="CheckAsignar" asp-route-idUser="@item.Id" method="post" onsubmit="return checkVoluntario(this);">
+                                    <form asp-action="AsignarSeguimiento" asp-route-idUser="@item.Id" method="post" onsubmit="return checkVoluntario(this);">
                                         <button type="submit" class="btn btn-success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
                                     </form>
                                 }

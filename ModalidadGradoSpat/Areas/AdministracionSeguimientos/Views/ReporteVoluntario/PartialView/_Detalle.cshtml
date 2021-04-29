@@ -28,25 +28,29 @@ else
             </button>
         </div>
     }
+    <div class="row my-5">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("DetalleSeguimiento", "ReporteVoluntario", new { id=Model.ContratoAdopcion.Id, area="AdministracionSeguimientos" })'">Detalle Adopci&oacute;n</button>
+        </div>
+        <div class="offset-md-1">
+            <h5 class="offset-sm-2 offset-xl-6"><span class="badge badge-pill p-2 badge-primary">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaConclusion.ToShortDateString()</span></h5>
+        </div>
+    </div>
 
-    <button class="btn btn-success" onclick="location.href='@Url.Action("DetalleSeguimiento", "ReporteVoluntario", new { id=Model.ContratoAdopcion.Id, area="AdministracionSeguimientos" })'">Detalle Adopci&oacute;n</button>
+        <div class="table-responsive my-3">
+            <table id="example" class="table table-bordered table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Descripcion</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyDetalleSeguimiento">
 
-    <div class="table-responsive my-3">
-        <table id="example" class="table table-bordered table-hover" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Descripcion</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tbodyDetalleSeguimiento">
-
-                @foreach (var item in Model.ReporteSeguimientos)
-                {
-                    @if (!item.Estado.Equals("Enviado"))
+                    @foreach (var item in Model.ReporteSeguimientos)
                     {
                         <tr>
                             <td>
@@ -55,11 +59,11 @@ else
                             <td>
                                 @if (item.Observaciones == null@*&& DateTime.Now.Date < item.FechaRealizada.Date*@)
 {
-            @*TimeSpan t = item.FechaRealizada.Date.Subtract(DateTime.Now.Date);
+    @*TimeSpan t = item.FechaRealizada.Date.Subtract(DateTime.Now.Date);
     <p><strong>Faltan @t.Days d&iacute;a(s) para realizar el reporte.</strong></p>*@
-            <p>El reporte a&uacute;n no fue realizado.</p>
-        }
-            @*else @if (item.Observaciones == null && DateTime.Now.Date > item.FechaRealizada.Date)
+    <p>El reporte a&uacute;n no fue realizado.</p>
+}
+    @*else @if (item.Observaciones == null && DateTime.Now.Date > item.FechaRealizada.Date)
        {
            TimeSpan t = DateTime.Now.Date.Subtract(item.FechaRealizada.Date);
         <p><strong>El reporte no fue realizado, ya pasaron @t.Days d&iacute;a(s) desde la fecha del reporte.</strong></p>
@@ -68,12 +72,12 @@ else
     {
         <p><strong>La fecha para realizar el reporte es hoy.</strong></p>
     }*@
-            else
-            {
-                <p>
-                    @item.Observaciones
-                </p>
-            }
+    else
+    {
+        <p>
+            @item.Observaciones
+        </p>
+    }
                             </td>
                             <td>
                                 <p>
@@ -90,7 +94,7 @@ else
                                     <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
                                 }
                             </td>
-                            <td>
+                            <td width="5%">
                                 @if (!item.Fecha.Date.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) || item.Estado.Equals("Enviado"))
                                 {
                                     <button role="button" class="btn btn-info" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
@@ -103,53 +107,52 @@ else
                             </td>
                         </tr>
                     }
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Descripcion</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <script>
-    $(document).ready(function () {
-        $('#example').DataTable({
-            "order": [],
-            "processing": true,
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla =(",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                },
-                "buttons": {
-                    "copy": "Copiar",
-                    "colvis": "Visibilidad"
-                }
-            }
-        });
-    });
-    </script>
-}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Id</th>
+                        <th>Descripcion</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#example').DataTable({
+                    "order": [],
+                    "processing": true,
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        },
+                        "buttons": {
+                            "copy": "Copiar",
+                            "colvis": "Visibilidad"
+                        }
+                    }
+                });
+            });
+        </script>
+        }

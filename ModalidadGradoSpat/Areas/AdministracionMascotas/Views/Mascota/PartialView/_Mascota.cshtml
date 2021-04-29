@@ -24,7 +24,6 @@ else
             <form asp-action="AddOrEditMascota" asp-controller="Mascota" onsubmit="return showForm(this);" autocomplete="off" method="post">
                 <input type="hidden" asp-for="Id" value="@Model.Id"/>
                 <input type="hidden" asp-for="DenunciaId" value="@Model.DenunciaId" />
-                @*<input type="hidden" asp-for="EstadoSituacion" value="Registrado" class="form-control" />*@
                 <div class="row">
                     <div class="form-group col-md-12 mt-3 mb-3">
                         <label for="idNombre">Ingrese el Nombre de la Mascota</label>

@@ -3,222 +3,187 @@
     Layout = null;
 }
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="row my-5">
-    <div class="col-md-1">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<div class="d-sm-flex justify-content-sm-between my-5">
         <form asp-action="AddReporte" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostList(this);" method="post">
             <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
         </form>
-    </div>
-    <div class="offset-md-3">
         <h5><span class="badge badge-pill p-2 badge-primary">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaConclusion.ToShortDateString()</span></h5>
-    </div>
-    <div class="offset-md-4">
         <button role="button" class="btn btn-primary" onclick="showInPopup('@Url.Action("EditSeguimiento","ReporteSeguimiento", new { id=Model.Id, area="AdministracionSeguimientos" },Context.Request.Scheme)', 'Actualizar Seguimiento');" data-toggle="modal" data-target="#form-modal"><i class="fa fa-calendar" aria-hidden="true"></i></button>
-    </div>
 </div>
-
-    <div class="table-responsive">
-        <table id="example" data-order='[[2, "asc"]]' class="table table-bordered table-hover" style="width:100%">
-            <thead>
+@if (Model.ReporteSeguimientos.Any(x => x.Fecha.Date < Model.FechaInicio.Date || x.Fecha.Date > Model.FechaConclusion.Date))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Existen fechas que no estan en el rango establecido, debe establecerlas
+        para que los reportes puedan realizarse.</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<div class="table-responsive">
+    <table id="example" data-order='[[2, "asc"]]' class="table table-bordered table-hover" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyReporteSeguimiento">
+            @foreach (var item in Model.ReporteSeguimientos)
+            {
                 <tr>
-                    <th>Id</th>
-                    <th>Descripcion</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tbodyReporteSeguimiento">
-                @foreach (var item in Model.ReporteSeguimientos)
-                {
-                    <tr>
-                        <td>
-                            @item.Id
-                        </td>
-                        <td>
-                            @if (item.Estado.Equals("Activo") || item.Estado.Equals("Asignado"))
-                            {
-                                <p><strong>A&uacute;n no se realiz&oacute; el reporte.</strong></p>
-                            }
-                            else
-                            {
-                                @item.Observaciones
-                            }
-                        </td>
-                        <td style="width:15%">
-                            @*@if (item.Estado == "Activo")
-                            {*@
-                            <form asp-action="SaveFecha" autocomplete="off" method="post">
+                    <td width="5%">
+                        @item.Id
+                    </td>
+                    <td>
+                        @if (item.Estado.Equals("Activo") || item.Estado.Equals("Asignado"))
+                        {
+                            <p><strong>A&uacute;n no se realiz&oacute; el reporte.</strong></p>
+                        }
+                        else
+                        {
+                            @item.Observaciones
+                        }
+                    </td>
+                    <td style="width:15%">
+                        @*@if (item.Estado == "Activo")
+        {*@
+                        @if (item.Estado.Equals("Enviado"))
+                        {
+                            <div class="input-group">
+                                <input id="idFecha-@item.Id" name="Fecha" value="@item.Fecha.Date.ToShortDateString()" type="text" class="form-control" readonly>
+                            </div>
+                        }
+                        else
+                        {
+                            <form asp-action="UpdateFechaReporte" autocomplete="off" method="post">
                                 <input type="hidden" name="Id" value="@item.Id" />
                                 <input type="hidden" name="SeguimientoId" value="@item.SeguimientoId" />
                                 <div class="input-group">
                                     <input id="idFecha-@item.Id" name="Fecha" value="@item.Fecha.Date.ToShortDateString()" type="text" class="form-control" data-toggle="datepicker" readonly>
                                 </div>
                             </form>
-                            @*}
-                            else
-                            {
-                                @item.Fecha.Date.ToShortDateString()
-                            }*@
-                        </td>
-                        <td>
-                            @if (item.Estado.Equals("Activo"))
-                            {
-                                <h5>
-                                    <span class="badge badge-pill p-2 badge-warning">
-                                        @item.Estado
-                                    </span>
-                                </h5>
-                            }
-                            else if (item.Estado.Equals("Asignado"))
-                            {
-                                <h5>
-                                    <span class="badge badge-pill p-2 badge-info">
-                                        @item.Estado
-                                    </span>
-                                </h5>
-                            }
-                            else
-                            {
-                                <h5>
-                                    <span class="badge badge-pill p-2 badge-primary">
-                                        @item.Estado
-                                    </span>
-                                </h5>
-                            }
-                        </td>
-                        <td>
-                            @if (item.Estado.Equals("Enviado"))
-                            {
-                                @*<button role="button" class="btn btn-warning" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>*@
-                                <button role="button" class="btn btn-danger" disabled><i class="fa fa-trash" aria-hidden="true"></i></button>
-                            }
-                            else
-                            {
-                                @*<button role="button" onclick="showInPopup('@Url.Action("EditReporte","ReporteSeguimiento",new { id=item.Id, area="AdministracionSeguimientos"},Context.Request.Scheme)','Actualizar Fecha del Reporte');" class="btn btn-warning" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>*@
-                                <form asp-action="DeleteReporte" asp-route-id="@item.Id" asp-route-idseg="@item.SeguimientoId" onsubmit="return jQueryAjaxDelete(this);" method="post" class="d-inline">
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="fa fa-trash fa-2" aria-hidden="true"></i>
-                                    </button>
-                                </form>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Descripcion</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="datepicker"]').daterangepicker({
-                autoApply: true,
-                singleDatePicker: true,
-                showDropdowns: true,
-                minYear: 2021,
-                "locale": {
-                    "format": "DD/MM/YYYY",
-                    "separator": " ",
-                    "applyLabel": "Apply",
-                    "cancelLabel": "Cancel",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "Dom",
-                        "Lun",
-                        "Mar",
-                        "Mie",
-                        "Jue",
-                        "Vie",
-                        "Sab"
-                    ],
-                    "monthNames": [
-                        "Enero",
-                        "Febrero",
-                        "Marzo",
-                        "Abril",
-                        "Mayo",
-                        "Junio",
-                        "Julio",
-                        "Agosto",
-                        "Septiembre",
-                        "Octubre",
-                        "Noviembre",
-                        "Diciembre"
-                    ],
-                    "firstDay": 1
-                }
-            });
-
-
-            $('#example').DataTable({
-                "columnDefs": [
-                    { "width": "5%", "targets": 0 },
-                    { "width": "5%", "targets": 3 },
-                    { "width": "5%", "targets": 4 }
-                ],
-                "processing": true,
-                "language": {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
-                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    },
-                    "buttons": {
-                        "copy": "Copiar",
-                        "colvis": "Visibilidad"
-                    }
-                }
-            });
-            $('[data-toggle="datepicker"]').on('change', function () {
-                try {
-                    $.ajax({
-                        type: "POST",
-                        url: this.form.action,
-                        data: new FormData(this.form),
-                        contentType: false,
-                        processData: false,
-                        success: function (res) {
-                            $('#view-all').html(res.html);
-                        },
-                        error: function (err) {
-                            console.log(err);
                         }
-                    })
-                        .fail(function (jqXHR, textStatus, errorThrown) {
-                            window.location.href = "/Home/Error";
-                        })
-                    return false;
-                } catch (e) {
-                    console.log(e);
+                    </td>
+                    <td width="5%">
+                        @if (item.Estado.Equals("Activo"))
+                        {
+                            <h5>
+                                <span class="badge badge-pill p-2 badge-warning">
+                                    @item.Estado
+                                </span>
+                            </h5>
+                        }
+                        else if (item.Estado.Equals("Asignado"))
+                        {
+                            <h5>
+                                <span class="badge badge-pill p-2 badge-info">
+                                    @item.Estado
+                                </span>
+                            </h5>
+                        }
+                        else
+                        {
+                            <h5>
+                                <span class="badge badge-pill p-2 badge-primary">
+                                    @item.Estado
+                                </span>
+                            </h5>
+                        }
+                    </td>
+                    <td width="5%">
+                        @if (item.Estado.Equals("Enviado"))
+                        {
+                            @*<button role="button" class="btn btn-warning" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>*@
+                            <button role="button" class="btn btn-danger" disabled><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        }
+                        else
+                        {
+                            @*<button role="button" onclick="showInPopup('@Url.Action("EditReporte","ReporteSeguimiento",new { id=item.Id, area="AdministracionSeguimientos"},Context.Request.Scheme)','Actualizar Fecha del Reporte');" class="btn btn-warning" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>*@
+                            <form asp-action="DeleteReporte" asp-route-id="@item.Id" asp-route-idseg="@item.SeguimientoId" onsubmit="return jQueryAjaxDelete(this);" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fa fa-trash fa-2" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        var url = "/archivos/js/daterangepicker.js";
+        $.getScript(url);
+        $('#example').DataTable({
+            "processing": true,
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                "buttons": {
+                    "copy": "Copiar",
+                    "colvis": "Visibilidad"
                 }
-            })
+            }
         });
-    </script>
+        $('[data-toggle="datepicker"]').on('change', function () {
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: this.form.action,
+                    data: new FormData(this.form),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        $('#view-all').html(res.html);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        window.location.href = "/Home/Error";
+                    })
+                return false;
+            } catch (e) {
+                console.log(e);
+            }
+        })
+    });
+</script>

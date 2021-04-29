@@ -96,6 +96,55 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AsignarRoles", RolesUsuario) });
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CambiarEstado(int idUser)
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/User/CambiarEstado/" + idUser, Method.PUT);
+            try
+            {
+                var response = await client.ExecuteAsync(request);
+                if (!response.IsSuccessful)
+                    throw new Exception(response.Content);
+                TempData["alertsuccess"] = "Estado modificado.";
+                var vista = await Listado();
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
+                return Json(new { isValid = false });
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EliminarUsuario(int idUser)
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/User/EliminarUsuario/" + idUser, Method.DELETE);
+            try
+            {
+                var response = await client.ExecuteAsync(request);
+                if (!response.IsSuccessful)
+                    throw new Exception(response.Content);
+                TempData["alertsuccess"] = "Usuario eliminado.";
+                var vista = await Listado();
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
+                return Json(new { isValid = false });
+            }
+        }
         public async Task<IEnumerable<User>> Listado()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -108,9 +157,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         }
         public async Task<IActionResult> ExcelUsuario()
         {
-            //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            //var request = new RestRequest("api/User/GetUser", Method.GET);
-            //var response = await client.ExecuteAsync<IEnumerable<User>>(request);
             try
             {
                 var lista = await Listado();

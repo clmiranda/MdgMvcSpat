@@ -25,7 +25,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Lista()
         {
             ViewData["search"] = busqueda;
             var vista = await Listado();
@@ -82,6 +82,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 var response = await client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
+                TempData["alertsuccess"] = "Foto principal establecida.";
                 //var getMascota = await rest2.GetAsync(iddenuncia, "api/Denuncia/GetDenuncia/" + iddenuncia, HttpContext.Session.GetString("JWToken"));
                 return Json(new { /*isValid=true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
@@ -106,7 +107,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 var response = await client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
-                TempData["alertsuccess"] = "La foto fue eliminada exitosamente.";
+                TempData["alertsuccess"] = "Foto eliminada exitosamente.";
                 return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
             catch (Exception ex)

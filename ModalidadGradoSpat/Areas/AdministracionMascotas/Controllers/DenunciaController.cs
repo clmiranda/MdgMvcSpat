@@ -71,8 +71,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     {
                         switch (response.StatusCode.ToString())
                         {
-                            case "BadRequest":
-                                return StatusCode(400);
                             case "NotFound":
                                 return StatusCode(404);
                             default:
@@ -94,7 +92,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             if (ModelState.IsValid)
             {
                 //ViewData["itemsPerPage"] = sizepage;
-                ViewData["search"] = busqueda;
                 if (model.Id == 0)
                 {
                     client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -106,6 +103,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Denuncia creada.";
+                        ViewData["search"] = busqueda;
                         var vista = await Listado();
                         return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllDenuncia", vista) });
                     }
@@ -129,6 +127,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Denuncia actualizada.";
+                        ViewData["search"] = busqueda;
                         var vista = await Listado();
                         return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllDenuncia", vista) });
                     }

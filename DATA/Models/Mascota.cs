@@ -24,13 +24,14 @@ namespace DATA.Models
         public bool Esterilizado { get; set; }
         //[Required(ErrorMessage = "Debe ingresar la edad de la mascota.")]
         public string Edad { get; set; }
-        public DateTime FechaAgregado { get; set; }
-        public string EstadoSituacion { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public string Estado { get; set; }
         //public string TituloDenuncia { get; set; }
         //public string TituloCaso { get; set; }
         public virtual Denuncia Denuncia { get; set; }
         public int DenunciaId { get; set; }
-        public virtual IEnumerable<Foto> Fotos { get; set; }
+        public virtual List<Foto> Fotos { get; set; }
+        public virtual List<ReporteTratamiento> ReporteTratamientos { get; set; }
         public virtual Foto Foto { get; set; }
         public virtual ContratoAdopcion ContratoAdopcion { get; set; }
     }

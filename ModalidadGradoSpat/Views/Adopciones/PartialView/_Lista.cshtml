@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Mascota>
-<div class="row">
-    <form class="form-inline formulario" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
-        @*<input type="hidden" name="pageNumber" value="@ViewData["page"]" />*@
-        Filtro: <select name="filter" class="form-control dropdown-toggle">
+<div class="d-sm-flex row my-3">
+    <form class="form-inline" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
+        <label for="filtro" class="col-sm-2 col-form-label">Filtro:</label>
+        <select id="filtro" name="filter" class="form-control dropdown-toggle mr-sm-3">
             @if (ViewData["filter"].ToString() == "All")
             {
                 <option value="Adopcion">En Adopcion</option>
@@ -14,56 +14,50 @@
                 <option value="All">Todos</option>
             }
         </select>
-        <div class="form-group mr-sm-3 mr-md-5">
-            @* averiguar como enviar el parametro seleccionado del dropdown al action del controller para filtrar la cantidad de elementos *@
-            Cantidad: <select name="sizePage" @*asp-items="Model.ListaSelectItem"*@ class="form-control form-control-sm dropdown-toggle">
-                @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
-                {
-                    <option value="5" selected>5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                }
-                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
-                {
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                }
-                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
-                {
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20" selected>20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                }
-                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
-                {
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50" selected>50</option>
-                    <option value="100">100</option>
-                }
-                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
-                {
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100" selected>100</option>
-                }
-            </select>
-        </div>
-        <div class="form-group">
-            @*<input autocomplete="off" type="text" class="form-control mr-md-3" name="search" value="@ViewData["search"]">
-                <button id="buscar" type="submit" class="btn btn-primary mr-md-5">Buscar</button>*@
+        <label for="cantidad" class="col-sm-2 col-form-label">Cantidad:</label>
+        <select id="cantidad" name="sizePage" class="form-control form-control-sm dropdown-toggle mr-sm-3">
+                    @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
+                    {
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    }
+                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
+                    {
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    }
+                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
+                    {
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    }
+                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
+                    {
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                    }
+                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
+                    {
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100" selected>100</option>
+                    }
+                </select>
             <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
-        </div>
     </form>
 </div>
 
