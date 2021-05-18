@@ -21,7 +21,7 @@
 
     .carousel-inner {
         height: 100%;
-        background-color: #213B74;
+        background-color: #036917;
     }
 
     button[disabled] {
@@ -76,13 +76,11 @@ else
         </a>
     </div>
     <br />
-    <div class="container-fluid row justify-content-between">
-        <div class="card rounded col-sm-12 col-lg-8">
+    <div class="container-fluid row justify-content-between mx-auto mt-5">
+        <div class="card rounded col-lg-8">
             <div class="card-body">
                 <h3 class="card-title"><b>@Model.Nombre</b></h3>
-
                 <hr class="solid">
-
                 <h3 class="card-title"><b>Acerca de la Mascota</b></h3>
                 <p class="card-text"><b>Sexo Mascota:</b> @Model.Sexo   /   <b>Edad Mascota:</b> @Model.Edad   /   <b>Tama&ntilde;o Mascota:</b> @Model.Tamaño</p>
 
@@ -100,23 +98,29 @@ else
                 <p class="card-text"><b>Rasgos Particulares:</b> @Model.RasgosParticulares</p>
             </div>
         </div>
-        <div class="card rounded col-sm-12 col-lg-3">
+        <div class="card rounded col-lg-3">
             <div class="card-body">
-                <button id="btnAdoptar" onclick="location.href='@Url.Action("ContratoAdopcion","Adopciones",new { id=Model.Id, area=""},Context.Request.Scheme)'" type="button" class="btn btn-primary btn-block rounded-pill"><i class="fa fa-paw fa-2x" aria-hidden="true"></i>Quiero Adoptar</button>
+                @if (Model.Estado == "Activo")
+                {
+                    <button id="btnAdoptar" onclick="location.href='@Url.Action("ContratoAdopcion","Adopciones",new { id=Model.Id, area=""},Context.Request.Scheme)'" type="button" class="btn btn-primary btn-block rounded-pill"><i class="fa fa-paw fa-2x" aria-hidden="true"></i>Quiero Adoptar</button>
+                }
                 @if (Model.Estado == "Inactivo")
                 {
+                    <button id="btnAdoptar" type="button" class="btn btn-primary btn-block rounded-pill" disabled><i class="fa fa-paw fa-2x" aria-hidden="true"></i>Quiero Adoptar</button>
                     <div class="alert alert-warning mt-5" role="alert">
                         <p class="text-center">La mascota actualmente no est&aacute; en adopci&oacute;n.</p>
                     </div>
                 }
                 else if (Model.Estado == "Adoptada")
                 {
+                    <button id="btnAdoptar" type="button" class="btn btn-primary btn-block rounded-pill" disabled><i class="fa fa-paw fa-2x" aria-hidden="true"></i>Quiero Adoptar</button>
                     <div class="alert alert-warning mt-5" role="alert">
                         <p class="text-center">La mascota ha sido adoptada.</p>
                     </div>
                 }
                 else if (Model.Estado == "En Proceso")
                 {
+                    <button id="btnAdoptar" type="button" class="btn btn-primary btn-block rounded-pill" disabled><i class="fa fa-paw fa-2x" aria-hidden="true"></i>Quiero Adoptar</button>
                     <div class="alert alert-warning mt-5" role="alert">
                         <p class="text-center">La mascota se encuentra en un proceso de adopci&oacute;n.</p>
                     </div>
@@ -126,12 +130,6 @@ else
     </div>
     <script type="text/javascript">
         $('.carousel').carousel();
-        @if (Model.Estado.Equals("Inactivo")||Model.Estado.Equals("Adoptada")|| Model.Estado.Equals("En Proceso"))
-        {
-        <text>
-        $("#btnAdoptar").prop('disabled', true);
-        </text>
-        }
     </script>
     @if (Model.ReporteTratamientos.Count() > 0)
     {
@@ -139,80 +137,80 @@ else
             ul.timeline {
                 list-style-type: none;
                 position: relative;
-                padding-left: 1.5rem;
             }
 
-                /* Timeline vertical line */
                 ul.timeline:before {
                     content: ' ';
-                    background: #ddd;
+                    background: #d4d9df;
                     display: inline-block;
                     position: absolute;
-                    left: 16px;
-                    width: 4px;
+                    left: 29px;
+                    width: 2px;
                     height: 100%;
                     z-index: 400;
-                    border-radius: 1rem;
                 }
 
-            li.timeline-item {
-                margin: 20px 0;
-            }
+                ul.timeline > li {
+                    margin: 20px 0;
+                    padding-left: 20px;
+                }
 
-            /* Timeline item arrow */
-            .timeline-arrow {
-                border-top: 0.5rem solid transparent;
-                border-right: 0.5rem solid #ddd;
-                border-bottom: 0.5rem solid transparent;
-                display: block;
-                position: absolute;
-                left: 2rem;
-            }
-
-            /* Timeline item circle marker */
-            li.timeline-item::before {
-                content: ' ';
-                background: #00ff21;
-                display: inline-block;
-                position: absolute;
-                border-radius: 50%;
-                border: 3px solid #ddd;
-                left: 11px;
-                width: 14px;
-                height: 14px;
-                z-index: 400;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+                    ul.timeline > li:before {
+                        content: ' ';
+                        background: white;
+                        display: inline-block;
+                        position: absolute;
+                        border-radius: 50%;
+                        border: 3px solid #22c0e8;
+                        left: 20px;
+                        width: 20px;
+                        height: 20px;
+                        z-index: 400;
+                    }
+            .timeline li:nth-child(n+3) {
+                display: none;
             }
         </style>
-        <div class="row">
-            <div class="col-lg-7 mx-auto">
-
-                <!-- Timeline -->
+        <div class="container-fluid row">
+            <div class="col-lg-6 mx-auto">
+                <h3 class="my-5">Evoluci&oacute;n de la mascota desde su rescate.</h3>
                 <ul class="timeline">
                     @foreach (var item in Model.ReporteTratamientos)
                     {
-                        <li class="timeline-item bg-white rounded ml-3 p-4 shadow">
-                            <div class="timeline-arrow"></div>
+                        <li class="bg-white rounded ml-3 p-1 shadow">
                             <div class="d-flex justify-content-between">
                                 <p class="text-primary">@item.Titulo</p>
                                 <p class="float-right text-primary">@item.FechaCreacion.ToShortDateString()</p>
                             </div>
-                            <p class="mt-4">@item.Descripcion</p>
+                            <p>@item.Descripcion</p>
                         </li>
 
                     }
                 </ul>
+                <button id="loadMore" class="btn btn-primary">Mostrar m&aacute;s</button>
             </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                $('#loadMore').click(function () {
+                    $('.timeline li:hidden').slice(0, 2).slideDown();
+                    if ($('.timeline li').length == $('.timeline li:visible').length) {
+                        $('#loadMore').hide();
+                    }
+                });
+            });
+        </script>
     }
     else
     {
-        <div class="card">
-            <div class="card-body">
-                <p class="card-text">
-                    No existen reportes de tratamiento creados para esta mascota.
-                </p>
-            </div>
+<div class="container-fluid row">
+    <div class="card col-lg-6 mx-auto rounded my-5">
+        <div class="card-body">
+            <p class="card-text">
+                No existen reportes de tratamiento creados para esta mascota.
+            </p>
         </div>
+    </div>
+</div>
     }
 }

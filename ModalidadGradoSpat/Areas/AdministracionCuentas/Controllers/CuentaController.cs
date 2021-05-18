@@ -1,7 +1,6 @@
 ﻿using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ModalidadGradoSpat.Reports;
 using Newtonsoft.Json;
@@ -9,7 +8,6 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using static ModalidadGradoSpat.Helper;
 
@@ -20,9 +18,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
     {
         private static RestClient client;
         private static int idUser;
-        RestClient<User> rest = new RestClient<User>();
-        RestClient<string[]> restRol = new RestClient<string[]>();
-        // GET: AdministrarCuentasController
         public CuentaController()
         {
             client = new RestClient("https://localhost:44398/");
@@ -47,7 +42,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 var request = new RestRequest("api/Auth/PostUsuario/", Method.POST).AddJsonBody(user);
                 try
                 {
-                    //var post = await rest.PostAsync(user, "api/Auth/PostUsuario/", HttpContext.Session.GetString("JWToken"));
                     var response = await client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
@@ -79,7 +73,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             var request = new RestRequest("api/User/PutRolesUser/"+ idUser, Method.POST).AddJsonBody(RolesUsuario);
             try
             {
-                //var post = await restRol.PostAsync(RolesUsuario, "api/User/PutRolesUser/" + Username, HttpContext.Session.GetString("JWToken"));
                 var response = await client.ExecuteAsync(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
@@ -147,13 +140,20 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         }
         public async Task<IEnumerable<User>> Listado()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/User/GetUsers/", Method.GET);
-            var response = await client.ExecuteAsync/*<IEnumerable<User>>*/(request);
-            if (response.ResponseStatus.Equals(ResponseStatus.Error))
+            try
+            {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/User/GetUsers/", Method.GET);
+                var response = await client.ExecuteAsync/*<IEnumerable<User>>*/(request);
+                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                    throw new Exception();
+                var vista = JsonConvert.DeserializeObject<IEnumerable<User>>(response.Content);
+                return vista;
+            }
+            catch (Exception)
+            {
                 throw new Exception();
-            var vista = JsonConvert.DeserializeObject<IEnumerable<User>>(response.Content);
-            return vista;
+            }
         }
         public async Task<IActionResult> ExcelUsuario()
         {
@@ -168,7 +168,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500);
+                throw new Exception();
             }
         }
     }

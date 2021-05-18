@@ -2,16 +2,16 @@
 
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <form asp-action="AddOrEditDenuncia" method="post" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
-    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="Id"/>
     <div class="row">
         <div class="form-group col-12">
-            <label for="inputTitulo">Ingrese la T&iacute;tulo de la Denuncia</label>
-            <input asp-for="Titulo" class="form-control" id="inputTitulo" placeholder="Ingrese el Titulo" />
+            <label for="titulo">Ingrese la T&iacute;tulo de la Denuncia</label>
+            <input asp-for="Titulo" class="form-control" id="titulo" placeholder="Ingrese el Titulo" />
             @Html.ValidationMessageFor(x => x.Titulo, "", new { @class = "text-danger" })
         </div>
         <div class="form-group col-12">
-            <label for="textAreaDescripcion">Ingrese la Descripci&oacute;n de la Denuncia</label>
-            <input asp-for="Descripcion" class="form-control" id="textAreaDescripcion" placeholder="Ingrese la Descripcion" />
+            <label for="descripcion">Ingrese la Descripci&oacute;n de la Denuncia</label>
+            <input asp-for="Descripcion" class="form-control" id="descripcion" placeholder="Ingrese la Descripcion" />
             @Html.ValidationMessageFor(x => x.Descripcion, "", new { @class = "text-danger" })
         </div>
     </div>

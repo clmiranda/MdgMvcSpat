@@ -5,8 +5,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
@@ -35,7 +33,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public async Task<IActionResult> AddOrEditReporteTratamiento(int id = 0)
         {
             if (id == 0)
-                return View(new ReporteTratamiento{ MascotaId= idMascota });
+                return View(new ReporteTratamiento { MascotaId = idMascota });
             else
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -44,20 +42,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 {
                     var response = await client.ExecuteAsync<ReporteTratamiento>(request);
                     if (!response.IsSuccessful)
-                    {
-                        switch (response.StatusCode.ToString())
-                        {
-                            case "NotFound":
-                                return StatusCode(404);
-                            default:
-                                throw new Exception();
-                        }
-                    }
+                        throw new Exception();
+
                     return View(response.Data);
                 }
                 catch (Exception)
                 {
-                    return StatusCode(500);
+                    throw new Exception();
                 }
             }
         }
@@ -73,7 +64,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     var request = new RestRequest("api/ReporteTratamiento/CreateReporteTratamiento/", Method.POST).AddJsonBody(model);
                     try
                     {
-                        var response = await client.ExecuteAsync<Denuncia>(request);
+                        var response = await client.ExecuteAsync(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Reporte de tratamiento creado.";
@@ -95,7 +86,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     var request = new RestRequest("api/ReporteTratamiento/UpdateReporteTratamiento/", Method.PUT).AddJsonBody(model);
                     try
                     {
-                        var response = await client.ExecuteAsync<Denuncia>(request);
+                        var response = await client.ExecuteAsync(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Reporte de tratamiento actualizado.";
@@ -108,7 +99,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                             throw new Exception();
                         dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                         TempData["alerterror"] = msg["mensaje"];
-                        return Json(new { isValid = false});
+                        return Json(new { isValid = false });
                     }
                 }
             }
@@ -138,15 +129,22 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 return Json(new { isValid = false });
             }
         }
-        public async Task<List<ReporteTratamiento>> ListadoReporteTratamientos()
+        public async Task<Mascota> ListadoReporteTratamientos()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ReporteTratamiento/GetAll/"+idMascota, Method.GET);
-            var response = await client.ExecuteAsync<List<ReporteTratamiento>>(request);
-            if (response.ResponseStatus.Equals(ResponseStatus.Error))
+            try
+            {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/ReporteTratamiento/GetAll/" + idMascota, Method.GET);
+                var response = await client.ExecuteAsync<Mascota>(request);
+                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                    throw new Exception();
+                var vista = response.Data;
+                return vista;
+            }
+            catch (Exception)
+            {
                 throw new Exception();
-            var vista = response.Data;
-            return vista;
+            }
         }
     }
 }

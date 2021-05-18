@@ -2,17 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ModalidadGradoSpat
 {
@@ -70,7 +65,7 @@ namespace ModalidadGradoSpat
             }
             else
             {
-                //app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Home/Error/{0}");
                 app.UseStatusCodePagesWithRedirects("/Home/Error/{0}");
                 //app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -117,13 +112,18 @@ areaName: "AdministracionCuentas",
 pattern: "AdministracionCuentas/{controller=}/{action=}/{id?}");
 
                 endpoints.MapAreaControllerRoute(
+name: "AreaAdministracionReportes",
+areaName: "AdministracionReportes",
+pattern: "AdministracionReportes/{controller=}/{action=}/{id?}");
+
+                endpoints.MapAreaControllerRoute(
 name: "AreaAdministracionSeguimientos",
 areaName: "AdministracionSeguimientos",
 pattern: "AdministracionSeguimientos/{controller=}/{action=}/{id?}");
 
                 endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Adopciones}/{action=Lista}/{id?}");
+                pattern: "{controller=Adopciones}/{action=Index}/{id?}");
             });
         }
     }

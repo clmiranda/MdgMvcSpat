@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DATA.Models
+﻿namespace DATA.Models
 {
     public interface IEntity
     {

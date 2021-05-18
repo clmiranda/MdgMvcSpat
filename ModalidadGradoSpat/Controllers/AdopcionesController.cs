@@ -23,6 +23,12 @@ namespace ModalidadGradoSpat.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
+        public async Task<IActionResult> Index()
+        {
+            ViewData["filter"] = "Adopcion";
+            var vista = await Listado();
+            return View(vista);
+        }
         [HttpGet]
         public async Task<IActionResult> Lista()
         {
@@ -59,7 +65,6 @@ namespace ModalidadGradoSpat.Controllers
         }
         public async Task<IActionResult> InformacionMascota(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetMascota/" + id, Method.GET);
             var response = await client.ExecuteAsync<Mascota>(request);
             if (!response.IsSuccessful)
@@ -102,7 +107,7 @@ namespace ModalidadGradoSpat.Controllers
             //else
             //{
             TempData["MascotaId"] = id;
-                return View(response.Data);
+            return View(response.Data);
             //}
             //}
             //catch (Exception)
@@ -152,6 +157,8 @@ namespace ModalidadGradoSpat.Controllers
             //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetAllMascotaAdopcion", Method.GET)/*.AddParameter("Busqueda", busqueda)*/.AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
             var response = await client.ExecuteAsync<IEnumerable<Mascota>>(request);
+            if (!response.IsSuccessful)
+                throw new Exception();
             var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
             var head = JObject.Parse(header.Value.ToString());
             ViewData["currentPage"] = head["currentPage"].ToString();

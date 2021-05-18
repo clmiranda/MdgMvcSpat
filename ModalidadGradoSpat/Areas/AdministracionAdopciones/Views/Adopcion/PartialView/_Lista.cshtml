@@ -8,9 +8,9 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<div class="row">
-    <form class="form-inline" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
-        <div class="form-group mr-sm-3 mr-md-5">
+<div class="d-sm-flex justify-content-md-between my-3">
+    <form class="form-inline mr-5" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
+        <div class="form-group mr-3">
             Filtro: <select name="filter" class="form-control dropdown-toggle">
                 @if (ViewData["filter"].ToString().Equals("Aprobado"))
                 {
@@ -42,8 +42,8 @@
                 }
             </select>
         </div>
-        <div class="form-group mr-sm-3 mr-md-5">
-            Cantidad: <select name="sizePage" @*asp-items="Model.ListaSelectItem"*@ class="form-control form-control-sm dropdown-toggle mr-sm-3">
+        <div class="form-group mr-3">
+            Cantidad: <select name="sizePage" class="form-control-sm dropdown-toggle">
                 @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
                 {
                     <option value="5" selected>5</option>
@@ -73,9 +73,9 @@
                     <option value="50" selected>50</option>
                 }
             </select>
-            <div class="form-group">
-                <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
-            </div>
+        </div>
+        <div class="form-group">
+            <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
         </div>
     </form>
     <form asp-action="ExcelContrato">
@@ -84,6 +84,8 @@
     <form asp-action="ExcelContratoRechazoCancelado">
         <button role="button" type="submit" class="btn btn-primary mr-3">Excel Contratos Rechazados</button>
     </form>
+    <button class="btn btn-success" onclick="generatePDF()">PDF Contratos</button>
+    <button class="btn btn-success" onclick="generatePDFContratoRechazado()">PDF Contratos Rechazados</button>
     <button type="button" onclick="location.href='@Url.Action("Adopciones","Graficas",new { area="AdministracionSeguimientos"})'" class="btn btn-primary mr-3">Gr&aacute;ficas</button>
 </div>
 <div class="table-responsive mt-sm-3 mt-md-5">
@@ -146,17 +148,13 @@
                                 <p>@item.FechaAdopcion.ToShortDateString()</p>
                             }
                         </td>
-                        <td width="15%">
-                            @*@if (item.Estado.Equals("Pendiente"))
-                                {*@
-                            <button type="button" onclick="location.href='@Url.Action("Detalle","Adopcion",new { id=item.Id, area="AdministracionAdopciones"})';" class="btn btn-info"><i class="far fa-eye"></i></button>
-                            @*else if (item.Estado.Equals("Rechazado") || item.Estado.Equals("Cancelado"))
-                                {
-                                    <button type="button" onclick="location.href='@Url.Action("InformeContrato","AdministrarAdopciones",new { id=item.Id})';" class="btn btn-info"><i class="far fa-eye"></i></button>
-                                }*@
-                            <form asp-action="Eliminar" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                            </form>
+                        <td>
+                            <div class="d-flex flex-row">
+                                <button type="button" onclick="location.href='@Url.Action("Detalle","Adopcion",new { id=item.Id, area="AdministracionAdopciones"})';" class="btn btn-info"><i class="far fa-eye"></i></button>
+                                <form asp-action="Eliminar" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     <tr class="hiddentablerow">
@@ -256,51 +254,13 @@
         </ul>
     </form>
 </nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
 <script>
     $(document).ready(function () {
         var url = "/archivos/js/daterangepicker.js";
         $.getScript(url);
         $('[data-toggle="datepicker"]').on('change', function () {
-            try {
-                $.ajax({
-                    type: "POST",
-                    url: this.form.action,
-                    data: new FormData(this.form),
-                    contentType: false,
-                    processData: false,
-                    success: function (res) {
-                        $('#view-all').html(res.html);
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
-            } catch (e) {
-                console.log(e);
-            }
-        })
-    });
-
-    function GetValueButton(val) {
-        $("[name='currentPage']").val(val);
-    }
-    $("#resetear").on("click", function () {
-        $("select[name='filter'] option").val("Pendiente");
-        $("select[name='sizePage'] option").val("10");
-    });
-    //$(document).ready(function () {
-    //    if ($('.formulario input[type="text"]').val() == "") {
-    //        $('.formulario button').prop('disabled', true);
-    //    }
-    //    $('.formulario input[type="text"]').keyup(function () {
-    //        $('.formulario button').prop('disabled', this.value == "" ? true : false);
-    //    })
-    //    $('.accordion-toggle').click(function () {
-    //        $(this).find('i').toggleClass('fa fa-plus-square fa fa-minus-square');
-    //    });
-    //});
-    $('select').on('change', function () {
-        try {
             $.ajax({
                 type: "POST",
                 url: this.form.action,
@@ -308,34 +268,85 @@
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                    $('#view-all').html(res);
+                    $('#view-all').html(res.html);
                 },
                 error: function (err) {
                     console.log(err);
                 }
             })
-        } catch (e) {
-            console.log(e);
-        }
+        })
+    });
+        function generatePDF() {
+        const doc = new jsPDF("landscape")
+        doc.autoTable({
+            head: [['Id', 'Nombres', 'Apellidos', 'Ci', 'Domicilio', 'NumeroCelular', 'Razon de Adopcion','Fecha Solicitud','Fecha Adopcion']],
+            body: [
+                @foreach (var item in Model)
+                {
+                    <text>
+                ['@item.Id', '@item.Nombres', '@item.Apellidos', '@item.Ci', '@item.Domicilio', '@item.NumeroCelular', '@item.RazonAdopcion', '@item.FechaSolicitudAdopcion.ToShortDateString()', '@item.FechaAdopcion.ToShortDateString()'],
+            </text>
+                }
+            ],
+            theme: 'grid'
+        });
+        window.open(URL.createObjectURL(doc.output("blob")))
+    }
+    function generatePDFContratoRechazado() {
+        const doc = new jsPDF()
+        doc.autoTable({
+            head: [['Id', 'Razon del Rechazo', 'Id Contrato Adopcion']],
+            body: [
+                @foreach (var item in Model)
+                {
+                    if (item.ContratoRechazo!=null)
+                    {
+                        <text>
+                            ['@item.ContratoRechazo.Id', '@item.ContratoRechazo.RazonRechazo', '@item.Id'],
+                        </text>
+                    }
+                }
+            ],
+            theme: 'grid'
+        });
+        window.open(URL.createObjectURL(doc.output("blob")))
+    }
+    function GetValueButton(val) {
+        $("[name='currentPage']").val(val);
+    }
+    $("#resetear").on("click", function () {
+        $("select[name='filter'] option").val("Pendiente");
+        $("select[name='sizePage'] option").val("10");
+    });
+    $('select').on('change', function () {
+        $.ajax({
+            type: "POST",
+            url: this.form.action,
+            data: new FormData(this.form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                $('#view-all').html(res);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
     });
     send = form => {
-        try {
-            $.ajax({
-                type: "POST",
-                url: form.action,
-                data: new FormData(form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    $('#view-all').html(res);
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
-            return false;
-        } catch (e) {
-            console.log(e);
-        }
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                $('#view-all').html(res);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+        return false;
     };
 </script>

@@ -8,17 +8,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-    <title>Error 404 Not Found</title>
-
-    <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,900" rel="stylesheet">
-
-    <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="~/sbadmin2/css/styleerror.css" />
+    <link type="text/css" rel="stylesheet" href="~/archivos/css/styleerror.css" />
 </head>
-
 <body>
     @if (ViewBag.Error == "401")
     {
@@ -29,7 +21,7 @@
                 </div>
                 <h2>Lo sentimos, debes iniciar sesi&oacute;n para acceder a esta vista.</h2>
                 <p><b>Es posible que no hayas iniciado sesi&oacute;n o que tu sesi&oacute;n haya caducado.</b></p>
-                <a onclick="window.history.back();">Volver Atr&aacute;s</a>
+                <button onclick="window.history.back();">Volver Atr&aacute;s</button>
             </div>
         </div>
     }
@@ -41,7 +33,7 @@
                     <h1>403</h1>
                 </div>
                 <h2>No tienes el permiso para acceder a esta vista.</h2>
-                <a onclick="window.history.back();">Volver Atr&aacute;s</a>
+                <button onclick="window.history.back();">Volver Atr&aacute;s</button>
             </div>
         </div>
     }
@@ -54,7 +46,20 @@
                 </div>
                 <h2>Lo sentimos, la p&aacute;gina no fue encontrada.</h2>
                 <p><b>La p&aacute;gina que buscabas talvez sea la incorrecta o ya no este disponible.</b></p>
-                <a onclick="window.history.back();">Volver Atr&aacute;s</a>
+                <button onclick="window.history.back();">Volver Atr&aacute;s</button>
+            </div>
+        </div>
+    }
+    else if (ViewBag.Error == "500")
+    {
+        <div id="error">
+            <div class="error">
+                <div class="errorType">
+                    <h1>500</h1>
+                </div>
+                <h2>Error de servidor.</h2>
+                <p><b>Ha ocurrido un problema con la solicitud.</b></p>
+                <button onclick="window.history.back();">Volver Atr&aacute;s</button>
             </div>
         </div>
     }

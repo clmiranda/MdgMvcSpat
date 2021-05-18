@@ -25,7 +25,7 @@ else
                 <input type="hidden" asp-for="Id" value="@Model.Id"/>
                 <input type="hidden" asp-for="DenunciaId" value="@Model.DenunciaId" />
                 <div class="row">
-                    <div class="form-group col-md-12 mt-3 mb-3">
+                    <div class="form-group col-md-12 my-3">
                         <label for="idNombre">Ingrese el Nombre de la Mascota</label>
                         <input id="idNombre" type="text" asp-for="Nombre" class="form-control" />
                         @Html.ValidationMessageFor(x => x.Nombre, "", new { @class = "text-danger" })

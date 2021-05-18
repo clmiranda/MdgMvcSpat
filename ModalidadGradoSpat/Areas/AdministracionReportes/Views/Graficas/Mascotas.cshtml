@@ -1,0 +1,10 @@
+﻿@model List<DataGraficaDto>
+@{
+    ViewData["Title"] = "Mascotas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h5>Gr&aacute;ficas de Mascotas Registradas</h5>
+
+<div id="contenido">
+    @await Html.PartialAsync("PartialView/_Mascotas", Model)
+</div>

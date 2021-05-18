@@ -14,7 +14,6 @@
         </div>
     </div>
 }
-@*<h3 class="text-center text-success">Informaci&oacute;n del Adoptante</h3>*@
 @if (Model.Mascota != null)
 {
     <div class="row">
@@ -24,13 +23,21 @@
                     <h4>Informaci&oacute;n del Adoptante</h4>
                 </div>
                 <div class="card-body text-success">
-                    <p class="card-text">
-                        <strong>Nombre Completo del Adoptante: </strong>@Model.Nombres @Model.Apellidos<br /><br />
-                        <strong>Carnet de Identidad: </strong>@Model.Ci<br /><br />
-                        <strong>Domicilio: </strong>@Model.Domicilio<br /><br />
-                        <strong>N&uacute;mero de Celular: </strong>@Model.NumeroCelular<br /><br />
-                        <strong>Fecha de Solicitud de Adopci&oacute;n: </strong>@Model.FechaSolicitudAdopcion.ToShortDateString()
-                    </p>
+                    <div class="card-text">
+                        <p>
+                            <strong>Nombre Completo del Adoptante: </strong>@Model.Nombres @Model.Apellidos
+                        </p>
+                        <p>
+                            <strong>Carnet de Identidad: </strong>@Model.Ci
+                        </p>
+                        <p>
+                            <strong>Domicilio: </strong>@Model.Domicilio
+                        </p>
+                        <p>
+                            <strong>N&uacute;mero de Celular: </strong>@Model.NumeroCelular
+                        </p>
+                        <p><strong>Fecha de Solicitud de Adopci&oacute;n: </strong>@Model.FechaSolicitudAdopcion.ToShortDateString()</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,21 +47,35 @@
                     <h4>Informaci&oacute;n de la Mascota</h4>
                 </div>
                 <div class="card-body text-success">
-                    <p class="card-text">
-                        <strong>Nombre de la Mascota: </strong>@Model.Mascota.Nombre<br /><br />
+                    <div class="card-text">
+                        <p><strong>Nombre de la Mascota: </strong>@Model.Mascota.Nombre</p>
                         @if (Model.Mascota.Esterilizado)
-                        {<strong>Esterilizada: </strong>@:La Mascota se encuentra esterilizada.<br /><br />
+                        {<p>
+                                <strong>Esterilizada: </strong>La Mascota se encuentra esterilizada.
+                            </p>
                         }
                         else
-                        { <strong>Esterilizada: </strong>@:La Mascota no se encuentra esterilizada.<br /><br />
+                        { <p>
+                                <strong>Esterilizada: </strong>La Mascota no se encuentra esterilizada.
+                            </p>
                         }
-                        <strong>Sexo de la Mascota: </strong>@Model.Mascota.Sexo<br /><br />
-                        <strong>Edad aproximada: </strong>@Model.Mascota.Edad<br /><br />
-                        <strong>Especie: </strong>@Model.Mascota.Especie<br /><br />
-                        <strong>Tama&ntilde;o: </strong>@Model.Mascota.Tamaño<br /><br />
-                        <strong>Rasgos Particulares: </strong>@Model.Mascota.RasgosParticulares
-                        <strong>Caracteristicas: </strong>@Model.Mascota.Caracteristicas
-                    </p>
+                        <p>
+                            <strong>Sexo de la Mascota: </strong>@Model.Mascota.Sexo
+                        </p>
+                        <p>
+                            <strong>Edad aproximada: </strong>@Model.Mascota.Edad
+                        </p>
+                        <p>
+                            <strong>Especie: </strong>@Model.Mascota.Especie
+                        </p>
+                        <p>
+                            <strong>Tama&ntilde;o: </strong>@Model.Mascota.Tamaño
+                        </p>
+                        <p>
+                            <strong>Rasgos Particulares: </strong>@Model.Mascota.RasgosParticulares
+                        </p>
+                        <p><strong>Caracteristicas: </strong>@Model.Mascota.Caracteristicas</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,68 +83,76 @@
 }
 else
 {
-        <div class="card text-justify rounded-lg mb-3">
-            <div class="card-header">
-                <h4>Informaci&oacute;n del Adoptante</h4>
-            </div>
-            <div class="card-body text-success">
-                <p class="card-text">
-                    <strong>Nombre Completo del Adoptante: </strong>@Model.Nombres @Model.Apellidos<br /><br />
-                    <strong>Carnet de Identidad: </strong>@Model.Ci<br /><br />
-                    <strong>Domicilio: </strong>@Model.Domicilio<br /><br />
-                    <strong>N&uacute;mero de Celular: </strong>@Model.NumeroCelular<br /><br />
-                    <strong>Fecha de Solicitud de Adopci&oacute;n: </strong>@Model.FechaSolicitudAdopcion.ToShortDateString()
+    <div class="card text-justify rounded-lg mb-3">
+        <div class="card-header">
+            <h4>Informaci&oacute;n del Adoptante</h4>
+        </div>
+        <div class="card-body text-success">
+            <div class="card-text">
+                <p>
+                    <strong>Nombre Completo del Adoptante: </strong>@Model.Nombres @Model.Apellidos
                 </p>
+                <p>
+                    <strong>Carnet de Identidad: </strong>@Model.Ci
+                </p>
+                <p>
+                    <strong>Domicilio: </strong>@Model.Domicilio
+                </p>
+                <p>
+                    <strong>N&uacute;mero de Celular: </strong>@Model.NumeroCelular
+                </p>
+                <p><strong>Fecha de Solicitud de Adopci&oacute;n: </strong>@Model.FechaSolicitudAdopcion.ToShortDateString()</p>
             </div>
         </div>
+    </div>
 }
 <div class="card text-justify rounded-lg mb-3 mx-auto">
     <div class="card-header">
         <h4>Respuestas de Encuesta</h4>
     </div>
-    <div class="card-body text-success">
-        <label for="rp1" class="card-text">
+    <div class="card-body text-success card-text">
+        <label for="rp1">
             <strong>
                 ¿Cu&aacute;l es la raz&oacute;n por la que quieres adoptar?
             </strong>
         </label>
         <p id="rp1">Respuesta: @Model.Respuesta1</p>
-        <label for="rp2" class="card-text">
+        <label for="rp2">
             <strong>
                 Una nueva mascota es una gran responsabilidad que tendras por varios a&ntilde;os, ¿Est&aacute;s seguro de que
                 la cuidar&aacute;s durante todo ese tiempo?
             </strong>
         </label>
         <p id="rp2">@Model.Respuesta2</p>
-        <label for="rp3" class="card-text">
+        <label for="rp3">
             <strong>
                 ¿Est&aacute;s de acuerdo a enviarnos fotos de la mascota, y a recibir visitas cada cierto tiempo
                 para asegurarnos de que la mascota est&aacute; siendo bien cuidada?
             </strong>
         </label>
         <p id="rp3">@Model.Respuesta3</p>
-        <label for="rp4" class="card-text">
+        <label for="rp4">
             <strong>
                 ¿Est&aacute;s consciente de que si la mascota no esta siendo bien cuidada o evitas enviarnos fotos o
                 recibir las visitas de los voluntarios, deber&aacute;s entregar voluntariamente a la mascota?
             </strong>
         </label>
         <p id="rp4">@Model.Respuesta4</p>
-        <label for="rp5" class="card-text">
+        <label for="rp5">
             <strong>
                 ¿Est&aacute;s consciente de que tener una mascota implica nuevos gastos, vacunas, medicinas o atenci&oacute;n
                 veterinaria cuando enferme?
             </strong>
         </label>
         <p id="rp5">@Model.Respuesta5</p>
-        <label for="rp6" class="card-text">
+        <label for="rp6">
             <strong>
                 ¿Est&aacute;s consciente que la adopci&oacute;n es personal? Lo cual significa que no puedes regalar o
                 vender a la mascota.
             </strong>
         </label>
         <p id="rp6">@Model.Respuesta6</p>
-        <label for="rp7" class="card-text"><strong>¿Vives en una casa, departamento propio o en alquiler?</strong></label>
+        <label for="rp7"><strong>¿Vives en una casa, departamento propio o en alquiler?</strong></label>
         <p id="rp7">@Model.Respuesta7</p>
     </div>
 </div>

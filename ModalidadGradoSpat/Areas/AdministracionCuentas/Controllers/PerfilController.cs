@@ -2,14 +2,11 @@
 using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -29,29 +26,18 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/User/GetUser/" + id, Method.GET);
-            //var user = await rest.GetAsync(1, "api/User/GetUser/" + id, HttpContext.Session.GetString("JWToken"));
             try
             {
                 var response = await client.ExecuteAsync<User>(request);
                 if (!response.IsSuccessful)
                 {
-                    switch (response.StatusCode.ToString())
-                    {
-                        case "BadRequest":
-                            return StatusCode(400);
-                        case "NotFound":
-                            return StatusCode(404);
-                        default:
-                            throw new Exception();
-                    }
+                    throw new Exception();
                 }
-                //if (!response.IsSuccessful)
-                //    throw new Exception(response.Content);
                 return View(response.Data);
             }
             catch (Exception)
             {
-                return StatusCode(500);
+                throw new Exception();
             }
         }
         [HttpPost]
@@ -65,7 +51,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 var request = new RestRequest("api/User/UpdateUser/", Method.PUT).AddJsonBody(user);
                 try
                 {
-                    //var resul = await rest.PutAsync(user, "api/User/UpdateUser/", HttpContext.Session.GetString("JWToken"));
                     var response = await client.ExecuteAsync<User>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
@@ -97,7 +82,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 var request = new RestRequest("api/User/ResetPassword/" + id, Method.PUT).AddParameter("Password", dto.Password);
                 try
                 {
-                    //var resul = await restReset.PutAsync(dto.Password, "api/User/ResetPassword/" + id, HttpContext.Session.GetString("JWToken"));
                     var response = await client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
