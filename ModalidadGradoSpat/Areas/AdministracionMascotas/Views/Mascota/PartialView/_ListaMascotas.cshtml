@@ -1,11 +1,8 @@
 ﻿@model IEnumerable<Mascota>
-@{
-    Layout = null;
-}
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="form-row my-3">
-    <form class="form-inline formulario mr-3" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
-        <div class="form-group">
+<div class="d-sm-flex justify-content-md-between my-3">
+    <form class="form-inline mr-3" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
+        <div class="form-group mr-3">
             Elementos por P&aacute;gina:
             <select name="sizePage" class="form-control form-control-sm dropdown-toggle mr-sm-5">
                 @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
@@ -40,14 +37,15 @@
             </select>
         </div>
         <div class="form-group">
-            <input autocomplete="off" type="text" class="form-control" name="search" value="@ViewData["search"]">
-            <button id="buscar" type="submit" class="btn btn-primary mr-sm-5" disabled>Buscar</button>
+            <input id="inputBuscar" autocomplete="off" type="text" class="form-control mr-3" name="search" value="@ViewData["search"]">
+            <button id="buscar" type="submit" class="btn btn-primary mr-3" disabled>Buscar</button>
             <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
         </div>
     </form>
     <form asp-action="ExcelMascotas">
-        <button role="button" type="submit" class="btn btn-primary btn-lg">Excel Mascotas</button>
+        <button role="button" type="submit" class="btn btn-primary">Excel Mascotas</button>
     </form>
+    <button class="btn btn-success" onclick="generatePDF()">Ver PDF</button>
 </div>
 <div class="table-responsive">
     <table id="tableMascota" class="table table-striped table-bordered" style="width:100%">
@@ -111,7 +109,14 @@
                             }
                         </td>
                         <td width="10px">
-                            <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Lista","ReporteTratamiento", new {id=item.Id, area="AdministracionMascotas"})'"><i class="fas fa-list"></i></button>
+                            @if (item.Estado.Equals("Inactivo"))
+                            {
+                                <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Lista","ReporteTratamiento", new {id=item.Id, area="AdministracionMascotas"})'"><i class="fas fa-list"></i></button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-primary" disabled><i class="fas fa-list"></i></button>
+                            }
                         </td>
                     </tr>
                 }
@@ -191,7 +196,25 @@
         </ul>
     </form>
 </nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
 <script>
+    function generatePDF() {
+        const doc = new jsPDF()
+        doc.autoTable({
+            head: [['Id','Nombre', 'Sexo', 'Especie', 'Caracteristicas', 'Rasgos Particulares', 'Tamaño', 'Edad','FechaCreacion']],
+            body: [
+                @foreach (var item in Model)
+                {
+                    <text>
+                ['@item.Id','@item.Nombre', '@item.Sexo', '@item.Especie', '@item.Caracteristicas', '@item.RasgosParticulares', '@item.Tamaño', '@item.Edad', '@item.FechaCreacion.ToShortDateString()'],
+            </text>
+                }
+            ],
+            theme: 'grid'
+        });
+        window.open(URL.createObjectURL(doc.output("blob")))
+    }
     function GetValueButton(val) {
         $("[name='currentPage']").val(val);
     }
@@ -199,10 +222,8 @@
         $("select[name='sizePage'] option").val("10");
         $("input[name='search']").val("");
     });
-    $(document).ready(function () {
-        $('.formulario input').keyup(function () {
-            $('#buscar').prop('disabled', this.value == "" ? true : false);
-        })
+    $('#inputBuscar').keyup(function () {
+        $('#buscar').prop('disabled', this.value == "" ? true : false);
     });
     $('select').on('change', function () {
         try {

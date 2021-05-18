@@ -9,6 +9,7 @@
 </style>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <form asp-action="PostUsuario" method="post" autocomplete="off" onsubmit="return jQueryAjaxPost(this);">
+    <input type="hidden" asp-for="Id"/>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="idNombres">Nombre(s)</label>

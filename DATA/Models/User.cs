@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace DATA.Models
 {
-    public partial class User/*:IdentityUser<int>*/
+    public partial class User
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "El Email es requerido.")]
@@ -32,10 +30,7 @@ namespace DATA.Models
         public string Estado { get; set; }
         [Required(ErrorMessage = "El Sexo del usuario es requerido.")]
         public string Sexo { get; set; }
-
         public string[] Roles { get; set; }
-        //public virtual ICollection<Foto> Fotos { get; set; }
-        //public virtual ICollection<ContratoAdopcion> ContratoAdopciones { get; set; }
         public virtual ICollection<Seguimiento> Seguimientos { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
     }

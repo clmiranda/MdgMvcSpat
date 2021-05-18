@@ -3,13 +3,12 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<div class="d-flex justify-content-between">
-    <div class="mb-3">
-        <button type="button" data-toggle="modal" onclick="showInPopup('@Url.Action("AddUsuario","Cuenta", new { area="AdministracionCuentas"})', 'Agregar Usuario');" class="btn btn-primary">Agregar Usuario</button>
-    </div>
-    <form class="mb-3" asp-action="ExcelUsuario">
+<div class="d-flex justify-content-between my-3">
+    <button type="button" data-toggle="modal" onclick="showInPopup('@Url.Action("AddUsuario","Cuenta", new { area="AdministracionCuentas"})', 'Agregar Usuario');" class="btn btn-primary">Agregar Usuario</button>
+    <form asp-action="ExcelUsuario">
         <button type="submit" class="btn btn-primary">Excel Usuarios</button>
     </form>
+    <button class="btn btn-success" onclick="generatePDF()">Ver PDF</button>
 </div>
 <div class="table-responsive">
     <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -32,58 +31,58 @@
             {
                 @if (!item.Roles.Contains("SuperAdministrador"))
                 {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Nombres @item.Apellidos</td>
-                <td>@item.Domicilio</td>
-                <td>@item.UserName</td>
-                <td>@item.Email</td>
-                <td>@item.FechaNacimiento.ToShortDateString()</td>
-                <td>@item.Edad a&ntilde;os</td>
-                <td>
-                    @if (item.Roles == null)
-                    {
-                        <p class="text-center">No tiene roles asignados.</p>
-                    }
-                    else
-                    {
-                        <p class="text-center">
-                            @foreach (var rol in item.Roles)
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Nombres @item.Apellidos</td>
+                        <td>@item.Domicilio</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                        <td>@item.FechaNacimiento.ToShortDateString()</td>
+                        <td>@item.Edad a&ntilde;os</td>
+                        <td>
+                            @if (item.Roles == null)
                             {
-                                @rol<br />
+                                <p class="text-center">No tiene roles asignados.</p>
                             }
-                        </p>
-                    }
-                </td>
-                <td>
-                    @if (item.Estado.Equals("Activo"))
-                    {
-                        <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
-                    }
-                    else
-                    {
-                        <h5><span class="badge badge-pill p-2 badge-danger">@item.Estado</span></h5>
-                    }
-                </td>
-                <td>
-                    <div class="d-flex flex-row">
-                        @if (item.Roles.Contains("SuperAdministrador"))
-                        {
-                            <button type="button" class="btn btn-primary" disabled>Asignar Roles</button>
-                        }
-                        else
-                        {
-                            <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">Asignar Roles</button>
-                        }
-                        <form asp-action="CambiarEstado" asp-route-idUser="@item.Id" method="post" onsubmit="return cambiarEstado(this);">
-                            <button type="submit" class="btn btn-warning">Cambiar Estado</button>
-                        </form>
-                        <form asp-action="EliminarUsuario" asp-route-idUser="@item.Id" method="post" onsubmit="return eliminarUsuario(this);">
-                            <button type="submit" class="btn btn-danger">Eliminar Usuario</button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
+                            else
+                            {
+                                @foreach (var rol in item.Roles)
+                                {
+                                    <p class="text-center">
+                                        @rol
+                                    </p>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @if (item.Estado.Equals("Activo"))
+                            {
+                                <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
+                            }
+                            else
+                            {
+                                <h5><span class="badge badge-pill p-2 badge-danger">@item.Estado</span></h5>
+                            }
+                        </td>
+                        <td>
+                            <div class="d-flex flex-row">
+                                @if (item.Roles.Contains("SuperAdministrador"))
+                                {
+                                    <button type="button" class="btn btn-primary" disabled>Asignar Roles</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">Asignar Roles</button>
+                                }
+                                <form asp-action="CambiarEstado" asp-route-idUser="@item.Id" method="post" onsubmit="return cambiarEstado(this);">
+                                    <button type="submit" class="btn btn-warning">Cambiar Estado</button>
+                                </form>
+                                <form asp-action="EliminarUsuario" asp-route-idUser="@item.Id" method="post" onsubmit="return eliminarUsuario(this);">
+                                    <button type="submit" class="btn btn-danger">Eliminar Usuario</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
                 }
             }
         </tbody>
@@ -103,7 +102,26 @@
         </tfoot>
     </table>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
 <script type="text/javascript">
+    function generatePDF() {
+        const doc = new jsPDF("landscape")
+        doc.autoTable({
+            head: [['Id', 'Email', 'Username', 'Nombres', 'Apellidos', 'Domicilio', 'Numero Celular','Fecha Nacimiento','Estado','Sexo']],
+            body: [
+                @foreach (var item in Model)
+                {
+                    <text>
+                ['@item.Id', '@item.Email', '@item.UserName', '@item.Nombres', '@item.Apellidos', '@item.Domicilio','@item.NumeroCelular', '@item.FechaNacimiento.ToShortDateString()',
+                    '@item.Estado', '@item.Sexo'],
+            </text>
+                }
+            ],
+            theme: 'grid'
+        });
+        window.open(URL.createObjectURL(doc.output("blob")))
+    }
     $('#example').DataTable({
         "processing": true,
         "language": {
@@ -137,65 +155,56 @@
     });
     eliminarUsuario = form => {
         event.preventDefault();
-        try {
-            Swal.fire({
-                title: '¿Estás seguro de eliminar este usuario?',
-                text: "El usuario actual se eliminará por completo.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        type: "POST",
-                        url: form.action,
-                        data: new FormData(form),
-                        contentType: false,
-                        processData: false,
-                        success: function (res) {
-                            $('#view-all').html(res.html);
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        }
+        Swal.fire({
+            title: '¿Estás seguro de eliminar este usuario?',
+            text: "El usuario actual se eliminará por completo.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: new FormData(form),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        $('#view-all').html(res.html);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        window.location.href = "/Home/Error/" + jqXHR.statusCode;
                     })
-                        .fail(function (jqXHR, textStatus, errorThrown) {
-                            window.location.href = "/Home/Error";
-                        })
-                    return false;
-                }
-            })
-        } catch (e) {
-            console.log(e);
-        }
+                return false;
+            }
+        })
     };
     cambiarEstado = form => {
-        try {
-            $.ajax({
-                type: "POST",
-                url: form.action,
-                data: new FormData(form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    if (res.isValid) {
-                        $('#view-all').html(res.html);
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.isValid) {
+                    $('#view-all').html(res.html);
                 }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                window.location.href = "/Home/Error/" + jqXHR.statusCode;
             })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Home/Error";
-                })
-            //para prevenir el evento submit del form
-            return false;
-        } catch (e) {
-            console.log(e);
-        }
+        return false;
     };
 </script>

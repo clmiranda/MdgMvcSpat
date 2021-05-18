@@ -1,0 +1,209 @@
+﻿@model DataForDashboardDto
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var labelsMascota = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaMascota.Select(x => x.Nombre).ToList());
+    var valuesMascota = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaMascota.Select(x => x.Cantidad.ToString()).ToList());
+
+    var labelsSeguimiento = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaSeguimiento.Select(x => x.Nombre).ToList());
+    var valuesSeguimiento = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaSeguimiento.Select(x => x.Cantidad.ToString()).ToList());
+}
+<style>
+    .rounded {
+        border-radius: .55rem !important
+    }
+
+    .card-body i {
+        font-size: 5em;
+        opacity: 0.4;
+    }
+
+    .card-body .count-numbers {
+        position: absolute;
+        right: 35px;
+        top: 20px;
+        font-size: 32px;
+        display: block;
+    }
+
+    .card-body .count-name {
+        position: absolute;
+        right: 35px;
+        top: 65px;
+        text-transform: capitalize;
+        opacity: 0.8;
+        display: block;
+        font-size: 18px;
+    }
+</style>
+<div class="container mt-5">
+    <p class="my-3 lead">
+        Aqu&iacute; se muestran las gr&aacute;ficas de los registros
+        m&aacute;s importantes en la asociaci&oacute;n.
+    </p>
+    <div class="row">
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow text-white bg-success">
+                <div class="card-body">
+                    <i class="fas fa-check-square"></i>
+                    <span class="count-numbers">@Model.ContadorAdopcionesAprobadas</span>
+                    <span class="count-name">Adopciones Aprobadas</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow text-white bg-warning">
+                <div class="card-body">
+                    <i class="fas fa-window-close"></i>
+                    <span class="count-numbers">@Model.ContadorAdopcionesCanceladas</span>
+                    <span class="count-name">Adopciones Canceladas</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow text-white bg-danger">
+                <div class="card-body">
+                    <i class="fas fa-ban"></i>
+                    <span class="count-numbers">@Model.ContadorAdopcionesRechazadas</span>
+                    <span class="count-name">Adopciones Rechazadas</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow text-white bg-danger">
+                <div class="card-body">
+                    <i class="fas fa-book-open"></i>
+                    <span class="count-numbers">@Model.ContadorReportesSemana</span>
+                    <span class="count-name">Reportes realizados esta semana</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow text-white bg-primary">
+                <div class="card-body">
+                    <i class="fas fa-paw"></i>
+                    <span class="count-numbers">@Model.ContadorMascotasRegistradas</span>
+                    <span class="count-name">Mascotas Registradas</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow text-white bg-warning">
+                <div class="card-body">
+                    <i class="fas fa-gavel"></i>
+                    <span class="count-numbers">@Model.ContadorDenunciasRegistradas</span>
+                    <span class="count-name">Denuncias Registradas</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow text-white bg-info">
+                <div class="card-body">
+                    <i class="fas fa-search"></i>
+                    <span class="count-numbers">@Model.ContadorSeguimientosActuales</span>
+                    <span class="count-name">Seguimientos Actuales</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow text-white bg-success">
+                <div class="card-body">
+                    <i class="fas fa-users"></i>
+                    <span class="count-numbers">@Model.ContadorVoluntariosRegistrados</span>
+                    <span class="count-name">Seguimientos Actuales</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow">
+                <div class="card-body">
+                        <canvas id="chartMascota" style="width:100%;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 my-3">
+            <div class="card rounded shadow">
+                <div class="card-body">
+                        <canvas id="chartSeguimiento" style="width:100%;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(function () {
+        var chartName = "chartMascota";
+        var ctx = document.getElementById(chartName).getContext('2d');
+        var speedData = {
+            labels: @Html.Raw(labelsMascota),
+            datasets: [{
+                label: "Mascotas Registradas",
+                data: @Html.Raw(valuesMascota),
+                borderWidth: 2,
+                fill: false,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(11, 217, 80)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        var chartOptions = {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                    boxWidth: 80,
+                    fontColor: 'red'
+                }
+            }
+        };
+
+        var lineChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: speedData,
+            options: chartOptions
+        });
+    });
+
+        $(function () {
+            var chartName = "chartSeguimiento";
+        var ctx = document.getElementById(chartName).getContext('2d');
+        var speedData = {
+            labels: @Html.Raw(labelsSeguimiento),
+            datasets: [{
+                label: "Seguimientos Registrados",
+                data: @Html.Raw(valuesSeguimiento),
+                borderWidth: 2,
+                fill: false,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(11, 217, 80)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        var chartOptions = {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                    boxWidth: 80,
+                    fontColor: 'red'
+                }
+            }
+        };
+
+        var lineChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: speedData,
+            options: chartOptions
+        });
+    });
+</script>

@@ -1,137 +1,133 @@
 ﻿@model IEnumerable<Denuncia>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-    <div class="form-row">
-        <form class="form-inline formulario" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
-            @*<input type="hidden" name="currentPage" value="@ViewData["currentPage"]" />*@
-            <div class="form-group mr-sm-3 mr-md-5">
-                @*<form method="post" asp-action="ReturnVista">*@
-                @* averiguar como enviar el parametro seleccionado del dropdown al action del controller para filtrar la cantidad de elementos *@
-                Elementos por P&aacute;gina: <select name="sizePage" @*asp-items="Model.ListaSelectItem"*@ class="form-control form-control-sm dropdown-toggle">
-                    @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
-                    {
-                        <option value="5" selected>5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
-                    {
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
-                    {
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20" selected>20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
-                    {
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50" selected>50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
-                    {
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100" selected>100</option>
-                    }
-                </select>
-                @*</form>*@
-            </div>
-            <div class="form-group">
-                <input autocomplete="off" type="text" class="form-control mr-md-3" name="search" value="@ViewData["search"]">
-                <button id="buscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
-                <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
-            </div>
-        </form>
-    </div>
-    <div class="input-group my-3">
-        <button role="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nueva Denuncia');" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#form-modal">Agregar Denuncia</button>
-        <form asp-action="ExcelDenuncias">
-            <button role="button" type="submit" class="btn btn-primary btn-lg">Excel Denuncias</button>
-        </form>
-    </div>
-    <div class="table-responsive">
-        <table id="tableDenuncia" class="table table-hover table-bordered" style="width:100%">
-            <thead>
+<div class="d-sm-flex justify-content-md-between my-3">
+    <form class="form-inline mr-5" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
+        <div class="form-group mr-3">
+            Elementos por P&aacute;gina: <select name="sizePage" class="form-control-sm dropdown-toggle">
+                @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
+                {
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
+                {
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
+                {
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20" selected>20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
+                {
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50" selected>50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
+                {
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100" selected>100</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <input id="inputBuscar" autocomplete="off" type="text" class="form-control mr-3" name="search" value="@ViewData["search"]">
+            <button id="buscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
+            <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
+        </div>
+    </form>
+    <form asp-action="ExcelDenuncias">
+        <button role="button" type="submit" class="btn btn-primary">Excel Denuncias</button>
+    </form>
+    <button class="btn btn-success" onclick="generatePDF()">Ver PDF</button>
+</div>
+<button role="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nueva Denuncia');" class="btn btn-primary mb-3" data-toggle="modal" data-target="#form-modal">Agregar Denuncia</button>
+<div class="table-responsive">
+    <table id="tableDenuncia" class="table table-hover table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Nombre Mascota</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyDenuncia">
+            @if (Model.Count() <= 0)
+            {
                 <tr>
-                    <th>Id</th>
-                    <th>Titulo</th>
-                    <th>Descripcion</th>
-                    <th>Nombre Mascota</th>
-                    <th>Acciones</th>
+                    <td colspan="4"><h1 class="text-center">No hay registros para mostrar.</h1></td>
                 </tr>
-            </thead>
-            <tbody id="tbodyDenuncia">
-                @if (Model.Count() <= 0)
+            }
+            else
+            {
+                @foreach (var item in Model)
                 {
                     <tr>
-                        <td colspan="4"><h1 class="text-center">No hay registros para mostrar.</h1></td>
-                    </tr>
-                }
-                else
-                {
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td width="5%">
-                                <p>@item.Id</p>
-                            </td>
-                            <td width="20%">
-                                <p>@item.Titulo</p>
-                            </td>
-                            <td width="40%">
-                                <p>@item.Descripcion</p>
-                            </td>
-                            <td width="20%">
-                                @if (item.Mascota != null)
-                                {
-                                    <p>
-                                        @item.Mascota.Nombre
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p>No tiene mascota creada</p>
-                                }
-                            </td>
-                            <td width="15%">
+                        <td width="5%">
+                            <p>@item.Id</p>
+                        </td>
+                        <td width="20%">
+                            <p>@item.Titulo</p>
+                        </td>
+                        <td width="40%">
+                            <p>@item.Descripcion</p>
+                        </td>
+                        <td width="20%">
+                            @if (item.Mascota != null)
+                            {
+                                <p>
+                                    @item.Mascota.Nombre
+                                </p>
+                            }
+                            else
+                            {
+                                <p>No tiene mascota creada</p>
+                            }
+                        </td>
+                        <td>
+                            <div class="d-flex flex-row">
                                 <button type="button" onclick="location.href='@Url.Action("MascotaView", "Mascota",new { id=item.Id, area="AdministracionMascotas"})'" class="btn btn-success"><i class="fa fa-eye fa-2" aria-hidden="true"></i></button>
                                 <button type="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=item.Id,area="AdministracionMascotas"})','Actualizar Denuncia');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
                                 <form asp-action="DeleteDenuncia" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                                    @*<input type="submit" class="btn btn-danger" />*@
                                     <button type="submit" class="btn btn-danger">
                                         <i class="fa fa-trash fa-2" aria-hidden="true"></i>
                                     </button>
                                 </form>
-                            </td>
-                        </tr>
-                    }
+                            </div>
+                        </td>
+                    </tr>
                 }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Titulo</th>
-                    <th>Descripcion</th>
-                    <th>Nombre Mascota</th>
-                    <th>Acciones</th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Nombre Mascota</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 <!-- pager -->
 <nav class="table-responsive">
     <form asp-action="ReturnVista" method="post" onsubmit="return send(this);">
@@ -195,7 +191,25 @@
         </ul>
     </form>
 </nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
 <script>
+    function generatePDF() {
+        const doc = new jsPDF()
+        doc.autoTable({
+            head: [['Id', 'Titulo', 'Descripcion']],
+            body: [
+                @foreach (var item in Model)
+                {
+                    <text>
+                ['@item.Id', '@item.Titulo', '@item.Descripcion'],
+            </text>
+                }
+            ],
+            theme: 'grid'
+        });
+        window.open(URL.createObjectURL(doc.output("blob")))
+    }
     function GetValueButton(val) {
         $("[name='currentPage']").val(val);
     }
@@ -203,13 +217,10 @@
         $("select option").val("10");
         $("input[name='search']").val("");
     });
-    $(document).ready(function () {
-        $('.formulario input').keyup(function () {
-            $('#buscar').prop('disabled', this.value == "" ? true : false);
-        })
+    $('#inputBuscar').keyup(function () {
+        $('#buscar').prop('disabled', this.value == "" ? true : false);
     });
     $('select').on('change', function () {
-        try {
             $.ajax({
                 type: "POST",
                 url: this.form.action,
@@ -223,12 +234,8 @@
                     console.log(err);
                 }
             })
-        } catch (e) {
-            console.log(e);
-        }
     });
     send = form => {
-        try {
             $.ajax({
                 type: "POST",
                 url: form.action,
@@ -243,8 +250,5 @@
                 }
             })
             return false;
-        } catch (e) {
-            console.log(e);
-        }
     };
 </script>

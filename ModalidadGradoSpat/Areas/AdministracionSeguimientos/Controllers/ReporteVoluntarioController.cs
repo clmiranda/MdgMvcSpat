@@ -43,7 +43,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         public async Task<IActionResult> Aceptar(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/"+id+ "/AceptarSeguimientoVoluntario", Method.POST);
+            var request = new RestRequest("api/Seguimiento/" + id + "/AceptarSeguimientoVoluntario", Method.POST);
             try
             {
                 var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(request);
@@ -96,51 +96,29 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             {
                 var response = await client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
-                {
-                    switch (response.StatusCode.ToString())
-                    {
-                        case "BadRequest":
-                            return StatusCode(400);
-                        case "NotFound":
-                            return StatusCode(404);
-                        default:
-                            throw new Exception();
-                    }
-                }
-                //if (response == null)
-                //    return NotFound();
+                    throw new Exception();
                 return View(response.Data);
             }
             catch (Exception)
             {
-                return StatusCode(500);
+                throw new Exception();
             }
         }
 
         public async Task<IActionResult> DetalleSeguimiento(int id)
         {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ContratoAdopcion/DetailAdopcion/" + id, Method.GET);
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/ContratoAdopcion/DetailAdopcion/" + id, Method.GET);
             try
             {
                 var response = await client.ExecuteAsync<ContratoAdopcion>(request);
                 if (!response.IsSuccessful)
-                {
-                    switch (response.StatusCode.ToString())
-                    {
-                        case "BadRequest":
-                            return BadRequest();
-                        case "NotFound":
-                            return NotFound();
-                        default:
-                            throw new Exception();
-                    }
-                }
+                    throw new Exception();
                 return View(response.Data);
             }
             catch (Exception)
             {
-                return StatusCode(500);
+                throw new Exception();
             }
         }
 
@@ -157,7 +135,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     request.Files.Add(new FileParameter
                     {
                         Name = "Foto",
-                        Writer = (s) => {
+                        Writer = (s) =>
+                        {
                             Foto.CopyTo(s);
                         },
                         FileName = Foto.FileName,
@@ -187,49 +166,43 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> EditReporte(int id)
         {
-            //var modelo = await restReporte.GetAsync(id, "api/ReporteSeguimiento/" + id + "/GetById/", HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ReporteSeguimiento/GetById/" + id, Method.GET);
             try
             {
                 var response = await client.ExecuteAsync<ReporteSeguimiento>(request);
                 if (!response.IsSuccessful)
-                {
-                    switch (response.StatusCode.ToString())
-                    {
-                        case "BadRequest":
-                            return BadRequest();
-                        case "NotFound":
-                            return NotFound();
-                        default:
-                            throw new Exception();
-                    }
-                }
+                    throw new Exception();
                 return View(response.Data);
             }
             catch (Exception)
             {
-                return StatusCode(500);
+                throw new Exception();
             }
         }
-
-
         public async Task<IEnumerable<Seguimiento>> Listado()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimiento", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-            var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(requestGet);
-            if (response.ResponseStatus.Equals(ResponseStatus.Error))
+            try
+            {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimiento", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
+                var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(requestGet);
+                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                    throw new Exception();
+                var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
+                var head = JObject.Parse(header.Value.ToString());
+                ViewData["currentPage"] = head["currentPage"].ToString();
+                ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
+                ViewData["totalItems"] = head["totalItems"].ToString();
+                ViewData["totalPages"] = head["totalPages"].ToString();
+                var vista = response.Data;
+                _listaSeg = vista;
+                return vista;
+            }
+            catch (Exception)
+            {
                 throw new Exception();
-            var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
-            var head = JObject.Parse(header.Value.ToString());
-            ViewData["currentPage"] = head["currentPage"].ToString();
-            ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
-            ViewData["totalItems"] = head["totalItems"].ToString();
-            ViewData["totalPages"] = head["totalPages"].ToString();
-            var vista = response.Data;
-            _listaSeg = vista;
-            return vista;
+            }
         }
     }
 }

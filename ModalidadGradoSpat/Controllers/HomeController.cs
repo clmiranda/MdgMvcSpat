@@ -31,7 +31,7 @@ namespace ModalidadGradoSpat.Controllers
 
         //[NoDirectAccess]
         [Route("Home/Error/{StatusCode}")]
-        public IActionResult StatusCodeHandle(int statusCode)
+        public IActionResult StatusCodeHandle(int statusCode=500)
         {
             switch (statusCode)
             {
@@ -43,6 +43,9 @@ namespace ModalidadGradoSpat.Controllers
                     break;
                 case 404:
                     ViewBag.Error = "404";
+                    break;
+                case 500:
+                    ViewBag.Error = "500";
                     break;
                 default:
                     break;

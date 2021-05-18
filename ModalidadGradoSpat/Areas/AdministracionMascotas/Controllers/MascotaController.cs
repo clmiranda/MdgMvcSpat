@@ -40,26 +40,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         }
         public async Task<IActionResult> MascotaView(int id)
         {
-            //iddenuncia = id;
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetMascotaDenuncia/" + id, Method.GET);
             try
             {
-                //var modelo = await restMascota.GetAsync(id, "api/Mascota/GetMascotaDenuncia/" + id, HttpContext.Session.GetString("JWToken"));
-                //var client = new RestClient(url);
                 var response = await client.ExecuteAsync<Mascota>(request);
-                //if (!response.IsSuccessful)
-                //{
-                //    switch (response.StatusCode.ToString())
-                //    {
-                //        case "BadRequest":
-                //            return StatusCode(400);
-                //        case "NotFound":
-                //            return StatusCode(404);
-                //        default:
-                //            throw new Exception();
-                //    }
-                //}
+                if (!response.IsSuccessful)
+                    throw new Exception();
 
                 if (response.Data != null)
                     _mascota = response.Data;
@@ -67,14 +54,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500);
+                throw new Exception();
             }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetFotoPrincipal(int id, int idfoto)
         {
-            //var mascota= await restMascota.PostAsync("api/Fotos/Mascota/" + id + "/SetFotoPrincipalMascota/" + idfoto, HttpContext.Session.GetString("JWToken"));
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Fotos/Mascota/" + id + "/SetFotoPrincipalMascota/" + idfoto, Method.POST);
             try
@@ -83,7 +69,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Foto principal establecida.";
-                //var getMascota = await rest2.GetAsync(iddenuncia, "api/Denuncia/GetDenuncia/" + iddenuncia, HttpContext.Session.GetString("JWToken"));
                 return Json(new { /*isValid=true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
             catch (Exception ex)
@@ -99,7 +84,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteFotoMascota(int idmascota, int idfoto)
         {
-            //var resul = await rest3.DeleteAsync("api/Fotos/Mascota/" + idmascota + "/EliminarFotoMascota/" + idfoto);
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Fotos/Mascota/" + idmascota + "/EliminarFotoMascota/" + idfoto, Method.DELETE);
             try
@@ -118,7 +102,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 TempData["alerterror"] = msg["mensaje"];
                 return Json(new {/* isValid = false, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
             }
-            //var denuncia = await rest2.GetAsync(iddenuncia, "api/Denuncia/GetDenuncia/" + iddenuncia, HttpContext.Session.GetString("JWToken"));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -132,7 +115,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     var request = new RestRequest("api/Mascota/CreateMascota/", Method.POST).AddJsonBody(model);
                     try
                     {
-                        //var resul = await restMascota.PostAsync(model, "api/Mascota/CreateMascota/", HttpContext.Session.GetString("JWToken"));
                         var response = await client.ExecuteAsync<Mascota>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
@@ -147,8 +129,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         TempData["alerterror"] = msg["mensaje"];
                         return Json(new { /*isValid = false, */html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", model) });
                     }
-                    //var mascota = await restMascota.GetAsync(1, "api/Mascota/GetLastRegister/", HttpContext.Session.GetString("JWToken"));
-
                 }
                 else
                 {
@@ -156,12 +136,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     var request = new RestRequest("api/Mascota/UpdateMascota/", Method.PUT).AddJsonBody(model);
                     try
                     {
-                        //var resul = await restMascota.PutAsync(model, "api/Mascota/UpdateMascota/");
                         var response = await client.ExecuteAsync<Mascota>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Modificado Correctamente.";
-                        return Json(new {/* isValid = true,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", response.Data)/*, html2 = Helper.RenderRazorViewToString(this, "PartialViews/_Fotos", resul)*/ });
+                        return Json(new {/* isValid = true,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", response.Data)});
                     }
                     catch (Exception ex)
                     {
@@ -171,7 +150,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         TempData["alerterror"] = msg["mensaje"];
                         return Json(new {/* isValid = false,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", model) });
                     }
-                    //var mascota = await restMascota.GetAsync(model.Id, "api/Mascota/GetMascota/"+model.Id, HttpContext.Session.GetString("JWToken"));
                 }
             }
             return Json(new { isValid = false});
@@ -201,19 +179,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", _listaMascota) });
             }
         }
-
-        //public async Task<IActionResult> GetAllMascotas() {
-        //    var vista = await Listado();
-        //    return View(vista);
-        //}
-
-
         ///Metodo aun no implementado en la vista.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Eliminar(int id)
         {
-            //var resul = await rest.DeleteAsync(id, "api/Mascota/DeleteMascota/");
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/DeleteMascota/" + id, Method.DELETE);
             try
@@ -221,9 +191,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 var response = await client.ExecuteAsync<string>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
-                //dynamic valor = JsonConvert.DeserializeObject(resul);
-                //string mensaje = valor["mensaje"];
-                //TempData["idcaso"] = valor["idcaso"];
                 TempData["alertsuccess"] = "El fue eliminado de manera exitosa.";
                 ViewData["search"] = busqueda;
                 var vista = await Listado();
@@ -240,20 +207,27 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         }
         public async Task<IEnumerable<Mascota>> Listado()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestGet = new RestRequest("api/Mascota/GetAllMascotaAdmin", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize);
-            var response = await client.ExecuteAsync<IEnumerable<Mascota>>(requestGet);
-            if (response.ResponseStatus.Equals(ResponseStatus.Error))
+            try
+            {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var requestGet = new RestRequest("api/Mascota/GetAllMascotaAdmin", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize);
+                var response = await client.ExecuteAsync<IEnumerable<Mascota>>(requestGet);
+                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                    throw new Exception();
+                var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
+                var head = JObject.Parse(header.Value.ToString());
+                ViewData["currentPage"] = head["currentPage"].ToString();
+                ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
+                ViewData["totalItems"] = head["totalItems"].ToString();
+                ViewData["totalPages"] = head["totalPages"].ToString();
+                var vista = response.Data;
+                _listaMascota = response.Data;
+                return vista;
+            }
+            catch (Exception)
+            {
                 throw new Exception();
-            var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
-            var head = JObject.Parse(header.Value.ToString());
-            ViewData["currentPage"] = head["currentPage"].ToString();
-            ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
-            ViewData["totalItems"] = head["totalItems"].ToString();
-            ViewData["totalPages"] = head["totalPages"].ToString();
-            var vista = response.Data;
-            _listaMascota = response.Data;
-            return vista;
+            }
         }
         public async Task<IActionResult> ExcelMascotas()
         {
@@ -263,17 +237,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             {
                 var response = await client.ExecuteAsync<IEnumerable<Mascota>>(request);
                 if (!response.IsSuccessful)
-                {
-                    switch (response.StatusCode.ToString())
-                    {
-                        case "BadRequest":
-                            return StatusCode(400);
-                        case "NotFound":
-                            return StatusCode(404);
-                        default:
-                            throw new Exception();
-                    }
-                }
+                    throw new Exception();
                 var content = ReportMascota.ExcelMascotas(response.Data);
                 return File(
                     content,
@@ -282,7 +246,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500);
+                throw new Exception();
             }
         }
     }
