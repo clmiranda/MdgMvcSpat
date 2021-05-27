@@ -19,7 +19,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     {
         private static RestClient client;
         private static Mascota _mascota;
-        private static IEnumerable<Mascota> _listaMascota;
+        private static List<Mascota> _listaMascota;
         private static int? pagesize = 10; private static int? pagenumber = 1; private static string busqueda = "";
         public MascotaController()
         {
@@ -205,13 +205,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 return Json(new { isValid = false });
             }
         }
-        public async Task<IEnumerable<Mascota>> Listado()
+        public async Task<List<Mascota>> Listado()
         {
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var requestGet = new RestRequest("api/Mascota/GetAllMascotaAdmin", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize);
-                var response = await client.ExecuteAsync<IEnumerable<Mascota>>(requestGet);
+                var response = await client.ExecuteAsync<List<Mascota>>(requestGet);
                 if (response.ResponseStatus.Equals(ResponseStatus.Error))
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
@@ -235,7 +235,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             var request = new RestRequest("api/Mascota/GetAll", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<IEnumerable<Mascota>>(request);
+                var response = await client.ExecuteAsync<List<Mascota>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var content = ReportMascota.ExcelMascotas(response.Data);

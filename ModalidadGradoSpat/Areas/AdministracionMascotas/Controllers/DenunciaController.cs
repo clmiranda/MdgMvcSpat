@@ -144,13 +144,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 return Json(new { isValid = false });
             }
         }
-        public async Task<IEnumerable<Denuncia>> Listado()
+        public async Task<List<Denuncia>> Listado()
         {
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var requestGet = new RestRequest("api/Denuncia/GetAllDenuncias", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", sizepage);
-                var response = await client.ExecuteAsync<IEnumerable<Denuncia>>(requestGet);
+                var response = await client.ExecuteAsync<List<Denuncia>>(requestGet);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
@@ -173,7 +173,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             var request = new RestRequest("api/Denuncia/GetAll", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<IEnumerable<Denuncia>>(request);
+                var response = await client.ExecuteAsync<List<Denuncia>>(request);
                 if (!response.IsSuccessful)
                 {
                     throw new Exception();

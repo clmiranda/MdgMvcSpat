@@ -1,12 +1,18 @@
-﻿@model IEnumerable<Mascota>
+﻿@model List<Mascota>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<p class="text-justify">
-    En esta vista se puede administrar la situaci&oacute;n actual de cada una de las
-    Mascotas registradas en la asociaci&oacute;n, como estar apta para ser dada en adopci&oacute;n,
-    o que necesite un tratamiento a seguir, o que se necesite un hogar temporal para la misma.
-</p>
-<div id="view-all">
-    @await Html.PartialAsync("PartialView/_ListaMascotas", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Lista de Mascotas
+    </h3>
+    <p class="mb-4">
+        En esta vista se puede administrar la situaci&oacute;n actual de cada una de las
+        mascotas registradas en la asociaci&oacute;n, el estado Activo indica que esta mascota
+        ya puede ser adoptada, el estado Inactivo indica que la mascota a&uacute;n sigue en un 
+        tratamiento o no es apta para ser adoptada.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_ListaMascotas", Model)
+    </div>
 </div>

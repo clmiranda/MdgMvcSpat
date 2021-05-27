@@ -2,26 +2,26 @@
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <div class="card rounded">
     <div class="card-body">
-        <div class="row">
+        <div class="form-row justify-content-around">
             @if (Model.Estado.Equals("Pendiente"))
             {
-                <form class="mx-auto" asp-action="AprobarAdopcion" asp-route-id="@Model.Id" method="post" onsubmit="return showForm(this);">
+                <form asp-action="AprobarAdopcion" asp-route-id="@Model.Id" method="post" onsubmit="return showForm(this);">
                     <button type="submit" class="btn btn-primary btn-lg">Aprobar</button>
                 </form>
-                <button type="button" asp-action="AddContratoRechazo" onclick="showInPopup('@Url.Action("AddContratoRechazo","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon del Rechazo de Solicitud de Adopcion');" class="btn btn-danger btn-lg mx-auto" data-toggle="modal" data-target="#form-modal">Rechazar Contrato</button>
-                <button type="button" class="btn btn-warning btn-lg mx-auto" disabled>Cancelar</button>
+                <button type="button" asp-action="AddContratoRechazo" onclick="showInPopup('@Url.Action("AddContratoRechazo","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon del Rechazo de Solicitud de Adopcion');" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#form-modal">Rechazar Contrato</button>
+                <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar</button>
             }
             else if (Model.Estado.Equals("Aprobado"))
             {
-                <button type="button" class="btn btn-primary btn-lg mx-auto" disabled>Aprobar</button>
-                <button type="button" class="btn btn-danger btn-lg mx-auto" disabled>Rechazar</button>
-                <button type="button" asp-action="AddContratoRechazo" onclick="showInPopup('@Url.Action("AddContratoCancelado","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon de la Cancelacion de la Adopcion');" class="btn btn-warning btn-lg mx-auto" data-toggle="modal" data-target="#form-modal">Cancelar Contrato</button>
+                <button type="button" class="btn btn-primary btn-lg" disabled>Aprobar</button>
+                <button type="button" class="btn btn-danger btn-lg" disabled>Rechazar</button>
+                <button type="button" asp-action="AddContratoRechazo" onclick="showInPopup('@Url.Action("AddContratoCancelado","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon de la Cancelacion de la Adopcion');" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#form-modal">Cancelar Contrato</button>
             }
             else if (Model.Estado.Equals("Rechazado") || Model.Estado.Equals("Cancelado"))
             {
-                <button type="button" class="btn btn-primary btn-lg mx-auto" disabled>Aprobar</button>
-                <button type="button" class="btn btn-danger btn-lg mx-auto" disabled>Rechazar</button>
-                <button type="button" class="btn btn-warning btn-lg mx-auto" disabled>Cancelar</button>
+                <button type="button" class="btn btn-primary btn-lg" disabled>Aprobar</button>
+                <button type="button" class="btn btn-danger btn-lg" disabled>Rechazar</button>
+                <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar</button>
             }
         </div>
         <div class="alert alert-warning alert-dismissible fade show mt-5" role="alert">

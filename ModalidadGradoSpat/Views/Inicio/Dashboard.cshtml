@@ -116,14 +116,14 @@
         <div class="col-lg-6 my-3">
             <div class="card rounded shadow">
                 <div class="card-body">
-                        <canvas id="chartMascota" style="width:100%;"></canvas>
+                    <canvas id="chartMascota" style="width:100%;"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-lg-6 my-3">
             <div class="card rounded shadow">
                 <div class="card-body">
-                        <canvas id="chartSeguimiento" style="width:100%;"></canvas>
+                    <canvas id="chartSeguimiento" style="width:100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -137,7 +137,6 @@
         var speedData = {
             labels: @Html.Raw(labelsMascota),
             datasets: [{
-                label: "Mascotas Registradas",
                 data: @Html.Raw(valuesMascota),
                 borderWidth: 2,
                 fill: false,
@@ -150,22 +149,21 @@
                 hoverOffset: 4
             }]
         };
-
-        var chartOptions = {
-            legend: {
-                display: true,
-                position: 'top',
-                labels: {
-                    boxWidth: 80,
-                    fontColor: 'red'
-                }
-            }
-        };
-
         var lineChart = new Chart(ctx, {
             type: 'doughnut',
             data: speedData,
-            options: chartOptions
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Lista de Mascotas Registradas por Estado'
+                    }
+                }
+            }
         });
     });
 
@@ -175,7 +173,6 @@
         var speedData = {
             labels: @Html.Raw(labelsSeguimiento),
             datasets: [{
-                label: "Seguimientos Registrados",
                 data: @Html.Raw(valuesSeguimiento),
                 borderWidth: 2,
                 fill: false,
@@ -188,22 +185,21 @@
                 hoverOffset: 4
             }]
         };
-
-        var chartOptions = {
-            legend: {
-                display: true,
-                position: 'top',
-                labels: {
-                    boxWidth: 80,
-                    fontColor: 'red'
-                }
-            }
-        };
-
         var lineChart = new Chart(ctx, {
             type: 'doughnut',
             data: speedData,
-            options: chartOptions
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Lista de Seguimientos Registrados por Estado'
+                    }
+                }
+            }
         });
     });
 </script>

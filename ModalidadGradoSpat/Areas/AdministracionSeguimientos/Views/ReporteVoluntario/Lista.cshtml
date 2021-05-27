@@ -2,7 +2,16 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div id="view-all">
-    @await Html.PartialAsync("PartialView/_Lista", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Lista de Reportes Asignados y Pendientes
+    </h3>
+    <p class="mb-4">
+        En esta vista se muestran los reportes asignados y los pendientes, 
+        en caso de estar pendiente, se deber&aacute; aprobar o rechazar 
+        la asignaci&oacute;n de dicho reporte.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_Lista", Model)
+    </div>
 </div>

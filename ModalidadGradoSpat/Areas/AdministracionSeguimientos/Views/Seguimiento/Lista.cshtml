@@ -2,10 +2,15 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<p class="mb-4">
-    Esta vista est&aacute; dise&ntilde;ada para administrar los seguimientos de las adopciones
-    que se realizan a las mascotas adoptadas.
-</p>
-<div id="view-all">
-    @await Html.PartialAsync("PartialView/_Lista", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Vista Listado de Seguimientos
+    </h3>
+    <p class="mb-4">
+        En esta vista se muestra el listado de los seguimientos de las adopciones
+        que se realizan a las mascotas adoptadas.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_Lista", Model)
+    </div>
 </div>

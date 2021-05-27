@@ -2,6 +2,16 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="view-all">
-    @await Html.PartialAsync("PartialView/_Lista", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Vista del Tratamiento de la Mascota.
+    </h3>
+    <p class="mb-4">
+        En esta vista se puede ver la evoluci&oacute;n de la mascota desde que 
+        es registrada en la asociaci&oacute;n hasta que ya es apta para ser
+        adoptada.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_Lista", Model)
+    </div>
 </div>

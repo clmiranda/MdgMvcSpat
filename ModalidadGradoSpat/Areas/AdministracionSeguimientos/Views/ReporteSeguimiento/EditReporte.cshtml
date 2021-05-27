@@ -62,48 +62,4 @@
             }
         });
     });
-    @*$("#idFecha").change(function () {
-        $("button[type='submit']").removeAttr('disabled');
-    })
-    $('#idFecha').datepicker({
-        format: "dd/MM/yyyy",
-        language: "es-ES",
-        autoHide: "true",
-        zIndex: 2048,
-        date: "@Model.Fecha.Day/@Model.Fecha.Month/@Model.Fecha.Year"
-    });
-        if ('@TempData["alertsuccess"]' != "") {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'success',
-            title: '@TempData["alertsuccess"]'
-        })
-    }
-    else if ('@TempData["alerterror"]' != "") {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'error',
-            title: '@TempData["alerterror"]'
-        })
-    }*@
 </script>

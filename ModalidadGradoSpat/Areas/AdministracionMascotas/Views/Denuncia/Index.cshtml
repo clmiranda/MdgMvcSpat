@@ -1,11 +1,16 @@
-﻿@model IEnumerable<Denuncia>
+﻿@model List<Denuncia>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<p class="text-justify">
-    Esta vista est&aacute; dise&ntilde;ada para administrar las denuncias que se realizan de las mascotas
-    que son rescatadas o dadas en adopci&oacute;n.
-</p>
-<div id="view-all">
-    @await Html.PartialAsync("PartialView/_ViewAllDenuncia", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Lista de Denuncias
+    </h3>
+    <p class="mb-4">
+        Esta vista est&aacute; dise&ntilde;ada para administrar las denuncias que se realizan de las mascotas,
+        para realizar un posterior registro de las mismas.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_ViewAllDenuncia", Model)
+    </div>
 </div>

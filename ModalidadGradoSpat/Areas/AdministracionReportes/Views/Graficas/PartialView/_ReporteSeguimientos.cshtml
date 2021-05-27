@@ -41,16 +41,14 @@ else @if (ViewData["filter"].Equals("9 meses"))
 }
     </select>
 </form>
-<div class="container">
-    <div class="row">
-        <div class="col-12 my-5">
+    <div class="row mt-3">
+        <div class="col-12">
             <div class="card rounded shadow">
                 <div class="card-body">
                     <canvas id="chartReporteSeguimientos" style="width:100%;"></canvas>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript">
@@ -86,22 +84,21 @@ else @if (ViewData["filter"].Equals("9 meses"))
                 borderColor: 'rgb(75, 192, 192)'
             }]
         };
-
-        var chartOptions = {
-            legend: {
-                display: true,
-                position: 'top',
-                labels: {
-                    boxWidth: 80,
-                    fontColor: 'red'
-                }
-            }
-        };
-
         var lineChart = new Chart(ctx, {
             type: 'line',
             data: speedData,
-            options: chartOptions
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Reportes de Seguimientos enviados por mes.'
+                    }
+                }
+            }
         });
     });
     </script>
