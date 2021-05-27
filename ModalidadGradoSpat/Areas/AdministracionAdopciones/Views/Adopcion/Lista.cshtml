@@ -1,11 +1,16 @@
-﻿@model IEnumerable<ContratoAdopcion>
+﻿@model List<ContratoAdopcion>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<p class="mb-4">
-    Vista para la administraci&oacute;n de los contratos de adopci&oacute;n.
-</p>
-<div id="view-all">
-    @await Html.PartialAsync("PartialView/_Lista", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Lista de Contratos de Adopci&oacute;n
+    </h3>
+    <p class="mb-4">
+        Vista para la administraci&oacute;n de los contratos de adopci&oacute;n 
+        seg&uacute;n su estado.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_Lista", Model)
+    </div>
 </div>

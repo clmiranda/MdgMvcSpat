@@ -1,9 +1,12 @@
-﻿@model IEnumerable<Denuncia>
+﻿@model List<Denuncia>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="d-sm-flex justify-content-md-between my-3">
-    <form class="form-inline mr-5" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
-        <div class="form-group mr-3">
-            Elementos por P&aacute;gina: <select name="sizePage" class="form-control-sm dropdown-toggle">
+<div class="d-xl-flex justify-content-between my-3">
+    <form class="form-inline mr-3" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="selectCantidad">Cantidad:</label>
+            </div>
+            <select id="selectCantidad" name="sizePage" class="custom-select dropdown-toggle mr-3">
                 @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
                 {
                     <option value="5" selected>5</option>
@@ -46,18 +49,24 @@
                 }
             </select>
         </div>
-        <div class="form-group">
-            <input id="inputBuscar" autocomplete="off" type="text" class="form-control mr-3" name="search" value="@ViewData["search"]">
+        <div class="flex-row">
+            <input id="inputBuscar" placeholder="Buscar" autocomplete="off" type="text" class="form-control mr-3" name="search" value="@ViewData["search"]">
             <button id="buscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
             <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
         </div>
     </form>
-    <form asp-action="ExcelDenuncias">
-        <button role="button" type="submit" class="btn btn-primary">Excel Denuncias</button>
-    </form>
-    <button class="btn btn-success" onclick="generatePDF()">Ver PDF</button>
+    <div class="flex-row">
+        <a asp-action="ExcelDenuncias" role="button" type="submit" class="btn btn-primary">
+            <i class="fas fa-file-excel fa-lg mr-2"></i>Excel Denuncias
+        </a>
+        <a class="btn btn-success" onclick="generatePDF()">
+            <i class="fas fa-file-pdf fa-lg mr-2"></i>Ver PDF
+        </a>
+    </div>
 </div>
-<button role="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nueva Denuncia');" class="btn btn-primary mb-3" data-toggle="modal" data-target="#form-modal">Agregar Denuncia</button>
+<button role="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nueva Denuncia');" class="btn btn-primary mb-3" data-toggle="modal" data-target="#form-modal">
+    <i class="fas fa-plus-square fa-lg mr-2"></i>Agregar Denuncia
+</button>
 <div class="table-responsive">
     <table id="tableDenuncia" class="table table-hover table-bordered" style="width:100%">
         <thead>
@@ -102,7 +111,7 @@
                                 <p>No tiene mascota creada</p>
                             }
                         </td>
-                        <td>
+                        <td width="10%">
                             <div class="d-flex flex-row">
                                 <button type="button" onclick="location.href='@Url.Action("MascotaView", "Mascota",new { id=item.Id, area="AdministracionMascotas"})'" class="btn btn-success"><i class="fa fa-eye fa-2" aria-hidden="true"></i></button>
                                 <button type="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=item.Id,area="AdministracionMascotas"})','Actualizar Denuncia');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>

@@ -7,6 +7,16 @@
         cursor: not-allowed;
     }
 </style>
-<div id="view-all">
-    @await Html.PartialAsync("PartialView/_ListaReportes", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Lista de Reportes de Seguimiento Actual
+    </h3>
+    <p class="mb-4">
+        En esta vista se muestran los reportes asignados para el 
+        seguimiento actual, desde aqu&iacute; se puede establecer el 
+        rango de fechas y asignar la fecha de cada reporte o eliminar.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_ListaReportes", Model)
+    </div>
 </div>

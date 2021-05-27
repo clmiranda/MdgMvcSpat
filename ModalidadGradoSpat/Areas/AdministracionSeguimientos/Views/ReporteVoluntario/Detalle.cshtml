@@ -2,6 +2,16 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="view-all">
-    @await Html.PartialAsync("PartialView/_Detalle", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Vista Listado de Reportes
+    </h3>
+    <p class="mb-4">
+        En esta vista se detallan los reportes disponibles 
+        para el seguimiento actual, se habilitan solamente el mismo 
+        d&iacute;a al que fue asignado.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_Detalle", Model)
+    </div>
 </div>

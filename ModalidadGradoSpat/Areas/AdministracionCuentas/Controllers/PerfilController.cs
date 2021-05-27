@@ -30,9 +30,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             {
                 var response = await client.ExecuteAsync<User>(request);
                 if (!response.IsSuccessful)
-                {
                     throw new Exception();
-                }
                 return View(response.Data);
             }
             catch (Exception)

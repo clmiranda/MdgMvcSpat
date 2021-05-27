@@ -1,4 +1,4 @@
-﻿@model Tuple<IEnumerable<User>, Seguimiento>
+﻿@model Tuple<List<User>, Seguimiento>
 @{
     Layout = null;
 }
@@ -8,19 +8,20 @@
     }
 </style>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-    <div class="mx-auto mb-3">
-            <div class="card rounded text-center">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <strong>Domicilio del Adoptante</strong>
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Direcci&oacute;n del Adoptante:  @Model.Item2.ContratoAdopcion.Domicilio</p>
-                </div>
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="card rounded text-center">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <strong>Domicilio del Adoptante</strong>
+                </h5>
             </div>
+            <div class="card-body">
+                <p class="card-text">Direcci&oacute;n del Adoptante:  @Model.Item2.ContratoAdopcion.Domicilio</p>
+            </div>
+        </div>
     </div>
-    <div class="mx-auto">
+    <div class="col-lg-8 mx-auto mt-3">
         <div id="accordion">
             @foreach (var item in @Model.Item1)
             {
@@ -51,7 +52,7 @@
 
                     <div id="collapse-@item.Id" class="collapse" aria-labelledby="heading-@item.Id" data-parent="#accordion">
                         <div class="card-body row">
-                            <div class="col">
+                            <div class="col-lg-10">
                                 <p class="card-text">
                                     Direcci&oacute;n: @item.Domicilio
                                 </p>
@@ -65,7 +66,7 @@
                                     Correo Electr&oacute;nico: @item.Email
                                 </p>
                             </div>
-                            <div class="col">
+                            <div class="col-lg-2">
                                 @if (Model.Item2.Estado.Equals("Pendiente") && item.Id == Model.Item2.UserId)
                                 {
                                     <form asp-action="CancelarAsignacion" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
@@ -74,12 +75,11 @@
                                 }
                                 else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
                                 {
-                                    @*<button type="submit" class="btn btn-success" disabled><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>*@
                                     <form asp-action="QuitarAsignacion" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
                                         <button type="submit" class="btn btn-danger"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
                                     </form>
                                 }
-                                else if(Model.Item2.Estado.Equals("Activo"))
+                                else if (Model.Item2.Estado.Equals("Activo"))
                                 {
                                     <form asp-action="AsignarSeguimiento" asp-route-idUser="@item.Id" method="post" onsubmit="return checkVoluntario(this);">
                                         <button type="submit" class="btn btn-success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
@@ -92,6 +92,7 @@
             }
         </div>
     </div>
+</div>
 <script type="text/javascript">
     checkVoluntario = form => {
         try {

@@ -31,7 +31,6 @@
             <div class="mx-auto">
                 <img src="https://placehold.co/400x200" class="img-thumbnail" id="prevImg">
             </div>
-            @*@Html.ValidationMessageFor(x => x.Foto, "", new { @class = "text-danger" })*@
         </div>
     </div>
     <div class="modal-footer">
@@ -40,16 +39,16 @@
     </div>
 </form>
 
-    <script type="text/javascript" language=javascript>
-        $.validator.unobtrusive.parse(document);
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
 
-        $(document).ready(function () {
-            $('input[type="file"]').change(function (e) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById("prevImg").src = e.target.result;
-                };
-                reader.readAsDataURL(this.files[0]);
-            });
+    $(document).ready(function () {
+        $('input[type="file"]').change(function (e) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("prevImg").src = e.target.result;
+            };
+            reader.readAsDataURL(this.files[0]);
         });
-    </script>
+    });
+</script>

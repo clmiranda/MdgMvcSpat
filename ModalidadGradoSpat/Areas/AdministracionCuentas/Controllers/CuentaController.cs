@@ -138,16 +138,16 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 return Json(new { isValid = false });
             }
         }
-        public async Task<IEnumerable<User>> Listado()
+        public async Task<List<User>> Listado()
         {
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/User/GetUsers/", Method.GET);
-                var response = await client.ExecuteAsync/*<IEnumerable<User>>*/(request);
+                var response = await client.ExecuteAsync(request);
                 if (response.ResponseStatus.Equals(ResponseStatus.Error))
                     throw new Exception();
-                var vista = JsonConvert.DeserializeObject<IEnumerable<User>>(response.Content);
+                var vista = JsonConvert.DeserializeObject<List<User>>(response.Content);
                 return vista;
             }
             catch (Exception)

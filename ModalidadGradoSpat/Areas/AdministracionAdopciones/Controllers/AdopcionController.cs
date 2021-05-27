@@ -19,7 +19,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
     public class AdopcionController : Controller
     {
         private static RestClient client;
-        private static IEnumerable<ContratoAdopcion> _lista;
+        private static List<ContratoAdopcion> _listaParcial;
+        private static List<ContratoAdopcion> _listaGetAll;
         private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Pendiente";
         private static ContratoAdopcion _contratoAdopcion = new ContratoAdopcion();
         public AdopcionController()
@@ -30,6 +31,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         {
             ViewData["filter"] = filtrado;
             var vista = await Listado();
+            _listaGetAll = await ListadoPDF();
+            ViewData["listaContratos"] = _listaGetAll;
             return View(vista);
         }
         public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1, string filter = "Pendiente")
@@ -39,6 +42,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             filtrado = filter;
             ViewData["filter"] = filter;
             var vista = await Listado();
+            ViewData["listaContratos"] = _listaGetAll;
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
         [NoDirectAccess]
@@ -82,6 +86,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 TempData["alertsuccess"] = "Fecha actualizada exitosamente.";
                 ViewData["filter"] = filtrado;
                 var vista = await Listado();
+                ViewData["listaContratos"] = _listaGetAll;
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
@@ -90,7 +95,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _lista) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaParcial) });
             }
         }
         [HttpPost]
@@ -170,13 +175,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             }
             return Json(new { isValid = false });
         }
-        public async Task<IEnumerable<ContratoAdopcion>> Listado()
+        public async Task<List<ContratoAdopcion>> Listado()
         {
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ContratoAdopcion/GetAllContratos", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-                var response = await client.ExecuteAsync<IEnumerable<ContratoAdopcion>>(request);
+                var response = await client.ExecuteAsync<List<ContratoAdopcion>>(request);
                 if (response.ResponseStatus.Equals(ResponseStatus.Error))
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
@@ -186,8 +191,23 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 ViewData["totalItems"] = head["totalItems"].ToString();
                 ViewData["totalPages"] = head["totalPages"].ToString();
                 var vista = response.Data;
-                _lista = vista;
+                _listaParcial = vista;
                 return vista;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+        public async Task<List<ContratoAdopcion>> ListadoPDF() {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/ContratoAdopcion/GetAll", Method.GET);
+            try
+            {
+                var response = await client.ExecuteAsync<List<ContratoAdopcion>>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
+                return response.Data;
             }
             catch (Exception)
             {
@@ -200,7 +220,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             var request = new RestRequest("api/ContratoAdopcion/GetAll", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<IEnumerable<ContratoAdopcion>>(request);
+                var response = await client.ExecuteAsync<List<ContratoAdopcion>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var content = ReportAdopcion.ExcelAdopciones(response.Data);
@@ -220,7 +240,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             var request = new RestRequest("api/ContratoAdopcion/GetAllRechazoCancelado", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<IEnumerable<ContratoRechazo>>(request);
+                var response = await client.ExecuteAsync<List<ContratoRechazo>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var content = ReportAdopcion.ExcelAdopcionesRechazadas(response.Data);

@@ -2,10 +2,16 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<p class="mb-4">
-    Esta vista est&aacute; dise&ntilde;ada para asignar un voluntario al presente seguimiento,
-    puede modificar el voluntario al cual se va a asignar.
-</p>
-<div id="view-all">
-    @await Html.PartialAsync("PartialView/_Asignar", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Vista Asignaci&oacute;n del Seguimiento Actual
+    </h3>
+    <p class="mb-4">
+        Esta vista est&aacute; dise&ntilde;ada para asignar un voluntario al presente seguimiento,
+        puede modificar el voluntario al cual se va a asignar, o en caso de que este lo rechaze,
+        asignarlo a otro.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_Asignar", Model)
+    </div>
 </div>

@@ -41,9 +41,8 @@ else @if (ViewData["filter"].Equals("12 meses"))
 }
 </select>
 </form>
-<div class="container">
-    <div class="row">
-        <div class="col-12 my-5">
+    <div class="row mt-3">
+        <div class="col-12">
             <div class="card rounded shadow">
                 <div class="card-body">
                     <canvas id="chartAdopciones" style="width:100%;"></canvas>
@@ -51,7 +50,6 @@ else @if (ViewData["filter"].Equals("12 meses"))
             </div>
         </div>
     </div>
-</div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript">
         $('#selectAdopciones').on('change', function () {
@@ -87,21 +85,21 @@ else @if (ViewData["filter"].Equals("12 meses"))
             }]
         };
 
-        var chartOptions = {
-            legend: {
-                display: true,
-                position: 'top',
-                labels: {
-                    boxWidth: 80,
-                    fontColor: 'red'
-                }
-            }
-        };
-
         var lineChart = new Chart(ctx, {
             type: 'line',
             data: speedData,
-            options: chartOptions
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Adopciones Registradas por mes.'
+                    }
+                }
+            }
         });
     });
     </script>

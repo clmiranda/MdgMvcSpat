@@ -3,8 +3,9 @@
     ViewData["Title"] = "Adopciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h5>Gr&aacute;ficas de Adopciones</h5>
-
-<div id="contenido">
-    @await Html.PartialAsync("PartialView/_Adopciones", Model)
+<div class="container-fluid my-5">
+    <h3>Gr&aacute;ficas de Adopciones</h3>
+    <div class="mb-4" id="viewAdopciones">
+        @await Html.PartialAsync("PartialView/_Adopciones", Model)
+    </div>
 </div>

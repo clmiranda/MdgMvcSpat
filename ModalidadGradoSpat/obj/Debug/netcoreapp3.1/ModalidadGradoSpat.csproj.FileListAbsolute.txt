@@ -438,6 +438,13 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionMascotas\Views\ReporteTratamiento\Lista.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionMascotas\Views\ReporteTratamiento\PartialView\_Lista.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionMascotas\_ViewImports.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\Adopciones.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\Mascotas.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\PartialView\_Adopciones.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\PartialView\_Mascotas.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\PartialView\_ReporteSeguimientos.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\ReporteSeguimientos.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\_ViewImports.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteSeguimiento\EditReporte.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteSeguimiento\EditSeguimiento.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteSeguimiento\ListaReportes.cshtml.g.cs
@@ -471,6 +478,7 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Views\Home\StatusCodeHandle.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Views\Inicio\Dashboard.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Views\RenderSweetAlert.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
@@ -484,11 +492,3 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.dll
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.pdb
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.genruntimeconfig.cache
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Views\Inicio\Dashboard.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\_ViewImports.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\PartialView\_Adopciones.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\PartialView\_Mascotas.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\PartialView\_ReporteSeguimientos.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\Adopciones.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\Mascotas.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionReportes\Views\Graficas\ReporteSeguimientos.cshtml.g.cs
