@@ -15,16 +15,8 @@ namespace ModalidadGradoSpat.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
-        //[Authorize(Roles = "SuperAdministrador, Administrador, Voluntario")]
-        //public ActionResult Index()
-        //{
-        //    if (HttpContext.Session.GetString("JWToken") == "" || HttpContext.Session.GetString("JWToken") == null)
-        //        return RedirectToAction("Login", "Cuenta");
-
-        //    ViewData["tokenjwt"] = HttpContext.Session.GetString("JWToken");
-        //    return View();
-        //}
         [Authorize(Roles = "SuperAdministrador, Administrador")]
+        [Route("Dashboard")]
         public async Task<IActionResult> Dashboard() {
             if (HttpContext.Session.GetString("JWToken") == "" || HttpContext.Session.GetString("JWToken") == null)
                 return RedirectToAction("Login", "Cuenta");

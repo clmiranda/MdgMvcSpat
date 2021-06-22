@@ -44,8 +44,15 @@ namespace ModalidadGradoSpat.Areas.AdministracionReportes.Controllers
         {
             filtro = filtrado;
             ViewData["filter"] = filtrado;
-            var vista = await ListadoAdopciones();
-            return Json(Helper.RenderRazorViewToString(this, "PartialView/_Adopciones", vista));
+            try
+            {
+                var vista = await ListadoAdopciones();
+                return Json(Helper.RenderRazorViewToString(this, "PartialView/_Adopciones", vista));
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
         public async Task<IActionResult> Mascotas()
         {
@@ -74,8 +81,15 @@ namespace ModalidadGradoSpat.Areas.AdministracionReportes.Controllers
         {
             filtro = filtrado;
             ViewData["filter"] = filtrado;
-            var vista = await ListadoMascotas();
-            return Json(Helper.RenderRazorViewToString(this, "PartialView/_Mascotas", vista));
+            try
+            {
+                var vista = await ListadoMascotas();
+                return Json(Helper.RenderRazorViewToString(this, "PartialView/_Mascotas", vista));
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
         public async Task<IActionResult> ReporteSeguimientos()
         {
@@ -104,8 +118,15 @@ namespace ModalidadGradoSpat.Areas.AdministracionReportes.Controllers
         {
             filtro = filtrado;
             ViewData["filter"] = filtrado;
-            var vista = await ListadoReporteSeguimientos();
-            return Json(Helper.RenderRazorViewToString(this, "PartialView/_ReporteSeguimientos", vista));
+            try
+            {
+                var vista = await ListadoReporteSeguimientos();
+                return Json(Helper.RenderRazorViewToString(this, "PartialView/_ReporteSeguimientos", vista));
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
     }
 }

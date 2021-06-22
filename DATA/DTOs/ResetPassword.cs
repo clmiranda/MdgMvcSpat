@@ -7,7 +7,7 @@ namespace DATA.DTOs
     {
         [Required(ErrorMessage ="La nueva contraseña es requerida.")]
         [DataType(DataType.Password)]
-        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*?[0-9])(?=.*[#$^+=!*()@%&]).{8,}$",ErrorMessage ="La contraseña no cumple con los requisitos.")]
+        //[RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*?[0-9])(?=.*[#$^+=!*()@%&]).{8,}$",ErrorMessage ="La contraseña no cumple con los requisitos.")]
         public string Password { get; set; }
         [NotMapped]
         [Required(ErrorMessage ="Debe confirmar la contraseña.")]

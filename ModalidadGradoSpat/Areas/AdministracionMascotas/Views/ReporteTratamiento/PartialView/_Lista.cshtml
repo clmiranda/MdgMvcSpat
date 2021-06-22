@@ -19,7 +19,7 @@ else
             <button type="button" onclick="showInPopup('@Url.Action("AddOrEditReporteTratamiento","ReporteTratamiento",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nuevo Reporte Tratamiento');" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#form-modal">
             <i class="fas fa-plus-square"></i>
             </button>
-            <button type="button" class="ml-5 btn btn-warning btn-lg" onclick="location.href='@Url.Action("Detalle","ReporteTratamiento",new {id=ViewData["idMascota"], area="AdministracionMascotas"})'">
+            <button type="button" class="ml-5 btn btn-warning btn-lg" onclick="location.href='@Url.Action("Detalle","ReporteTratamiento",new {id=Model.Id, area="AdministracionMascotas"})'">
             <i class="fas fa-eye"></i>
             </button>
         </div>

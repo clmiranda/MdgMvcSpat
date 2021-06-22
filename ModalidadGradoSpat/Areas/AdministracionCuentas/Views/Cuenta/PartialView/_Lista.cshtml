@@ -78,10 +78,10 @@
                                 {
                                     <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">Asignar Roles</button>
                                 }
-                                <form asp-action="CambiarEstado" asp-route-idUser="@item.Id" method="post" onsubmit="return cambiarEstado(this);">
+                                <form asp-action="CambiarEstado" asp-route-idUser="@item.Id" onsubmit="return changeEstado(this);">
                                     <button type="submit" class="btn btn-warning">Cambiar Estado</button>
                                 </form>
-                                <form asp-action="EliminarUsuario" asp-route-idUser="@item.Id" method="post" onsubmit="return eliminarUsuario(this);">
+                                <form asp-action="EliminarUsuario" asp-route-idUser="@item.Id" onsubmit="return eliminarUsuario(this);">
                                     <button type="submit" class="btn btn-danger">Eliminar Usuario</button>
                                 </form>
                             </div>
@@ -182,19 +182,16 @@
                     processData: false,
                     success: function (res) {
                         $('#view-all').html(res.html);
-                    },
-                    error: function (err) {
-                        console.log(err);
                     }
                 })
                     .fail(function (jqXHR, textStatus, errorThrown) {
-                        window.location.href = "/Home/Error/" + jqXHR.statusCode;
+                        window.location.href = "/Home/Error/" + jqXHR.status;
                     })
                 return false;
             }
         })
     };
-    cambiarEstado = form => {
+    changeEstado = form => {
         $.ajax({
             type: "POST",
             url: form.action,
@@ -205,13 +202,10 @@
                 if (res.isValid) {
                     $('#view-all').html(res.html);
                 }
-            },
-            error: function (err) {
-                console.log(err);
             }
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Home/Error/" + jqXHR.statusCode;
+                window.location.href = "/Home/Error/" + jqXHR.status;
             })
         return false;
     };

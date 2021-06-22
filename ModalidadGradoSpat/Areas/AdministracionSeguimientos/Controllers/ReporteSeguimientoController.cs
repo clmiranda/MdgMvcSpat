@@ -20,7 +20,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
-        public async Task<IActionResult> ListaReportes(int id)
+        public async Task<IActionResult> Lista(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
@@ -68,7 +68,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Rango de fechas actualizada.";
-                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", response.Data) });
+                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", response.Data) });
                 }
                 catch (Exception ex)
                 {
@@ -95,7 +95,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Fecha actualizada.";
                 _seguimiento = response.Data;
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", response.Data) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", response.Data) });
             }
             catch (Exception ex)
             {
@@ -103,7 +103,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { /*isValid = false, */html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", _seguimiento) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _seguimiento) });
             }
         }
         [HttpPost]
@@ -119,7 +119,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Reporte creado.";
                 _seguimiento = response.Data;
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", response.Data) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", response.Data) });
             }
             catch (Exception ex)
             {
@@ -127,7 +127,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", _seguimiento) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _seguimiento) });
             }
         }
         [HttpPost]
@@ -143,7 +143,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Reporte eliminado.";
                 _seguimiento = response.Data;
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", response.Data) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", response.Data) });
             }
             catch (Exception ex)
             {
@@ -151,7 +151,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { /*isValid = false */ html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", _seguimiento) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _seguimiento) });
             }
         }
     }

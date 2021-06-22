@@ -14,7 +14,19 @@
     </div>
     <div class="my-2">
         <h5>
-            <span class="badge badge-pill p-2 badge-primary">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaConclusion.ToShortDateString()</span>
+            @if (Model.User == null)
+            {
+                <span class="badge badge-pill p-2 badge-warning">A&uacute;n no tiene un Voluntario asignado.</span>
+            }
+            else
+            {
+                <span class="badge badge-pill p-2 badge-success">Voluntario Asignado: @Model.User.Nombres @Model.User.Apellidos</span>
+            }
+        </h5>
+    </div>
+    <div class="my-2">
+        <h5>
+            <span class="badge badge-pill p-2 badge-secondary">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaConclusion.ToShortDateString()</span>
         </h5>
     </div>
     <div class="my-2">
@@ -173,7 +185,6 @@
             }
         });
         $('[data-toggle="datepicker"]').on('change', function () {
-            try {
                 $.ajax({
                     type: "POST",
                     url: this.form.action,
@@ -182,18 +193,12 @@
                     processData: false,
                     success: function (res) {
                         $('#view-all').html(res.html);
-                    },
-                    error: function (err) {
-                        console.log(err);
                     }
                 })
                     .fail(function (jqXHR, textStatus, errorThrown) {
                         window.location.href = "/Home/Error";
                     })
                 return false;
-            } catch (e) {
-                console.log(e);
-            }
         })
     });
 </script>

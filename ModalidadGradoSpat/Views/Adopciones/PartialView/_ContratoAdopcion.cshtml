@@ -94,11 +94,6 @@
                         <textarea id="idP7" class="form-control" asp-for="@Model.Respuesta7" placeholder="Ingresa tu Respuesta"></textarea>
                         @Html.ValidationMessageFor(x => x.Respuesta7, "", new { @class = "text-danger" })
                     </div>
-                    <div class="form-check col-sm-12">
-                        <input type="checkbox" asp-for="@Model.TerminosCondiciones" class="form-check-input" id="idTermsConditions">
-                        <label class="form-check-label" for="idTermsConditions">Acepto los <a href="@Url.Action("TerminosDeAdopcion","Adopciones", new { area=""})" target="_blank">Terminos y Condiciones del Contrato.</a></label><br />
-                        @Html.ValidationMessageFor(x => x.TerminosCondiciones, "", new { @class = "text-danger" })
-                    </div>
                 </div>
                 <div class="col-md-12 text-center">
                     <button type="submit" class="btn btn-primary">Enviar Datos</button>
@@ -108,10 +103,8 @@
                 var defaultRangeValidator = $.validator.methods.range;
                 $.validator.methods.range = function (value, element, param) {
                     if (element.type === 'checkbox') {
-                        // if it's a checkbox return true if it is checked
                         return element.checked;
                     } else {
-                        // otherwise run the default validation function
                         return defaultRangeValidator.call(this, value, element, param);
                     }
                 }
@@ -136,7 +129,6 @@
                 });
                 setInputFilter(document.getElementById("idNumero"), function (value) {
                     return /^-?\d*$/.test(value);
-                    //return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 100);
                 });
             </script>
         }
@@ -146,7 +138,7 @@
         No se puede visualizar el contenido.
     </p>
             <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary" onclick="window.location='@Url.Action("Lista","Adopciones", new { area=""})'">Volver a Inicio</button>
+                <button type="submit" class="btn btn-primary" onclick="window.location='@Url.Action("Inicio","Adopciones", new { area=""})'">Volver a Inicio</button>
             </div>
         }
     </div>

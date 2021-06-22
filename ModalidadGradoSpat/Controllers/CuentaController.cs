@@ -1,5 +1,6 @@
 ﻿using DATA.DTOs;
 using DATA.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Controllers
 {
+    [Authorize(Roles = "SuperAdministrador, Administrador, Voluntario")]
     public class CuentaController : Controller
     {
         private static RestClient client;
@@ -18,29 +20,32 @@ namespace ModalidadGradoSpat.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
+        [AllowAnonymous]
+        [Route("Login")]
         public ActionResult Login()
         {
             return View();
         }
         [NoDirectAccess]
+        [Route("ConfirmarEmail")]
         public ActionResult ConfirmEmail()
         {
             TempData["alertsuccess"] = "Email verificado correctamente.";
             return RedirectToAction("Login","Cuenta", new { area="" });
         }
-        public ActionResult Registro()
-        {
-            return View();
-        }
+        [AllowAnonymous]
+        [Route("ForgotPassword")]
         public ActionResult ForgotPassword()
         {
             return View();
         }
+        [AllowAnonymous]
         public ActionResult ResetPassword(string email, string token)
         {
             var model = new ResetPassword { Token = token, Email = email };
             return View(model);
         }
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendDataLogin(UserForLogin usu)
@@ -57,7 +62,6 @@ namespace ModalidadGradoSpat.Controllers
                     User user = JsonConvert.DeserializeObject<User>(Convert.ToString(valor["user"]));
                     string token = valor["token"];
                     HttpContext.Session.SetString("JWToken", token);
-                    HttpContext.Session.SetString("SesionUser", JsonConvert.SerializeObject(user));
                     if (user.Roles.Contains("Administrador"))
                         return Json(new { url = Url.Action("Dashboard", "Inicio", new { area = "" }) });
                     else
@@ -126,8 +130,15 @@ namespace ModalidadGradoSpat.Controllers
         }
         public IActionResult LogOut()
         {
+            var cookieOptions = new CookieOptions {
+                Expires = DateTime.Now.AddDays(-1)
+            };
+            foreach (var cookie in HttpContext.Request.Cookies.Keys)
+            {
+                HttpContext.Response.Cookies.Delete(cookie, cookieOptions);
+            }
             HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Cuenta", new { area = "" });
+            return RedirectToAction("Inicio", "Adopciones", new { area = "" });
         }
     }
 }

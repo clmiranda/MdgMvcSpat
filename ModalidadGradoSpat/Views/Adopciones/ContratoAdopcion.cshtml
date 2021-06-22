@@ -7,12 +7,17 @@
         border-radius: .75rem !important
     }
 </style>
-<p class="justify-content-center">
-    El siguiente es el contrato de la adopcion donde usted debe ingresar sus datos
-    para proceder con la evaluacion del contrato y si es apto para adoptar
-    nos pondremos en contacto con usted, por ello es importante que los datos brindados
-    sean los correctos.
-</p>
-<div id="body-content-action">
-    @await Html.PartialAsync("PartialView/_ContratoAdopcion", Model)
+<div class="container-fluid my-5">
+    <h3>
+        Contrato de Adopci&oacute;n de la Mascota
+    </h3>
+    <p class="mb-4">
+        Debe llenar el siguiente contrato con sus datos personales, a su vez responder 
+        a las preguntas planteadas para asegurarnos que pueda ser una persona apta para poder 
+        adoptar, nos pondremos en contacto con usted en caso de aprobarse la adopci&oacute;n, 
+        por ello es importante que los datos brindados sean los correctos.
+    </p>
+    <div id="body-content-action">
+        @await Html.PartialAsync("PartialView/_ContratoAdopcion", Model)
+    </div>
 </div>

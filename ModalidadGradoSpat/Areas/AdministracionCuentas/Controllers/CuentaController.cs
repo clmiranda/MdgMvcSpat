@@ -30,7 +30,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         [NoDirectAccess]
         public ActionResult AddUsuario()
         {
-            return View();
+            return View(new User());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -51,13 +51,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 }
                 catch (Exception ex)
                 {
-                        if (ex.Message == "")
-                            throw new Exception();
+                    if (ex.Message == "")
+                        throw new Exception();
                     dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                     TempData["alerterror"] = msg["mensaje"];
                 }
             }
-            return Json(new { isValid = false/*, html = Helper.RenderRazorViewToString(this, "AddUsuario", user)*/ });
+            return Json(new { isValid = false });
         }
         [NoDirectAccess]
         public ActionResult AsignarRoles(int id, string[] roles)
@@ -70,7 +70,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         public async Task<ActionResult> PostRoles(string[] RolesUsuario)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/User/PutRolesUser/"+ idUser, Method.POST).AddJsonBody(RolesUsuario);
+            var request = new RestRequest("api/User/PutRolesUser/" + idUser, Method.POST).AddJsonBody(RolesUsuario);
             try
             {
                 var response = await client.ExecuteAsync(request);
@@ -145,7 +145,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/User/GetUsers/", Method.GET);
                 var response = await client.ExecuteAsync(request);
-                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                if (!response.IsSuccessful)
                     throw new Exception();
                 var vista = JsonConvert.DeserializeObject<List<User>>(response.Content);
                 return vista;

@@ -19,7 +19,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
     public class AdopcionController : Controller
     {
         private static RestClient client;
-        private static List<ContratoAdopcion> _listaParcial;
         private static List<ContratoAdopcion> _listaGetAll;
         private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Pendiente";
         private static ContratoAdopcion _contratoAdopcion = new ContratoAdopcion();
@@ -76,6 +75,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateFecha(int id, DateTime FechaAdopcion)
         {
+            ViewData["filter"] = filtrado;
+            ViewData["listaContratos"] = _listaGetAll;
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ContratoAdopcion/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaAdopcion", FechaAdopcion);
             try
@@ -84,9 +85,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Fecha actualizada exitosamente.";
-                ViewData["filter"] = filtrado;
                 var vista = await Listado();
-                ViewData["listaContratos"] = _listaGetAll;
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
@@ -95,7 +94,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaParcial) });
+                var vista = await Listado();
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
         }
         [HttpPost]
@@ -182,7 +182,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ContratoAdopcion/GetAllContratos", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
                 var response = await client.ExecuteAsync<List<ContratoAdopcion>>(request);
-                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
                 var head = JObject.Parse(header.Value.ToString());
@@ -191,7 +191,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 ViewData["totalItems"] = head["totalItems"].ToString();
                 ViewData["totalPages"] = head["totalPages"].ToString();
                 var vista = response.Data;
-                _listaParcial = vista;
                 return vista;
             }
             catch (Exception)

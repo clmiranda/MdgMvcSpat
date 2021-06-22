@@ -6,35 +6,35 @@
 <form method="post" asp-action="UpdateUser" onsubmit="return showFormAux(this);" autocomplete="off">
     <input type="hidden" asp-for="Id"/>
     <div class="form-group">
-        <label for="idUserEmail">Este es el Email con el que se ha creado la cuenta</label>
-        <input type="email" class="form-control" id="idUserEmail" value="@Model.Email" disabled readonly>
+        <label for="idEmail">Email de la cuenta:</label>
+        <input class="form-control" asp-for="Email" id="idEmail" value="@Model.Email" readonly>
     </div>
     <div class="form-group">
-        <label for="idUserUsername">Nombre de Usuario</label>
-        <input type="text" class="form-control" id="idUserUsername" asp-for="UserName" value="@Model.UserName" placeholder="Ingresa Nombre de Usuario">
+        <label for="idUsername">Nombre de Usuario:</label>
+        <input class="form-control" id="idUsername" asp-for="UserName" value="@Model.UserName" placeholder="Ingresa Nombre de Usuario">
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="idUserNombre">Nombre(s)</label>
-            <input type="text" class="form-control" asp-for="Nombres" value="@Model.Nombres" id="idUserNombre" placeholder="Ingresa tu(s) Nombre(s)">
+            <label for="idNombre">Nombre(s):</label>
+            <input class="form-control" asp-for="Nombres" value="@Model.Nombres" id="idNombre" placeholder="Ingresa tu(s) Nombre(s)">
         </div>
         <div class="form-group col-md-6">
-            <label for="idUserApellido">Apellido(s)</label>
-            <input type="text" class="form-control" asp-for="Apellidos" value="@Model.Apellidos" id="idUserApellido" placeholder="Ingresa tu(s) Apellido(s)">
+            <label for="idApellido">Apellido(s):</label>
+            <input class="form-control" asp-for="Apellidos" value="@Model.Apellidos" id="idApellido" placeholder="Ingresa tu(s) Apellido(s)">
         </div>
     </div>
     <div class="form-group">
-        <label for="idUserDomicilio">Domicilio</label>
-        <input type="text" class="form-control" asp-for="Domicilio" value="@Model.Domicilio" id="idUserDomicilio" placeholder="Ingresa tu Domicilio">
+        <label for="idDomicilio">Domicilio:</label>
+        <input class="form-control" asp-for="Domicilio" value="@Model.Domicilio" id="idDomicilio" placeholder="Ingresa tu Domicilio">
     </div>
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="idUserNumeroCelular">N&uacute;mero de Celular</label>
-            <input type="text" class="form-control" onkeypress="return isNumber(event);" asp-for="NumeroCelular" value="@Model.NumeroCelular" id="idUserNumeroCelular" placeholder="Ingresa tu Numero de Celular">
+            <label for="idNumero">N&uacute;mero de Celular:</label>
+            <input class="form-control" onkeypress="return isNumber(event);" asp-for="NumeroCelular" value="@Model.NumeroCelular" id="idNumero" placeholder="Ingresa tu Numero de Celular">
         </div>
         <div class="form-group col-md-4">
-            <label for="idUserSexo">Sexo</label>
-            <select class="form-control" asp-for="Sexo" value="@Model.Sexo" id="idUserSexo">
+            <label for="idSexo">Sexo:</label>
+            <select class="form-control" asp-for="Sexo" value="@Model.Sexo" id="idSexo">
                 @if (Model.Sexo == null || Model.Sexo.Equals("Masculino"))
                 {
                     <option value="Masculino" selected>Masculino</option>
@@ -50,17 +50,17 @@
         <div class="form-group col-md-4">
             @if (Model.FechaNacimiento.ToShortDateString().Equals("01/01/0001"))
             {
-                <label for="idUserFechaNac">Fecha de Nacimiento</label>
-                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@DateTime.Now.Date.ToShortDateString()" id="idUserFechaNac" readonly>
+                <label for="idFechaNacimiento">Fecha de Nacimiento:</label>
+                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@DateTime.Now.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
             }
             else
             {
-                <label for="idUserFechaNac">Fecha de Nacimiento (@Model.Edad a&ntilde;os)</label>
-                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@Model.FechaNacimiento.Date.ToShortDateString()" id="idUserFechaNac" readonly>
+                <label for="idFechaNacimiento">Fecha de Nacimiento (@Model.Edad a&ntilde;os):</label>
+                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@Model.FechaNacimiento.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
             }
         </div>
     </div>
-    <button type="submit" class="btn btn-primary mx-auto">Guardar Cambios</button>
+    <button type="submit" class="btn btn-primary" disabled>Guardar Cambios</button>
 </form>
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
@@ -72,4 +72,7 @@
             return false;
         return true;
     }
+    $('form [class="form-control"]').on('change input', function () {
+        $('form button[type="submit"]').prop('disabled', false);
+    });
 </script>

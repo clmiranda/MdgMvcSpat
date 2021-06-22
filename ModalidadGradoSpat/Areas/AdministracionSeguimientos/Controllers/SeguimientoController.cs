@@ -45,7 +45,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             ViewData["listaSeguimientos"] = _listaGetAll;
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
-        public async Task<IActionResult> Asignar(int id)
+        public async Task<IActionResult> AsignarSeguimiento(int id)
         {
             idSeguimiento = id;
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -72,7 +72,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AsignarSeguimiento(int idUser)
+        public async Task<IActionResult> PostAsignarSeguimiento(int idUser)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/AsignarSeguimiento/" + idUser, Method.PUT);
@@ -90,7 +90,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(_listaVolun, _seguimiento)) });
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PartialView/_AsignarSeguimiento", new Tuple<List<User>, Seguimiento>(_listaVolun, _seguimiento)) });
             }
         }
         [HttpPost]
@@ -107,7 +107,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 TempData["alertsuccess"] = "Usuario desvinculado del seguimiento.";
                 var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
                 var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
-                return Json(new {/* isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
+                return Json(new {html = Helper.RenderRazorViewToString(this, "PartialView/_AsignarSeguimiento", new Tuple<List<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
             }
             catch (Exception ex)
             {
@@ -115,7 +115,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { /*isValid = false,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(_listaVolun, _seguimiento)) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_AsignarSeguimiento", new Tuple<List<User>, Seguimiento>(_listaVolun, _seguimiento)) });
             }
         }
         [HttpPost]
@@ -132,7 +132,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 TempData["alertsuccess"] = "Se ha cancelado la solicitud de asignación.";
                 var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
                 var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
-                return Json(new {/* isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
+                return Json(new {html = Helper.RenderRazorViewToString(this, "PartialView/_AsignarSeguimiento", new Tuple<List<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
             }
             catch (Exception ex)
             {
@@ -140,7 +140,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { /*isValid = false,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(_listaVolun, _seguimiento)) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_AsignarSeguimiento", new Tuple<List<User>, Seguimiento>(_listaVolun, _seguimiento)) });
             }
         }
         public async Task<List<Seguimiento>> Listado()
@@ -150,7 +150,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimiento", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
                 var response = await client.ExecuteAsync<List<Seguimiento>>(requestGet);
-                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
                 var head = JObject.Parse(header.Value.ToString());
@@ -189,6 +189,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Seguimiento/GetAll", Method.GET);
                 var response = await client.ExecuteAsync<List<Seguimiento>>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
                 var content = ReportSeguimientoReporte.ExcelSeguimientos(response.Data);
                 return File(
                     content,
@@ -207,6 +209,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ReporteSeguimiento/GetAll", Method.GET);
                 var response = await client.ExecuteAsync<List<ReporteSeguimiento>>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
                 var content = ReportSeguimientoReporte.ExcelReportes(response.Data);
                 return File(
                     content,

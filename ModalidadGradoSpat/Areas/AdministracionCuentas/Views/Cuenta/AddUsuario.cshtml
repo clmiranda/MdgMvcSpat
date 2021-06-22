@@ -86,7 +86,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary" disabled>Guardar</button>
     </div>
 </form>
 <script type="text/javascript" language=javascript>
@@ -94,6 +94,9 @@
 
     var url = "/archivos/js/daterangepicker.js";
     $.getScript(url);
+    $('form [class="form-control"]').on('change input', function () {
+        $('form button[type="submit"]').prop('disabled', false);
+    });
     var togglePassword = document.querySelector('.fa-eye');
     var password = document.querySelector('#idPassword');
     togglePassword.addEventListener('click', function (e) {
@@ -103,7 +106,7 @@
     });
     $(document).ready(function () {
         var mayus = new RegExp("^(?=.*[A-Z])");
-        var special = new RegExp("^(?=.*[!@@#$%&*])");
+        var special = new RegExp("^(?=.*[-!$%^&*()\\\\@@#_+|~=`{}\:\"\;'<>?,.\/])");
         var numbe = new RegExp("^(?=.*[0-9])");
         var lower = new RegExp("^(?=.*[a-z])");
         var charac = new RegExp("^(?=.{8,})");

@@ -1,0 +1,36 @@
+﻿@model Mascota
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    button[disabled] {
+        cursor: not-allowed;
+    }
+</style>
+<div class="container-fluid my-5">
+    <h3>
+        Agregar/Modificar datos Mascota.
+    </h3>
+    <p class="mb-4">
+        En esta vista se puede agregar la mascota que corresponde a la denuncia elegida,
+        as&iacute; como tambi&eacute;n modificar los datos una vez es registrada.
+    </p>
+    <nav>
+        <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-mascota" data-toggle="tab" href="#mascota" role="button" aria-controls="mascota" aria-selected="true">Actualizar Datos</a>
+            <a class="nav-item nav-link" id="nav-fotos" data-toggle="tab" href="#fotos" role="button" aria-controls="fotos" aria-selected="false">Fotos</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="mascota" role="tabpanel" aria-labelledby="nav-mascota">
+            <div id="body-content-view">
+                @await Html.PartialAsync("PartialView/_Mascota.cshtml", Model)
+            </div>
+        </div>
+        <div class="tab-pane fade" id="fotos" role="tabpanel" aria-labelledby="nav-fotos">
+            <div id="body-content-action">
+                @await Html.PartialAsync("PartialView/_Fotos.cshtml", Model)
+            </div>
+        </div>
+    </div>
+</div>
