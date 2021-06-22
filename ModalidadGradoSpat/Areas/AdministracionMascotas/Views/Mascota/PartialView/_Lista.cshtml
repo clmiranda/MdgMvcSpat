@@ -149,20 +149,20 @@
             @if (int.Parse(ViewData["currentPage"].ToString()) > 1)
             {
                 <li class="page-item">
-                    <button class="page-link" value="1" onclick="GetValueButton(this.value)">First</button>
+                    <button class="page-link" value="1" onclick="GetValueButton(this.value)">Primer</button>
                 </li>
                 <li class="page-item">
                     @{ int p = int.Parse(ViewData["currentPage"].ToString()) - 1;}
-                    <button class="page-link" value="@p" onclick="GetValueButton(this.value)">Previous</button>
+                    <button class="page-link" value="@p" onclick="GetValueButton(this.value)">Anterior</button>
                 </li>
             }
             else
             {
                 <li class="page-item">
-                    <button type="button" class="page-link">First<span class="sr-only"></span></button>
+                    <button type="button" class="page-link">Primer<span class="sr-only"></span></button>
                 </li>
                 <li class="page-item">
-                    <button type="button" class="page-link">Previous<span class="sr-only"></span></button>
+                    <button type="button" class="page-link">Anterior<span class="sr-only"></span></button>
                 </li>
             }
 
@@ -184,19 +184,19 @@
             {
                 <li class="page-item">
                     @{int n = int.Parse(ViewData["currentPage"].ToString()) + 1;}
-                    <button class="page-link" value="@n" onclick="GetValueButton(this.value)">Next</button>
+                    <button class="page-link" value="@n" onclick="GetValueButton(this.value)">Siguiente</button>
                 </li>
                 <li class="page-item">
-                    <button class="page-link" value="@ViewData["totalPages"]" onclick="GetValueButton(this.value)">Last</button>
+                    <button class="page-link" value="@ViewData["totalPages"]" onclick="GetValueButton(this.value)">&Uacute;ltimo</button>
                 </li>
             }
             else
             {
                 <li class="page-item">
-                    <button type="button" class="page-link">Next<span class="sr-only"></span></button>
+                    <button type="button" class="page-link">Siguiente<span class="sr-only"></span></button>
                 </li>
                 <li class="page-item">
-                    <button type="button" class="page-link">Last<span class="sr-only"></span></button>
+                    <button type="button" class="page-link">&Uacute;ltimo<span class="sr-only"></span></button>
                 </li>
             }
         </ul>
@@ -232,7 +232,6 @@
         $('#buscar').prop('disabled', this.value == "" ? true : false);
     });
     $('select').on('change', function () {
-        try {
             $.ajax({
                 type: "POST",
                 url: this.form.action,
@@ -241,20 +240,13 @@
                 processData: false,
                 success: function (res) {
                     $('#view-all').html(res.html);
-                    //$('#example').DataTable().draw();
-                },
-                error: function (err) {
-                    console.log(err);
                 }
             })
-            //para prevenir el evento submit del form
-            //return false;
-        } catch (e) {
-            console.log(e);
-        }
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    window.location.href = "/Home/Error/" + jqXHR.status;
+                })
     });
     send = form => {
-        try {
             $.ajax({
                 type: "POST",
                 url: form.action,
@@ -263,17 +255,11 @@
                 processData: false,
                 success: function (res) {
                     $('#view-all').html(res.html);
-                },
-                error: function (err) {
-                    console.log(err);
                 }
             })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Home/Error";
+                    window.location.href = "/Home/Error/" + jqXHR.status;
                 })
             return false;
-        } catch (e) {
-            console.log(e);
-        }
     };
 </script>

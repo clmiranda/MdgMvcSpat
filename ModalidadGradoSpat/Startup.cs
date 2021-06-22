@@ -33,7 +33,7 @@ namespace ModalidadGradoSpat
             services.AddMvc();
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                options.IdleTimeout = TimeSpan.FromHours(1);
             });
             //services.AddDistributedMemoryCache();
             //services.AddSession();
@@ -93,37 +93,34 @@ namespace ModalidadGradoSpat
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapControllerRoute(
-                //    name: "AreaAdministracion",
-                //    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                                endpoints.MapAreaControllerRoute(
+            endpoints.MapAreaControllerRoute(
             name: "AreaAdministracionMascotas",
             areaName: "AdministracionMascotas",
             pattern: "AdministracionMascotas/{controller=}/{action=}/{id?}");
 
-                endpoints.MapAreaControllerRoute(
-name: "AreaAdministracionAdopciones",
-areaName: "AdministracionAdopciones",
-pattern: "AdministracionAdopciones/{controller=}/{action=}/{id?}");
+            endpoints.MapAreaControllerRoute(
+            name: "AreaAdministracionAdopciones",
+            areaName: "AdministracionAdopciones",
+            pattern: "AdministracionAdopciones/{controller=}/{action=}/{id?}");
 
-                endpoints.MapAreaControllerRoute(
-name: "AreaAdministracionCuentas",
-areaName: "AdministracionCuentas",
-pattern: "AdministracionCuentas/{controller=}/{action=}/{id?}");
+            endpoints.MapAreaControllerRoute(
+            name: "AreaAdministracionCuentas",
+            areaName: "AdministracionCuentas",
+            pattern: "AdministracionCuentas/{controller=}/{action=}/{id?}");
 
-                endpoints.MapAreaControllerRoute(
-name: "AreaAdministracionReportes",
-areaName: "AdministracionReportes",
-pattern: "AdministracionReportes/{controller=}/{action=}/{id?}");
+            endpoints.MapAreaControllerRoute(
+            name: "AreaAdministracionReportes",
+            areaName: "AdministracionReportes",
+            pattern: "AdministracionReportes/{controller=}/{action=}/{id?}");
 
-                endpoints.MapAreaControllerRoute(
-name: "AreaAdministracionSeguimientos",
-areaName: "AdministracionSeguimientos",
-pattern: "AdministracionSeguimientos/{controller=}/{action=}/{id?}");
+            endpoints.MapAreaControllerRoute(
+            name: "AreaAdministracionSeguimientos",
+            areaName: "AdministracionSeguimientos",
+            pattern: "AdministracionSeguimientos/{controller=}/{action=}/{id?}");
 
                 endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Adopciones}/{action=Index}/{id?}");
+                pattern: "{controller=Adopciones}/{action=Inicio}/{id?}");
             });
         }
     }

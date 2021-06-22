@@ -1,7 +1,5 @@
 ﻿@model string[]
-@{
-    Layout = null;
-}
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <form class="text-center" asp-action="PostRoles" method="post" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
     <div class="custom-control custom-checkbox mb-3">
         <input name="RolesUsuario[]" value="Administrador" class="custom-control-input" type="checkbox" id="idAdmin">
@@ -23,7 +21,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary" disabled>Guardar</button>
     </div>
 </form>
 <script type="text/javascript" language=javascript>
@@ -37,4 +35,7 @@
         else if (item.Equals("Moderador"))
         { <text>$("#idModerador").prop('checked', true);</text> }
     }
+    $('form [class="custom-control-input"]').on('change input', function () {
+        $('form button[type="submit"]').prop('disabled', false);
+    });
 </script>

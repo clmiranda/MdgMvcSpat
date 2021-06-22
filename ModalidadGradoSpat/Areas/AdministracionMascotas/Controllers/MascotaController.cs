@@ -36,10 +36,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             pagesize = sizePage; pagenumber = currentPage; busqueda = search;
             ViewData["search"] = search;
             var vista = await Listado();
-            return Json(new {html= Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista) });
+            return Json(new {html= Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
         }
-        public async Task<IActionResult> MascotaView(int id)
+        public async Task<IActionResult> EditMascota(int id)
         {
+            ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetMascotaDenuncia/" + id, Method.GET);
             try
@@ -50,6 +51,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
 
                 if (response.Data != null)
                     _mascota = response.Data;
+                else
+                    return View(null);
                 return View(response.Data);
             }
             catch (Exception)
@@ -61,6 +64,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetFotoPrincipal(int id, int idfoto)
         {
+            ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Fotos/Mascota/" + id + "/SetFotoPrincipalMascota/" + idfoto, Method.POST);
             try
@@ -84,6 +88,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteFotoMascota(int idmascota, int idfoto)
         {
+            ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Fotos/Mascota/" + idmascota + "/EliminarFotoMascota/" + idfoto, Method.DELETE);
             try
@@ -109,6 +114,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             if (ModelState.IsValid)
             {
+                ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
                 if (id == 0)
                 {
                     client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -168,7 +174,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 TempData["alertsuccess"] = "Estado actualizado correctamente.";
                 ViewData["search"] = busqueda;
                 var vista = await Listado();
-                return Json(new { html= Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista) });
+                return Json(new { html= Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
             {
@@ -176,33 +182,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", _listaMascota) });
-            }
-        }
-        ///Metodo aun no implementado en la vista.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Eliminar(int id)
-        {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Mascota/DeleteMascota/" + id, Method.DELETE);
-            try
-            {
-                var response = await client.ExecuteAsync<string>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception(response.Content);
-                TempData["alertsuccess"] = "El fue eliminado de manera exitosa.";
-                ViewData["search"] = busqueda;
-                var vista = await Listado();
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaMascotas", vista) });
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message == "")
-                    throw new Exception();
-                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
-                TempData["alerterror"] = msg["mensaje"];
-                return Json(new { isValid = false });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaMascota) });
             }
         }
         public async Task<List<Mascota>> Listado()

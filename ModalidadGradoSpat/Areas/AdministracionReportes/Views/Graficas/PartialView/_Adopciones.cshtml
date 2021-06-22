@@ -53,7 +53,6 @@ else @if (ViewData["filter"].Equals("12 meses"))
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript">
         $('#selectAdopciones').on('change', function () {
-        try {
             $.ajax({
                 type: "POST",
                 url: this.form.action,
@@ -62,14 +61,11 @@ else @if (ViewData["filter"].Equals("12 meses"))
                 processData: false,
                 success: function (res) {
                     $('#viewAdopciones').html(res);
-                },
-                error: function (err) {
-                    console.log(err);
                 }
             })
-        } catch (e) {
-            console.log(e);
-        }
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    window.location.href = "/Home/Error/" + jqXHR.status;
+                })
     });
     $(function () {
         var chartName = "chartAdopciones";

@@ -20,7 +20,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public async Task<IActionResult> Lista(int id)
         {
             idMascota = id;
-            ViewData["idMascota"] = idMascota;
             var vista = await ListadoReporteTratamientos();
             return View(vista);
         }

@@ -30,7 +30,7 @@ namespace ModalidadGradoSpat.Controllers
         }
 
         //[NoDirectAccess]
-        [Route("Home/Error/{StatusCode}")]
+        [Route("Home/Error/{statusCode}")]
         public IActionResult StatusCodeHandle(int statusCode=500)
         {
             switch (statusCode)

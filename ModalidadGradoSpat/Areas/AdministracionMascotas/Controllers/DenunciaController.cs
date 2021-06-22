@@ -24,7 +24,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Lista()
         {
             ViewData["search"] = busqueda;
             var vista = await Listado();
@@ -37,7 +37,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             sizepage = sizePage;
             ViewData["search"] = search;
             var vista = await Listado();
-            return Json(Helper.RenderRazorViewToString(this, "PartialView/_ViewAllDenuncia", vista));
+            return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
 
         [NoDirectAccess]
@@ -82,7 +82,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         TempData["alertsuccess"] = "Denuncia creada.";
                         ViewData["search"] = busqueda;
                         var vista = await Listado();
-                        return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllDenuncia", vista) });
+                        return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
                     }
                     catch (Exception ex)
                     {
@@ -105,7 +105,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         TempData["alertsuccess"] = "Denuncia actualizada.";
                         ViewData["search"] = busqueda;
                         var vista = await Listado();
-                        return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllDenuncia", vista) });
+                        return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
                     }
                     catch (Exception ex)
                     {
@@ -133,7 +133,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 TempData["alertsuccess"] = "La denuncia fue eliminada de manera exitosa";
                 ViewData["search"] = busqueda;
                 var vista = await Listado();
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ViewAllDenuncia", vista) });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
             {

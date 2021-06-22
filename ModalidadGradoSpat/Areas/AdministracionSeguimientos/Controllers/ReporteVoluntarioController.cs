@@ -17,7 +17,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
     public class ReporteVoluntarioController : Controller
     {
         private static RestClient client;
-        private static IEnumerable<Seguimiento> _listaSeg;
+        private static List<Seguimiento> _listaSeg;
         private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Asignado";
         public ReporteVoluntarioController()
         {
@@ -46,13 +46,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             var request = new RestRequest("api/Seguimiento/" + id + "/AceptarSeguimientoVoluntario", Method.POST);
             try
             {
-                var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(request);
+                var response = await client.ExecuteAsync<List<Seguimiento>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Se ha asignado el seguimiento.";
                 ViewData["filter"] = filtrado;
                 var vista = await Listado();
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
             {
@@ -60,7 +60,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
             }
         }
         [HttpPost]
@@ -71,13 +71,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             var request = new RestRequest("api/Seguimiento/" + id + "/RechazarSeguimientoVoluntario", Method.POST);
             try
             {
-                var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(request);
+                var response = await client.ExecuteAsync<List<Seguimiento>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Se ha rechazado el seguimiento.";
                 ViewData["filter"] = filtrado;
                 var vista = await Listado();
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
             {
@@ -85,7 +85,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
             }
         }
         public async Task<IActionResult> Detalle(int id)
@@ -180,14 +180,14 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 throw new Exception();
             }
         }
-        public async Task<IEnumerable<Seguimiento>> Listado()
+        public async Task<List<Seguimiento>> Listado()
         {
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimiento", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-                var response = await client.ExecuteAsync<IEnumerable<Seguimiento>>(requestGet);
-                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                var response = await client.ExecuteAsync<List<Seguimiento>>(requestGet);
+                if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
                 var head = JObject.Parse(header.Value.ToString());

@@ -22,6 +22,7 @@ else
             display: inline-block;
             text-align: center;
         }
+
         .button {
             position: absolute;
             bottom: 10px;
@@ -101,28 +102,10 @@ else
             showAjaxErrorDetails: false,
             ajaxSettings: {
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + window.localStorage.getItem("tokenBearer"));
+                    xhr.setRequestHeader("Authorization", "Bearer " + "@ViewData["TokenBearer"]");
                 },
                 success: function (data) {
-                    //$(".custom-control-inline").empty();
-                    //var lista = JSON.parse(data);
-                    //alert(lista[0]);
-                    //for (var i = 0; i < lista.length; i++) {
-                    //    var fotoAdd = "<img src='" + lista[i].Url + "' width='200' height='200' class='img-thumbnail img-responsive'>" +
-                    //        "<form asp-action='EliminarFotoMascota' asp-controller='AdministrarMascotas' asp-route-idmascota='" + lista[i].MascotaId + "' asp-route-idfoto='" + lista[i].Id + "'>" +
-                    //    "<button type='submit' class='btn btn-danger'><i class='fa fa-trash fa-2' aria-hidden='true'></i></button></form>";
-                    //$(".custom-control-inline").append(fotoAdd);
-                    //}
                     window.location.reload();
-                    @*$.ajax({
-                        url: @Url.Action("GetMascota", "AdministrarMascotas",Model.Id),
-                        type: 'POST',
-                        data: {},
-                        success: function (resul) {
-                            alert("Work");
-                            $('#body-content-action').html(resul);
-                        }
-                    });*@
                 },
                 error: function (data) {
                     alert("Ha ocurrido un error.");
