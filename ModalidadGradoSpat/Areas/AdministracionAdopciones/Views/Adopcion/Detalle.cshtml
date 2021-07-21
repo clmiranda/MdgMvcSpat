@@ -2,14 +2,6 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    .rounded {
-        border-radius: .75rem !important
-    }
-    button[disabled] {
-        cursor: not-allowed;
-    }
-</style>
 <div class="container-fluid my-5">
     @if (Model.Estado.Equals("Pendiente"))
     {
@@ -22,8 +14,8 @@
             ver el detalle del Contrato.
         </p>
         <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-contrato" data-toggle="tab" href="#tab-contrato" role="tab" aria-controls="tab-crud-mascota">Acciones</a>
-                <a class="nav-item nav-link" id="nav-informe" data-toggle="tab" href="#tab-informe" role="tab" aria-controls="tab-view-mascota">Detalle Contrato Adopci&oacute;n</a>
+                <button class="nav-item nav-link active" id="nav-contrato" data-toggle="tab" href="#tab-contrato" type="button" aria-controls="tab-crud-mascota">Acciones</button>
+                <button class="nav-item nav-link" id="nav-informe" data-toggle="tab" href="#tab-informe" type="button" aria-controls="tab-view-mascota">Detalle Contrato Adopci&oacute;n</button>
         </div>
         <div class="tab-content">
             <div class="tab-pane fade show active" id="tab-contrato" role="tabpanel" aria-labelledby="nav-contrato">

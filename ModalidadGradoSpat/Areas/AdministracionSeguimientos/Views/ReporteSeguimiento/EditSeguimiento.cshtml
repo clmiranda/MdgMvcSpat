@@ -1,13 +1,10 @@
 ﻿@model Seguimiento
-@{
-    Layout = null;
-}
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <form asp-action="UpdateFechaSeguimiento" onsubmit="return jQueryAjaxPost(this);" autocomplete="off" method="post">
     <div class="form-row">
         <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
-        <input id="inicial" type="hidden" name="RangoFechas[]" />
-        <input id="final" type="hidden" name="RangoFechas[]" />
+        <input id="inicial" value="@Model.FechaInicio.ToShortDateString()" type="hidden" name="RangoFechas[]" />
+        <input id="final" value="@Model.FechaConclusion.ToShortDateString()" type="hidden" name="RangoFechas[]" />
         <div class="form-group mb-5 col-md-6">
             <label for="idDateRange">Ingrese el rango de fechas del seguimiento:</label>
             <input id="idDateRange" type="text" placeholder="Rangos de Fecha" aria-label="Rangos de Fecha" class="form-control" readonly>

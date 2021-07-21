@@ -29,6 +29,7 @@ namespace ModalidadGradoSpat.Controllers
             var vista = await Listado();
             return View(vista);
         }
+        [Route("QuienesSomos")]
         public IActionResult QuienesSomos()
         {
             return View();
@@ -56,6 +57,7 @@ namespace ModalidadGradoSpat.Controllers
             var vista = await Listado();
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Inicio", vista));
         }
+        [Route("InformacionMascota/{id}")]
         public async Task<IActionResult> InformacionMascota(int id)
         {
             try
@@ -71,6 +73,7 @@ namespace ModalidadGradoSpat.Controllers
                 throw new Exception();
             }
         }
+        [Route("ContratoAdopcion/{id}")]
         public async Task<IActionResult> ContratoAdopcion(int id)
         {
             try

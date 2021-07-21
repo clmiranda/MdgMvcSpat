@@ -6,4 +6,3 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\DATA\obj\Debug\netcoreapp3.1\DA
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\DATA\obj\Debug\netcoreapp3.1\DATA.csproj.CoreCompileInputs.cache
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\DATA\obj\Debug\netcoreapp3.1\DATA.dll
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\DATA\obj\Debug\netcoreapp3.1\DATA.pdb
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\DATA\obj\Debug\netcoreapp3.1\DATA.csproj.AssemblyReference.cache

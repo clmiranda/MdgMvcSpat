@@ -2,14 +2,27 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    tr.hiddentablerow td {
+        padding: 0;
+    }
+</style>
 <div class="container-fluid my-5">
     <h3>
         Lista de Contratos de Adopci&oacute;n
     </h3>
-    <p class="mb-4">
-        Vista para la administraci&oacute;n de los contratos de adopci&oacute;n 
+    <p class="mb-2">
+        Vista para la administraci&oacute;n de los contratos de adopci&oacute;n
         seg&uacute;n su estado.
     </p>
+    <div class="d-md-flex">
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-primary"><i class="far fa-eye" aria-hidden="true"></i></button> -> Acciones/Detalle de la Adopci&oacute;n.
+        </p>
+        <p class="shadow p-3 bg-white rounded">
+            <button class="btn btn-danger"><i class="fas fa-trash" aria-hidden="true"></i></button> -> Eliminar la Adopci&oacute;n.
+        </p>
+    </div>
     <div id="view-all">
         @await Html.PartialAsync("PartialView/_Lista", Model)
     </div>

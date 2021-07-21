@@ -1,0 +1,25 @@
+﻿@model Seguimiento
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid my-5">
+    <h3>
+        Vista Listado de Reportes
+    </h3>
+    <p class="mb-2">
+        En esta vista se detallan los reportes disponibles
+        para el seguimiento actual, se habilitan solamente el mismo
+        d&iacute;a al que fue asignado.
+    </p>
+    <div class="d-md-flex">
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-success"><i class="fas fa-list" aria-hidden="true"></i></button> -> Acciones/Detalle de la Adopci&oacute;n.
+        </p>
+        <p class="shadow p-3 bg-white rounded">
+            <button class="btn btn-info"><i class="fa fa-edit" aria-hidden="true"></i></button> -> Eliminar la Adopci&oacute;n.
+        </p>
+    </div>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_ListaReportes", Model)
+    </div>
+</div>

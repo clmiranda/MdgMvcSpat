@@ -3,65 +3,74 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<form method="post" asp-action="UpdateUser" onsubmit="return showFormAux(this);" autocomplete="off">
-    <input type="hidden" asp-for="Id"/>
-    <div class="form-group">
-        <label for="idEmail">Email de la cuenta:</label>
-        <input class="form-control" asp-for="Email" id="idEmail" value="@Model.Email" readonly>
-    </div>
-    <div class="form-group">
-        <label for="idUsername">Nombre de Usuario:</label>
-        <input class="form-control" id="idUsername" asp-for="UserName" value="@Model.UserName" placeholder="Ingresa Nombre de Usuario">
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="idNombre">Nombre(s):</label>
-            <input class="form-control" asp-for="Nombres" value="@Model.Nombres" id="idNombre" placeholder="Ingresa tu(s) Nombre(s)">
+<div class="shadow-lg col-lg-8 mx-auto border p-5 mb-5 bg-white rounded">
+    <form id="formEmail" method="post" asp-action="UpdateEmail" onsubmit="return showFormAux(this);" autocomplete="off">
+        <input type="hidden" id="idUpdateEmail" asp-for="Id" />
+        <div class="form-group">
+            <label for="idEmail">Actualizar Email:</label>
+            <input class="form-control" asp-for="Email" value="@Model.Email" placeholder="Ingresa tu Email">
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
         </div>
-        <div class="form-group col-md-6">
-            <label for="idApellido">Apellido(s):</label>
-            <input class="form-control" asp-for="Apellidos" value="@Model.Apellidos" id="idApellido" placeholder="Ingresa tu(s) Apellido(s)">
+        <button id="btnEmail" class="btn btn-primary" type="submit" disabled>Guardar Cambios</button>
+    </form>
+</div>
+<div class="shadow-lg col-xl-10 mx-auto border p-5 bg-white rounded">
+    <form id="formPerfil" method="post" asp-action="UpdateUser" onsubmit="return showFormAux(this);" autocomplete="off">
+        <input type="hidden" id="idUpdateUser" asp-for="Id" />
+        <div class="form-group">
+            <label for="idUsername">Nombre de Usuario:</label>
+            <input class="form-control" id="idUsername" asp-for="UserName" value="@Model.UserName" placeholder="Ingresa Nombre de Usuario">
         </div>
-    </div>
-    <div class="form-group">
-        <label for="idDomicilio">Domicilio:</label>
-        <input class="form-control" asp-for="Domicilio" value="@Model.Domicilio" id="idDomicilio" placeholder="Ingresa tu Domicilio">
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label for="idNumero">N&uacute;mero de Celular:</label>
-            <input class="form-control" onkeypress="return isNumber(event);" asp-for="NumeroCelular" value="@Model.NumeroCelular" id="idNumero" placeholder="Ingresa tu Numero de Celular">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="idNombre">Nombre(s):</label>
+                <input class="form-control" asp-for="Nombres" value="@Model.Nombres" id="idNombre" placeholder="Ingresa tu(s) Nombre(s)">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="idApellido">Apellido(s):</label>
+                <input class="form-control" asp-for="Apellidos" value="@Model.Apellidos" id="idApellido" placeholder="Ingresa tu(s) Apellido(s)">
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            <label for="idSexo">Sexo:</label>
-            <select class="form-control" asp-for="Sexo" value="@Model.Sexo" id="idSexo">
-                @if (Model.Sexo == null || Model.Sexo.Equals("Masculino"))
+        <div class="form-group">
+            <label for="idDomicilio">Domicilio:</label>
+            <input class="form-control" asp-for="Domicilio" value="@Model.Domicilio" id="idDomicilio" placeholder="Ingresa tu Domicilio">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="idNumero">N&uacute;mero de Celular:</label>
+                <input class="form-control" onkeypress="return isNumber(event);" asp-for="NumeroCelular" value="@Model.NumeroCelular" id="idNumero" placeholder="Ingresa tu Numero de Celular">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="idSexo">Sexo:</label>
+                <select class="form-control" asp-for="Sexo" value="@Model.Sexo" id="idSexo">
+                    @if (Model.Sexo == null || Model.Sexo.Equals("Masculino"))
+                    {
+                        <option value="Masculino" selected>Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                    }
+                    else
+                    {
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino" selected>Femenino</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                @if (Model.FechaNacimiento.ToShortDateString().Equals("01/01/0001"))
                 {
-                    <option value="Masculino" selected>Masculino</option>
-                    <option value="Femenino">Femenino</option>
+                    <label for="idFechaNacimiento">Fecha de Nacimiento:</label>
+                    <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@DateTime.Now.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
                 }
                 else
                 {
-                    <option value="Masculino">Masculino</option>
-                    <option value="Femenino" selected>Femenino</option>
+                    <label for="idFechaNacimiento">Fecha de Nacimiento (@Model.Edad a&ntilde;os):</label>
+                    <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@Model.FechaNacimiento.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
                 }
-            </select>
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            @if (Model.FechaNacimiento.ToShortDateString().Equals("01/01/0001"))
-            {
-                <label for="idFechaNacimiento">Fecha de Nacimiento:</label>
-                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@DateTime.Now.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
-            }
-            else
-            {
-                <label for="idFechaNacimiento">Fecha de Nacimiento (@Model.Edad a&ntilde;os):</label>
-                <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@Model.FechaNacimiento.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
-            }
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary" disabled>Guardar Cambios</button>
-</form>
+        <button id="btnPerfil" type="submit" class="btn btn-primary" disabled>Guardar Cambios</button>
+    </form>
+</div>
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     var url = "/archivos/js/daterangepicker.js";
@@ -72,7 +81,10 @@
             return false;
         return true;
     }
-    $('form [class="form-control"]').on('change input', function () {
-        $('form button[type="submit"]').prop('disabled', false);
+    $('#formPerfil [class="form-control"]').on('change input', function () {
+        $('#btnPerfil').prop('disabled', false);
+    });
+    $('#formEmail [class="form-control"]').on('change input', function () {
+        $('#btnEmail').prop('disabled', false);
     });
 </script>

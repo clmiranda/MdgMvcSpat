@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,900" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="~/archivos/css/styleerror.css" />
+</head>
+<body>
+    @if (ViewBag.Error == 401)
+    {
+        <div id="error">
+            <div class="error">
+                <div class="errorType">
+                    <h1>401</h1>
+                </div>
+                <h2>Lo sentimos, debes iniciar sesi&oacute;n para acceder a esta vista.</h2>
+                <p><b>Es posible que no hayas iniciado sesi&oacute;n o que tu sesi&oacute;n haya caducado.</b></p>
+                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+            </div>
+        </div>
+    }
+    else if (ViewBag.Error == 403)
+    {
+        <div id="error">
+            <div class="error">
+                <div class="errorType">
+                    <h1>403</h1>
+                </div>
+                <h2>No tienes el permiso para acceder a esta vista.</h2>
+                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+            </div>
+        </div>
+    }
+    else if (ViewBag.Error == 404)
+    {
+        <div id="error">
+            <div class="error">
+                <div class="errorType">
+                    <h1>404</h1>
+                </div>
+                <h2>Lo sentimos, la p&aacute;gina no fue encontrada.</h2>
+                <p><b>La p&aacute;gina que buscabas talvez sea la incorrecta o ya no este disponible.</b></p>
+                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+            </div>
+        </div>
+    }
+    else if (ViewBag.Error == 405)
+    {
+        <div id="error">
+            <div class="error">
+                <div class="errorType">
+                    <h1>405</h1>
+                </div>
+                <h2>M&eacute;todo no permitido.</h2>
+                <p><b>Ocurri&oacute; un problema con la petici&oacute;n que se intentaba realizar.</b></p>
+                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+            </div>
+        </div>
+    }
+    else if (ViewBag.Error == 500)
+    {
+        <div id="error">
+            <div class="error">
+                <div class="errorType">
+                    <h1>500</h1>
+                </div>
+                <h2>Error de servidor.</h2>
+                <p><b>Ha ocurrido un problema con la solicitud.</b></p>
+                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+            </div>
+        </div>
+    }
+</body>
+</html>

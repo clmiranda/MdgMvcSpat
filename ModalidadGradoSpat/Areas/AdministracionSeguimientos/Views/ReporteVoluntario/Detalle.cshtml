@@ -1,17 +1,49 @@
-﻿@model Seguimiento
+﻿@model ContratoAdopcion
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container-fluid my-5">
     <h3>
-        Vista Listado de Reportes
+        Vista Detalle Seguimiento Asignado
     </h3>
-    <p class="mb-4">
-        En esta vista se detallan los reportes disponibles 
-        para el seguimiento actual, se habilitan solamente el mismo 
-        d&iacute;a al que fue asignado.
+    <p class="mb-5">
+        En esta vista se detalla la informaci&oacute;n del
+        seguimiento al cual has sido asignado.
     </p>
-    <div id="view-all">
-        @await Html.PartialAsync("PartialView/_Detalle", Model)
+    <div class="row text-justify">
+        <div class="col-lg-6 mb-5">
+            <div class="shadow-lg border p-5 bg-white rounded">
+                    <h4 class="pb-3">Informaci&oacute;n del Adoptante</h4>
+                    <p class="card-text text-success">
+                        <strong>Nombre Completo del Adoptante: </strong>@Model.Nombres @Model.Apellidos<br /><br />
+                        <strong>Carnet de Identidad: </strong>@Model.Ci<br /><br />
+                        <strong>Domicilio: </strong>@Model.Domicilio<br /><br />
+                        <strong>N&uacute;mero de Celular: </strong>@Model.NumeroCelular<br /><br />
+                        <strong>Fecha de Solicitud de Adopci&oacute;n: </strong>@Model.FechaSolicitudAdopcion.ToShortDateString()
+                    </p>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-5">
+            <div class="shadow-lg border p-5 bg-white rounded">
+                    <h4 class="pb-3">Informaci&oacute;n de la Mascota</h4>
+                    <p class="card-text text-success">
+                        <strong>Nombre de la Mascota: </strong>@Model.Mascota.Nombre<br /><br />
+                        @if (Model.Mascota.Esterilizado)
+                        {
+                            <strong>Esterilizada: </strong>@:La Mascota se encuentra esterilizada.<br /><br />
+                        }
+                        else
+                        {
+                            <strong>Esterilizada: </strong>@:La Mascota no se encuentra esterilizada.<br /><br />
+                        }
+                        <strong>Especie: </strong>@Model.Mascota.Especie<br /><br />
+                        <strong>Sexo de la Mascota: </strong>@Model.Mascota.Sexo<br /><br />
+                        <strong>Edad: </strong>@Model.Mascota.Edad<br /><br />
+                        <strong>Tama&ntilde;o de la Mascota: </strong>@Model.Mascota.Tamaño<br /><br />
+                        <strong>Caracteristicas de la Mascota: </strong>@Model.Mascota.Caracteristicas<br /><br />
+                        <strong>Rasgos Particulares: </strong>@Model.Mascota.RasgosParticulares
+                    </p>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,13 +1,5 @@
 ﻿@model List<Seguimiento>
-@{
-    Layout = null;
-}
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<style>
-    button[disabled] {
-        cursor: not-allowed;
-    }
-</style>
 <div class="d-lg-flex justify-content-between my-3">
     <form class="form-inline mr-2" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
         <div class="input-group">
@@ -84,18 +76,19 @@
         </div>
         <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
     </form>
-    <a asp-action="ExcelSeguimientos" role="button" type="submit" class="btn btn-primary mr-md-2">
+    <button onclick="location.href='@Url.Action("ExcelSeguimientos", "Seguimiento", new { area="AdministracionSeguimientos"})'" type="button" class="btn btn-primary mr-md-2">
         <i class="fas fa-file-excel fa-lg mr-2"></i>Excel Seguimientos
-    </a>
-    <a asp-action="ExcelReportes" role="button" type="submit" class="btn btn-primary mr-md-2">
-        <i class="fas fa-file-excel fa-lg mr-2"></i>Excel Reportes
-    </a>
-    <a class="btn btn-success mr-md-2" onclick="generatePDF()">
+    </button>
+    <button onclick="location.href='@Url.Action("ExcelReportes", "Seguimiento", new { area="AdministracionSeguimientos"})'"
+            type="button" class="btn btn-primary mr-md-2">
+            <i class="fas fa-file-excel fa-lg mr-2"></i>Excel Reportes
+    </button>
+    <button type="button" class="btn btn-success mr-md-2" onclick="generatePDF()">
         <i class="fas fa-file-pdf fa-lg mr-2"></i>PDF Seguimientos
-    </a>
-    <a class="btn btn-success mr-md-2" onclick="generatePDFReporteSeguimiento()">
+    </button>
+    <button type="button" class="btn btn-success mr-md-2" onclick="generatePDFReporteSeguimiento()">
         <i class="fas fa-file-pdf fa-lg mr-2"></i>PDF Reporte Seguimientos
-    </a>
+    </button>
 </div>
 <div class="table-responsive mt-sm-3 mt-md-5">
     <table id="tableSeguimientos" class="table table-bordered table-hover">
@@ -137,8 +130,12 @@
                         </td>
                         <td width="10%">
                             <div class="d-flex flex-row">
-                                <a role="button" class="btn btn-info" href="@Url.Action("AsignarSeguimiento","Seguimiento", new { item.Id, area="AdministracionSeguimientos"})"><i class="fa fa-user" aria-hidden="true"></i></a>
-                                <a role="button" class="btn btn-warning" href="@Url.Action("ListaReportes","ReporteSeguimiento", new { id=item.Id, area="AdministracionSeguimientos"})"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a role="button" class="btn btn-info" href="@Url.Action("Asignar","Seguimiento", new { item.Id, area="AdministracionSeguimientos"})">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                </a>
+                                <a role="button" class="btn btn-warning" href="@Url.Action("Lista","ReporteSeguimiento", new { id=item.Id, area="AdministracionSeguimientos"})">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -226,21 +223,24 @@
         doc.autoTable({
             head: [['Id', 'Fecha Inicio', 'Fecha Conclusion', 'Nombres y Apellidos Usuario','Nombre Mascota', 'Id Contrato']],
             body: [
-                @foreach (var item in (List<Seguimiento>)ViewData["listaSeguimientos"])
-                {
-                    if (item.User!=null)
-                    {
-                        <text>
-                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaConclusion.ToShortDateString()', '@item.User.Nombres @item.User.Apellidos', '@item.ContratoAdopcion.Mascota.Nombre', '@item.ContratoAdopcionId'],
-                        </text>
-                    }
-                    else
-                    {
-                        <text>
-                            ['@item.Id', '@item.FechaInicio', '@item.FechaConclusion', 'No asignado', '@item.ContratoAdopcion.Mascota.Nombre', '@item.ContratoAdopcionId'],
-                        </text>
-                    }
-                }
+                @if (ViewData["listaSeguimientos"]!=null)
+                 {
+                     foreach (var item in (List<Seguimiento>)ViewData["listaSeguimientos"])
+                     {
+                        if (item.User!=null)
+                        {
+                            <text>
+                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaConclusion.ToShortDateString()', '@item.User.Nombres @item.User.Apellidos', '@item.ContratoAdopcion.Mascota.Nombre', '@item.ContratoAdopcionId'],
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                                ['@item.Id', '@item.FechaInicio', '@item.FechaConclusion', 'No asignado', '@item.ContratoAdopcion.Mascota.Nombre', '@item.ContratoAdopcionId'],
+                            </text>
+                        }
+                     }
+                 }
             ],
             theme: 'grid'
         });
@@ -251,18 +251,20 @@
         doc.autoTable({
             head: [['Id Reporte', 'Observaciones', 'Estado Hogar Mascota', 'Fecha Reporte','Estado Reporte', 'Id Seguimiento']],
             body: [
-                @foreach (var item in (List<Seguimiento>)ViewData["listaSeguimientos"])
-                {
-                    if (item.ReporteSeguimientos!=null)
-                    {
-                        @foreach (var item2 in item.ReporteSeguimientos)
-	                    {
-	                        <text>
-                                ['@item2.Id', '@item2.Observaciones', '@item2.EstadoHogarMascota', '@item2.Fecha.ToShortDateString()', '@item2.Estado', '@item.Id'],
-                            </text>
-	                    }
-                    }
-                }
+                @if (ViewData["listaSeguimientos"] != null) {
+                     foreach (var item in (List<Seguimiento>)ViewData["listaSeguimientos"])
+                     {
+                        if (item.ReporteSeguimientos!=null)
+                        {
+                            @foreach (var item2 in item.ReporteSeguimientos)
+	                         {
+	                            <text>
+                                    ['@item2.Id', '@item2.Observaciones', '@item2.EstadoHogarMascota', '@item2.Fecha.ToShortDateString()', '@item2.Estado', '@item.Id'],
+                                </text>
+	                         }
+                        }
+                     }
+                 }
             ],
             theme: 'grid'
         });
@@ -287,7 +289,7 @@
             }
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Home/Error/" + jqXHR.status;
+                window.location.href = "/Error/" + jqXHR.status;
             })
         return false;
     };
@@ -303,7 +305,7 @@
             }
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Home/Error/" + jqXHR.status;
+                window.location.href = "/Error/" + jqXHR.status;
             })
     });
 </script>

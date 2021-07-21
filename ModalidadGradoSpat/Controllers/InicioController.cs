@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ModalidadGradoSpat.Controllers
 {
+    [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class InicioController : Controller
     {
         private static RestClient client;
@@ -15,7 +16,6 @@ namespace ModalidadGradoSpat.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
-        [Authorize(Roles = "SuperAdministrador, Administrador")]
         [Route("Dashboard")]
         public async Task<IActionResult> Dashboard() {
             if (HttpContext.Session.GetString("JWToken") == "" || HttpContext.Session.GetString("JWToken") == null)

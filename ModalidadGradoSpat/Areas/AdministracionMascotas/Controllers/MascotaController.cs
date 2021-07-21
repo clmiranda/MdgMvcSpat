@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
 {
+    [Area("AdministracionMascotas")]
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class MascotaController : Controller
     {
@@ -25,6 +26,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
+        [Route("Mascota/Lista")]
         public async Task<IActionResult> Lista()
         {
             ViewData["search"] = busqueda;
@@ -38,6 +40,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             var vista = await Listado();
             return Json(new {html= Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
         }
+        [Route("Denuncia/EditMascota/{id}")]
         public async Task<IActionResult> EditMascota(int id)
         {
             ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
@@ -73,7 +76,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Foto principal establecida.";
-                return Json(new { /*isValid=true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
             catch (Exception ex)
             {
@@ -81,7 +84,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { /*isValid = false, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
             }
         }
         [HttpPost]
@@ -97,7 +100,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Foto eliminada exitosamente.";
-                return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
             catch (Exception ex)
             {
@@ -105,7 +108,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new {/* isValid = false, */html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
+                return Json(new {html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
             }
         }
         [HttpPost]
@@ -125,7 +128,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Registrado correctamente.";
-                        return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", response.Data), html2 = Helper.RenderRazorViewToString(this, "PartialView/_Fotos",response.Data) });
+                        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", response.Data), html2 = Helper.RenderRazorViewToString(this, "PartialView/_Fotos",response.Data) });
                     }
                     catch (Exception ex)
                     {
@@ -133,7 +136,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                             throw new Exception();
                         dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                         TempData["alerterror"] = msg["mensaje"];
-                        return Json(new { /*isValid = false, */html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", model) });
+                        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", model) });
                     }
                 }
                 else
@@ -146,7 +149,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Modificado Correctamente.";
-                        return Json(new {/* isValid = true,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", response.Data)});
+                        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", response.Data)});
                     }
                     catch (Exception ex)
                     {
@@ -154,7 +157,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                             throw new Exception();
                         dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                         TempData["alerterror"] = msg["mensaje"];
-                        return Json(new {/* isValid = false,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_Mascota", model) });
+                        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", model) });
                     }
                 }
             }

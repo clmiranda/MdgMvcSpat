@@ -2,11 +2,6 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    button[disabled] {
-        cursor: not-allowed;
-    }
-</style>
 <div class="container-fluid my-5">
     <h3>
         Agregar/Modificar datos Mascota.
@@ -17,14 +12,14 @@
     </p>
     <nav>
         <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-mascota" data-toggle="tab" href="#mascota" role="button" aria-controls="mascota" aria-selected="true">Actualizar Datos</a>
-            <a class="nav-item nav-link" id="nav-fotos" data-toggle="tab" href="#fotos" role="button" aria-controls="fotos" aria-selected="false">Fotos</a>
+            <button class="nav-item nav-link active" id="nav-mascota" data-toggle="tab" href="#mascota" type="button" aria-controls="mascota" aria-selected="true">Actualizar Datos</button>
+            <button class="nav-item nav-link" id="nav-fotos" data-toggle="tab" href="#fotos" type="button" aria-controls="fotos" aria-selected="false">Fotos</button>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="mascota" role="tabpanel" aria-labelledby="nav-mascota">
             <div id="body-content-view">
-                @await Html.PartialAsync("PartialView/_Mascota.cshtml", Model)
+                @await Html.PartialAsync("PartialView/_EditMascota.cshtml", Model)
             </div>
         </div>
         <div class="tab-pane fade" id="fotos" role="tabpanel" aria-labelledby="nav-fotos">

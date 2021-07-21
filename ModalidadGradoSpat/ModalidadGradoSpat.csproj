@@ -30,10 +30,11 @@
     <Folder Include="Areas\AdministracionCuentas\Models\" />
     <Folder Include="Areas\AdministracionMascotas\Data\" />
     <Folder Include="Areas\AdministracionMascotas\Models\" />
-    <Folder Include="Areas\AdministracionReportes\Data\" />
-    <Folder Include="Areas\AdministracionReportes\Models\" />
+    <Folder Include="Areas\AdministracionDatos\Data\" />
+    <Folder Include="Areas\AdministracionDatos\Models\" />
     <Folder Include="Areas\AdministracionSeguimientos\Data\" />
     <Folder Include="Areas\AdministracionSeguimientos\Models\" />
+    <Folder Include="Models\" />
     <Folder Include="wwwroot\archivos\ley\" />
   </ItemGroup>
 

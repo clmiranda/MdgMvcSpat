@@ -1,10 +1,8 @@
 ﻿@model Mascota
 @if (Model == null)
 {
-    <div class="card">
-        <div class="card-body">
-            <p class="text-center">No se puede mostrar la informaci&oacute;n, la mascota no existe o el id de la denuncia es incorrecto.</p>
-        </div>
+    <div class="shadow-lg border p-5 bg-white rounded">
+        <p class="text-center">No se puede mostrar la informaci&oacute;n, la mascota no existe o el id de la denuncia es incorrecto.</p>
     </div>
 }
 else
@@ -31,71 +29,71 @@ else
             height: 30px;
         }
     </style>
-    <div class="card">
-        <div class="card-body">
-            @if (Model.Id == 0)
+    <div class="shadow-lg border p-5 bg-white rounded">
+        @if (Model.Id == 0)
+        {
+            <p class="text-center">Para agregar las fotos primero debe crear la mascota.</p>
+        }
+        else
+        {
+            @if (Model.Fotos != null)
             {
-                <p class="text-center">Para agregar las fotos primero debe crear la mascota.</p>
+                foreach (var item in Model.Fotos)
+                {
+                    <div class="img-container">
+                        <img src="@item.Url" width="200" height="200" class="img-thumbnail img-responsive">
+                        @if (item.IsPrincipal)
+                        {
+                            <form>
+                                <button type="submit" class="btn btn-warning" disabled>
+                                    Principal
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="SetFotoPrincipal" asp-route-id="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit=" return showFormAux(this);">
+                                <button type="submit" class="btn btn-warning">
+                                    Principal
+                                </button>
+                            </form>
+                        }
+                        <form asp-action="DeleteFotoMascota" asp-route-idmascota="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit="return jQueryAjaxDeleteForm2(this);">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa fa-trash fa-2" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
+                }
             }
             else
             {
-                @if (Model.Fotos != null)
-                {
-                    foreach (var item in Model.Fotos)
-                    {
-                        <div class="img-container">
-                            <img src="@item.Url" width="200" height="200" class="img-thumbnail img-responsive">
-                            @if (item.IsPrincipal)
-                            {
-                                <form>
-                                    <button type="submit" class="btn btn-warning" disabled>
-                                        Principal
-                                    </button>
-                                </form>
-                            }
-                            else
-                            {
-                                <form asp-action="SetFotoPrincipal" asp-route-id="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit=" return showFormAux(this);">
-                                    <button type="submit" class="btn btn-warning">
-                                        Principal
-                                    </button>
-                                </form>
-                            }
-                            <form asp-action="DeleteFotoMascota" asp-route-idmascota="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit="return jQueryAjaxDeleteForm2(this);">
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="fa fa-trash fa-2" aria-hidden="true"></i>
-                                </button>
-                            </form>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="card-text"><p class="text-center">La Mascota no tiene Fotos asignadas.</p></div>
-                }
-                @if (Model.Fotos != null)
-                {
-                    @if (Model.Fotos.Count() < 4)
-                    {
-                        <div class="mt-5">
-                            <input id="imagenid" name="Archivo" type="file" multiple>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="mt-5">
-                            <p class="text-center">No se puede agregar m&aacute;s de 4 fotos a la Mascota.</p>
-                        </div>
-                    }
-                }
-                else
+                <div class="shadow-lg border p-5 bg-white rounded">
+                    <p class="text-center">La Mascota no tiene Fotos asignadas.</p>
+                </div>
+            }
+            @if (Model.Fotos != null)
+            {
+                @if (Model.Fotos.Count() < 4)
                 {
                     <div class="mt-5">
                         <input id="imagenid" name="Archivo" type="file" multiple>
                     </div>
                 }
+                else
+                {
+                    <div class="mt-5">
+                        <p class="text-center">No se puede agregar m&aacute;s de 4 fotos a la Mascota.</p>
+                    </div>
+                }
             }
-        </div>
+            else
+            {
+                <div class="mt-5">
+                    <input id="imagenid" name="Archivo" type="file" multiple>
+                </div>
+            }
+        }
         <script>
         $("#imagenid").fileinput({
             language: "es",

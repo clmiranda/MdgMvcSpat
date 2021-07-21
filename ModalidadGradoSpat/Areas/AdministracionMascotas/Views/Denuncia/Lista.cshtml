@@ -6,10 +6,21 @@
     <h3>
         Lista de Denuncias
     </h3>
-    <p class="mb-4">
+    <p class="mb-2">
         Esta vista est&aacute; dise&ntilde;ada para administrar las denuncias que se realizan de las mascotas,
         para realizar un posterior registro de las mismas.
     </p>
+    <div class="d-md-flex">
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-success"><i class="fas fa-dog fa-2"></i></button> -> Editar Informaci&oacute;n Mascota.
+        </p>
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-info"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button> -> Editar la Denuncia.
+        </p>
+        <p class="shadow p-3 bg-white rounded">
+            <button class="btn btn-danger"><i class="fa fa-trash fa-2" aria-hidden="true"></i></button> -> Eliminar la Denuncia.
+        </p>
+    </div>
     <div id="view-all">
         @await Html.PartialAsync("PartialView/_Lista", Model)
     </div>

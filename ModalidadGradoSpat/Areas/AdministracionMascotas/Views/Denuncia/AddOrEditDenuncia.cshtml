@@ -1,5 +1,4 @@
 ﻿@model Denuncia
-
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <form asp-action="AddOrEditDenuncia" method="post" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
     <input type="hidden" asp-for="Id"/>

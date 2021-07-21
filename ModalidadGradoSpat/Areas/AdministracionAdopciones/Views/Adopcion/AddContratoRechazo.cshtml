@@ -1,7 +1,4 @@
 ﻿@model ContratoRechazo
-@{
-    Layout = null;
-}
 <form asp-action="RechazarAdopcion" method="post" onsubmit="return jQueryAjaxPostAlterno(this);" autocomplete="off">
     <input asp-for="ContratoAdopcionId" type="hidden" value="@Model.ContratoAdopcionId" />
     <div class="form-group">

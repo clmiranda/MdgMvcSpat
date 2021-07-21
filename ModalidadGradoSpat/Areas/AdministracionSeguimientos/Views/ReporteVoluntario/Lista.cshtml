@@ -6,11 +6,16 @@
     <h3>
         Lista de Reportes Asignados y Pendientes
     </h3>
-    <p class="mb-4">
-        En esta vista se muestran los reportes asignados y los pendientes, 
-        en caso de estar pendiente, se deber&aacute; aprobar o rechazar 
+    <p class="mb-2">
+        En esta vista se muestran los reportes asignados y los pendientes,
+        en caso de estar pendiente, se deber&aacute; aprobar o rechazar
         la asignaci&oacute;n de dicho reporte.
     </p>
+    <div class="d-md-flex">
+        <p class="shadow p-3 bg-white rounded">
+            <button class="btn btn-success"><i class="fa fa-user" aria-hidden="true"></i></button> -> Acciones/Detalle de la Adopci&oacute;n.
+        </p>
+    </div>
     <div id="view-all">
         @await Html.PartialAsync("PartialView/_Lista", Model)
     </div>

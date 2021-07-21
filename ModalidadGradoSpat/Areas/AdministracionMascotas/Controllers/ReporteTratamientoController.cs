@@ -1,4 +1,5 @@
 ﻿using DATA.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -6,9 +7,12 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Threading.Tasks;
+using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
 {
+    [Area("AdministracionMascotas")]
+    [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class ReporteTratamientoController : Controller
     {
         private static RestClient client;
@@ -17,18 +21,21 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
+        [Route("ReporteTratamiento/Lista/{id}")]
         public async Task<IActionResult> Lista(int id)
         {
             idMascota = id;
             var vista = await ListadoReporteTratamientos();
             return View(vista);
         }
+        [Route("ReporteTratamiento/Detalle/{id}")]
         public async Task<IActionResult> Detalle(int id)
         {
             idMascota = id;
             var vista = await ListadoReporteTratamientos();
             return View(vista);
         }
+        [NoDirectAccess]
         public async Task<IActionResult> AddOrEditReporteTratamiento(int id = 0)
         {
             if (id == 0)
