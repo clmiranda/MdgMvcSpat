@@ -13,7 +13,8 @@ using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
 {
-    [Authorize(Roles = "SuperAdministrador, Administrador, Voluntario")]
+    [Area("AdministracionCuentas")]
+    [Authorize(Roles = "SuperAdministrador")]
     public class CuentaController : Controller
     {
         private static RestClient client;
@@ -22,6 +23,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
+        [Route("Cuenta/Lista")]
         public async Task<ActionResult> Lista()
         {
             var vista = await Listado();

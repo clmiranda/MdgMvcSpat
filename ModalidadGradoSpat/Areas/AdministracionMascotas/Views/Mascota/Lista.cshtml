@@ -6,13 +6,18 @@
     <h3>
         Lista de Mascotas
     </h3>
-    <p class="mb-4">
+    <p class="mb-2">
         En esta vista se puede administrar la situaci&oacute;n actual de cada una de las
         mascotas registradas en la asociaci&oacute;n, el estado Activo indica que esta mascota
-        ya puede ser adoptada, el estado Inactivo indica que la mascota a&uacute;n sigue en un 
+        ya puede ser adoptada, el estado Inactivo indica que la mascota a&uacute;n sigue en un
         tratamiento o no es apta para ser adoptada.
     </p>
-    <div id="view-all">
-        @await Html.PartialAsync("PartialView/_Lista", Model)
+    <div class="d-md-flex">
+        <p class="shadow p-3 bg-white rounded">
+            <button class="btn btn-primary"><i class="fas fa-list"></i></button> -> Reporte Tratamiento Mascota
+        </p>
     </div>
-</div>
+        <div id="view-all">
+            @await Html.PartialAsync("PartialView/_Lista", Model)
+        </div>
+    </div>

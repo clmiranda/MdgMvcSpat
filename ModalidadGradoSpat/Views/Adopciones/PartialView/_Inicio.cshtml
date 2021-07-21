@@ -1,13 +1,4 @@
 ﻿@model List<Mascota>
-<style>
-    .card {
-        transition: transform 0.2s ease-in-out;
-    }
-    .card:hover {
-        transform: translateY(-0.5rem) scale(1.0125);
-        box-shadow: 0 0.5em 3rem -1rem rgba(0,0,0,0.5);
-    }
-</style>
 <div class="d-xl-flex justify-content-between my-3">
     <form class="form-inline" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
         <div class="input-group">
@@ -88,16 +79,16 @@
     @foreach (var item in Model)
     {
     <div class="col-lg-6 col-xl-4 mb-5">
-        <div class="card h-100 border-0 shadow mx-auto rounded-lg">
+        <div class="card h-100 border-0 shadow mx-auto rounded">
             <div class="card-img-top">
                 <a href="@Url.Action("InformacionMascota", "Adopciones",new { id=item.Id, area=""},Context.Request.Scheme)">
                     @if (item.Foto == null)
                     {
-                        <img alt="picture" src="~/archivos/imagenes/spat.png" class="img-fluid w-100 rounded-lg" />
+                        <img alt="@item.Nombre" src="~/archivos/imagenes/spat.png" class="img-fluid rounded" />
                     }
                     else
                     {
-                        <img alt="picture" src="@item.Foto.Url" class="img-fluid w-100 rounded-lg" />
+                        <img alt="@item.Nombre" src="@item.Foto.Url" class="img-fluid w-100 rounded" />
                     }
                 </a>
             </div>
@@ -190,7 +181,7 @@
             }
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Home/Error/" + jqXHR.status;
+                window.location.href = "/Error/" + jqXHR.status;
             })
     });
     send = form => {
@@ -205,7 +196,7 @@
             }
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Home/Error/" + jqXHR.status;
+                window.location.href = "/Error/" + jqXHR.status;
             })
         return false;
     };

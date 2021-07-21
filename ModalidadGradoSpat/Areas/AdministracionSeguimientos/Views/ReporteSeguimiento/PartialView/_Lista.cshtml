@@ -1,7 +1,4 @@
 ﻿@model Seguimiento
-@{
-    Layout = null;
-}
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -13,24 +10,22 @@
         </form>
     </div>
     <div class="my-2">
-        <h5>
-            @if (Model.User == null)
-            {
-                <span class="badge badge-pill p-2 badge-warning">A&uacute;n no tiene un Voluntario asignado.</span>
-            }
-            else
-            {
-                <span class="badge badge-pill p-2 badge-success">Voluntario Asignado: @Model.User.Nombres @Model.User.Apellidos</span>
-            }
-        </h5>
+        @if (Model.User == null)
+        {
+            <p class="shadow px-3 py-1 bg-white rounded">A&uacute;n no tiene un Voluntario asignado.</p>
+        }
+        else
+        {
+            <p class="shadow px-3 py-1 bg-white rounded">Voluntario Asignado: @Model.User.Nombres @Model.User.Apellidos</p>
+        }
     </div>
     <div class="my-2">
-        <h5>
-            <span class="badge badge-pill p-2 badge-secondary">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaConclusion.ToShortDateString()</span>
-        </h5>
+        <p class="shadow px-3 py-1 bg-white rounded">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaConclusion.ToShortDateString()</p>
     </div>
     <div class="my-2">
-        <button class="btn btn-primary" onclick="showInPopup('@Url.Action("EditSeguimiento","ReporteSeguimiento", new { id=Model.Id, area="AdministracionSeguimientos" },Context.Request.Scheme)', 'Actualizar Seguimiento');" data-toggle="modal" data-target="#form-modal">
+        <button class="btn btn-primary" type="button"
+                onclick="showInPopup('@Url.Action("EditSeguimiento","ReporteSeguimiento", new { id=Model.Id, area="AdministracionSeguimientos" })', 'Actualizar Seguimiento');"
+                data-toggle="modal" data-target="#form-modal">
             <i class="fa fa-calendar" aria-hidden="true"></i>
         </button>
     </div>
@@ -48,13 +43,14 @@
     </div>
 }
 <div class="table-responsive">
-    <table id="example" data-order='[[2, "asc"]]' class="table table-bordered table-hover" style="width:100%">
+    <table id="example" class="table table-bordered table-hover" style="width:100%">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Descripcion</th>
+                <th>Observaciones</th>
                 <th>Fecha Reporte</th>
                 <th>Estado</th>
+                <th>Ver Imagen</th>
                 <th>Eliminar</th>
             </tr>
         </thead>
@@ -119,11 +115,25 @@
                             </h5>
                         }
                     </td>
+                    <td width="10%" class="text-center">
+                        @if (item.Fotos.Count() > 0)
+                        {
+                            <button type="button" onclick="showInPopup('@Url.Action("GetFotoReporteSeguimiento","ReporteSeguimiento", new { url=item.Fotos.FirstOrDefault().Url, area="AdministracionSeguimientos"})','Imagen del Reporte');"
+                                    data-toggle="modal" data-target="#form-modal"
+                                    class="btn btn-success">
+                                <i class="fas fa-images"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <p>Sin Imagen.</p>
+                        }
+                    </td>
                     <td width="5%">
                         <div class="d-flex flex-row">
                             @if (item.Estado.Equals("Enviado"))
                             {
-                                <button role="button" class="btn btn-danger" disabled><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                <button type="button" class="btn btn-danger" disabled><i class="fa fa-trash" aria-hidden="true"></i></button>
                             }
                             else
                             {
@@ -144,6 +154,7 @@
                 <th>Descripcion</th>
                 <th>Fecha Reporte</th>
                 <th>Estado</th>
+                <th>Ver Imagen</th>
                 <th>Eliminar</th>
             </tr>
         </tfoot>
@@ -155,6 +166,8 @@
         $.getScript(url);
         $('#example').DataTable({
             "processing": true,
+            "ordering": false,
+            "ordering": false,
             "language": {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
@@ -185,20 +198,20 @@
             }
         });
         $('[data-toggle="datepicker"]').on('change', function () {
-                $.ajax({
-                    type: "POST",
-                    url: this.form.action,
-                    data: new FormData(this.form),
-                    contentType: false,
-                    processData: false,
-                    success: function (res) {
-                        $('#view-all').html(res.html);
-                    }
+            $.ajax({
+                type: "POST",
+                url: this.form.action,
+                data: new FormData(this.form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#view-all').html(res.html);
+                }
+            })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    window.location.href = "/Error/" + jqXHR.status;
                 })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        window.location.href = "/Home/Error";
-                    })
-                return false;
+            return false;
         })
     });
 </script>

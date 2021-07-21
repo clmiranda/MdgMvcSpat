@@ -1,7 +1,4 @@
 ﻿@model ReporteSeguimiento
-@{
-    Layout = null;
-}
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <form asp-action="SaveFecha" onsubmit="return jQueryAjaxPost(this);" autocomplete="off" method="post">
     <div class="form-row">

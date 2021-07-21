@@ -1,7 +1,6 @@
 ﻿@model ContratoAdopcion
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="card rounded">
-    <div class="card-body">
+<div class="shadow-lg border p-5 bg-white rounded">
         <div class="form-row justify-content-around">
             @if (Model.Estado.Equals("Pendiente"))
             {
@@ -26,10 +25,9 @@
         </div>
         <div class="alert alert-warning alert-dismissible fade show mt-5" role="alert">
             <strong>Atenci&oacute;n!</strong> Solo puede aprobar o rechazar una vez el contrato, en caso de ser aprobado,
-            puede cancelar el contrato si el adoptante no cumple con lo establecido en el contrato de la adopcion.
+            puede cancelar el contrato si el adoptante no cumple con lo establecido en el contrato de la adopci&oacute;n.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    </div>
 </div>

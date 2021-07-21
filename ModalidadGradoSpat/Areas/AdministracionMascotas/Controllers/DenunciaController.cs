@@ -15,6 +15,7 @@ using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
 {
+    [Area("AdministracionMascotas")]
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class DenunciaController : Controller
     {
@@ -24,6 +25,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
+        [Route("Denuncia/Lista")]
         public async Task<IActionResult> Lista()
         {
             ViewData["search"] = busqueda;
@@ -39,7 +41,6 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             var vista = await Listado();
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
-
         [NoDirectAccess]
         public async Task<IActionResult> AddOrEditDenuncia(int id = 0)
         {

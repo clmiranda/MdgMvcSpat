@@ -15,23 +15,25 @@ using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
 {
+    [Area("AdministracionAdopciones")]
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class AdopcionController : Controller
     {
         private static RestClient client;
-        private static List<ContratoAdopcion> _listaGetAll;
+        private static List<ContratoAdopcion> _listaPDF;
         private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Pendiente";
         private static ContratoAdopcion _contratoAdopcion = new ContratoAdopcion();
         public AdopcionController()
         {
             client = new RestClient("https://localhost:44398/");
         }
+        [Route("Adopcion/Lista")]
         public async Task<IActionResult> Lista()
         {
             ViewData["filter"] = filtrado;
             var vista = await Listado();
-            _listaGetAll = await ListadoPDF();
-            ViewData["listaContratos"] = _listaGetAll;
+            _listaPDF = await ListadoPDF();
+            ViewData["listaContratos"] = _listaPDF;
             return View(vista);
         }
         public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1, string filter = "Pendiente")
@@ -41,7 +43,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             filtrado = filter;
             ViewData["filter"] = filter;
             var vista = await Listado();
-            ViewData["listaContratos"] = _listaGetAll;
+            ViewData["listaContratos"] = _listaPDF;
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
         [NoDirectAccess]
@@ -54,6 +56,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         {
             return View(new ContratoRechazo { ContratoAdopcionId = id });
         }
+        [Route("Adopcion/Detalle/{id}")]
         public async Task<IActionResult> Detalle(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -76,7 +79,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         public async Task<IActionResult> UpdateFecha(int id, DateTime FechaAdopcion)
         {
             ViewData["filter"] = filtrado;
-            ViewData["listaContratos"] = _listaGetAll;
+            ViewData["listaContratos"] = _listaPDF;
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ContratoAdopcion/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaAdopcion", FechaAdopcion);
             try

@@ -1,39 +1,46 @@
 ﻿@model UserForLogin
-@{
-    Layout = null;
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="border-0 p-5 my-5 rounded shadow-lg">
+        <div class="card-text text-center">
+            <h5>Ya ha iniciado sesi&oacute;n.</h5>
+        </div>
+    </div>
 }
-@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="row justify-content-center align-items-center">
-    <div class="col-sm-12 col-lg-6">
-        <div class="card o-hidden border-0 shadow-lg">
-            <div class="card-header text-center">Inicio de Sesi&oacute;n</div>
-            <div class="card-body">
-                <form class="user" asp-action="SendDataLogin" onsubmit="return login(this);" method="post">
-                    <div class="form-group">
-                        <div class="form-label-group">
-                            <label for="idUsername">Nombre de Usuario</label>
-                            <input type="text" name="Username" id="idUsername" class="form-control" placeholder="Ingresa tu Nombre de Usuario" autofocus="autofocus">
-                            @Html.ValidationMessageFor(x => x.Username, "", new { @class = "text-danger" })
+else
+{
+    @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card border-0 rounded shadow-lg">
+                <p class="card-header text-center">Inicio de Sesi&oacute;n</p>
+                <div class="card-body p-5">
+                    <form asp-action="SendDataLogin" onsubmit="return login(this);" method="post">
+                        <div class="form-group">
+                            <div class="form-label-group">
+                                <label for="idUsername">Nombre de Usuario</label>
+                                <input type="text" name="Username" id="idUsername" class="form-control" placeholder="Ingresa tu Nombre de Usuario" autofocus="autofocus">
+                                @Html.ValidationMessageFor(x => x.Username, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-label-group">
-                            <label for="idPassword">Contrase&ntilde;a</label>
-                            <input type="password" name="Password" id="idPassword" class="form-control" placeholder="Password">
-                            @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="form-label-group">
+                                <label for="idPassword">Contrase&ntilde;a</label>
+                                <input type="password" name="Password" id="idPassword" class="form-control" placeholder="Password">
+                                @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                            </div>
                         </div>
+                        <button class="btn btn-primary btn-user btn-block" type="submit">
+                            Iniciar Sesi&oacute;n
+                        </button>
+                    </form>
+                    <hr />
+                    <div class="text-center">
+                        <a class="small" href="@Url.Action("ForgotPassword","Cuenta", new { area = "" })">¿Olvidaste tu Contraseña?</a>
                     </div>
-                    <button class="btn btn-primary btn-user btn-block" type="submit">
-                        Iniciar Sesi&oacute;n
-                    </button>
-                </form>
-                <hr />
-                <div class="text-center">
-                    <a class="small" href="@Url.Action("ForgotPassword","Cuenta", new { area = "" })">¿Olvidaste tu Contraseña?</a>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <script>
         login = form => {
@@ -55,9 +62,11 @@
                     }
                 })
                     .fail(function (jqXHR, textStatus, errorThrown) {
-                        window.location.href = "/Home/Error/" + jqXHR.status;
+                        window.location.href = "/Error/" + jqXHR.status;
                     })
                 return false;
             }
         };
     </script>
+
+}

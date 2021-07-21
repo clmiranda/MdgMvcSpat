@@ -1,12 +1,8 @@
 ﻿@model List<Mascota>
 @{
-    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    .rounded {
-        border-radius: .55rem !important
-    }
     .carousel-item {
         text-align: center;
         height: 400px;
@@ -15,30 +11,28 @@
     .carousel-inner img {
         display: inline-block !important;
     }
-
     .carousel-inner {
         height: 100%;
         background-color: #036917;
     }
-    button[disabled] {
-        cursor: not-allowed;
-    }
-
     @@media (max-width: 767px) {
         .card {
             width: auto;
         }
     }
-
     @@media (min-width: 768px) {
         .card {
             width: 300px;
         }
     }
-
-    .pointer {
-        cursor: pointer;
+    .card {
+        transition: transform 0.2s ease-in-out;
     }
+
+        .card:hover {
+            transform: translateY(-0.5rem) scale(1.0125);
+            box-shadow: 0 0.5em 3rem -1rem rgba(0,0,0,0.5);
+        }
 </style>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -93,20 +87,20 @@
     </p>
     <hr class="my-5">
     <div class="row featurette">
-        <div class="col-md-7">
+        <div class="col-xl-8">
             <h2 class="featurette-heading">Rifas Solidarias</h2>
             <p class="lead mt-5">
                 Realizamos rifas solidarias con el fin de cubrir ciertas necesidades econ&oacute;micas
                 de la asociaci&oacute;n con las veterinarias para poder seguir con nuestra labor.
             </p>
         </div>
-        <div class="col-md-5">
-            <img class="featurette-image img-fluid mx-auto rounded" alt="500x500" style="width: 500px; height: 400px;" src="~/archivos/imagenes/spatsorteos2.jpg">
+        <div class="col-xl-4 text-center">
+            <img class="featurette-image img-fluid rounded" alt="Sorteos y Rifas" src="~/archivos/imagenes/spatsorteos2.jpg" style="width: 400px; height: 350px;">
         </div>
     </div>
     <hr class="my-5">
     <div class="row featurette">
-        <div class="col-md-7 order-md-2">
+        <div class="col-xl-8 order-xl-2">
             <h2 class="featurette-heading">Mascotas Extraviadas</h2>
             <p class="lead mt-5">
                 Puedes comunicarte con nosotros a trav&eacute;s de nuestra p&aacute;gina de facebook:
@@ -115,24 +109,23 @@
                 ser&aacute; compartida desde nuestra p&aacute;gina.
             </p>
         </div>
-        <div class="col-md-5 order-md-1">
-            <img class="featurette-image img-fluid mx-auto rounded" alt="500x500" src="~/archivos/imagenes/mascotaextraviada.jpg" style="width: 500px; height: 400px;">
+        <div class="col-xl-4 order-xl-1 text-center">
+            <img class="featurette-image img-fluid rounded" alt="Mascota Extraviada" src="~/archivos/imagenes/mascotaextraviada.jpg" style="width: 400px; height: 300px;">
         </div>
     </div>
-    <div class="my-5">
-        <h3>
-            Lista de Mascotas
-        </h3>
-        <p class="mb-4">
-            Aqu&iacute; se visualizan las mascotas de los albergues de la asociaci&oacute;n,
-            solo puedes aplicar a la adopci&oacute;n para aquellas mascotas que ya est&eacute;n
-            listas para ser adoptadas, adem&aacute;s debes cumplir una serie de requisitos
-            y esperar que nos pongamos en contacto contigo en caso de ser apto para la adopci&oacute;n,
-            tambi&eacute;n llevaremos un seguimiento del cuidado de la mascota que adoptes.
-        </p>
-        <div id="view-all">
-            @await Html.PartialAsync("PartialView/_Inicio", Model)
-        </div>
+    <hr class="my-5" />
+    <h3>
+        Lista de Mascotas
+    </h3>
+    <p class="mb-4">
+        Aqu&iacute; se visualizan las mascotas de los albergues de la asociaci&oacute;n,
+        solo puedes aplicar a la adopci&oacute;n para aquellas mascotas que ya est&eacute;n
+        listas para ser adoptadas, adem&aacute;s debes cumplir una serie de requisitos
+        y esperar que nos pongamos en contacto contigo en caso de ser apto para la adopci&oacute;n,
+        tambi&eacute;n llevaremos un seguimiento del cuidado de la mascota que adoptes.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_Inicio", Model)
     </div>
 </div>
 <script>

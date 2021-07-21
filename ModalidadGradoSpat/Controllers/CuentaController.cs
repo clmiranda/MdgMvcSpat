@@ -12,7 +12,7 @@ using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Controllers
 {
-    [Authorize(Roles = "SuperAdministrador, Administrador, Voluntario")]
+    [AllowAnonymous]
     public class CuentaController : Controller
     {
         private static RestClient client;
@@ -20,7 +20,6 @@ namespace ModalidadGradoSpat.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
-        [AllowAnonymous]
         [Route("Login")]
         public ActionResult Login()
         {
@@ -33,19 +32,17 @@ namespace ModalidadGradoSpat.Controllers
             TempData["alertsuccess"] = "Email verificado correctamente.";
             return RedirectToAction("Login","Cuenta", new { area="" });
         }
-        [AllowAnonymous]
         [Route("ForgotPassword")]
         public ActionResult ForgotPassword()
         {
             return View();
         }
-        [AllowAnonymous]
+        //[Route("ResetPassword")]
         public ActionResult ResetPassword(string email, string token)
         {
             var model = new ResetPassword { Token = token, Email = email };
             return View(model);
         }
-        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendDataLogin(UserForLogin usu)
@@ -102,7 +99,6 @@ namespace ModalidadGradoSpat.Controllers
             }
             return Json(new { html = Helper.RenderRazorViewToString(this, "PartialViews/_ForgotPassword", dto) });
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendDataResetPassword(ResetPassword valor)
@@ -128,6 +124,7 @@ namespace ModalidadGradoSpat.Controllers
             }
             return Json(new { html = Helper.RenderRazorViewToString(this, "PartialViews/_ResetPassword", valor) });
         }
+        [Authorize(Roles = "SuperAdministrador, Administrador, Voluntario")]
         public IActionResult LogOut()
         {
             var cookieOptions = new CookieOptions {

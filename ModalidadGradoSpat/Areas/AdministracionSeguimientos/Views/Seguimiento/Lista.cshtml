@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Seguimiento>
+﻿@model List<Seguimiento>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -6,10 +6,18 @@
     <h3>
         Vista Listado de Seguimientos
     </h3>
-    <p class="mb-4">
+    <p class="mb-2">
         En esta vista se muestra el listado de los seguimientos de las adopciones
         que se realizan a las mascotas adoptadas.
     </p>
+    <div class="d-md-flex">
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-info"><i class="fa fa-user" aria-hidden="true"></i></button> -> Acciones de Asignaci&oacute;n de Seguimiento.
+        </p>
+        <p class="shadow p-3 bg-white rounded">
+            <button class="btn btn-warning"><i class="fa fa-eye" aria-hidden="true"></i></button> -> Eliminar la Adopci&oacute;n.
+        </p>
+    </div>
     <div id="view-all">
         @await Html.PartialAsync("PartialView/_Lista", Model)
     </div>

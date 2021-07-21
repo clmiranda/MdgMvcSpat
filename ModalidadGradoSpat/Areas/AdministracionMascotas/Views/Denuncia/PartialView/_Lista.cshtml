@@ -51,20 +51,21 @@
         </div>
         <div class="flex-row">
             <input id="inputBuscar" placeholder="Buscar" autocomplete="off" type="text" class="form-control mr-3" name="search" value="@ViewData["search"]">
-            <button id="buscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
+            <button id="btnBuscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
             <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
         </div>
     </form>
     <div class="flex-row">
-        <a asp-action="ExcelDenuncias" role="button" type="submit" class="btn btn-primary">
+        <button onclick="location.href='@Url.Action("ExcelDenuncias", "Denuncia", new { area="AdministracionMascotas"})'" type="button" class="btn btn-primary">
             <i class="fas fa-file-excel fa-lg mr-2"></i>Excel Denuncias
-        </a>
-        <a class="btn btn-success" onclick="generatePDF()">
+        </button>
+        <button type="button" class="btn btn-success" onclick="generatePDF()">
             <i class="fas fa-file-pdf fa-lg mr-2"></i>Ver PDF
-        </a>
+        </button>
     </div>
 </div>
-<button role="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nueva Denuncia');" class="btn btn-primary mb-3" data-toggle="modal" data-target="#form-modal">
+<button type="button" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"})', 'Nueva Denuncia');" 
+    class="btn btn-primary mb-3" data-toggle="modal" data-target="#form-modal">
     <i class="fas fa-plus-square fa-lg mr-2"></i>Agregar Denuncia
 </button>
 <div class="table-responsive">
@@ -113,8 +114,13 @@
                         </td>
                         <td width="10%">
                             <div class="d-flex flex-row">
-                                <button type="button" onclick="location.href='@Url.Action("EditMascota", "Mascota",new { id=item.Id, area="AdministracionMascotas"})'" class="btn btn-success"><i class="fas fa-dog fa-2"></i></button>
-                                <button type="button" asp-action="AddOrEditDenuncia" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=item.Id,area="AdministracionMascotas"})','Actualizar Denuncia');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                                <a role="button" href="@Url.Action("EditMascota", "Mascota",new { id=item.Id, area="AdministracionMascotas"})" class="btn btn-success">
+                                    <i class="fas fa-dog fa-2"></i>
+                                </a>
+                                <button type="button" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=item.Id,area="AdministracionMascotas"})','Actualizar Denuncia');"
+                                        class="btn btn-info" data-toggle="modal" data-target="#form-modal">
+                                        <i class="fa fa-edit fa-2" aria-hidden="true"></i>
+                                </button>
                                 <form asp-action="DeleteDenuncia" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
                                     <button type="submit" class="btn btn-danger">
                                         <i class="fa fa-trash fa-2" aria-hidden="true"></i>
@@ -211,8 +217,8 @@
                 @foreach (var item in Model)
                 {
                     <text>
-                ['@item.Id', '@item.Titulo', '@item.Descripcion'],
-            </text>
+                        ['@item.Id', '@item.Titulo', '@item.Descripcion'],
+                    </text>
                 }
             ],
             theme: 'grid'
@@ -227,7 +233,7 @@
         $("input[name='search']").val("");
     });
     $('#inputBuscar').keyup(function () {
-        $('#buscar').prop('disabled', this.value == "" ? true : false);
+        $('#btnBuscar').prop('disabled', this.value == "" ? true : false);
     });
     $('select').on('change', function () {
             $.ajax({
@@ -241,7 +247,7 @@
                 }
             })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Home/Error/" + jqXHR.status;
+                    window.location.href = "/Error/" + jqXHR.status;
                 })
     });
     send = form => {
@@ -256,7 +262,7 @@
                 }
             })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Home/Error/" + jqXHR.status;
+                    window.location.href = "/Error/" + jqXHR.status;
                 })
             return false;
     };

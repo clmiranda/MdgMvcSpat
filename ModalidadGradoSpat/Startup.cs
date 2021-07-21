@@ -23,10 +23,7 @@ namespace ModalidadGradoSpat
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllersWithViews();
-            //services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddHttpContextAccessor();
-            //services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             services.AddCors();
@@ -35,8 +32,6 @@ namespace ModalidadGradoSpat
             {
                 options.IdleTimeout = TimeSpan.FromHours(1);
             });
-            //services.AddDistributedMemoryCache();
-            //services.AddSession();
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -65,8 +60,8 @@ namespace ModalidadGradoSpat
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error/{0}");
-                app.UseStatusCodePagesWithRedirects("/Home/Error/{0}");
+                app.UseExceptionHandler("/Error/{0}");
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
                 //app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             }
@@ -82,7 +77,6 @@ namespace ModalidadGradoSpat
                 await next();
             });
             app.UseHttpsRedirection();
-            //app.UseStaticFiles();
 
             app.UseRouting();
             app.UseAuthentication();
@@ -93,30 +87,30 @@ namespace ModalidadGradoSpat
 
             app.UseEndpoints(endpoints =>
             {
-            endpoints.MapAreaControllerRoute(
-            name: "AreaAdministracionMascotas",
-            areaName: "AdministracionMascotas",
-            pattern: "AdministracionMascotas/{controller=}/{action=}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                name: "AreaAdministracionMascotas",
+                areaName: "AdministracionMascotas",
+                pattern: "AdministracionMascotas/{controller=}/{action=}/{id?}");
 
-            endpoints.MapAreaControllerRoute(
-            name: "AreaAdministracionAdopciones",
-            areaName: "AdministracionAdopciones",
-            pattern: "AdministracionAdopciones/{controller=}/{action=}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                name: "AreaAdministracionAdopciones",
+                areaName: "AdministracionAdopciones",
+                pattern: "AdministracionAdopciones/{controller=}/{action=}/{id?}");
 
-            endpoints.MapAreaControllerRoute(
-            name: "AreaAdministracionCuentas",
-            areaName: "AdministracionCuentas",
-            pattern: "AdministracionCuentas/{controller=}/{action=}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                name: "AreaAdministracionCuentas",
+                areaName: "AdministracionCuentas",
+                pattern: "AdministracionCuentas/{controller=}/{action=}/{id?}");
 
-            endpoints.MapAreaControllerRoute(
-            name: "AreaAdministracionReportes",
-            areaName: "AdministracionReportes",
-            pattern: "AdministracionReportes/{controller=}/{action=}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                name: "AreaAdministracionDatos",
+                areaName: "AdministracionDatos",
+                pattern: "AdministracionDatos/{controller=}/{action=}/{id?}");
 
-            endpoints.MapAreaControllerRoute(
-            name: "AreaAdministracionSeguimientos",
-            areaName: "AdministracionSeguimientos",
-            pattern: "AdministracionSeguimientos/{controller=}/{action=}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                name: "AreaAdministracionSeguimientos",
+                areaName: "AdministracionSeguimientos",
+                pattern: "AdministracionSeguimientos/{controller=}/{action=}/{id?}");
 
                 endpoints.MapControllerRoute(
                 name: "default",

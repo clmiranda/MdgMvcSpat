@@ -1,7 +1,6 @@
 ﻿@model Mascota
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-
-@if (Model==null)
+@if (Model == null)
 {
     <div class="card">
         <div class="card-body">
@@ -16,12 +15,13 @@ else
     @if (Model.Estado.Equals("Inactivo"))
     {
         <div class="d-lg-flex justify-content-between my-3">
-            <button type="button" onclick="showInPopup('@Url.Action("AddOrEditReporteTratamiento","ReporteTratamiento",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nuevo Reporte Tratamiento');" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#form-modal">
-            <i class="fas fa-plus-square"></i>
+            <button type="button" onclick="showInPopup('@Url.Action("AddOrEditReporteTratamiento","ReporteTratamiento",new { id=0, area="AdministracionMascotas"},Context.Request.Scheme)', 'Nuevo Reporte Tratamiento');"
+                    class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#form-modal">
+                <i class="fas fa-plus-square"></i>
             </button>
-            <button type="button" class="ml-5 btn btn-warning btn-lg" onclick="location.href='@Url.Action("Detalle","ReporteTratamiento",new {id=Model.Id, area="AdministracionMascotas"})'">
-            <i class="fas fa-eye"></i>
-            </button>
+            <a role="button" class="ml-5 btn btn-warning btn-lg" href="@Url.Action("Detalle","ReporteTratamiento",new {id=Model.Id, area="AdministracionMascotas"})">
+                <i class="fas fa-eye"></i>
+            </a>
         </div>
         <div class="table-responsive">
             <table id="tableReporteTratamiento" class="table table-bordered table-hover">
@@ -48,7 +48,8 @@ else
                             </td>
                             <td width="5%">
                                 <div class="d-flex flex-row">
-                                    <button type="button" onclick="showInPopup('@Url.Action("AddOrEditReporteTratamiento","ReporteTratamiento",new { id=item.Id,area="AdministracionMascotas"},Context.Request.Scheme)','Actualizar Reporte Tratamiento');" class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                                    <button type="button" onclick="showInPopup('@Url.Action("AddOrEditReporteTratamiento","ReporteTratamiento",new { id=item.Id,area="AdministracionMascotas"},Context.Request.Scheme)','Actualizar Reporte Tratamiento');"
+                                            class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
                                     <form asp-action="DeleteReporteTratamiento" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fa fa-trash fa-2" aria-hidden="true"></i>

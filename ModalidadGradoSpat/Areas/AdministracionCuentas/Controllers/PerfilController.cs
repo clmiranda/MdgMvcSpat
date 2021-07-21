@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
 {
+    [Area("AdministracionCuentas")]
     [Authorize(Roles = "SuperAdministrador, Administrador, Voluntario")]
     public class PerfilController : Controller
     {
@@ -22,6 +23,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             client = new RestClient("https://localhost:44398/");
             id = int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
+        [Route("Perfil/EditarPerfil")]
         public async Task<IActionResult> EditarPerfil()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -53,7 +55,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Datos actualizados.";
-                    return Json(new { /*isValid = true, */html = Helper.RenderRazorViewToString(this, "PartialView/_EditarPerfil", response.Data) });
+                    return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditarPerfil", response.Data) });
                 }
                 catch (Exception ex)
                 {
@@ -63,8 +65,36 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     TempData["alerterror"] = msg["mensaje"];
                 }
             }
-            return Json(new { /*isValid = false*/html = Helper.RenderRazorViewToString(this, "PartialView/_EditarPerfil", user) });
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditarPerfil", user) });
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateEmail(User user)
+        {
+            ModelState.Clear();
+            if (ModelState.IsValid)
+            {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/User/UpdateEmail/", Method.PUT).AddJsonBody(user);
+                try
+                {
+                    var response = await client.ExecuteAsync<User>(request);
+                    if (!response.IsSuccessful)
+                        throw new Exception(response.Content);
+                    TempData["alertsuccess"] = "Email actualizado.";
+                    return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditarPerfil", response.Data) });
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
+                }
+            }
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditarPerfil", user) });
+        }
+        [Route("Perfil/ResetPassword")]
         public ActionResult ResetPassword()
         {
             return View();
@@ -84,7 +114,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Contraseña Actualizada.";
-                    return Json(new { /*isValid=true, */html = Helper.RenderRazorViewToString(this, "PartialView/_ResetPassword", dto) });
+                    return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ResetPassword", dto) });
                 }
                 catch (Exception ex)
                 {
@@ -94,7 +124,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     TempData["alerterror"] = msg["mensaje"];
                 }
             }
-            return Json(new { /*isValid= false,*/ html = Helper.RenderRazorViewToString(this, "PartialView/_ResetPassword", dto) });
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ResetPassword", dto) });
         }
     }
 }

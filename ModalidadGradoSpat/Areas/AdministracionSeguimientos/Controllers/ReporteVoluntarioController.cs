@@ -1,4 +1,5 @@
 ﻿using DATA.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,6 +15,8 @@ using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
 {
+    [Area("AdministracionSeguimientos")]
+    [Authorize(Roles = "SuperAdministrador, Voluntario")]
     public class ReporteVoluntarioController : Controller
     {
         private static RestClient client;
@@ -23,6 +26,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
+        [Route("Voluntario/Reporte/Lista")]
         public async Task<IActionResult> Lista()
         {
             ViewData["filter"] = filtrado;
@@ -88,10 +92,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
             }
         }
-        public async Task<IActionResult> Detalle(int id)
+        [Route("Voluntario/Reporte/ListaReportes/{id}")]
+        public async Task<IActionResult> ListaReportes(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/GetSeguimientoForVoluntario/" + id, Method.GET);
+            var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
             try
             {
                 var response = await client.ExecuteAsync<Seguimiento>(request);
@@ -104,8 +109,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 throw new Exception();
             }
         }
-
-        public async Task<IActionResult> DetalleSeguimiento(int id)
+        [Route("Voluntario/Reporte/Detalle/{id}")]
+        public async Task<IActionResult> Detalle(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ContratoAdopcion/DetailAdopcion/" + id, Method.GET);
@@ -150,7 +155,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "El Reporte fue enviado exitosamente.";
-                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Detalle", response.Data) });
+                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", response.Data) });
                 }
                 catch (Exception ex)
                 {

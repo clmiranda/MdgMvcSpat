@@ -7,12 +7,12 @@
     <button type="button" data-toggle="modal" onclick="showInPopup('@Url.Action("AddUsuario","Cuenta", new { area="AdministracionCuentas"})', 'Agregar Usuario');" class="btn btn-primary">
         <i class="fas fa-plus-square fa-lg mr-2"></i>Agregar Usuario
     </button>
-        <a asp-action="ExcelUsuario" role="button" type="submit" class="btn btn-primary">
-            <i class="fas fa-file-excel fa-lg mr-2"></i>Excel Usuarios
-        </a>
-    <a class="btn btn-success" onclick="generatePDF()">
+    <button onclick="location.href='@Url.Action("ExcelUsuario", "Cuenta", new { area="AdministracionCuentas"})'" type="button" class="btn btn-primary">
+        <i class="fas fa-file-excel fa-lg mr-2"></i>Excel Usuarios
+    </button>
+    <button type="button" class="btn btn-success" onclick="generatePDF()">
         <i class="fas fa-file-pdf fa-lg mr-2"></i>Ver PDF
-    </a>
+    </button>
 </div>
 <div class="table-responsive">
     <table id="example" class="table table-bordered table-hover">
@@ -76,7 +76,10 @@
                                 }
                                 else
                                 {
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">Asignar Roles</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" 
+                                     onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">
+                                        Asignar Roles
+                                    </button>
                                 }
                                 <form asp-action="CambiarEstado" asp-route-idUser="@item.Id" onsubmit="return changeEstado(this);">
                                     <button type="submit" class="btn btn-warning">Cambiar Estado</button>
@@ -185,7 +188,7 @@
                     }
                 })
                     .fail(function (jqXHR, textStatus, errorThrown) {
-                        window.location.href = "/Home/Error/" + jqXHR.status;
+                        window.location.href = "/Error/" + jqXHR.status;
                     })
                 return false;
             }
@@ -205,7 +208,7 @@
             }
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Home/Error/" + jqXHR.status;
+                window.location.href = "/Error/" + jqXHR.status;
             })
         return false;
     };

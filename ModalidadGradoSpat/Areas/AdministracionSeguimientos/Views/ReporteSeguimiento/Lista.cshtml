@@ -2,20 +2,29 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    button[disabled] {
-        cursor: not-allowed;
-    }
-</style>
 <div class="container-fluid my-5">
     <h3>
         Lista de Reportes de Seguimiento Actual
     </h3>
-    <p class="mb-4">
-        En esta vista se muestran los reportes asignados para el 
-        seguimiento actual, desde aqu&iacute; se puede establecer el 
+    <p class="mb-2">
+        En esta vista se muestran los reportes asignados para el
+        seguimiento actual, desde aqu&iacute; se puede establecer el
         rango de fechas y asignar la fecha de cada reporte o eliminar.
     </p>
+    <div class="d-md-flex">
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button> -> Agregar Reporte.
+        </p>
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-primary"><i class="fa fa-calendar" aria-hidden="true"></i></button> -> Actualizar Rango de Fechas.
+        </p>
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-success"><i class="fas fa-images" aria-hidden="true"></i></button> -> Ver Imagen Reporte.
+        </p>
+        <p class="shadow p-3 bg-white rounded">
+            <button class="btn btn-danger"><i class="fas fa-trash" aria-hidden="true"></i></button> -> Eliminar Reporte.
+        </p>
+    </div>
     <div id="view-all">
         @await Html.PartialAsync("PartialView/_Lista", Model)
     </div>

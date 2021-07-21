@@ -6,12 +6,26 @@
     <h3>
         Vista del Tratamiento de la Mascota.
     </h3>
-    <p class="mb-4">
-        En esta vista se puede ver la evoluci&oacute;n de la mascota desde que 
+    <p class="mb-2">
+        En esta vista se puede ver la evoluci&oacute;n de la mascota desde que
         es registrada en la asociaci&oacute;n hasta que ya es apta para ser
         adoptada.
     </p>
-    <div id="view-all">
-        @await Html.PartialAsync("PartialView/_Lista", Model)
+    <div class="d-md-flex">
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-primary"><i class="fas fa-plus-square"></i></button> -> Agregar Reporte Tratamiento.
+        </p>
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-warning"><i class="far fa-eye" aria-hidden="true"></i></button> -> Previsualizar.
+        </p>
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-info"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button> -> Editar Reporte Tratamiento.
+        </p>
+        <p class="shadow p-3 bg-white rounded">
+            <button class="btn btn-danger"><i class="fa fa-trash fa-2" aria-hidden="true"></i></button> -> Eliminar Reporte Tratamiento.
+        </p>
     </div>
-</div>
+        <div id="view-all">
+            @await Html.PartialAsync("PartialView/_Lista", Model)
+        </div>
+    </div>

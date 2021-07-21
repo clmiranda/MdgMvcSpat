@@ -11,6 +11,7 @@ using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
 {
+    [Area("AdministracionSeguimientos")]
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class ReporteSeguimientoController : Controller
     {
@@ -20,12 +21,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
+        [Route("ReporteSeguimiento/Lista/{id}")]
         public async Task<IActionResult> Lista(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
             try
             {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
                 var response = await client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
@@ -53,6 +55,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             {
                 throw new Exception();
             }
+        }
+        [NoDirectAccess]
+        public IActionResult GetFotoReporteSeguimiento(string url="") {
+            return PartialView("GetFotoReporteSeguimiento", url);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

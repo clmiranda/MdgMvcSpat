@@ -9,14 +9,11 @@
         }
     })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            window.location.href = "/Home/Error/" + jqXHR.status;
+            window.location.href = "/Error/" + jqXHR.status;
         })
 };
 
 jQueryAjaxPost = form => {
-    //var datos = $("form")
-    //    .removeData("validator") /* added by the raw jquery.validate plugin */
-    //    .removeData("unobtrusiveValidation");  /* added by the jquery unobtrusive plugin*/
     event.preventDefault();
     if ($("form").valid()) {
         jQuery.ajax({
@@ -40,7 +37,7 @@ jQueryAjaxPost = form => {
             }
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Home/Error/" + jqXHR.status;
+                window.location.href = "/Error/" + jqXHR.status;
             })
         return false;
     }
@@ -73,7 +70,7 @@ jQueryAjaxDelete = form => {
                 }
             })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Home/Error/" + jqXHR.status;
+                    window.location.href = "/Error/" + jqXHR.status;
                 })
             return false;
         }
@@ -95,7 +92,7 @@ jQueryAjaxPostList = form => {
         }
     })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            window.location.href = "/Home/Error/" + jqXHR.status;
+            window.location.href = "/Error/" + jqXHR.status;
         })
     return false;
 };
@@ -124,7 +121,7 @@ jQueryAjaxPostAlterno = form => {
         }
     })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            window.location.href = "/Home/Error/" + jqXHR.status;
+            window.location.href = "/Error/" + jqXHR.status;
         })
     return false;
 };
@@ -148,7 +145,7 @@ showForm = form => {
             }
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Home/Error/" + jqXHR.status;
+                window.location.href = "/Error/" + jqXHR.status;
             })
         return false;
     }
@@ -184,7 +181,7 @@ jQueryAjaxDeleteForm = form => {
                 }
             })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Home/Error/" + jqXHR.status;
+                    window.location.href = "/Error/" + jqXHR.status;
                 })
             return false;
         }
@@ -218,7 +215,7 @@ jQueryAjaxDeleteForm2 = form => {
                 }
             })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Home/Error/" + jqXHR.status;
+                    window.location.href = "/Error/" + jqXHR.status;
                 })
             return false;
         }
@@ -242,7 +239,7 @@ showFormAux = form => {
             }
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Home/Error/" + jqXHR.status;
+                window.location.href = "/Error/" + jqXHR.status;
             })
         return false;
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DATA.Models
@@ -14,5 +15,8 @@ namespace DATA.Models
         public string Estado { get; set; }
         public virtual Seguimiento Seguimiento { get; set; }
         public int SeguimientoId { get; set; }
+        [Required(ErrorMessage = "Debe contener una imagen de la mascota.")]
+        [DataType(DataType.Upload)]
+        public virtual List<Foto> Fotos { get; set; }
     }
 }
