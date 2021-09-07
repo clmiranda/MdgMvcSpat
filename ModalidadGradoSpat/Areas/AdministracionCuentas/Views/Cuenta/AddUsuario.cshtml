@@ -88,45 +88,5 @@
 </form>
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-
-    var url = "/archivos/js/daterangepicker.js";
-    $.getScript(url);
-    $('form [class="form-control"]').on('change input', function () {
-        $('form button[type="submit"]').prop('disabled', false);
-    });
-    var togglePassword = document.querySelector('.fa-eye');
-    var password = document.querySelector('#idPassword');
-    togglePassword.addEventListener('click', function (e) {
-        var type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.classList.toggle('fa-eye-slash');
-    });
-    $(document).ready(function () {
-        var mayus = new RegExp("^(?=.*[A-Z])");
-        var special = new RegExp("^(?=.*[-!$%^&*()\\\\@@#_+|~=`{}\:\"\;'<>?,.\/])");
-        var numbe = new RegExp("^(?=.*[0-9])");
-        var lower = new RegExp("^(?=.*[a-z])");
-        var charac = new RegExp("^(?=.{8,})");
-
-        var regExp = [mayus, special, numbe, lower, charac];
-        var elem = [$("#mayus"), $("#special"), $("#numbe"), $("#lower"), $("#charac")];
-
-        $("#idPassword").on("keyup", function () {
-            var pass = $("#idPassword").val();
-            for (var i = 0; i < 5; i++) {
-                if (regExp[i].test(pass)) {
-                    elem[i].hide();
-                }
-                else {
-                    elem[i].show();
-                }
-            }
-        });
-    });
-    function isNumber(evt) {
-        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
-            return false;
-        return true;
-    }
+    var _0x50be = ['getScript', 'password', '#lower', 'text', 'getAttribute', '^(?=.*[0-9])', '13073VoGzDF', '132586vcToGf', 'toggle', '92vgMArS', '#idPassword', 'classList', '.fa-eye', '^(?=.{8,})', '^(?=.*[A-Z])', '#numbe', 'disabled', 'ready', 'fa-eye-slash', 'keyCode', '12119RiWRPU', 'hide', 'click', 'prop', 'type', '158936oelytr', 'setAttribute', '2743382lsmTBm', 'querySelector', '1KkCazB', '679803fpPdsc', 'form\x20button[type=\x22submit\x22]', '#mayus', 'show', '54635FqrBnv', '91pjStTo', '11HVlLCy', 'form\x20[class=\x22form-control\x22]', '23wkIKmu']; var _0x2b8f71 = _0x2328; (function (_0x54aed0, _0x33331e) { var _0x160170 = _0x2328; while (!![]) { try { var _0x2794ac = parseInt(_0x160170(0x171)) + -parseInt(_0x160170(0x177)) * parseInt(_0x160170(0x181)) + parseInt(_0x160170(0x18e)) * -parseInt(_0x160170(0x176)) + -parseInt(_0x160170(0x193)) + -parseInt(_0x160170(0x180)) * parseInt(_0x160170(0x183)) + -parseInt(_0x160170(0x179)) * -parseInt(_0x160170(0x175)) + parseInt(_0x160170(0x195)) * parseInt(_0x160170(0x170)); if (_0x2794ac === _0x33331e) break; else _0x54aed0['push'](_0x54aed0['shift']()); } catch (_0x2b067d) { _0x54aed0['push'](_0x54aed0['shift']()); } } }(_0x50be, 0xb8c7f)); function _0x2328(_0x9f92db, _0x1eb15c) { return _0x2328 = function (_0x50be01, _0x23283c) { _0x50be01 = _0x50be01 - 0x16f; var _0xb8507 = _0x50be[_0x50be01]; return _0xb8507; }, _0x2328(_0x9f92db, _0x1eb15c); } var url = '/archivos/js/daterangepicker.js'; $[_0x2b8f71(0x17a)](url), $(_0x2b8f71(0x178))['on']('change\x20input', function () { var _0x449808 = _0x2b8f71; $(_0x449808(0x172))[_0x449808(0x191)](_0x449808(0x18a), ![]); }); var togglePassword = document[_0x2b8f71(0x16f)](_0x2b8f71(0x186)), password = document[_0x2b8f71(0x16f)]('#idPassword'); togglePassword['addEventListener'](_0x2b8f71(0x190), function (_0x24afc7) { var _0x448542 = _0x2b8f71, _0x3c7ff7 = password[_0x448542(0x17e)](_0x448542(0x192)) === _0x448542(0x17b) ? _0x448542(0x17d) : _0x448542(0x17b); password[_0x448542(0x194)](_0x448542(0x192), _0x3c7ff7), this[_0x448542(0x185)][_0x448542(0x182)](_0x448542(0x18c)); }), $(document)[_0x2b8f71(0x18b)](function () { var _0x324390 = _0x2b8f71, _0x1494fe = new RegExp(_0x324390(0x188)), _0x27d719 = new RegExp('^(?=.*[-!$%^&*()\x5c\x5c@@#_+|~=`{}:\x22;\x27<>?,./])'), _0xe7d267 = new RegExp(_0x324390(0x17f)), _0x4a8bc3 = new RegExp('^(?=.*[a-z])'), _0x486fbe = new RegExp(_0x324390(0x187)), _0x369a28 = [_0x1494fe, _0x27d719, _0xe7d267, _0x4a8bc3, _0x486fbe], _0xc5ff82 = [$(_0x324390(0x173)), $('#special'), $(_0x324390(0x189)), $(_0x324390(0x17c)), $('#charac')]; $(_0x324390(0x184))['on']('keyup', function () { var _0x223ee1 = _0x324390, _0x2e1cd7 = $(_0x223ee1(0x184))['val'](); for (var _0xa63930 = 0x0; _0xa63930 < 0x5; _0xa63930++) { _0x369a28[_0xa63930]['test'](_0x2e1cd7) ? _0xc5ff82[_0xa63930][_0x223ee1(0x18f)]() : _0xc5ff82[_0xa63930][_0x223ee1(0x174)](); } }); }); function isNumber(_0x523ad0) { var _0x4f3020 = _0x2b8f71, _0x3f8983 = _0x523ad0['which'] ? _0x523ad0['which'] : _0x523ad0[_0x4f3020(0x18d)]; if (_0x3f8983 != 0x2e && _0x3f8983 > 0x1f && (_0x3f8983 < 0x30 || _0x3f8983 > 0x39)) return ![]; return !![]; }
 </script>

@@ -101,13 +101,12 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPassword dto)
+        public async Task<IActionResult> PutPasswordUser(UpdateUserPassword dto)
         {
-            ModelState.Remove("Email");
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/User/ResetPassword/" + id, Method.PUT).AddParameter("Password", dto.Password);
+                var request = new RestRequest("api/User/ResetPassword/" + id, Method.PUT).AddJsonBody(dto);
                 try
                 {
                     var response = await client.ExecuteAsync(request);

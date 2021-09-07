@@ -3,18 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DATA.DTOs
 {
-    public class ResetPassword
+    public class UpdateUserPassword
     {
-        [Required(ErrorMessage ="La nueva contraseña es requerida.")]
+        [Required(ErrorMessage = "La nueva contraseña es requerida.")]
         [DataType(DataType.Password)]
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d]).{8,}$", ErrorMessage = "La contraseña no cumple con los requisitos.")]
         public string Password { get; set; }
         [NotMapped]
-        [Required(ErrorMessage ="Debe confirmar la contraseña.")]
+        [Required(ErrorMessage = "Debe confirmar la contraseña.")]
         [DataType(DataType.Password)]
-        [Compare("Password",ErrorMessage ="Las contraseñas no coinciden.")]
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmPassword { get; set; }
-        public string Email { get; set; }
-        public string Token { get; set; }
     }
 }

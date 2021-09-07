@@ -127,12 +127,9 @@ namespace ModalidadGradoSpat.Controllers
         [Authorize(Roles = "SuperAdministrador, Administrador, Voluntario")]
         public IActionResult LogOut()
         {
-            var cookieOptions = new CookieOptions {
-                Expires = DateTime.Now.AddDays(-1)
-            };
-            foreach (var cookie in HttpContext.Request.Cookies.Keys)
+            foreach (var cookie in HttpContext.Request.Cookies)
             {
-                HttpContext.Response.Cookies.Delete(cookie, cookieOptions);
+                Response.Cookies.Delete(cookie.Key);
             }
             HttpContext.Session.Clear();
             return RedirectToAction("Inicio", "Adopciones", new { area = "" });

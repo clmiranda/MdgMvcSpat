@@ -54,7 +54,7 @@
     </div>
 </div>
 <div class="table-responsive mt-sm-3 mt-md-5">
-    <table id="tableMascota" class="table table-bordered table-hover">
+    <table id="tableMascota" class="table table-hover table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Id</th>
@@ -99,14 +99,14 @@
                                 <form asp-action="CambiarEstado" asp-route-id="@item.Id">
                                     @if (item.Estado.ToUpper().Equals("ACTIVO"))
                                     {
-                                        <select name="estado" class="form-control d-inline" @*onchange="return showChangedState()"*@>
+                                        <select name="estado" class="form-control">
                                             <option value="Activo" selected>Activo</option>
                                             <option value="Inactivo">Inactivo</option>
                                         </select>
                                     }
                                     else if (item.Estado.ToUpper().Equals("INACTIVO"))
                                     {
-                                        <select name="estado" class="form-control d-inline" @*onchange="return showChangedState()"*@>
+                                        <select name="estado" class="form-control">
                                             <option value="Activo">Activo</option>
                                             <option value="Inactivo" selected>Inactivo</option>
                                         </select>
@@ -123,7 +123,7 @@
                             }
                             else
                             {
-                                <button type="button" class="btn btn-primary" disabled><i class="fas fa-list"></i></button>
+                                <a role="button" class="btn btn-primary" disabled><i class="fas fa-list"></i></a>
                             }
                         </td>
                     </tr>
@@ -223,45 +223,5 @@
         });
         window.open(URL.createObjectURL(doc.output("blob")))
     }
-    function GetValueButton(val) {
-        $("[name='currentPage']").val(val);
-    }
-    $("#resetear").on("click", function () {
-        $("select[name='sizePage'] option").val("10");
-        $("input[name='search']").val("");
-    });
-    $('#inputBuscar').keyup(function () {
-        $('#buscar').prop('disabled', this.value == "" ? true : false);
-    });
-    $('select').on('change', function () {
-            $.ajax({
-                type: "POST",
-                url: this.form.action,
-                data: new FormData(this.form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    $('#view-all').html(res.html);
-                }
-            })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Error/" + jqXHR.status;
-                })
-    });
-    send = form => {
-            $.ajax({
-                type: "POST",
-                url: form.action,
-                data: new FormData(form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    $('#view-all').html(res.html);
-                }
-            })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Error/" + jqXHR.status;
-                })
-            return false;
-    };
+    var _0x2a88 = ['#view-all', '1BfWZUO', 'click', 'form', 'location', '421431FuVaZo', 'prop', 'val', 'ajax', '245xZjhmS', '349497OgCTYl', 'href', '4799DIXTRJ', 'html', 'change', '/Error/', '1409008wfKkiu', '371028yDYOEX', 'status', 'select[name=\x27sizePage\x27]\x20option', '#buscar', '910793SwBgJT', 'fail', '670147sYnrDJ', '1dWKuxj', 'select', 'POST', '#resetear', 'action']; var _0x417c12 = _0x3ebe; function _0x3ebe(_0x384f7b, _0xe2be9c) { return _0x3ebe = function (_0x2a882d, _0x3ebeae) { _0x2a882d = _0x2a882d - 0xa8; var _0x27fae7 = _0x2a88[_0x2a882d]; return _0x27fae7; }, _0x3ebe(_0x384f7b, _0xe2be9c); } (function (_0x3ebef4, _0x3b5115) { var _0x31ba6c = _0x3ebe; while (!![]) { try { var _0x3eefce = -parseInt(_0x31ba6c(0xb6)) + -parseInt(_0x31ba6c(0xbc)) * parseInt(_0x31ba6c(0xc3)) + -parseInt(_0x31ba6c(0xaf)) * parseInt(_0x31ba6c(0xbd)) + parseInt(_0x31ba6c(0xaa)) + -parseInt(_0x31ba6c(0xba)) + -parseInt(_0x31ba6c(0xae)) * -parseInt(_0x31ba6c(0xb1)) + parseInt(_0x31ba6c(0xb5)); if (_0x3eefce === _0x3b5115) break; else _0x3ebef4['push'](_0x3ebef4['shift']()); } catch (_0x5c9f46) { _0x3ebef4['push'](_0x3ebef4['shift']()); } } }(_0x2a88, 0xac0d9)); function GetValueButton(_0x1fc611) { var _0x2a7535 = _0x3ebe; $('[name=\x27currentPage\x27]')[_0x2a7535(0xac)](_0x1fc611); } $(_0x417c12(0xc0))['on'](_0x417c12(0xc4), function () { var _0x4e6182 = _0x417c12; $(_0x4e6182(0xb8))[_0x4e6182(0xac)]('10'), $('input[name=\x27search\x27]')[_0x4e6182(0xac)](''); }), $('#inputBuscar')['keyup'](function () { var _0x1f50f7 = _0x417c12; $(_0x1f50f7(0xb9))[_0x1f50f7(0xab)]('disabled', this['value'] == '' ? !![] : ![]); }), $(_0x417c12(0xbe))['on'](_0x417c12(0xb3), function () { var _0x156a0b = _0x417c12; $[_0x156a0b(0xad)]({ 'type': _0x156a0b(0xbf), 'url': this[_0x156a0b(0xa8)][_0x156a0b(0xc1)], 'data': new FormData(this[_0x156a0b(0xa8)]), 'contentType': ![], 'processData': ![], 'success': function (_0x336ee8) { var _0x5f33cb = _0x156a0b; $('#view-all')['html'](_0x336ee8[_0x5f33cb(0xb2)]); } })[_0x156a0b(0xbb)](function (_0x699d6f, _0x359d14, _0x507a21) { var _0x3ddce3 = _0x156a0b; window[_0x3ddce3(0xa9)][_0x3ddce3(0xb0)] = _0x3ddce3(0xb4) + _0x699d6f[_0x3ddce3(0xb7)]; }); }), send = _0x1c58d0 => { var _0x42dd90 = _0x417c12; return $[_0x42dd90(0xad)]({ 'type': 'POST', 'url': _0x1c58d0['action'], 'data': new FormData(_0x1c58d0), 'contentType': ![], 'processData': ![], 'success': function (_0x123727) { var _0x3228a8 = _0x42dd90; $(_0x3228a8(0xc2))['html'](_0x123727[_0x3228a8(0xb2)]); } })[_0x42dd90(0xbb)](function (_0x409250, _0x257e74, _0x2934df) { var _0x3cf6ae = _0x42dd90; window['location'][_0x3cf6ae(0xb0)] = _0x3cf6ae(0xb4) + _0x409250[_0x3cf6ae(0xb7)]; }), ![]; };
 </script>

@@ -422,7 +422,6 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Cuenta\PartialView\_Lista.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\EditarPerfil.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\PartialView\_EditarPerfil.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\PartialView\_ResetPassword.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\ResetPassword.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\_ViewImports.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionDatos\Views\Graficas\Adopciones.cshtml.g.cs
@@ -487,3 +486,5 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.dll
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.pdb
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.genruntimeconfig.cache
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\PartialView\_ResetPassword.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.GeneratedMSBuildEditorConfig.editorconfig
