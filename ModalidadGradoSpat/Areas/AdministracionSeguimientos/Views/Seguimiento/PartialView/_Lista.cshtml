@@ -236,7 +236,7 @@
                         else
                         {
                             <text>
-                                ['@item.Id', '@item.FechaInicio', '@item.FechaConclusion', 'No asignado', '@item.ContratoAdopcion.Mascota.Nombre', '@item.ContratoAdopcionId'],
+                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaConclusion.ToShortDateString()', 'No asignado', '@item.ContratoAdopcion.Mascota.Nombre', '@item.ContratoAdopcionId'],
                             </text>
                         }
                      }
@@ -270,42 +270,5 @@
         });
         window.open(URL.createObjectURL(doc.output("blob")))
     }
-    function GetValueButton(val) {
-        $("[name='currentPage']").val(val);
-    }
-    $("#resetear").on("click", function () {
-        $("select[name='filter'] option").val("Activo");
-        $("select[name='sizePage'] option").val("10");
-    });
-    send = form => {
-        $.ajax({
-            type: "POST",
-            url: form.action,
-            data: new FormData(form),
-            contentType: false,
-            processData: false,
-            success: function (res) {
-                $('#view-all').html(res);
-            }
-        })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Error/" + jqXHR.status;
-            })
-        return false;
-    };
-    $('select').on('change', function () {
-        $.ajax({
-            type: "POST",
-            url: this.form.action,
-            data: new FormData(this.form),
-            contentType: false,
-            processData: false,
-            success: function (res) {
-                $('#view-all').html(res);
-            }
-        })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Error/" + jqXHR.status;
-            })
-    });
+    var _0x5059 = ['status', '334lOywUW', '1027547HwuWtc', '8BOsMFI', 'ajax', '1982LLlVvS', '858193usMNTM', 'href', '44536TqAdWQ', '#resetear', 'change', 'Activo', '2401eKpoWt', 'fail', 'select[name=\x27sizePage\x27]\x20option', '613ePDihh', 'form', '/Error/', 'html', 'select', '4231JnsnfV', 'POST', '449WVOusw', '[name=\x27currentPage\x27]', 'action', '#view-all', 'val', '442619moVGAA']; function _0x2ba7(_0x43999a, _0x5a5e64) { return _0x2ba7 = function (_0x505902, _0x2ba743) { _0x505902 = _0x505902 - 0x16a; var _0x5dee3f = _0x5059[_0x505902]; return _0x5dee3f; }, _0x2ba7(_0x43999a, _0x5a5e64); } var _0xac615e = _0x2ba7; (function (_0x3697de, _0x480701) { var _0x56ee27 = _0x2ba7; while (!![]) { try { var _0x16979f = parseInt(_0x56ee27(0x17a)) + -parseInt(_0x56ee27(0x17d)) * -parseInt(_0x56ee27(0x16b)) + -parseInt(_0x56ee27(0x17b)) * -parseInt(_0x56ee27(0x180)) + -parseInt(_0x56ee27(0x177)) + parseInt(_0x56ee27(0x179)) * -parseInt(_0x56ee27(0x170)) + parseInt(_0x56ee27(0x172)) * parseInt(_0x56ee27(0x184)) + -parseInt(_0x56ee27(0x17e)); if (_0x16979f === _0x480701) break; else _0x3697de['push'](_0x3697de['shift']()); } catch (_0x313a9d) { _0x3697de['push'](_0x3697de['shift']()); } } }(_0x5059, 0xeb144)); function GetValueButton(_0xd9b5e1) { var _0xc6c2a = _0x2ba7; $(_0xc6c2a(0x173))[_0xc6c2a(0x176)](_0xd9b5e1); } $(_0xac615e(0x181))['on']('click', function () { var _0x358df5 = _0xac615e; $('select[name=\x27filter\x27]\x20option')[_0x358df5(0x176)](_0x358df5(0x183)), $(_0x358df5(0x16a))['val']('10'); }), send = _0xa80ba4 => { var _0x16037b = _0xac615e; return $['ajax']({ 'type': _0x16037b(0x171), 'url': _0xa80ba4[_0x16037b(0x174)], 'data': new FormData(_0xa80ba4), 'contentType': ![], 'processData': ![], 'success': function (_0x21f2b9) { var _0x4ea763 = _0x16037b; $(_0x4ea763(0x175))[_0x4ea763(0x16e)](_0x21f2b9); } })[_0x16037b(0x185)](function (_0x437377, _0x595ec9, _0x113eb7) { var _0x1e1fe6 = _0x16037b; window['location']['href'] = _0x1e1fe6(0x16d) + _0x437377[_0x1e1fe6(0x178)]; }), ![]; }, $(_0xac615e(0x16f))['on'](_0xac615e(0x182), function () { var _0x24eddd = _0xac615e; $[_0x24eddd(0x17c)]({ 'type': _0x24eddd(0x171), 'url': this[_0x24eddd(0x16c)][_0x24eddd(0x174)], 'data': new FormData(this[_0x24eddd(0x16c)]), 'contentType': ![], 'processData': ![], 'success': function (_0x4c4340) { var _0x208260 = _0x24eddd; $('#view-all')[_0x208260(0x16e)](_0x4c4340); } })[_0x24eddd(0x185)](function (_0x52b46a, _0x46a70e, _0x534a3b) { var _0x49860a = _0x24eddd; window['location'][_0x49860a(0x17f)] = _0x49860a(0x16d) + _0x52b46a[_0x49860a(0x178)]; }); });
 </script>

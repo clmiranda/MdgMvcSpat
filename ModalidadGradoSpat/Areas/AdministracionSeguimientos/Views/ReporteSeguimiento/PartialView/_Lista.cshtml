@@ -167,7 +167,6 @@
         $('#example').DataTable({
             "processing": true,
             "ordering": false,
-            "ordering": false,
             "language": {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
@@ -197,21 +196,6 @@
                 }
             }
         });
-        $('[data-toggle="datepicker"]').on('change', function () {
-            $.ajax({
-                type: "POST",
-                url: this.form.action,
-                data: new FormData(this.form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    $('#view-all').html(res.html);
-                }
-            })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Error/" + jqXHR.status;
-                })
-            return false;
-        })
     });
+    var _0x348b = ['form', '982688hxuies', '3067LHAMSU', 'fail', '475836mDmlwk', '1114735DQJLMN', 'POST', '3191sDcGky', 'location', 'change', 'status', '471610ifpBbE', '174BBIsDK', '66763aWctuf', '/Error/', 'ajax', 'href', '353bSkgOp', 'html']; function _0x4f1f(_0x52e421, _0x35d253) { return _0x4f1f = function (_0x348b0a, _0x4f1f35) { _0x348b0a = _0x348b0a - 0x10e; var _0x3df4a8 = _0x348b[_0x348b0a]; return _0x3df4a8; }, _0x4f1f(_0x52e421, _0x35d253); } var _0xe7cc8f = _0x4f1f; (function (_0x3c4c7e, _0x2bc1e8) { var _0x551e71 = _0x4f1f; while (!![]) { try { var _0x32c9db = -parseInt(_0x551e71(0x110)) + -parseInt(_0x551e71(0x10f)) + parseInt(_0x551e71(0x118)) + -parseInt(_0x551e71(0x116)) + parseInt(_0x551e71(0x117)) * parseInt(_0x551e71(0x120)) + parseInt(_0x551e71(0x11f)) + parseInt(_0x551e71(0x11c)) * parseInt(_0x551e71(0x112)); if (_0x32c9db === _0x2bc1e8) break; else _0x3c4c7e['push'](_0x3c4c7e['shift']()); } catch (_0x484ee0) { _0x3c4c7e['push'](_0x3c4c7e['shift']()); } } }(_0x348b, 0x9e0b7), $('[data-toggle=\x22datepicker\x22]')['on'](_0xe7cc8f(0x114), function () { var _0x3ba887 = _0xe7cc8f; return $[_0x3ba887(0x11a)]({ 'type': _0x3ba887(0x111), 'url': this[_0x3ba887(0x11e)]['action'], 'data': new FormData(this['form']), 'contentType': ![], 'processData': ![], 'success': function (_0x56b50a) { var _0x36558b = _0x3ba887; $('#view-all')[_0x36558b(0x11d)](_0x56b50a[_0x36558b(0x11d)]); } })[_0x3ba887(0x10e)](function (_0x2f079, _0x2dae44, _0x478c44) { var _0xa452e5 = _0x3ba887; window[_0xa452e5(0x113)][_0xa452e5(0x11b)] = _0xa452e5(0x119) + _0x2f079[_0xa452e5(0x115)]; }), ![]; }));
 </script>

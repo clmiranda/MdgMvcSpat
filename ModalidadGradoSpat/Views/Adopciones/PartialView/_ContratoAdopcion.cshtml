@@ -95,36 +95,7 @@
             </div>
         </form>
         <script type="text/javascript">
-            var defaultRangeValidator = $.validator.methods.range;
-            $.validator.methods.range = function (value, element, param) {
-                if (element.type === 'checkbox') {
-                    return element.checked;
-                } else {
-                    return defaultRangeValidator.call(this, value, element, param);
-                }
-            }
-            function setInputFilter(textbox, inputFilter) {
-                ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
-                    textbox.addEventListener(event, function () {
-                        if (inputFilter(this.value)) {
-                            this.oldValue = this.value;
-                            this.oldSelectionStart = this.selectionStart;
-                            this.oldSelectionEnd = this.selectionEnd;
-                        } else if (this.hasOwnProperty("oldValue")) {
-                            this.value = this.oldValue;
-                            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-                        } else {
-                            this.value = "";
-                        }
-                    });
-                });
-            }
-            setInputFilter(document.getElementById("idCi"), function (value) {
-                return /^-?\d*$/.test(value);
-            });
-            setInputFilter(document.getElementById("idNumero"), function (value) {
-                return /^-?\d*$/.test(value);
-            });
+            var _0x4889 = ['oldSelectionEnd', '40286UvCLkJ', 'oldValue', '4431834mYKRHt', 'select', 'mouseup', '1176022UAfJTs', 'value', '37VfFQjT', 'forEach', 'idCi', 'test', 'input', 'setSelectionRange', '1089673mgXqHj', 'hasOwnProperty', 'oldSelectionStart', 'getElementById', '1083522XptqAv', 'keyup', 'selectionEnd', 'addEventListener', 'mousedown', '502683eExqVq', '704195rvnyFv', 'contextmenu']; function _0xd1d2(_0x4dac54, _0x86f39) { return _0xd1d2 = function (_0x48898b, _0xd1d225) { _0x48898b = _0x48898b - 0x14a; var _0x3b744c = _0x4889[_0x48898b]; return _0x3b744c; }, _0xd1d2(_0x4dac54, _0x86f39); } var _0x4d4166 = _0xd1d2; (function (_0x1be0d6, _0x29e838) { var _0x3b3663 = _0xd1d2; while (!![]) { try { var _0x1c2d41 = -parseInt(_0x3b3663(0x160)) + -parseInt(_0x3b3663(0x15b)) * parseInt(_0x3b3663(0x162)) + -parseInt(_0x3b3663(0x152)) + parseInt(_0x3b3663(0x157)) + parseInt(_0x3b3663(0x158)) + -parseInt(_0x3b3663(0x14e)) + parseInt(_0x3b3663(0x15d)); if (_0x1c2d41 === _0x29e838) break; else _0x1be0d6['push'](_0x1be0d6['shift']()); } catch (_0x4c0fd7) { _0x1be0d6['push'](_0x1be0d6['shift']()); } } }(_0x4889, 0xc30c1)); function setInputFilter(_0x595d25, _0x49945a) { var _0x2ea428 = _0xd1d2;[_0x2ea428(0x14c), 'keydown', _0x2ea428(0x153), _0x2ea428(0x156), _0x2ea428(0x15f), _0x2ea428(0x15e), _0x2ea428(0x159), 'drop'][_0x2ea428(0x163)](function (_0x7b1570) { var _0x3cd66c = _0x2ea428; _0x595d25[_0x3cd66c(0x155)](_0x7b1570, function () { var _0x4b7901 = _0x3cd66c; if (_0x49945a(this[_0x4b7901(0x161)])) this['oldValue'] = this['value'], this['oldSelectionStart'] = this['selectionStart'], this[_0x4b7901(0x15a)] = this[_0x4b7901(0x154)]; else this[_0x4b7901(0x14f)](_0x4b7901(0x15c)) ? (this[_0x4b7901(0x161)] = this[_0x4b7901(0x15c)], this[_0x4b7901(0x14d)](this[_0x4b7901(0x150)], this[_0x4b7901(0x15a)])) : this[_0x4b7901(0x161)] = ''; }); }); } setInputFilter(document[_0x4d4166(0x151)](_0x4d4166(0x14a)), function (_0x20e344) { var _0x2320b5 = _0x4d4166; return /^-?\d*$/[_0x2320b5(0x14b)](_0x20e344); }), setInputFilter(document[_0x4d4166(0x151)]('idNumero'), function (_0x157701) { return /^-?\d*$/['test'](_0x157701); });
         </script>
     }
     else

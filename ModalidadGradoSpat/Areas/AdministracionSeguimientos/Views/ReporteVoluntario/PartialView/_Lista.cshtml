@@ -110,7 +110,7 @@
                             else if (item.Estado.Equals("Asignado"))
                             {
                                 <a role="button" class="btn btn-success" href="@Url.Action("ListaReportes","ReporteVoluntario", new { id=item.Id, area="AdministracionSeguimientos"})">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <i class="fas fa-list" aria-hidden="true"></i>
                                 </a>
                             }
                         </td>
@@ -190,42 +190,5 @@
     </form>
 </nav>
 <script>
-    function GetValueButton(val) {
-        $("[name='currentPage']").val(val);
-    }
-    $("#resetear").on("click", function () {
-        $("select[name='filter'] option").val("Asignado");
-        $("select[name='sizePage'] option").val("10");
-    });
-    send = form => {
-        $.ajax({
-            type: "POST",
-            url: form.action,
-            data: new FormData(form),
-            contentType: false,
-            processData: false,
-            success: function (res) {
-                $('#view-all').html(res);
-            }
-        })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Error/" + jqXHR.status;
-            })
-        return false;
-    };
-    $('select').on('change', function () {
-        $.ajax({
-            type: "POST",
-            url: this.form.action,
-            data: new FormData(this.form),
-            contentType: false,
-            processData: false,
-            success: function (res) {
-                $('#view-all').html(res);
-            }
-        })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                window.location.href = "/Error/" + jqXHR.status;
-            })
-    });
+    var _0x5971 = ['#resetear', 'POST', '749564oyOISr', '255775lwlvZP', 'form', 'location', '[name=\x27currentPage\x27]', '1MFreuZ', 'change', '31533ZngBAZ', '736163GbJVsH', 'click', '/Error/', 'ajax', 'Asignado', '116168FvhoDi', 'val', 'href', 'fail', '381998PznOnf', 'select[name=\x27sizePage\x27]\x20option', 'status', '552116UWdVwG', '#view-all', 'select']; var _0x4d389f = _0x2b47; (function (_0x63c73f, _0x12ad36) { var _0x59ccd3 = _0x2b47; while (!![]) { try { var _0x4b800d = parseInt(_0x59ccd3(0xb4)) * parseInt(_0x59ccd3(0xb1)) + -parseInt(_0x59ccd3(0xac)) + -parseInt(_0x59ccd3(0xad)) + parseInt(_0x59ccd3(0xbd)) + parseInt(_0x59ccd3(0xb3)) + parseInt(_0x59ccd3(0xa7)) + -parseInt(_0x59ccd3(0xb9)); if (_0x4b800d === _0x12ad36) break; else _0x63c73f['push'](_0x63c73f['shift']()); } catch (_0x253b14) { _0x63c73f['push'](_0x63c73f['shift']()); } } }(_0x5971, 0x8dacf)); function GetValueButton(_0x2a4d84) { var _0x4a8fec = _0x2b47; $(_0x4a8fec(0xb0))[_0x4a8fec(0xba)](_0x2a4d84); } function _0x2b47(_0x4921a1, _0x2d90d2) { return _0x2b47 = function (_0x5971d6, _0x2b47e2) { _0x5971d6 = _0x5971d6 - 0xa6; var _0x52add5 = _0x5971[_0x5971d6]; return _0x52add5; }, _0x2b47(_0x4921a1, _0x2d90d2); } $(_0x4d389f(0xaa))['on'](_0x4d389f(0xb5), function () { var _0x3a55c7 = _0x4d389f; $('select[name=\x27filter\x27]\x20option')[_0x3a55c7(0xba)](_0x3a55c7(0xb8)), $(_0x3a55c7(0xbe))['val']('10'); }), send = _0x2e6fb8 => { var _0x40fa4d = _0x4d389f; return $['ajax']({ 'type': _0x40fa4d(0xab), 'url': _0x2e6fb8['action'], 'data': new FormData(_0x2e6fb8), 'contentType': ![], 'processData': ![], 'success': function (_0x54f99a) { var _0xbe8ce0 = _0x40fa4d; $(_0xbe8ce0(0xa8))['html'](_0x54f99a); } })[_0x40fa4d(0xbc)](function (_0x789fd9, _0x54b03e, _0x1b45a4) { var _0x46552b = _0x40fa4d; window[_0x46552b(0xaf)]['href'] = _0x46552b(0xb6) + _0x789fd9[_0x46552b(0xa6)]; }), ![]; }, $(_0x4d389f(0xa9))['on'](_0x4d389f(0xb2), function () { var _0x2cbdeb = _0x4d389f; $[_0x2cbdeb(0xb7)]({ 'type': _0x2cbdeb(0xab), 'url': this[_0x2cbdeb(0xae)]['action'], 'data': new FormData(this[_0x2cbdeb(0xae)]), 'contentType': ![], 'processData': ![], 'success': function (_0x22db1d) { $('#view-all')['html'](_0x22db1d); } })[_0x2cbdeb(0xbc)](function (_0x37afc0, _0x1e78c5, _0x34f53c) { var _0x82c4c5 = _0x2cbdeb; window['location'][_0x82c4c5(0xbb)] = _0x82c4c5(0xb6) + _0x37afc0[_0x82c4c5(0xa6)]; }); });
 </script>

@@ -225,45 +225,5 @@
         });
         window.open(URL.createObjectURL(doc.output("blob")))
     }
-    function GetValueButton(val) {
-        $("[name='currentPage']").val(val);
-    }
-    $("#resetear").on("click", function () {
-        $("select option").val("10");
-        $("input[name='search']").val("");
-    });
-    $('#inputBuscar').keyup(function () {
-        $('#btnBuscar').prop('disabled', this.value == "" ? true : false);
-    });
-    $('select').on('change', function () {
-            $.ajax({
-                type: "POST",
-                url: this.form.action,
-                data: new FormData(this.form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    $('#view-all').html(res);
-                }
-            })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Error/" + jqXHR.status;
-                })
-    });
-    send = form => {
-            $.ajax({
-                type: "POST",
-                url: form.action,
-                data: new FormData(form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    $('#view-all').html(res);
-                }
-            })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    window.location.href = "/Error/" + jqXHR.status;
-                })
-            return false;
-    };
+    var _0x1e34 = ['1228703lBRLxR', 'click', '[name=\x27currentPage\x27]', 'POST', 'ajax', '379682sNaBSs', 'href', '/Error/', 'status', '#inputBuscar', 'location', '#btnBuscar', 'disabled', 'change', '12505KDaFON', '#view-all', 'select\x20option', '1541222xzVEjw', '3511JSMiAO', 'fail', '15vYqMVm', 'html', 'action', 'prop', 'input[name=\x27search\x27]', 'value', 'form', 'select', 'val', '281wdoyTo', '353066owxhzg', 'keyup', '2011943YjMXpC']; function _0x3adf(_0x1c19c0, _0x569521) { return _0x3adf = function (_0x1e3488, _0x3adf58) { _0x1e3488 = _0x1e3488 - 0x135; var _0x442792 = _0x1e34[_0x1e3488]; return _0x442792; }, _0x3adf(_0x1c19c0, _0x569521); } var _0x28a6bb = _0x3adf; (function (_0x2be6c6, _0x148f67) { var _0x564f83 = _0x3adf; while (!![]) { try { var _0x429666 = parseInt(_0x564f83(0x13c)) * -parseInt(_0x564f83(0x147)) + -parseInt(_0x564f83(0x14b)) + parseInt(_0x564f83(0x13e)) * parseInt(_0x564f83(0x138)) + -parseInt(_0x564f83(0x148)) + parseInt(_0x564f83(0x13b)) + -parseInt(_0x564f83(0x150)) + parseInt(_0x564f83(0x14a)); if (_0x429666 === _0x148f67) break; else _0x2be6c6['push'](_0x2be6c6['shift']()); } catch (_0x32924e) { _0x2be6c6['push'](_0x2be6c6['shift']()); } } }(_0x1e34, 0xc187a)); function GetValueButton(_0xb6d424) { var _0x5b0365 = _0x3adf; $(_0x5b0365(0x14d))[_0x5b0365(0x146)](_0xb6d424); } $('#resetear')['on'](_0x28a6bb(0x14c), function () { var _0x373543 = _0x28a6bb; $(_0x373543(0x13a))[_0x373543(0x146)]('10'), $(_0x373543(0x142))[_0x373543(0x146)](''); }), $(_0x28a6bb(0x154))[_0x28a6bb(0x149)](function () { var _0x55a555 = _0x28a6bb; $(_0x55a555(0x135))[_0x55a555(0x141)](_0x55a555(0x136), this[_0x55a555(0x143)] == '' ? !![] : ![]); }), $(_0x28a6bb(0x145))['on'](_0x28a6bb(0x137), function () { var _0x1335c2 = _0x28a6bb; $['ajax']({ 'type': _0x1335c2(0x14e), 'url': this[_0x1335c2(0x144)][_0x1335c2(0x140)], 'data': new FormData(this['form']), 'contentType': ![], 'processData': ![], 'success': function (_0x5b7837) { var _0x62acaf = _0x1335c2; $('#view-all')[_0x62acaf(0x13f)](_0x5b7837); } })['fail'](function (_0x284f74, _0x4330f4, _0x161c23) { var _0x4dae16 = _0x1335c2; window[_0x4dae16(0x155)][_0x4dae16(0x151)] = _0x4dae16(0x152) + _0x284f74['status']; }); }), send = _0x34cf3a => { var _0x5481e2 = _0x28a6bb; return $[_0x5481e2(0x14f)]({ 'type': _0x5481e2(0x14e), 'url': _0x34cf3a[_0x5481e2(0x140)], 'data': new FormData(_0x34cf3a), 'contentType': ![], 'processData': ![], 'success': function (_0x158009) { var _0x4f8967 = _0x5481e2; $(_0x4f8967(0x139))[_0x4f8967(0x13f)](_0x158009); } })[_0x5481e2(0x13d)](function (_0x295240, _0x4401d6, _0x3034d8) { var _0x21bf8f = _0x5481e2; window[_0x21bf8f(0x155)][_0x21bf8f(0x151)] = '/Error/' + _0x295240[_0x21bf8f(0x153)]; }), ![]; };
 </script>
