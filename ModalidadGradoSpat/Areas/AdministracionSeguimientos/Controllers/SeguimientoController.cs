@@ -121,31 +121,31 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(_listaVoluntarios, _seguimiento)) });
             }
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CancelarAsignacion(int idUser)
-        {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/QuitarAsignacion/" + idUser, Method.PUT);
-            try
-            {
-                var responseUser = await client.ExecuteAsync<List<User>>(requestUserVolun);
-                if (!responseUser.IsSuccessful)
-                    throw new Exception(responseUser.Content);
-                TempData["alertsuccess"] = "Se ha cancelado la solicitud de asignación.";
-                var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
-                var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
-                return Json(new {html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message == "")
-                    throw new Exception();
-                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
-                TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(_listaVoluntarios, _seguimiento)) });
-            }
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> CancelarAsignacion(int idUser)
+        //{
+        //    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+        //    var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/QuitarAsignacion/" + idUser, Method.PUT);
+        //    try
+        //    {
+        //        var responseUser = await client.ExecuteAsync<List<User>>(requestUserVolun);
+        //        if (!responseUser.IsSuccessful)
+        //            throw new Exception(responseUser.Content);
+        //        TempData["alertsuccess"] = "Se ha cancelado la solicitud de asignación.";
+        //        var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
+        //        var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
+        //        return Json(new {html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(responseUser.Data, responseSeg.Data)) });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        if (ex.Message == "")
+        //            throw new Exception();
+        //        dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+        //        TempData["alerterror"] = msg["mensaje"];
+        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Asignar", new Tuple<List<User>, Seguimiento>(_listaVoluntarios, _seguimiento)) });
+        //    }
+        //}
         public async Task<List<Seguimiento>> Listado()
         {
             try

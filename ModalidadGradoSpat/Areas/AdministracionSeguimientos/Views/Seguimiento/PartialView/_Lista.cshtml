@@ -11,20 +11,18 @@
                 {
                     <option value="Activo" selected>Activo</option>
                     <option value="Asignado">Asignado</option>
-                    <option value="Pendiente">Pendiente</option>
                 }
                 else if (ViewData["filter"].ToString().Equals("Asignado"))
                 {
                     <option value="Activo">Activo</option>
                     <option value="Asignado" selected>Asignado</option>
-                    <option value="Pendiente">Pendiente</option>
                 }
-                else if (ViewData["filter"].ToString().Equals("Pendiente"))
+                @*else if (ViewData["filter"].ToString().Equals("Pendiente"))
                 {
                     <option value="Activo">Activo</option>
                     <option value="Asignado">Asignado</option>
                     <option value="Pendiente" selected>Pendiente</option>
-                }
+                }*@
             </select>
         </div>
         <div class="input-group">
@@ -249,7 +247,7 @@
     function generatePDFReporteSeguimiento() {
         const doc = new jsPDF("landscape")
         doc.autoTable({
-            head: [['Id Reporte', 'Observaciones', 'Estado Hogar Mascota', 'Fecha Reporte','Estado Reporte', 'Id Seguimiento']],
+            head: [['Id Reporte', 'Observaciones', 'Fecha Reporte','Estado Reporte', 'Id Seguimiento']],
             body: [
                 @if (ViewData["listaSeguimientos"] != null) {
                      foreach (var item in (List<Seguimiento>)ViewData["listaSeguimientos"])
@@ -259,7 +257,7 @@
                             @foreach (var item2 in item.ReporteSeguimientos)
 	                         {
 	                            <text>
-                                    ['@item2.Id', '@item2.Observaciones', '@item2.EstadoHogarMascota', '@item2.Fecha.ToShortDateString()', '@item2.Estado', '@item.Id'],
+                                    ['@item2.Id', '@item2.Observaciones', '@item2.Fecha.ToShortDateString()', '@item2.Estado', '@item.Id'],
                                 </text>
 	                         }
                         }

@@ -42,61 +42,61 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             var vista = await Listado();
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Aceptar(int id)
-        {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/" + id + "/AceptarSeguimientoVoluntario", Method.POST);
-            try
-            {
-                var response = await client.ExecuteAsync<List<Seguimiento>>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception(response.Content);
-                TempData["alertsuccess"] = "Se ha asignado el seguimiento.";
-                ViewData["filter"] = filtrado;
-                var vista = await Listado();
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message == "")
-                    throw new Exception();
-                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
-                TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
-            }
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Rechazar(int id)
-        {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/" + id + "/RechazarSeguimientoVoluntario", Method.POST);
-            try
-            {
-                var response = await client.ExecuteAsync<List<Seguimiento>>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception(response.Content);
-                TempData["alertsuccess"] = "Se ha rechazado el seguimiento.";
-                ViewData["filter"] = filtrado;
-                var vista = await Listado();
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message == "")
-                    throw new Exception();
-                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
-                TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
-            }
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Aceptar(int id)
+        //{
+        //    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+        //    var request = new RestRequest("api/Seguimiento/" + id + "/AceptarSeguimientoVoluntario", Method.POST);
+        //    try
+        //    {
+        //        var response = await client.ExecuteAsync<List<Seguimiento>>(request);
+        //        if (!response.IsSuccessful)
+        //            throw new Exception(response.Content);
+        //        TempData["alertsuccess"] = "Se ha asignado el seguimiento.";
+        //        ViewData["filter"] = filtrado;
+        //        var vista = await Listado();
+        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        if (ex.Message == "")
+        //            throw new Exception();
+        //        dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+        //        TempData["alerterror"] = msg["mensaje"];
+        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
+        //    }
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Rechazar(int id)
+        //{
+        //    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+        //    var request = new RestRequest("api/Seguimiento/" + id + "/RechazarSeguimientoVoluntario", Method.POST);
+        //    try
+        //    {
+        //        var response = await client.ExecuteAsync<List<Seguimiento>>(request);
+        //        if (!response.IsSuccessful)
+        //            throw new Exception(response.Content);
+        //        TempData["alertsuccess"] = "Se ha rechazado el seguimiento.";
+        //        ViewData["filter"] = filtrado;
+        //        var vista = await Listado();
+        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        if (ex.Message == "")
+        //            throw new Exception();
+        //        dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+        //        TempData["alerterror"] = msg["mensaje"];
+        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
+        //    }
+        //}
         [Route("Voluntario/Reporte/ListaReportes/{id}")]
         public async Task<IActionResult> ListaReportes(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
+            var request = new RestRequest("api/Seguimiento/GetSeguimientoVoluntario/" + id, Method.GET);
             try
             {
                 var response = await client.ExecuteAsync<Seguimiento>(request);
@@ -131,10 +131,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendReporte(ReporteSeguimiento reporte, IFormFile Foto)
         {
+            ModelState.Clear();
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ReporteSeguimiento/SendReporte", Method.PUT).AddParameter("Id", reporte.Id).AddParameter("SeguimientoId", reporte.SeguimientoId).AddParameter("EstadoHogarMascota", reporte.EstadoHogarMascota).AddParameter("Observaciones", reporte.Observaciones);
+                var request = new RestRequest("api/ReporteSeguimiento/SendReporte", Method.PUT).AddParameter("Id", reporte.Id).AddParameter("SeguimientoId", reporte.SeguimientoId).AddParameter("Observaciones", reporte.Observaciones);
                 using (var stream = new MemoryStream())
                 {
                     request.Files.Add(new FileParameter

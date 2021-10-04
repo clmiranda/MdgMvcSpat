@@ -116,9 +116,9 @@
                         }
                     </td>
                     <td width="10%" class="text-center">
-                        @if (item.Fotos.Count() > 0)
+                        @if (item.Foto != null)
                         {
-                            <button type="button" onclick="showInPopup('@Url.Action("GetFotoReporteSeguimiento","ReporteSeguimiento", new { url=item.Fotos.FirstOrDefault().Url, area="AdministracionSeguimientos"})','Imagen del Reporte');"
+                            <button type="button" onclick="showInPopup('@Url.Action("GetFotoReporteSeguimiento","ReporteSeguimiento", new { url=item.Foto.Url, area="AdministracionSeguimientos"})','Imagen del Reporte');"
                                     data-toggle="modal" data-target="#form-modal"
                                     class="btn btn-success">
                                 <i class="fas fa-images"></i>

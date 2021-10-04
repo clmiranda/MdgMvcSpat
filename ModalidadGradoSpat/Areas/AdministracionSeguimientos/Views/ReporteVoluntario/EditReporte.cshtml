@@ -16,31 +16,23 @@
             <textarea asp-for="Observaciones" class="form-control" id="idDescripcion"></textarea>
             @Html.ValidationMessageFor(x => x.Observaciones, "", new { @class = "text-danger" })
         </div>
-        <div class="form-group col-12">
-            <label for="idEstadoMascota">Descripci&oacute;n del estado del hogar: </label>
-            <textarea type="text" asp-for="EstadoHogarMascota" class="form-control" id="idEstadoMascota"></textarea>
-            @Html.ValidationMessageFor(x => x.EstadoHogarMascota, "", new { @class = "text-danger" })
-        </div>
         <div class="form-group col-sm-12 col-md-6">
             <label for="idFileFoto">Seleccione la Imagen de la Mascota: </label>
-            <input id="idFileFoto" asp-for="Fotos" name="Fotos" type="file" class="form-control-file" placeholder="Cargar Imagen">
+            <input id="idFileFoto" asp-for="Foto" type="file" class="form-control-file" placeholder="Cargar Imagen">
             <div class="mx-auto">
                 <img src="https://placehold.co/400x200" class="img-thumbnail" id="prevImg">
             </div>
-            @Html.ValidationMessageFor(x => x.Fotos, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(x => x.Foto, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary" disabled>Guardar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
 </form>
 
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-    $('form [class="form-control"]').on('change input', function () {
-        $('form button[type="submit"]').prop('disabled', false);
-    });
     $(document).ready(function () {
         $('input[type="file"]').change(function (e) {
             var reader = new FileReader();
