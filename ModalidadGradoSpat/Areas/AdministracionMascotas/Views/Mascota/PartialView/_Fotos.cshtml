@@ -103,7 +103,21 @@ else
                     xhr.setRequestHeader("Authorization", "Bearer " + "@ViewData["TokenBearer"]");
                 },
                 success: function (data) {
-                    window.location.reload();
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 5000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Foto(s) agregada(s) correctamente, recargar para visualizar los cambios.'
+                    })
                 },
                 error: function (data) {
                     alert("Ha ocurrido un error.");

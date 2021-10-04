@@ -76,6 +76,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Foto principal establecida.";
+                _mascota = response.Data;
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
             catch (Exception ex)
@@ -100,6 +101,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Foto eliminada exitosamente.";
+                _mascota = response.Data;
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
             catch (Exception ex)
