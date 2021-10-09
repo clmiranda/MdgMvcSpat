@@ -29,8 +29,9 @@
     </head>
     <style>
         .sticky-footer {
-            margin-top:100px;
+            margin-top: 100px;
         }
+
         button[disabled] {
             cursor: not-allowed;
         }
@@ -44,11 +45,11 @@
             min-height: 100%;
         }
     </style>
-    <body id="page-top">
-        <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top">
+    <body id="body-pd">
+        <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top header py-3" id="header">
             @if (User.Identity.IsAuthenticated)
             {
-                <button class="btn btn-link btn-lg text-white" id="sidebarToggle" href="#">
+                <button class="btn btn-outline-info text-white header-toggle" id="header-toggle">
                     <i class="fas fa-bars"></i>
                 </button>
                 <ul class="navbar-nav ml-auto">
@@ -72,120 +73,62 @@
             }
             else
             {
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-white btn btn-outline-success ml-auto" href="@Url.Action("QuienesSomos","Adopciones", new { area=""})">
-                            Qui&eacute;nes Somos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white btn btn-outline-success ml-3" href="@Url.Action("Login","Cuenta", new { area=""})">
-                            Iniciar Sesi&oacute;n
-                        </a>
-                    </li>
-                </ul>
+                <a class="nav-link text-white btn btn-outline-success ml-auto mr-3" href="@Url.Action("QuienesSomos","Adopciones", new { area=""})">
+                    Qui&eacute;nes Somos
+                </a>
+                <a class="nav-link text-white btn btn-outline-primary" href="@Url.Action("Login","Cuenta", new { area=""})">
+                    Iniciar Sesi&oacute;n
+                </a>
             }
         </nav>
-        <div id="wrapper">
-            @if (User.Identity.IsAuthenticated)
-            {
-            <ul class="sidebar navbar-nav">
-                <li class="nav-item mt-3">
-                    <a class="nav-link btn btn-outline-primary text-white py-3 border-0" href="@Url.Action("Inicio","Adopciones",new { area=""})">
-                        <i class="fas fa-home fa-lg"></i>
-                        <span>Inicio</span>
-                    </a>
-                </li>
-                @if (User.IsInRole("Administrador"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary text-white py-3 border-0" href="@Url.Action("Dashboard","Inicio",new { area=""})">
-                            <i class="far fa-clipboard fa-lg"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary text-white py-3 border-0" href="@Url.Action("Lista","Seguimiento",new { area="AdministracionSeguimientos"})">
-                            <i class="fas fa-search-location fa-lg"></i>
-                            <span>Admin. Seguimientos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary text-white py-3 border-0" href="@Url.Action("Lista","Adopcion",new { area="AdministracionAdopciones"})">
-                            <i class="fas fa-pen-alt fa-lg"></i>
-                            <span>Admin. Adopciones</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary text-white py-3 border-0" href="@Url.Action("Lista","Cuenta",new { area="AdministracionCuentas"})">
-                            <i class="fas fa-user-circle fa-lg"></i>
-                            <span>Administrar Usuarios</span>
-                        </a>
-                    </li>
-                }
-                @if (User.IsInRole("Voluntario"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary text-white py-3 border-0" href="@Url.Action("Lista","ReporteVoluntario",new { area="AdministracionSeguimientos"})">
-                            <i class="fas fa-thumbtack fa-lg"></i>
-                            <span>Seguimientos Asignados</span>
-                        </a>
-                    </li>
-                }
-                @if (User.IsInRole("Administrador"))
-                {
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle btn btn-outline-primary text-white py-3 border-0" id="mascotasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-paw fa-lg"></i>
-                            <span>Mascotas</span>
-                        </a>
-                        <div class="dropdown-menu m-0" aria-labelledby="mascotasDropdown">
-                            <a class="dropdown-item px-2" href="@Url.Action("Lista","Denuncia",new { area="AdministracionMascotas"})">Administrar Denuncias</a>
-                            <a class="dropdown-item px-2" href="@Url.Action("Lista","Mascota",new { area="AdministracionMascotas"})">Administrar Mascotas</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle btn btn-outline-primary text-white py-3 border-0" id="reportesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-chart-area fa-lg"></i>
-                            <span>Reportes</span>
-                        </a>
-                        <div class="dropdown-menu m-0" aria-labelledby="reportesDropdown">
-                            <a class="dropdown-item px-2" href="@Url.Action("Adopciones","Graficas",new { area="AdministracionDatos"})">Reportes Adopciones</a>
-                            <a class="dropdown-item px-2" href="@Url.Action("Mascotas","Graficas",new { area="AdministracionDatos"})">Reportes Mascotas</a>
-                            <a class="dropdown-item px-2" href="@Url.Action("ReporteSeguimientos","Graficas",new { area="AdministracionDatos"})">Reportes Seguimientos</a>
-                        </div>
-                    </li>
-                }
-            </ul>
-            }
-        <div id="content-wrapper">
-            <main role="main">
-                @RenderBody()
-                @RenderSection("Scripts", required: false)
-            </main>
-                <div class="mx-auto">
-                    <footer class="sticky-footer">
-                        <div class="container my-5">
-                            <hr class="my-3">
-                            <div class="copyright text-center">
-                                <span class="lead">Copyright © S.P.A.T. 2021</span>
-                            </div>
-                        </div>
-                    </footer>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="l-navbar bg-dark py-5" id="nav-bar">
+                <nav class="nav my-5">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <div class="nav_list">
+                        <a href="@Url.Action("Inicio","Adopciones",new { area=""})" class="nav_link active text-decoration-none"><i class='fas fa-home nav_icon'></i><span class="nav_name">Inicio</span></a>
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <a href="@Url.Action("Dashboard","Inicio",new { area=""})" class="nav_link"><i class='far fa-clipboard nav_icon'></i><span class="nav_name">Dashboard</span></a>
+                        }
+                        <a href="#" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Messages</span></a>
+                        <a href="#" class="nav_link"><i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Bookmark</span> </a>
+                        <a href="#" class="nav_link"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span> </a>
+                        <a href="#" class="nav_link"><i class='bx bx-bar-chart-alt-2 nav_icon'></i><span class="nav_name">Stats</span></a>
+                    </div>
+                    }
+                </nav>
+            </div>
+        }
+        <main role="main">
+            @RenderBody()
+            @RenderSection("Scripts", required: false)
+        </main>
+        <div class="mx-auto">
+            <footer class="sticky-footer">
+                <div class="container my-5">
+                    <hr class="my-3">
+                    <div class="copyright text-center">
+                        <span class="lead">Copyright © S.P.A.T. 2021</span>
+                    </div>
                 </div>
-        </div>
+            </footer>
         </div>
         <!--Modal Popup-->
-        <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
+        <div>
+            <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -193,7 +136,7 @@
 
         @if (User.Identity.IsAuthenticated)
         {
-            <a class="scroll-to-top rounded" href="#page-top">
+            <a class="scroll-to-top rounded" href="#body-pd">
                 <i class="fas fa-angle-up"></i>
             </a>
             <script src="~/archivos/js/jquery.easing.min.js"></script>
