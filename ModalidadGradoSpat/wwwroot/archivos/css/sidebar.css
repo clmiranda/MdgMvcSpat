@@ -64,13 +64,13 @@ body {
     z-index: var(--z-fixed)
 }
 
-.nav {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden
-}
+    .l-navbar > .nav {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden
+    }
 
 .nav_logo,
 .nav_link {
@@ -113,7 +113,7 @@ body {
     padding-left: calc(var(--nav-width) + 1rem)
 }
 
-.active {
+.l-navbar > .active {
     color: white;
 }
 
@@ -139,7 +139,7 @@ body {
 
         .header {
             height: calc(var(--header-height) + 1rem);
-            padding: 0 2rem 0 5rem
+            padding: 0 2rem 0 4.3rem
         }
 
         .header_img {
@@ -161,6 +161,30 @@ body {
         }
 
         .body-pd {
-            padding-left: calc(var(--nav-width) + 188px)
+            padding-left: calc(var(--nav-width) + 160px)
         }
+    }
+.scroll-to-top {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    display: none;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    color: #fff;
+    background: rgba(52, 58, 64, 0.5);
+    line-height: 46px;
+}
+
+    .scroll-to-top:focus, .scroll-to-top:hover {
+        color: white;
+    }
+
+    .scroll-to-top:hover {
+        background: #343a40;
+    }
+
+    .scroll-to-top i {
+        font-weight: 800;
     }

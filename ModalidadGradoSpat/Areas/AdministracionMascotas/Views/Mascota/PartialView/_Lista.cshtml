@@ -115,16 +115,14 @@
                             }
                         </td>
                         <td width="5px">
-                            @if (item.Estado.Equals("Inactivo"))
-                            {
-                                <a role="button" class="btn btn-primary" href="@Url.Action("Lista","ReporteTratamiento", new {id=item.Id, area="AdministracionMascotas"})">
-                                    <i class="fas fa-list"></i>
-                                </a>
-                            }
-                            else
-                            {
-                                <a role="button" class="btn btn-primary" disabled><i class="fas fa-list"></i></a>
-                            }
+                            <div class="d-flex flex-row">
+                                    <a role="button" href="@Url.Action("EditMascota", "Mascota",new { id=item.Id, area="AdministracionMascotas"})" class="btn btn-success">
+                                        <i class="fas fa-dog fa-2"></i>
+                                    </a>
+                                    <a role="button" class="btn btn-primary" href="@Url.Action("Lista","ReporteTratamiento", new {id=item.Id, area="AdministracionMascotas"})">
+                                        <i class="fas fa-list"></i>
+                                    </a>
+                                </div>
                         </td>
                     </tr>
                 }
