@@ -20,9 +20,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
     public class AdopcionController : Controller
     {
         private static RestClient client;
-        private static List<ContratoAdopcion> _listaPDF;
+        private static List<SolicitudAdopcion> _listaPDF;
         private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Pendiente";
-        private static ContratoAdopcion _contratoAdopcion = new ContratoAdopcion();
+        private static SolicitudAdopcion _solicitudAdopcion = new SolicitudAdopcion();
         public AdopcionController()
         {
             client = new RestClient("https://localhost:44398/");
@@ -33,7 +33,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             ViewData["filter"] = filtrado;
             var vista = await Listado();
             _listaPDF = await ListadoPDF();
-            ViewData["listaContratos"] = _listaPDF;
+            ViewData["listaSolicitudes"] = _listaPDF;
             return View(vista);
         }
         public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1, string filter = "Pendiente")
@@ -43,31 +43,31 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             filtrado = filter;
             ViewData["filter"] = filter;
             var vista = await Listado();
-            ViewData["listaContratos"] = _listaPDF;
+            ViewData["listaSolicitudes"] = _listaPDF;
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
         [NoDirectAccess]
-        public IActionResult AddContratoRechazo(int id)
+        public IActionResult AddSolicitudAdopcionRechazada(int id)
         {
-            return View(new ContratoRechazo { ContratoAdopcionId = id });
+            return View(new AdopcionRechazada { SolicitudAdopcionId = id });
         }
         [NoDirectAccess]
-        public IActionResult AddContratoCancelado(int id)
+        public IActionResult AddAdopcionCancelada(int id)
         {
-            return View(new ContratoRechazo { ContratoAdopcionId = id });
+            return View(new AdopcionCancelada { SolicitudAdopcionId = id });
         }
         [Route("Adopcion/Detalle/{id}")]
         public async Task<IActionResult> Detalle(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ContratoAdopcion/DetailAdopcion/" + id, Method.GET);
+            var request = new RestRequest("api/Adopcion/GetById/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
-                _contratoAdopcion = response.Data;
-                return View(_contratoAdopcion);
+                _solicitudAdopcion = response.Data;
+                return View(_solicitudAdopcion);
             }
             catch (Exception)
             {
@@ -79,12 +79,12 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         public async Task<IActionResult> UpdateFecha(int id, DateTime FechaAdopcion)
         {
             ViewData["filter"] = filtrado;
-            ViewData["listaContratos"] = _listaPDF;
+            ViewData["listaSolicitudes"] = _listaPDF;
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ContratoAdopcion/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaAdopcion", FechaAdopcion);
+            var request = new RestRequest("api/Adopcion/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaAdopcion", FechaAdopcion);
             try
             {
-                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Fecha actualizada exitosamente.";
@@ -103,17 +103,17 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AprobarAdopcion(int id)
+        public async Task<IActionResult> AprobarSolicitudAdopcion(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ContratoAdopcion/" + id + "/AprobarAdopcion", Method.PUT);
+            var request = new RestRequest("api/Adopcion/" + id + "/AprobarSolicitudAdopcion", Method.PUT);
             try
             {
-                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
-                TempData["alertsuccess"] = "El contrato se ha aprobado correctamente, se ha creado el seguimiento respectivo.";
-                return Json(new {html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", response.Data)});
+                TempData["alertsuccess"] = "La solicitud de adopción se ha aprobado correctamente, se ha creado el seguimiento respectivo.";
+                return Json(new {html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", response.Data)});
             }
             catch (Exception ex)
             {
@@ -121,24 +121,24 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", _contratoAdopcion) });
+                return Json(new { html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", _solicitudAdopcion) });
             }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RechazarAdopcion(ContratoRechazo contrato)
+        public async Task<IActionResult> RechazarSolicitudAdopcion(AdopcionRechazada rechazada)
         {
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ContratoAdopcion/RechazarAdopcion", Method.PUT).AddJsonBody(contrato);
+                var request = new RestRequest("api/Adopcion/RechazarSolicitudAdopcion", Method.PUT).AddJsonBody(rechazada);
                 try
                 {
-                    var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                    var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
-                    TempData["alertsuccess"] = "Contrato rechazado, se ha creado un nuevo informe.";
-                    return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeContrato", response.Data) });
+                    TempData["alertsuccess"] = "Solicitud de adopción rechazada, se ha creado un nuevo informe.";
+                    return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeSolicitudAdopcion", response.Data) });
                 }
                 catch (Exception ex)
                 {
@@ -146,26 +146,26 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                         throw new Exception();
                     dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                     TempData["alerterror"] = msg["mensaje"];
-                    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddContratoRechazo", contrato) });
+                    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddSolicitudAdopcionRechazada", rechazada) });
                 }
             }
             return Json(new { isValid = false });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CancelarAdopcion(ContratoRechazo contrato)
+        public async Task<IActionResult> CancelarAdopcion(AdopcionCancelada cancelada)
         {
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ContratoAdopcion/CancelarAdopcion", Method.PUT).AddJsonBody(contrato);
+                var request = new RestRequest("api/Adopcion/CancelarAdopcion", Method.PUT).AddJsonBody(cancelada);
                 try
                 {
-                    var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                    var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
-                    TempData["alertsuccess"] = "Contrato cancelado, se ha creado un nuevo informe.";
-                    return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarContrato", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeContrato", response.Data) });
+                    TempData["alertsuccess"] = "Adopción cancelada, se ha creado un nuevo informe.";
+                    return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeSolicitudAdopcion", response.Data) });
                 }
                 catch (Exception ex)
                 {
@@ -173,18 +173,18 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                         throw new Exception();
                     dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                     TempData["alerterror"] = msg["mensaje"];
-                    return Json(new { html = Helper.RenderRazorViewToString(this, "AddContratoCancelado", contrato) });
+                    return Json(new { html = Helper.RenderRazorViewToString(this, "AddAdopcionCancelada", cancelada) });
                 }
             }
             return Json(new { isValid = false });
         }
-        public async Task<List<ContratoAdopcion>> Listado()
+        public async Task<List<SolicitudAdopcion>> Listado()
         {
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ContratoAdopcion/GetAllContratos", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-                var response = await client.ExecuteAsync<List<ContratoAdopcion>>(request);
+                var request = new RestRequest("api/Adopcion/GetAllAdopciones", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
+                var response = await client.ExecuteAsync<List<SolicitudAdopcion>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
@@ -201,12 +201,12 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 throw new Exception();
             }
         }
-        public async Task<List<ContratoAdopcion>> ListadoPDF() {
+        public async Task<List<SolicitudAdopcion>> ListadoPDF() {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ContratoAdopcion/GetAll", Method.GET);
+            var request = new RestRequest("api/Adopcion/GetAll", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<List<ContratoAdopcion>>(request);
+                var response = await client.ExecuteAsync<List<SolicitudAdopcion>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return response.Data;
@@ -216,13 +216,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 throw new Exception();
             }
         }
-        public async Task<IActionResult> ExcelContrato()
+        public async Task<IActionResult> ExcelAdopciones()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ContratoAdopcion/GetAll", Method.GET);
+            var request = new RestRequest("api/Adopcion/GetAll", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<List<ContratoAdopcion>>(request);
+                var response = await client.ExecuteAsync<List<SolicitudAdopcion>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var content = ReportAdopcion.ExcelAdopciones(response.Data);
@@ -236,13 +236,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 throw new Exception();
             }
         }
-        public async Task<IActionResult> ExcelContratoRechazoCancelado()
+        public async Task<IActionResult> ExcelSolicitudesAdopcionRechazadas()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ContratoAdopcion/GetAllRechazoCancelado", Method.GET);
+            var request = new RestRequest("api/Adopcion/GetAllSolicitudesAdopcionRechazadas", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<List<ContratoRechazo>>(request);
+                var response = await client.ExecuteAsync<List<AdopcionRechazada>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var content = ReportAdopcion.ExcelAdopcionesRechazadas(response.Data);
@@ -250,6 +250,26 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     content,
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     "AdopcionesRechazadas.xlsx");
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+        public async Task<IActionResult> ExcelSolicitudesAdopcionCanceladas()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Adopcion/GetAllSolicitudesAdopcionCanceladas", Method.GET);
+            try
+            {
+                var response = await client.ExecuteAsync<List<AdopcionCancelada>>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
+                var content = ReportAdopcion.ExcelAdopcionesCanceladas(response.Data);
+                return File(
+                    content,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "AdopcionesCanceladas.xlsx");
             }
             catch (Exception)
             {

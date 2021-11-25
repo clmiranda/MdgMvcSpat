@@ -1,10 +1,10 @@
-﻿@model ContratoRechazo
+﻿@model AdopcionCancelada
 <form asp-action="CancelarAdopcion" method="post" onsubmit="return jQueryAjaxPostAlterno(this);" autocomplete="off">
-    <input asp-for="ContratoAdopcionId" type="hidden" value="@Model.ContratoAdopcionId" />
+    <input asp-for="SolicitudAdopcionId" type="hidden" value="@Model.SolicitudAdopcionId" />
     <div class="form-group">
-        <label for="inputTitulo">Ingrese la Raz&oacute;n de la Cancelaci&oacute;n del Contrato</label>
-        <input asp-for="RazonRechazo" class="form-control" />
-        @Html.ValidationMessageFor(x => x.RazonRechazo, "", new { @class = "text-danger" })
+        <label for="inputTitulo">Ingrese la Raz&oacute;n de la Cancelaci&oacute;n de la Adopci&oacute;n</label>
+        <input asp-for="Razon" class="form-control" />
+        @Html.ValidationMessageFor(x => x.Razon, "", new { @class = "text-danger" })
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

@@ -1,10 +1,10 @@
-﻿@model ContratoAdopcion
+﻿@model SolicitudAdopcion
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <div class="shadow-lg border p-5 bg-white rounded col-lg-10 mx-auto">
     @if (Model == null)
     {
         <h3 class="mb-3"><b>FORMULARIO DE ADOPCION</b></h3>
-        <form asp-action="PostContrato" autocomplete="off" onsubmit="return showFormAux(this);" method="post">
+        <form asp-action="CreateSolicitudAdopcion" autocomplete="off" onsubmit="return showFormAux(this);" method="post">
             <div class="form-row">
                 <input type="hidden" asp-for="@Model.MascotaId" value="@TempData["MascotaId"]" />
                 <div class="form-group col-12">

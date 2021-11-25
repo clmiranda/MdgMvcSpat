@@ -115,25 +115,28 @@
                             @item.Id
                         </td>
                         <td>
-                            Nombre: @item.ContratoAdopcion.Mascota.Nombre /
-                            Tama&ntilde;o: @item.ContratoAdopcion.Mascota.Tamaño /
-                            Sexo: @item.ContratoAdopcion.Mascota.Sexo
+                            Nombre: @item.SolicitudAdopcion.Mascota.Nombre /
+                            Tama&ntilde;o: @item.SolicitudAdopcion.Mascota.Tamaño /
+                            Sexo: @item.SolicitudAdopcion.Mascota.Sexo
                         </td>
                         <td>
-                            Nombre Completo:  @item.ContratoAdopcion.Nombres @item.ContratoAdopcion.Apellidos /
-                            Direcci&oacute;n:  @item.ContratoAdopcion.Domicilio
+                            Nombre Completo:  @item.SolicitudAdopcion.Nombres @item.SolicitudAdopcion.Apellidos /
+                            Direcci&oacute;n:  @item.SolicitudAdopcion.Domicilio
                         </td>
                         <td>
-                            De @item.FechaInicio.ToShortDateString() a @item.FechaConclusion.ToShortDateString()
+                            De @item.FechaInicio.ToShortDateString() a @item.FechaFin.ToShortDateString()
                         </td>
                         <td width="10%">
                             <div class="d-flex flex-row">
                                 <a role="button" class="btn btn-info" href="@Url.Action("Asignar","Seguimiento", new { item.Id, area="AdministracionSeguimientos"})">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                 </a>
-                                <a role="button" class="btn btn-warning" href="@Url.Action("Lista","ReporteSeguimiento", new { id=item.Id, area="AdministracionSeguimientos"})">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                </a>
+                                @if (!item.Estado.Equals("Activo"))
+                                {
+                                    <a role="button" class="btn btn-warning" href="@Url.Action("Lista","ReporteSeguimiento", new { id=item.Id, area="AdministracionSeguimientos"})">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                }
                             </div>
                         </td>
                     </tr>
@@ -219,7 +222,7 @@
     function generatePDF() {
         const doc = new jsPDF("landscape")
         doc.autoTable({
-            head: [['Id', 'Fecha Inicio', 'Fecha Conclusion', 'Nombres y Apellidos Usuario','Nombre Mascota', 'Id Contrato']],
+            head: [['Id', 'Fecha Inicio', 'Fecha Conclusion', 'Nombres y Apellidos Usuario','Nombre Mascota', 'Id Adopcion']],
             body: [
                 @if (ViewData["listaSeguimientos"]!=null)
                  {
@@ -228,13 +231,13 @@
                         if (item.User!=null)
                         {
                             <text>
-                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaConclusion.ToShortDateString()', '@item.User.Nombres @item.User.Apellidos', '@item.ContratoAdopcion.Mascota.Nombre', '@item.ContratoAdopcionId'],
+                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', '@item.User.Nombres @item.User.Apellidos', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcionId'],
                             </text>
                         }
                         else
                         {
                             <text>
-                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaConclusion.ToShortDateString()', 'No asignado', '@item.ContratoAdopcion.Mascota.Nombre', '@item.ContratoAdopcionId'],
+                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', 'No asignado', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcionId'],
                             </text>
                         }
                      }

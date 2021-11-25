@@ -94,7 +94,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Fotos/Mascota/" + idmascota + "/EliminarFotoMascota/" + idfoto, Method.DELETE);
+            var request = new RestRequest("api/Fotos/Mascota/" + idmascota + "/DeleteFotoMascota/" + idfoto, Method.DELETE);
             try
             {
                 var response = await client.ExecuteAsync<Mascota>(request);

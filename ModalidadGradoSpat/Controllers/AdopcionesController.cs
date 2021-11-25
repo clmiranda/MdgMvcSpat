@@ -73,13 +73,13 @@ namespace ModalidadGradoSpat.Controllers
                 throw new Exception();
             }
         }
-        [Route("ContratoAdopcion/{id}")]
-        public async Task<IActionResult> ContratoAdopcion(int id)
+        [Route("FomularioSolicitudAdopcion/{id}")]
+        public async Task<IActionResult> FomularioSolicitudAdopcion(int id)
         {
             try
             {
-                var request = new RestRequest("api/ContratoAdopcion/GetContratoByIdMascota/" + id, Method.GET);
-                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                var request = new RestRequest("api/Adopcion/GetSolicitudAdopcionByIdMascota/" + id, Method.GET);
+                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 TempData["MascotaId"] = id;
@@ -92,19 +92,19 @@ namespace ModalidadGradoSpat.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PostContrato(ContratoAdopcion modelo)
+        public async Task<IActionResult> CreateSolicitudAdopcion(SolicitudAdopcion modelo)
         {
             if (ModelState.IsValid)
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ContratoAdopcion/GenerarContrato", Method.POST).AddJsonBody(modelo);
+                //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/Adopcion/CreateSolicitudAdopcion", Method.POST).AddJsonBody(modelo);
                 try
                 {
-                    var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                    var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
-                    TempData["alertsuccess"] = "Contrato enviado, nos comunicaremos con usted en caso de cumplir los requisitos.";
-                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ContratoAdopcion", response.Data) });
+                    TempData["alertsuccess"] = "Solicitud de adopción enviada, nos comunicaremos con usted en caso de ser apto para la adopción.";
+                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_FomularioSolicitudAdopcion", response.Data) });
                 }
                 catch (Exception ex)
                 {

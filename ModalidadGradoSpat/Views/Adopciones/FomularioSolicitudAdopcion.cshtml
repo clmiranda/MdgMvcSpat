@@ -1,0 +1,18 @@
+﻿@model SolicitudAdopcion
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid my-5">
+    <h3>
+        Formulario de Solicitud de Adopci&oacute;n de la Mascota
+    </h3>
+    <p class="mb-4">
+        Debe llenar el siguiente formulario con sus datos personales, a su vez responder 
+        a las preguntas planteadas para asegurarnos que pueda ser una persona apta para poder 
+        adoptar, nos pondremos en contacto con usted en caso de ser apto para la adopci&oacute;n, 
+        por ello es importante que los datos brindados sean los correctos.
+    </p>
+    <div id="body-content-action">
+        @await Html.PartialAsync("PartialView/_FomularioSolicitudAdopcion", Model)
+    </div>
+</div>

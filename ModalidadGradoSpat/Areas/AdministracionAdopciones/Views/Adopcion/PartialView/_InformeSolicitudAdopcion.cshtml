@@ -1,10 +1,10 @@
-﻿@model ContratoAdopcion
-@if (Model.ContratoRechazo != null)
+﻿@model SolicitudAdopcion
+@if (Model.AdopcionRechazada != null)
 {<div class="row">
         <div class="col-lg-6 mb-5 mx-auto">
             <div class="shadow-lg border p-5 bg-white rounded text-justify">
                 <h4>Raz&oacute;n del Rechazo/Cancelaci&oacute;n</h4>
-                <p class="card-text text-warning">@Model.ContratoRechazo.RazonRechazo</p>
+                <p class="card-text text-warning">@Model.AdopcionRechazada.Razon</p>
             </div>
         </div>
     </div>

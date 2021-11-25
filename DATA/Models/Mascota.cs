@@ -20,6 +20,6 @@ namespace DATA.Models
         public virtual List<Foto> Fotos { get; set; }
         public virtual List<ReporteTratamiento> ReporteTratamientos { get; set; }
         public virtual Foto Foto { get; set; }
-        public virtual ContratoAdopcion ContratoAdopcion { get; set; }
+        public virtual SolicitudAdopcion SolicitudAdopcion { get; set; }
     }
 }

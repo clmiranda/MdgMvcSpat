@@ -9,12 +9,12 @@ namespace DATA.Models
         [Required(ErrorMessage = "Debe establecer el rango de fechas del Seguimiento.")]
         public string[] RangoFechas { get; set; }
         public DateTime FechaInicio { get; set; }
-        public DateTime FechaConclusion { get; set; }
+        public DateTime FechaFin { get; set; }
         public string Estado { get; set; }
         public virtual User User { get; set; }
         public int UserId { get; set; }
-        public virtual ContratoAdopcion ContratoAdopcion { get; set; }
-        public int ContratoAdopcionId { get; set; }
+        public virtual SolicitudAdopcion SolicitudAdopcion { get; set; }
+        public int SolicitudAdopcionId { get; set; }
         public virtual List<ReporteSeguimiento> ReporteSeguimientos { get; set; }
     }
 }

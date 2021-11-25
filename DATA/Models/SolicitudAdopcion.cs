@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DATA.Models
 {
-    public partial class ContratoAdopcion : BaseEntity
+    public partial class SolicitudAdopcion : BaseEntity
     {
         [Required(ErrorMessage = "Debes ingresar tus Nombres.")]
         public string Nombres { get; set; }
@@ -29,8 +29,6 @@ namespace DATA.Models
         public string Respuesta6 { get; set; }
         [Required(ErrorMessage = "Debes responder la pregunta.")]
         public string Respuesta7 { get; set; }
-        [Range(typeof(bool), "true", "true", ErrorMessage = "Debes aceptar los terminos del contrato para continuar con el proceso de adopcion.")]
-        public bool TerminosCondiciones { get; set; }
         public DateTime FechaSolicitudAdopcion { get; set; }
         public DateTime FechaAdopcion { get; set; }
         public string RazonAdopcion { get; set; }
@@ -38,6 +36,7 @@ namespace DATA.Models
         public virtual Mascota Mascota { get; set; }
         public int MascotaId { get; set; }
         public virtual Seguimiento Seguimiento { get; set; }
-        public virtual ContratoRechazo ContratoRechazo { get; set; }
+        public virtual AdopcionRechazada AdopcionRechazada { get; set; }
+        public virtual AdopcionCancelada AdopcionCancelada { get; set; }
     }
 }

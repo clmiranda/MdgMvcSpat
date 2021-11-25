@@ -40,30 +40,35 @@ else
             {
                 foreach (var item in Model.Fotos)
                 {
-                    <div class="img-container">
-                        <img src="@item.Url" width="200" height="200" class="img-thumbnail img-responsive">
-                        @if (item.IsPrincipal)
-                        {
-                            <form>
-                                <button type="submit" class="btn btn-warning" disabled>
-                                    Principal
-                                </button>
-                            </form>
-                        }
-                        else
-                        {
-                            <form asp-action="SetFotoPrincipal" asp-route-id="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit=" return showFormAux(this);">
-                                <button type="submit" class="btn btn-warning">
-                                    Principal
-                                </button>
-                            </form>
-                        }
-                        <form asp-action="DeleteFotoMascota" asp-route-idmascota="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit="return jQueryAjaxDeleteForm2(this);">
-                            <button type="submit" class="btn btn-danger">
-                                <i class="fa fa-trash fa-2" aria-hidden="true"></i>
-                            </button>
-                        </form>
-                    </div>
+    <div class="img-container">
+        <img src="@item.Url" width="200" height="200" class="img-thumbnail img-responsive">
+        @if (item.IsPrincipal)
+        {
+            <form>
+                <button type="submit" class="btn btn-warning" disabled>
+                    Asignar Foto Principal
+                </button>
+            </form>
+            <form>
+                <button type="submit" class="btn btn-danger" disabled>
+                    Eliminar
+                </button>
+            </form>
+        }
+        else
+        {
+            <form asp-action="SetFotoPrincipal" asp-route-id="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit=" return showFormAux(this);">
+                <button type="submit" class="btn btn-warning">
+                    Asignar Foto Principal
+                </button>
+            </form>
+            <form asp-action="DeleteFotoMascota" asp-route-idmascota="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit="return jQueryAjaxDeleteForm2(this);">
+                <button type="submit" class="btn btn-danger">
+                    Eliminar
+                </button>
+            </form>
+        }
+    </div>
                 }
             }
             else
@@ -124,7 +129,7 @@ else
                 }
             },
             mergeAjaxCallbacks: true,
-            uploadUrl: 'https://localhost:44398/api/Fotos/Mascota/' + @Model.Id +'/AgregarFotoMascota',
+            uploadUrl: 'https://localhost:44398/api/Fotos/Mascota/' + @Model.Id +'/AddFotoMascota',
             showBrowse: false,
             browseOnZoneClick: true,
             enableResumableUpload: false,
