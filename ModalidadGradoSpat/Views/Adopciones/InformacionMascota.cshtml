@@ -88,7 +88,7 @@ else
         <div class="shadow-lg py-5 px-3 bg-white rounded col-xl-3 my-3">
             @if (Model.Estado == "Activo")
             {
-                <a href="@Url.Action("ContratoAdopcion","Adopciones",new { id=Model.Id, area=""},Context.Request.Scheme)" 
+                <a href="@Url.Action("FomularioSolicitudAdopcion","Adopciones",new { id=Model.Id, area=""},Context.Request.Scheme)" 
                         role="button" class="btn btn-primary btn-block rounded-pill">
                         <i class="fa fa-paw fa-2x mr-3" aria-hidden="true"></i>Quiero Adoptar
                 </a>

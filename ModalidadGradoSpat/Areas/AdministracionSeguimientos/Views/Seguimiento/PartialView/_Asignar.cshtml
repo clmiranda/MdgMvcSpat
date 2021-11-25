@@ -20,7 +20,7 @@
                 <h5>
                     <strong>Domicilio del Adoptante</strong>
                 </h5>
-                <p class="card-text">Direcci&oacute;n del Adoptante:  @Model.Item2.ContratoAdopcion.Domicilio</p>
+                <p class="card-text">Direcci&oacute;n del Adoptante:  @Model.Item2.SolicitudAdopcion.Domicilio</p>
         </div>
     </div>
     <div class="col-lg-8 mx-auto mt-5">
@@ -32,15 +32,7 @@
                             <h5>
                                 Voluntario: @item.Nombres @item.Apellidos
                             </h5>
-                            @if (Model.Item2.Estado.Equals("Pendiente") && item.Id == Model.Item2.UserId)
-                            {
-                                <h5>
-                                    <span class="badge badge-pill p-1 badge-warning">
-                                        Solicitud Pendiente
-                                    </span>
-                                </h5>
-                            }
-                            else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
+                            @if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
                             {
                                 <h5>
                                     <span class="badge badge-pill p-1 badge-primary">
@@ -67,13 +59,7 @@
                                 </p>
                             </div>
                             <div class="col-lg-2">
-                                @if (Model.Item2.Estado.Equals("Pendiente") && item.Id == Model.Item2.UserId)
-                                {
-                                    <form asp-action="CancelarAsignacion" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
-                                        <button type="submit" class="btn btn-warning"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
-                                    </form>
-                                }
-                                else if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
+                                @if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
                                 {
                                     <form asp-action="QuitarAsignacion" asp-route-idUser="@item.Id" method="post" onsubmit="return removeChecked(this);">
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-user-times" aria-hidden="true"></i></button>

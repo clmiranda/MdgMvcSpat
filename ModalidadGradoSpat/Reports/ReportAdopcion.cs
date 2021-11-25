@@ -7,7 +7,7 @@ namespace ModalidadGradoSpat.Reports
 {
     public class ReportAdopcion
     {
-        public static byte[] ExcelAdopciones(IEnumerable<ContratoAdopcion> adopciones)
+        public static byte[] ExcelAdopciones(IEnumerable<SolicitudAdopcion> adopciones)
         {
             using (var workbook = new XLWorkbook())
             {
@@ -65,27 +65,58 @@ namespace ModalidadGradoSpat.Reports
                 }
             }
         }
-        public static byte[] ExcelAdopcionesRechazadas(IEnumerable<ContratoRechazo> adopciones)
+        public static byte[] ExcelAdopcionesRechazadas(IEnumerable<AdopcionRechazada> adopciones)
         {
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Adopciones");
                 var currentRow = 1;
                 worksheet.Cell(currentRow, 1).Value = "Id";
-                worksheet.Cell(currentRow, 2).Value = "Razon de Rechazo/Cancelacion";
-                worksheet.Cell(currentRow, 3).Value = "Id de Contrato";
+                worksheet.Cell(currentRow, 2).Value = "Razon";
+                worksheet.Cell(currentRow, 3).Value = "Id de Solicitud";
                 foreach (var adopcion in adopciones)
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = adopcion.Id;
-                    worksheet.Cell(currentRow, 2).Value = adopcion.RazonRechazo;
-                    if (adopcion.ContratoAdopcion == null)
+                    worksheet.Cell(currentRow, 2).Value = adopcion.Razon;
+                    if (adopcion.SolicitudAdopcion == null)
                     {
                         worksheet.Cell(currentRow, 3).Value = "Sin datos";
                     }
                     else
                     {
-                        worksheet.Cell(currentRow, 3).Value = adopcion.ContratoAdopcionId;
+                        worksheet.Cell(currentRow, 3).Value = adopcion.SolicitudAdopcionId;
+                    }
+                }
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return content;
+                }
+            }
+        }
+        public static byte[] ExcelAdopcionesCanceladas(IEnumerable<AdopcionCancelada> adopciones)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Adopciones");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Razon";
+                worksheet.Cell(currentRow, 3).Value = "Id de Solicitud";
+                foreach (var adopcion in adopciones)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = adopcion.Id;
+                    worksheet.Cell(currentRow, 2).Value = adopcion.Razon;
+                    if (adopcion.SolicitudAdopcion == null)
+                    {
+                        worksheet.Cell(currentRow, 3).Value = "Sin datos";
+                    }
+                    else
+                    {
+                        worksheet.Cell(currentRow, 3).Value = adopcion.SolicitudAdopcionId;
                     }
                 }
                 using (var stream = new MemoryStream())

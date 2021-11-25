@@ -140,7 +140,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ReporteTratamiento/GetAll/" + idMascota, Method.GET);
+                var request = new RestRequest("api/ReporteTratamiento/GetAllReporteTratamiento/" + idMascota, Method.GET);
                 var response = await client.ExecuteAsync<Mascota>(request);
                 if (response.ResponseStatus.Equals(ResponseStatus.Error))
                     throw new Exception();

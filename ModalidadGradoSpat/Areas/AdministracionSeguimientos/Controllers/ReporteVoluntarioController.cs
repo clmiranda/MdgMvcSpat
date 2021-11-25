@@ -113,10 +113,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         public async Task<IActionResult> Detalle(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ContratoAdopcion/DetailAdopcion/" + id, Method.GET);
+            var request = new RestRequest("api/Adopcion/GetById/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<ContratoAdopcion>(request);
+                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return View(response.Data);

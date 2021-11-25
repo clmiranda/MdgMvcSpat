@@ -14,7 +14,6 @@
 }
 
 body {
-    position: relative;
     transition: .5s
 }
 
@@ -133,8 +132,8 @@ body {
 }
     @media screen and (min-width: 768px) {
         body {
-            margin: calc(var(--header-height) + 1rem) 0 0 -35px;
-            padding-left: calc(var(--nav-width) + 2rem)
+            margin: calc(var(--header-height) + 1rem) 0 0 -5px;
+            padding-left: calc(var(--nav-width) + 0.3rem)
         }
 
         .header {

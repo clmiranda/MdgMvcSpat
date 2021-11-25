@@ -1,31 +1,30 @@
-﻿@model ContratoAdopcion
+﻿@model SolicitudAdopcion
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container-fluid my-5">
-    @if (Model.Estado.Equals("Pendiente"))
+    @if (Model.Estado.Equals("Pendiente") || Model.Estado.Equals("Aprobado"))
     {
         <h3>
-            Vista de Acciones y Detalle del Contrato.
+            Vista de Acciones y Detalle de la Solicitud de Adopci&oacute;n.
         </h3>
         <p class="mb-4">
-            Esta vista se centra en la aceptaci&oacute;n o rechazo de una solicitud de adopci&oacute;n,
-            en caso de incumplir el contrato, se podr&aacute; cancelar la adopci&oacute;n, adem&aacute;s de
-            ver el detalle del Contrato.
+            La vista est&aacute; centrada en la gesti&oacute;n de las solicitudes de adopci&oacute;n enviadas, 
+            para decidir si son aprobadas, rechazadas o canceladas.
         </p>
         <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-                <button class="nav-item nav-link active" id="nav-contrato" data-toggle="tab" href="#tab-contrato" type="button" aria-controls="tab-crud-mascota">Acciones</button>
-                <button class="nav-item nav-link" id="nav-informe" data-toggle="tab" href="#tab-informe" type="button" aria-controls="tab-view-mascota">Detalle Contrato Adopci&oacute;n</button>
+                <button class="nav-item nav-link active" id="nav-solicitud" data-toggle="tab" href="#tab-solicitud" type="button" aria-controls="tab-crud-mascota">Acciones</button>
+                <button class="nav-item nav-link" id="nav-informe" data-toggle="tab" href="#tab-informe" type="button" aria-controls="tab-view-mascota">Detalle Solicitud de Adopci&oacute;n</button>
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="tab-contrato" role="tabpanel" aria-labelledby="nav-contrato">
+            <div class="tab-pane fade show active" id="tab-solicitud" role="tabpanel" aria-labelledby="nav-solicitud">
                 <div id="body-content-action">
-                    @await Html.PartialAsync("PartialView/_AdministrarContrato", Model)
+                    @await Html.PartialAsync("PartialView/_AdministrarSolicitudAdopcion", Model)
                 </div>
             </div>
             <div class="tab-pane fade" id="tab-informe" role="tabpanel" aria-labelledby="nav-informe">
                 <div id="body-content-view">
-                    @await Html.PartialAsync("PartialView/_InformeContrato", Model)
+                    @await Html.PartialAsync("PartialView/_InformeSolicitudAdopcion", Model)
                 </div>
             </div>
         </div>
@@ -33,13 +32,13 @@
     else
     {
         <h3>
-            Vista Detalle del Contrato.
+            Vista de Detalle de la Solicitud de Adopci&oacute;n.
         </h3>
         <p class="mb-4">
-            En esta vista se puede ver el Detalle del Contrato generado.
+            La vista contiene la informaci&oacute;n de la Solicitud de Adopci&oacute;n.
         </p>
         <div id="body-content-view">
-            @await Html.PartialAsync("PartialView/_InformeContrato", Model)
+            @await Html.PartialAsync("PartialView/_InformeSolicitudAdopcion", Model)
         </div>
     }
 </div>
