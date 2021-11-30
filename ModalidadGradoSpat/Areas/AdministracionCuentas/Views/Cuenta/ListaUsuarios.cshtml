@@ -1,4 +1,4 @@
-﻿@model List<User>
+﻿@model IEnumerable<User>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -12,6 +12,6 @@
         para usuarios inactivos o eliminar completamente un usuario.
     </p>
     <div id="view-all">
-        @await Html.PartialAsync("PartialView/_Lista.cshtml", Model)
+        @await Html.PartialAsync("PartialView/_ListaUsuarios.cshtml", Model)
     </div>
 </div>

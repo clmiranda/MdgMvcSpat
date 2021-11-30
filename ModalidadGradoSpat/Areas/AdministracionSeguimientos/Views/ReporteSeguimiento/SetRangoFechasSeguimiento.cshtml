@@ -1,6 +1,6 @@
 ﻿@model Seguimiento
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<form asp-action="UpdateFechaSeguimiento" onsubmit="return jQueryAjaxPost(this);" autocomplete="off" method="post">
+<form asp-action="UpdateRangoFechasSeguimiento" onsubmit="return jQueryAjaxPost(this);" autocomplete="off" method="post">
     <div class="form-row">
         <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
         <input id="inicial" value="@Model.FechaInicio.ToShortDateString()" type="hidden" name="RangoFechas[]" />
