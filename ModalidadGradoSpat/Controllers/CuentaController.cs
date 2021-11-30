@@ -45,11 +45,11 @@ namespace ModalidadGradoSpat.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendDataLogin(UserForLogin usu)
+        public async Task<IActionResult> SendDataLogin(UserForLogin datosUsuario)
         {
             if (ModelState.IsValid)
             {
-                var request = new RestRequest("api/Auth/Login/", Method.POST).AddJsonBody(usu);
+                var request = new RestRequest("api/Auth/Login/", Method.POST).AddJsonBody(datosUsuario);
                 try
                 {
                     var response = await client.ExecuteAsync(request);
@@ -72,7 +72,7 @@ namespace ModalidadGradoSpat.Controllers
                     TempData["alerterror"] = (string)msg["mensaje"];
                 }
             }
-            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialViews/_Login", usu) });
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialViews/_Login", datosUsuario) });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

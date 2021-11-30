@@ -27,7 +27,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
+                var request = new RestRequest("api/ReporteSeguimiento/GetSeguimientoForReportes/" + id, Method.GET);
                 var response = await client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
@@ -40,7 +40,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             }
         }
         [NoDirectAccess]
-        public async Task<IActionResult> EditSeguimiento(int id = 0)
+        public async Task<IActionResult> SetRangoFechasSeguimiento(int id = 0)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
@@ -62,12 +62,12 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateFechaSeguimiento(Seguimiento modelo)
+        public async Task<IActionResult> UpdateRangoFechasSeguimiento(Seguimiento modelo)
         {
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/Seguimiento/UpdateFecha/", Method.PUT).AddJsonBody(modelo);
+                var request = new RestRequest("api/ReporteSeguimiento/UpdateRangoFechasSeguimiento/", Method.PUT).AddJsonBody(modelo);
                 try
                 {
                     var response = await client.ExecuteAsync<Seguimiento>(request);
@@ -82,18 +82,18 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                         throw new Exception();
                     dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                     TempData["alerterror"] = msg["mensaje"];
-                    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "EditSeguimiento", modelo) });
+                    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "SetRangoFechasSeguimiento", modelo) });
                 }
             }
             return Json(new { isValid = false});
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateFechaReporte(ReporteSeguimiento modelo)
+        public async Task<IActionResult> UpdateFechaReporte(ReporteSeguimiento reporteSeguimiento)
         {
             ModelState.Clear();
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ReporteSeguimiento/UpdateFecha/", Method.PUT).AddJsonBody(modelo);
+            var request = new RestRequest("api/ReporteSeguimiento/UpdateFechaReporte/", Method.PUT).AddJsonBody(reporteSeguimiento);
             try
             {
                 var response = await client.ExecuteAsync<Seguimiento>(request);
@@ -138,10 +138,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteReporte(int id, int idseg)
+        public async Task<IActionResult> DeleteReporte(int idReporte, int idSeguimiento)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/ReporteSeguimiento/" + idseg + "/DeleteReporte/" + id, Method.DELETE);
+            var request = new RestRequest("api/ReporteSeguimiento/" + idSeguimiento + "/DeleteReporte/" + idReporte, Method.DELETE);
             try
             {
                 var response = await client.ExecuteAsync<Seguimiento>(request);

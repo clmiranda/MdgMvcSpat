@@ -1,6 +1,6 @@
 ﻿@model string[]
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<form class="text-center" asp-action="PostRoles" method="post" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+<form class="text-center" asp-action="AsignarRoles" method="post" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
     <div class="custom-control custom-checkbox mb-3">
         <input name="RolesUsuario[]" value="Administrador" class="custom-control-input" type="checkbox" id="idAdmin">
         <label class="custom-control-label" for="idAdmin">

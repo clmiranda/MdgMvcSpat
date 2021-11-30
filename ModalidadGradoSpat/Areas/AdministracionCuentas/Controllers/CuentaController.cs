@@ -23,25 +23,25 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         {
             client = new RestClient("https://localhost:44398/");
         }
-        [Route("Cuenta/Lista")]
-        public async Task<ActionResult> Lista()
+        [Route("Cuenta/ListaUsuarios")]
+        public async Task<ActionResult> ListaUsuarios()
         {
             var vista = await Listado();
             return View(vista);
         }
         [NoDirectAccess]
-        public ActionResult AddUsuario()
+        public ActionResult CreateUsuario()
         {
             return View(new User());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PostUsuario(User user)
+        public async Task<IActionResult> CreateUsuario(User usuario)
         {
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/Auth/PostUsuario/", Method.POST).AddJsonBody(user);
+                var request = new RestRequest("api/User/CreateUser/", Method.POST).AddJsonBody(usuario);
                 try
                 {
                     var response = await client.ExecuteAsync(request);
@@ -49,7 +49,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Un Email de confirmacion de la cuenta ha sido enviado al Correo Electronico.";
                     var vista = await Listado();
-                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaUsuarios", vista) });
                 }
                 catch (Exception ex)
                 {
@@ -69,10 +69,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> PostRoles(string[] RolesUsuario)
+        public async Task<ActionResult> AsignarRoles(string[] rolesUser)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/User/PutRolesUser/" + idUser, Method.POST).AddJsonBody(RolesUsuario);
+            var request = new RestRequest("api/User/AsignarRoles/" + idUser, Method.POST).AddJsonBody(rolesUser);
             try
             {
                 var response = await client.ExecuteAsync(request);
@@ -88,7 +88,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AsignarRoles", RolesUsuario) });
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AsignarRoles", rolesUser) });
             }
         }
 
@@ -118,10 +118,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EliminarUsuario(int idUser)
+        public async Task<ActionResult> DeleteUsuario(int idUser)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/User/EliminarUsuario/" + idUser, Method.DELETE);
+            var request = new RestRequest("api/User/DeleteUser/" + idUser, Method.DELETE);
             try
             {
                 var response = await client.ExecuteAsync(request);
@@ -140,16 +140,16 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 return Json(new { isValid = false });
             }
         }
-        public async Task<List<User>> Listado()
+        public async Task<IEnumerable<User>> Listado()
         {
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/User/GetUsers/", Method.GET);
+                var request = new RestRequest("api/User/GetAllUsers/", Method.GET);
                 var response = await client.ExecuteAsync(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
-                var vista = JsonConvert.DeserializeObject<List<User>>(response.Content);
+                var vista = JsonConvert.DeserializeObject<IEnumerable<User>>(response.Content);
                 return vista;
             }
             catch (Exception)

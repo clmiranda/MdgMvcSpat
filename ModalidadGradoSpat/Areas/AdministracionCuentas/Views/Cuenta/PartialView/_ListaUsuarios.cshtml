@@ -1,10 +1,10 @@
-﻿@model List<User>
+﻿@model IEnumerable<User>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <div class="d-flex justify-content-between my-3">
-    <button type="button" data-toggle="modal" onclick="showInPopup('@Url.Action("AddUsuario","Cuenta", new { area="AdministracionCuentas"})', 'Agregar Usuario');" class="btn btn-primary">
+    <button type="button" data-toggle="modal" onclick="showInPopup('@Url.Action("CreateUsuario","Cuenta", new { area="AdministracionCuentas"})', 'Agregar Usuario');" class="btn btn-primary">
         <i class="fas fa-plus-square fa-lg mr-2"></i>Agregar Usuario
     </button>
     <button onclick="location.href='@Url.Action("ExcelUsuario", "Cuenta", new { area="AdministracionCuentas"})'" type="button" class="btn btn-primary">
@@ -84,7 +84,7 @@
                                 <form asp-action="CambiarEstado" asp-route-idUser="@item.Id" onsubmit="return changeEstado(this);">
                                     <button type="submit" class="btn btn-warning">Cambiar Estado</button>
                                 </form>
-                                <form asp-action="EliminarUsuario" asp-route-idUser="@item.Id" onsubmit="return eliminarUsuario(this);">
+                                <form asp-action="DeleteUsuario" asp-route-idUser="@item.Id" onsubmit="return eliminarUsuario(this);">
                                     <button type="submit" class="btn btn-danger">Eliminar Usuario</button>
                                 </form>
                             </div>
