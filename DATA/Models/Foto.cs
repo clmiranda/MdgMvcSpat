@@ -9,7 +9,7 @@ namespace DATA.Models
         public string Url { get; set; }
         public bool IsPrincipal { get; set; }
         public string IdPublico { get; set; }
-        public DateTime? FechaAgregado { get; set; }
+        public DateTime? FechaCreacion { get; set; }
         public int? UserId { get; set; }
         public int? MascotaId { get; set; }
         [Required(ErrorMessage = "Es necesario que incluya la foto.")]

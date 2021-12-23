@@ -26,18 +26,18 @@ namespace ModalidadGradoSpat
             services.AddHttpContextAccessor();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             //////////
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.None;
-            });
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    // Cookie settings
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            //    options.Cookie.SameSite = SameSiteMode.None;
+            //});
             services.AddCors();
             services.AddMvc();
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromHours(2);
+                options.IdleTimeout = TimeSpan.FromHours(1);
             });
             services.AddAuthentication(x =>
             {
@@ -50,6 +50,7 @@ namespace ModalidadGradoSpat
     x.SaveToken = true;
     x.TokenValidationParameters = new TokenValidationParameters
     {
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
         ValidateIssuer = false,
@@ -72,7 +73,7 @@ namespace ModalidadGradoSpat
                 //app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             }
-            app.UseHsts();
+            //app.UseHsts();
             app.UseSession();
             app.Use(async (context, next) =>
             {

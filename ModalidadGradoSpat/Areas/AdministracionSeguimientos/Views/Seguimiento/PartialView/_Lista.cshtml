@@ -116,11 +116,11 @@
                         </td>
                         <td>
                             Nombre: @item.SolicitudAdopcion.Mascota.Nombre /
-                            Tama&ntilde;o: @item.SolicitudAdopcion.Mascota.Tamaño /
+                            Tama&ntilde;o: @item.SolicitudAdopcion.Mascota.Tamano /
                             Sexo: @item.SolicitudAdopcion.Mascota.Sexo
                         </td>
                         <td>
-                            Nombre Completo:  @item.SolicitudAdopcion.Nombres @item.SolicitudAdopcion.Apellidos /
+                            Nombre Completo:  @item.SolicitudAdopcion.NombreCompleto /
                             Direcci&oacute;n:  @item.SolicitudAdopcion.Domicilio
                         </td>
                         <td>
@@ -231,7 +231,7 @@
                         if (item.User!=null)
                         {
                             <text>
-                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', '@item.User.Nombres @item.User.Apellidos', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcionId'],
+                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', '@item.User.Persona.Nombres @item.User.Persona.Apellidos', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcionId'],
                             </text>
                         }
                         else
@@ -260,7 +260,7 @@
                             @foreach (var item2 in item.ReporteSeguimientos)
 	                         {
 	                            <text>
-                                    ['@item2.Id', '@item2.Observaciones', '@item2.Fecha.ToShortDateString()', '@item2.Estado', '@item.Id'],
+                                    ['@item2.Id', '@item2.Observaciones', '@item2.FechaReporte.ToShortDateString()', '@item2.Estado', '@item.Id'],
                                 </text>
 	                         }
                         }

@@ -37,7 +37,7 @@ namespace ModalidadGradoSpat.Reports
                     worksheet.Cell(currentRow, 8).Value = seguimiento.Estado;
 
                     if (seguimiento.User != null)
-                        worksheet.Cell(currentRow, 9).Value = seguimiento.User.Nombres + " " + seguimiento.User.Apellidos;
+                        worksheet.Cell(currentRow, 9).Value = seguimiento.User.Persona.Nombres + " " + seguimiento.User.Persona.Apellidos;
                     else
                         worksheet.Cell(currentRow, 9).Value = "No asignado";
                     worksheet.Cell(currentRow, 10).Value = seguimiento.UserId;
@@ -69,7 +69,7 @@ namespace ModalidadGradoSpat.Reports
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = reporte.Id;
                     worksheet.Cell(currentRow, 3).Value = reporte.Observaciones;
-                    worksheet.Cell(currentRow, 4).Value = reporte.Fecha;
+                    worksheet.Cell(currentRow, 4).Value = reporte.FechaReporte;
                     worksheet.Cell(currentRow, 5).Value = reporte.Estado;
                     worksheet.Cell(currentRow, 6).Value = reporte.Seguimiento.FechaInicio.ToShortDateString() + " hasta " + reporte.Seguimiento.FechaFin.ToShortDateString();
                     worksheet.Cell(currentRow, 7).Value = reporte.SeguimientoId;

@@ -29,7 +29,7 @@ body {
     justify-content: space-between;
     padding: 0 1rem;
     background-color: var(--white-color);
-    z-index: var(--z-fixed);
+    z-index: 200;
     transition: .5s
 }
 
@@ -92,7 +92,7 @@ body {
 .nav_link {
     position: relative;
     color: #b7b5b5;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     transition: .3s
 }
 
@@ -101,7 +101,8 @@ body {
     }
 
 .nav_icon {
-    font-size: 1.25rem
+    font-size: 1.25rem;
+    margin-right: 15px
 }
 
 .mostrar {
@@ -116,13 +117,11 @@ body {
     color: white;
 }
 
-.nav_link.active::before {
-    content: '';
+.nav_link.dropdown::before {
     position: absolute;
-    left: 0;
-    width: 2px;
-    height: 32px;
-    background-color: #b7b5b5;
+    font-weight: 900;
+    content: '\f105';
+    font-family: 'Font Awesome 5 Free';
 }
 @media screen and (max-width: 767px) {
     body {
@@ -138,7 +137,6 @@ body {
 
         .header {
             height: calc(var(--header-height) + 1rem);
-            padding: 0 2rem 0 4.3rem
         }
 
         .header_img {
@@ -152,15 +150,15 @@ body {
 
         .l-navbar {
             left: 0;
-            padding: 1rem 1rem 0 0
+            padding: 1rem 0 0 0
         }
 
         .mostrar {
-            width: calc(var(--nav-width) + 156px)
+            width: calc(var(--nav-width) + 175px)
         }
 
         .body-pd {
-            padding-left: calc(var(--nav-width) + 160px)
+            padding-left: calc(var(--nav-width) + 180px)
         }
     }
 .scroll-to-top {

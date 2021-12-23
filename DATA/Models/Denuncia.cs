@@ -9,7 +9,7 @@ namespace DATA.Models
         public string Titulo { get; set; }
         [Required(ErrorMessage ="La descripción de la denuncia es requerida.")]
         public string Descripcion { get; set; }
-        public string Estado { get; set; }
+        //public string Estado { get; set; }
         public virtual Mascota Mascota { get; set; }
         public int MascotaId { get; set; }
     }

@@ -26,7 +26,6 @@ namespace ModalidadGradoSpat.Controllers
             return View();
         }
         [NoDirectAccess]
-        [Route("ConfirmarEmail")]
         public ActionResult ConfirmEmail()
         {
             TempData["alertsuccess"] = "Email verificado correctamente.";
@@ -59,10 +58,12 @@ namespace ModalidadGradoSpat.Controllers
                     User user = JsonConvert.DeserializeObject<User>(Convert.ToString(valor["user"]));
                     string token = valor["token"];
                     HttpContext.Session.SetString("JWToken", token);
-                    if (user.Roles.Contains("Administrador"))
+                    if (user.Roles.Contains("Superadministrador") || user.Roles.Contains("Administrador"))
                         return Json(new { url = Url.Action("Dashboard", "Inicio", new { area = "" }) });
-                    else
+                    else if (user.Roles.Contains("Voluntario"))
                         return Json(new { url = Url.Action("Lista", "ReporteVoluntario", new { area = "AdministracionSeguimientos" }) });
+                    else
+                        return Json(new { url = Url.Action("Inicio", "Adopciones", new { area = "" }) });
                 }
                 catch (Exception ex)
                 {
@@ -130,6 +131,7 @@ namespace ModalidadGradoSpat.Controllers
             foreach (var cookie in HttpContext.Request.Cookies)
             {
                 Response.Cookies.Delete(cookie.Key);
+                Response.Cookies.Delete(cookie.ToString());
             }
             HttpContext.Session.Clear();
             return RedirectToAction("Inicio", "Adopciones", new { area = "" });

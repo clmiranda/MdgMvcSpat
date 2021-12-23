@@ -8,24 +8,14 @@
             <div class="form-row">
                 <input type="hidden" asp-for="@Model.MascotaId" value="@TempData["MascotaId"]" />
                 <div class="form-group col-12">
-                    <label for="idNombres">Ingresa tu(s) Nombre(s):</label>
-                    <input type="text" id="idNombres" class="form-control" asp-for="@Model.Nombres" placeholder="Ingresa tu(s) Nombre(s)" />
-                    @Html.ValidationMessageFor(x => x.Nombres, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group col-12">
-                    <label for="idApellidos">Ingresa tu(s) Apellido(s):</label>
-                    <input type="text" id="idApellidos" class="form-control" asp-for="@Model.Apellidos" placeholder="Ingresa tu(s) Apellido(s)" />
-                    @Html.ValidationMessageFor(x => x.Apellidos, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group col-xl-6">
-                    <label for="idCi">Ingresa tu Carnet de Identidad:</label>
-                    <input type="text" id="idCi" class="form-control" asp-for="@Model.Ci" placeholder="Ingresa tu Carnet de Identidad" />
-                    @Html.ValidationMessageFor(x => x.Ci, "", new { @class = "text-danger" })
+                    <label for="idNombres">Ingresa tu Nombre Completo:</label>
+                    <input type="text" id="idNombres" class="form-control" asp-for="@Model.NombreCompleto" placeholder="Ingresa tu(s) Nombre(s)" />
+                    @Html.ValidationMessageFor(x => x.NombreCompleto, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-xl-6">
                     <label for="idNumero">Ingresa tu N&uacute;mero de Celular/Telefono:</label>
-                    <input type="text" id="idNumero" class="form-control" asp-for="@Model.NumeroCelular" placeholder="Ingresa tu Numero de Celular/Telefono" />
-                    @Html.ValidationMessageFor(x => x.NumeroCelular, "", new { @class = "text-danger" })
+                    <input type="text" id="idNumero" class="form-control" asp-for="@Model.Telefono" placeholder="Ingresa tu Numero de Celular/Telefono" />
+                    @Html.ValidationMessageFor(x => x.Telefono, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-12">
                     <label for="idDomicilio">Ingresa tu Domicilio:</label>
@@ -95,7 +85,7 @@
             </div>
         </form>
         <script type="text/javascript">
-            var _0x4889 = ['oldSelectionEnd', '40286UvCLkJ', 'oldValue', '4431834mYKRHt', 'select', 'mouseup', '1176022UAfJTs', 'value', '37VfFQjT', 'forEach', 'idCi', 'test', 'input', 'setSelectionRange', '1089673mgXqHj', 'hasOwnProperty', 'oldSelectionStart', 'getElementById', '1083522XptqAv', 'keyup', 'selectionEnd', 'addEventListener', 'mousedown', '502683eExqVq', '704195rvnyFv', 'contextmenu']; function _0xd1d2(_0x4dac54, _0x86f39) { return _0xd1d2 = function (_0x48898b, _0xd1d225) { _0x48898b = _0x48898b - 0x14a; var _0x3b744c = _0x4889[_0x48898b]; return _0x3b744c; }, _0xd1d2(_0x4dac54, _0x86f39); } var _0x4d4166 = _0xd1d2; (function (_0x1be0d6, _0x29e838) { var _0x3b3663 = _0xd1d2; while (!![]) { try { var _0x1c2d41 = -parseInt(_0x3b3663(0x160)) + -parseInt(_0x3b3663(0x15b)) * parseInt(_0x3b3663(0x162)) + -parseInt(_0x3b3663(0x152)) + parseInt(_0x3b3663(0x157)) + parseInt(_0x3b3663(0x158)) + -parseInt(_0x3b3663(0x14e)) + parseInt(_0x3b3663(0x15d)); if (_0x1c2d41 === _0x29e838) break; else _0x1be0d6['push'](_0x1be0d6['shift']()); } catch (_0x4c0fd7) { _0x1be0d6['push'](_0x1be0d6['shift']()); } } }(_0x4889, 0xc30c1)); function setInputFilter(_0x595d25, _0x49945a) { var _0x2ea428 = _0xd1d2;[_0x2ea428(0x14c), 'keydown', _0x2ea428(0x153), _0x2ea428(0x156), _0x2ea428(0x15f), _0x2ea428(0x15e), _0x2ea428(0x159), 'drop'][_0x2ea428(0x163)](function (_0x7b1570) { var _0x3cd66c = _0x2ea428; _0x595d25[_0x3cd66c(0x155)](_0x7b1570, function () { var _0x4b7901 = _0x3cd66c; if (_0x49945a(this[_0x4b7901(0x161)])) this['oldValue'] = this['value'], this['oldSelectionStart'] = this['selectionStart'], this[_0x4b7901(0x15a)] = this[_0x4b7901(0x154)]; else this[_0x4b7901(0x14f)](_0x4b7901(0x15c)) ? (this[_0x4b7901(0x161)] = this[_0x4b7901(0x15c)], this[_0x4b7901(0x14d)](this[_0x4b7901(0x150)], this[_0x4b7901(0x15a)])) : this[_0x4b7901(0x161)] = ''; }); }); } setInputFilter(document[_0x4d4166(0x151)](_0x4d4166(0x14a)), function (_0x20e344) { var _0x2320b5 = _0x4d4166; return /^-?\d*$/[_0x2320b5(0x14b)](_0x20e344); }), setInputFilter(document[_0x4d4166(0x151)]('idNumero'), function (_0x157701) { return /^-?\d*$/['test'](_0x157701); });
+            var _0x44a586 = _0x40b1; (function (_0x5460b3, _0x1d59c1) { var _0x23eacd = _0x40b1, _0x4abfa4 = _0x5460b3(); while (!![]) { try { var _0x514269 = -parseInt(_0x23eacd(0x1d7)) / 0x1 * (parseInt(_0x23eacd(0x1d9)) / 0x2) + parseInt(_0x23eacd(0x1ee)) / 0x3 * (-parseInt(_0x23eacd(0x1dd)) / 0x4) + -parseInt(_0x23eacd(0x1e2)) / 0x5 * (-parseInt(_0x23eacd(0x1df)) / 0x6) + -parseInt(_0x23eacd(0x1ec)) / 0x7 * (parseInt(_0x23eacd(0x1eb)) / 0x8) + -parseInt(_0x23eacd(0x1db)) / 0x9 + parseInt(_0x23eacd(0x1de)) / 0xa * (-parseInt(_0x23eacd(0x1dc)) / 0xb) + -parseInt(_0x23eacd(0x1e1)) / 0xc * (-parseInt(_0x23eacd(0x1f5)) / 0xd); if (_0x514269 === _0x1d59c1) break; else _0x4abfa4['push'](_0x4abfa4['shift']()); } catch (_0x3bc1bc) { _0x4abfa4['push'](_0x4abfa4['shift']()); } } }(_0x1a29, 0x47443)); var defaultRangeValidator = $[_0x44a586(0x1e3)]['methods'][_0x44a586(0x1e6)]; $[_0x44a586(0x1e3)][_0x44a586(0x1d4)][_0x44a586(0x1e6)] = function (_0x281783, _0x7ef32b, _0x51ecef) { var _0x4c1476 = _0x44a586; return _0x7ef32b[_0x4c1476(0x1e5)] === 'checkbox' ? _0x7ef32b[_0x4c1476(0x1ef)] : defaultRangeValidator[_0x4c1476(0x1e4)](this, _0x281783, _0x7ef32b, _0x51ecef); }; function _0x1a29() { var _0x4bbfe0 = ['methods', 'input', 'keydown', '17063jgheZI', 'oldSelectionEnd', '50vOkpsK', 'test', '2657367OoTqZO', '33979DDMdEy', '84564SpHLDX', '490vHvIVe', '66HltLRz', 'mousedown', '21492whLBtL', '76435uiaKIV', 'validator', 'call', 'type', 'range', 'getElementById', 'setSelectionRange', 'oldSelectionStart', 'drop', '638344TWhwpw', '7IqvXfK', 'addEventListener', '3qvBNps', 'checked', 'oldValue', 'selectionEnd', 'hasOwnProperty', 'value', 'select', '7969EaWZHy']; _0x1a29 = function () { return _0x4bbfe0; }; return _0x1a29(); } function setInputFilter(_0x5bc775, _0x306604) { var _0x374058 = _0x44a586;[_0x374058(0x1d5), _0x374058(0x1d6), 'keyup', _0x374058(0x1e0), 'mouseup', _0x374058(0x1f4), 'contextmenu', _0x374058(0x1ea)]['forEach'](function (_0xc92ec2) { var _0x598c5c = _0x374058; _0x5bc775[_0x598c5c(0x1ed)](_0xc92ec2, function () { var _0x4a839d = _0x598c5c; if (_0x306604(this[_0x4a839d(0x1f3)])) this['oldValue'] = this[_0x4a839d(0x1f3)], this['oldSelectionStart'] = this['selectionStart'], this['oldSelectionEnd'] = this[_0x4a839d(0x1f1)]; else this[_0x4a839d(0x1f2)]('oldValue') ? (this[_0x4a839d(0x1f3)] = this[_0x4a839d(0x1f0)], this[_0x4a839d(0x1e8)](this[_0x4a839d(0x1e9)], this[_0x4a839d(0x1d8)])) : this[_0x4a839d(0x1f3)] = ''; }); }); } function _0x40b1(_0x424bd2, _0x32a6e9) { var _0x1a297c = _0x1a29(); return _0x40b1 = function (_0x40b185, _0x27d2f8) { _0x40b185 = _0x40b185 - 0x1d4; var _0x2e3d16 = _0x1a297c[_0x40b185]; return _0x2e3d16; }, _0x40b1(_0x424bd2, _0x32a6e9); } setInputFilter(document[_0x44a586(0x1e7)]('idNumero'), function (_0x4c2f23) { var _0x2eeb5e = _0x44a586; return /^-?\d*$/[_0x2eeb5e(0x1da)](_0x4c2f23); });
         </script>
     }
     else

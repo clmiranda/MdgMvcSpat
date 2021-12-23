@@ -38,7 +38,12 @@ else @if (ViewData["filter"].Equals("12 meses"))
 <div class="row mt-5">
     <div class="col-12">
         <div class="shadow-lg border p-sm-1 p-md-3 bg-white rounded">
-            <canvas id="chartAdopciones" style="width:100%;"></canvas>
+            <canvas id="chartLineAdopciones" style="width:100%;"></canvas>
+        </div>
+    </div>
+    <div class="col-12 mt-5">
+        <div class="shadow-lg border p-sm-1 p-md-3 bg-white rounded doughnut">
+            <canvas id="chartDoughnutAdopciones" style="width:100%;"></canvas>
         </div>
     </div>
 </div>
@@ -46,7 +51,7 @@ else @if (ViewData["filter"].Equals("12 meses"))
 <script type="text/javascript">
     var _0x5adc = ['142094ZjyasT', 'fail', '16jadMJb', 'html', 'status', 'href', '263603ZkMxdi', '53382xpaXal', '33338qDEtUf', 'form', 'action', 'ajax', 'POST', '1812MTZBeO', '#viewAdopciones', '1682xPPFQZ', '5VHhdDr', '24390arZXzb']; function _0x2bba(_0x50154e, _0x1b2ede) { return _0x2bba = function (_0x5adce7, _0x2bba06) { _0x5adce7 = _0x5adce7 - 0x68; var _0x1b833a = _0x5adc[_0x5adce7]; return _0x1b833a; }, _0x2bba(_0x50154e, _0x1b2ede); } (function (_0x12b108, _0x3b3515) { var _0x3f91cb = _0x2bba; while (!![]) { try { var _0x2b7b23 = parseInt(_0x3f91cb(0x6e)) + parseInt(_0x3f91cb(0x6c)) * parseInt(_0x3f91cb(0x76)) + -parseInt(_0x3f91cb(0x70)) * -parseInt(_0x3f91cb(0x6b)) + parseInt(_0x3f91cb(0x6d)) + parseInt(_0x3f91cb(0x75)) + parseInt(_0x3f91cb(0x69)) + -parseInt(_0x3f91cb(0x74)); if (_0x2b7b23 === _0x3b3515) break; else _0x12b108['push'](_0x12b108['shift']()); } catch (_0x520c41) { _0x12b108['push'](_0x12b108['shift']()); } } }(_0x5adc, 0x2507d), $('#selectAdopciones')['on']('change', function () { var _0x514572 = _0x2bba; $[_0x514572(0x79)]({ 'type': _0x514572(0x68), 'url': this[_0x514572(0x77)][_0x514572(0x78)], 'data': new FormData(this['form']), 'contentType': ![], 'processData': ![], 'success': function (_0x30ff0e) { var _0x240cc9 = _0x514572; $(_0x240cc9(0x6a))[_0x240cc9(0x71)](_0x30ff0e); } })[_0x514572(0x6f)](function (_0x11b515, _0x3c504e, _0x373219) { var _0x1367d5 = _0x514572; window['location'][_0x1367d5(0x73)] = '/Error/' + _0x11b515[_0x1367d5(0x72)]; }); }));
     $(function () {
-        var chartName = "chartAdopciones";
+        var chartName = "chartLineAdopciones";
         var ctx = document.getElementById(chartName).getContext('2d');
         var speedData = {
             labels: @Html.Raw(XLabels),
@@ -61,6 +66,42 @@ else @if (ViewData["filter"].Equals("12 meses"))
 
         var lineChart = new Chart(ctx, {
             type: 'line',
+            data: speedData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Adopciones Registradas por mes.'
+                    }
+                }
+            }
+        });
+    });
+
+        $(function () {
+            var chartName = "chartDoughnutAdopciones";
+        var ctx = document.getElementById(chartName).getContext('2d');
+        var speedData = {
+            labels: @Html.Raw(XLabels),
+            datasets: [{
+                data: @Html.Raw(YValues),
+                borderWidth: 2,
+                fill: false,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(11, 217, 80)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        var lineChart = new Chart(ctx, {
+            type: 'doughnut',
             data: speedData,
             options: {
                 responsive: true,

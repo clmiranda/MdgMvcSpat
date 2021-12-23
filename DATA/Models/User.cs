@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DATA.Models
@@ -16,21 +15,23 @@ namespace DATA.Models
         [DataType(DataType.Password)]
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d]).{8,}$", ErrorMessage = "La contraseña no cumple con los requisitos.")]
         public string Password { set; get; }
-        [Required(ErrorMessage = "El Nombre es requerido.")]
-        public string Nombres { get; set; }
-        [Required(ErrorMessage = "Los Apellidos son requeridos.")]
-        public string Apellidos { get; set; }
-        [Required(ErrorMessage = "El Domicilio es requerido.")]
-        public string Domicilio { get; set; }
-        [Required(ErrorMessage = "El Numero de Celular es requerido.")]
-        public string NumeroCelular { get; set; }
-        [Required(ErrorMessage = "La Fecha de Nacimiento es requerida.")]
-        public DateTime FechaNacimiento { get; set; }
-        public string Edad { get; set; }
+        //[Required(ErrorMessage = "El Nombre es requerido.")]
+        //public string Nombres { get; set; }
+        //[Required(ErrorMessage = "Los Apellidos son requeridos.")]
+        //public string Apellidos { get; set; }
+        //[Required(ErrorMessage = "El Domicilio es requerido.")]
+        //public string Domicilio { get; set; }
+        //[Required(ErrorMessage = "El Numero de Celular es requerido.")]
+        //public string NumeroCelular { get; set; }
+        //[Required(ErrorMessage = "La Fecha de Nacimiento es requerida.")]
+        //public DateTime FechaNacimiento { get; set; }
+        //public string Edad { get; set; }
         public string Estado { get; set; }
-        [Required(ErrorMessage = "El Sexo del usuario es requerido.")]
-        public string Sexo { get; set; }
+        //[Required(ErrorMessage = "El Sexo del usuario es requerido.")]
+        //public string Sexo { get; set; }
         public string[] Roles { get; set; }
+        public virtual Persona Persona { get; set; }
+        //public virtual int PersonaId { get; set; }
         public virtual ICollection<Seguimiento> Seguimientos { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
     }

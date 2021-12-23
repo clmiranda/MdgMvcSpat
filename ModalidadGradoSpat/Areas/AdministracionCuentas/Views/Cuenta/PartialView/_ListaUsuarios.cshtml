@@ -37,12 +37,12 @@
                 {
                     <tr>
                         <td>@item.Id</td>
-                        <td>@item.Nombres @item.Apellidos</td>
-                        <td>@item.Domicilio</td>
+                        <td>@item.Persona.Nombres @item.Persona.Apellidos</td>
+                        <td>@item.Persona.Domicilio</td>
                         <td>@item.UserName</td>
                         <td>@item.Email</td>
-                        <td>@item.FechaNacimiento.ToShortDateString()</td>
-                        <td>@item.Edad a&ntilde;os</td>
+                        <td>@item.Persona.FechaNacimiento.ToShortDateString()</td>
+                        <td>@item.Persona.Edad a&ntilde;os</td>
                         <td>
                             @if (item.Roles == null)
                             {
@@ -115,13 +115,13 @@
     function generatePDF() {
         const doc = new jsPDF('l', 'mm', [350, 200])
         doc.autoTable({
-            head: [['Id', 'Email', 'Username', 'Nombres', 'Apellidos', 'Domicilio', 'Numero Celular','Roles','Fecha Nacimiento','Estado','Sexo']],
+            head: [['Id', 'Email', 'Username', 'Nombres', 'Apellidos', 'Domicilio', 'Numero Telefono/Celular','Roles','Fecha Nacimiento','Estado','Sexo']],
             body: [
                 @foreach (var item in Model)
                 {
                     <text>
-                ['@item.Id', '@item.Email', '@item.UserName', '@item.Nombres', '@item.Apellidos', '@item.Domicilio', '@item.NumeroCelular', '@String.Join(',',item.Roles)', '@item.FechaNacimiento.ToShortDateString()',
-                    '@item.Estado', '@item.Sexo'],
+                ['@item.Id', '@item.Email', '@item.UserName', '@item.Persona.Nombres', '@item.Persona.Apellidos', '@item.Persona.Domicilio', '@item.Persona.Telefono', '@String.Join(',',item.Roles)', '@item.Persona.FechaNacimiento.ToShortDateString()',
+                    '@item.Estado', '@item.Persona.Genero'],
             </text>
                 }
             ],

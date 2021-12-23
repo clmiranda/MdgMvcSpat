@@ -9,7 +9,7 @@ namespace DATA.Models
         [Required(ErrorMessage = "Debe ingresar la descripción del actual reporte.")]
         [StringLength(maximumLength: 3000, MinimumLength = 20, ErrorMessage = "La descripción debe contener como mínimo 20 caracteres.")]
         public string Observaciones { get; set; }
-        public DateTime Fecha { get; set; }
+        public DateTime FechaReporte { get; set; }
         public DateTime FechaCreacion { get; set; }
         public string Estado { get; set; }
         public virtual Seguimiento Seguimiento { get; set; }

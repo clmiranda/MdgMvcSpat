@@ -176,7 +176,7 @@
                             <div class="collapse" id="details-@item.Id">
                                 <p class="text-center">
                                     <strong>Informaci&oacute;n del Adoptante</strong><br />
-                                    <strong>Nombre Completo: </strong>@item.Nombres @item.Apellidos &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+                                    <strong>Nombre Completo: </strong>@item.NombreCompleto &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
                                     <strong>Domicilio: </strong>@item.Domicilio
                                 </p>
                                 @if (item.Estado.Equals("Aprobado") || item.Estado.Equals("Pendiente"))
@@ -184,7 +184,7 @@
                                     <p class="text-center">
                                         <strong>Informaci&oacute;n de Mascota</strong><br />
                                         <strong>Nombre: </strong>@item.Mascota.Nombre &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-                                        <strong>Tama&ntilde;o: </strong>@item.Mascota.Tamaño
+                                        <strong>Tama&ntilde;o: </strong>@item.Mascota.Tamano
                                     </p>
                                 }
                             </div>
@@ -274,12 +274,12 @@
     function generatePDF() {
         const doc = new jsPDF("landscape")
         doc.autoTable({
-            head: [['Id', 'Nombres', 'Apellidos', 'Ci', 'Domicilio', 'NumeroCelular', 'Razon de Adopcion','Fecha Solicitud','Fecha Adopcion']],
+            head: [['Id', 'Nombre Completo', 'Domicilio', 'Numero de Telefono/Celular', 'Razon de Adopcion','Fecha Solicitud','Fecha Adopcion']],
             body: [
                 @foreach (var item in (List<SolicitudAdopcion>)ViewData["listaSolicitudes"])
                 {
                     <text>
-                        ['@item.Id', '@item.Nombres', '@item.Apellidos', '@item.Ci', '@item.Domicilio', '@item.NumeroCelular', '@item.Respuesta1', '@item.FechaSolicitudAdopcion.ToShortDateString()', '@item.FechaAdopcion.ToShortDateString()'],
+                ['@item.Id', '@item.NombreCompleto', '@item.Domicilio', '@item.Telefono', '@item.Respuesta1', '@item.FechaSolicitudAdopcion.ToShortDateString()', '@item.FechaAdopcion.ToShortDateString()'],
                     </text>
                 }
             ],
@@ -313,7 +313,7 @@
             body: [
                 @foreach (var item in (List<SolicitudAdopcion>)ViewData["listaSolicitudes"])
                 {
-                    if (item.AdopcionRechazada != null)
+                    if (item.AdopcionCancelada != null)
                     {
                         <text>
                 ['@item.AdopcionCancelada.Id', '@item.AdopcionCancelada.Razon', '@item.Id'],
