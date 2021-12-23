@@ -1,0 +1,46 @@
+﻿@model Persona
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="idNombres">Nombre(s)</label>
+            <input type="text" class="form-control" asp-for="Nombres" name="Nombres" id="idNombres" placeholder="Ingresa el(los) Nombre(s)">
+            @Html.ValidationMessageFor(x => x.Nombres, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="idApellidos">Apellido(s)</label>
+            <input type="text" class="form-control" asp-for="Apellidos" name="Apellidos" id="idApellidos" placeholder="Ingresa el(los) Apellido(s)">
+            @Html.ValidationMessageFor(x => x.Apellidos, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="idDomicilio">Domicilio</label>
+        <input type="text" class="form-control" asp-for="Domicilio" name="Domicilio" id="idDomicilio" placeholder="Ingresa el Domicilio">
+        @Html.ValidationMessageFor(x => x.Domicilio, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="idFechaNac">Fecha de Nacimiento</label>
+            <input type="text" class="form-control" value="@DateTime.Now.Date.ToShortDateString()" data-toggle="datepicker" asp-for="FechaNacimiento" name="FechaNacimiento" id="idFechaNac" placeholder="Ingresa la Fecha de Nacimiento" readonly>
+            @Html.ValidationMessageFor(x => x.FechaNacimiento, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="idNumero">N&uacute;mero de Tel&eacute;fono/Celular</label>
+            <input type="text" class="form-control" onkeypress="return isNumber(event);" asp-for="Telefono" name="Telefono" id="idNumero" placeholder="Ingresa el Numero de Telefono/Celular">
+            @Html.ValidationMessageFor(x => x.Telefono, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="idMasculino">G&eacute;nero</label>
+        <div class="form-check">
+            <input class="form-check-input" asp-for="Genero" type="radio" id="idMasculino" name="Genero" value="Masculino" checked>
+            <label class="form-check-label" for="idMasculino">
+                Masculino
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" asp-for="Genero" type="radio" id="idFemenino" name="Genero" value="Femenino">
+            <label class="form-check-label" for="idFemenino">
+                Femenino
+            </label>
+        </div>
+        @Html.ValidationMessageFor(x => x.Genero, "", new { @class = "text-danger" })
+    </div>

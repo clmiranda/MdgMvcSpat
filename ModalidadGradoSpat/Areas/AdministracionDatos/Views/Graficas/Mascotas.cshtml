@@ -2,6 +2,19 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    @@media (min-width: 576px) {
+        .doughnut {
+            height: 50vh;
+        }
+    }
+
+    @@media (min-width: 768px) {
+        .doughnut {
+            height: 80vh;
+        }
+    }
+</style>
 <div class="container-fluid my-5">
     <h3>Gr&aacute;ficas de Mascotas Registradas</h3>
     <div class="my-5" id="viewMascotas">

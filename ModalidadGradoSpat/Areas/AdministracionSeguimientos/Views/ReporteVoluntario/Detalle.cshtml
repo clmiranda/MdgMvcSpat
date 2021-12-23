@@ -15,10 +15,9 @@
             <div class="shadow-lg border p-5 bg-white rounded">
                     <h4 class="pb-3">Informaci&oacute;n del Adoptante</h4>
                     <p class="card-text text-success">
-                        <strong>Nombre Completo del Adoptante: </strong>@Model.Nombres @Model.Apellidos<br /><br />
-                        <strong>Carnet de Identidad: </strong>@Model.Ci<br /><br />
+                        <strong>Nombre Completo del Adoptante: </strong>@Model.NombreCompleto<br /><br />
                         <strong>Domicilio: </strong>@Model.Domicilio<br /><br />
-                        <strong>N&uacute;mero de Celular: </strong>@Model.NumeroCelular<br /><br />
+                        <strong>N&uacute;mero de Tel&eacute;fono/Celular: </strong>@Model.Telefono<br /><br />
                         <strong>Fecha de Solicitud de Adopci&oacute;n: </strong>@Model.FechaSolicitudAdopcion.ToShortDateString()
                     </p>
             </div>
@@ -39,7 +38,7 @@
                         <strong>Especie: </strong>@Model.Mascota.Especie<br /><br />
                         <strong>Sexo de la Mascota: </strong>@Model.Mascota.Sexo<br /><br />
                         <strong>Edad: </strong>@Model.Mascota.Edad<br /><br />
-                        <strong>Tama&ntilde;o de la Mascota: </strong>@Model.Mascota.Tamaño<br /><br />
+                        <strong>Tama&ntilde;o de la Mascota: </strong>@Model.Mascota.Tamano<br /><br />
                         <strong>Caracteristicas de la Mascota: </strong>@Model.Mascota.Caracteristicas<br /><br />
                         <strong>Rasgos Particulares: </strong>@Model.Mascota.RasgosParticulares
                     </p>

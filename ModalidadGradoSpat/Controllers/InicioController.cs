@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using RestSharp.Authenticators;
+using System;
 using System.Threading.Tasks;
 
 namespace ModalidadGradoSpat.Controllers
@@ -12,19 +13,48 @@ namespace ModalidadGradoSpat.Controllers
     public class InicioController : Controller
     {
         private static RestClient client;
+        private string filtro = "3 meses";
         public InicioController()
         {
             client = new RestClient("https://localhost:44398/");
         }
+        [HttpGet]
         [Route("Dashboard")]
         public async Task<IActionResult> Dashboard() {
             if (HttpContext.Session.GetString("JWToken") == "" || HttpContext.Session.GetString("JWToken") == null)
                 return RedirectToAction("Login", "Cuenta");
-
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Graficas/GetDataForDashboard/", Method.GET);
-            var response = await client.ExecuteAsync<DataForDashboardDto>(request);
-            return View(response.Data);
+            ViewData["filter"] = filtro;
+            var vista = await Datos();
+            return View(vista);
+        }
+        public async Task<IActionResult> ReturnVista(string filtrado)
+        {
+            filtro = filtrado;
+            ViewData["filter"] = filtrado;
+            try
+            {
+                var vista = await Datos();
+                return Json(Helper.RenderRazorViewToString(this, "PartialView/_Dashboard", vista));
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+        public async Task<DataForDashboardDto> Datos() {
+            try
+            {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/Graficas/GetDataForDashboard/", Method.GET);
+                var response = await client.ExecuteAsync<DataForDashboardDto>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
+                return response.Data;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
     }
 }

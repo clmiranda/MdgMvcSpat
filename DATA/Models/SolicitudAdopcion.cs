@@ -6,15 +6,15 @@ namespace DATA.Models
     public partial class SolicitudAdopcion : BaseEntity
     {
         [Required(ErrorMessage = "Debes ingresar tus Nombres.")]
-        public string Nombres { get; set; }
-        [Required(ErrorMessage = "Debes ingresar tus Apellidos.")]
-        public string Apellidos { get; set; }
-        [Required(ErrorMessage = "Debes ingresar tu Carnet de Identidad.")]
-        public string Ci { get; set; }
+        public string NombreCompleto { get; set; }
+        //[Required(ErrorMessage = "Debes ingresar tus Apellidos.")]
+        //public string Apellidos { get; set; }
+        //[Required(ErrorMessage = "Debes ingresar tu Carnet de Identidad.")]
+        //public string Ci { get; set; }
         [Required(ErrorMessage = "Debes ingresar tu Domicilio.")]
         public string Domicilio { get; set; }
         [Required(ErrorMessage = "Para ponernos en contacto contigo, debes proporcionar tu numero de Telefono/Celular")]
-        public string NumeroCelular { get; set; }
+        public string Telefono { get; set; }
         [Required(ErrorMessage = "Debes responder la pregunta.")]
         public string Respuesta1 { get; set; }
         [Required(ErrorMessage = "Debes responder la pregunta.")]

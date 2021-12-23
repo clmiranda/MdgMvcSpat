@@ -19,8 +19,8 @@ namespace ModalidadGradoSpat.Reports
                 worksheet.Cell(currentRow, 4).Value = "Email";
                 worksheet.Cell(currentRow, 5).Value = "Username";
                 worksheet.Cell(currentRow, 6).Value = "Domicilio";
-                worksheet.Cell(currentRow, 7).Value = "Numero Celular";
-                worksheet.Cell(currentRow, 8).Value = "Sexo";
+                worksheet.Cell(currentRow, 7).Value = "Numero Telefono/Celular";
+                worksheet.Cell(currentRow, 8).Value = "Genero";
                 worksheet.Cell(currentRow, 9).Value = "Fecha Nacimiento";
                 worksheet.Cell(currentRow, 10).Value = "Edad";
                 worksheet.Cell(currentRow, 11).Value = "Roles";
@@ -28,15 +28,15 @@ namespace ModalidadGradoSpat.Reports
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = usuario.Id;
-                    worksheet.Cell(currentRow, 2).Value = usuario.Nombres;
-                    worksheet.Cell(currentRow, 3).Value = usuario.Apellidos;
+                    worksheet.Cell(currentRow, 2).Value = usuario.Persona.Nombres;
+                    worksheet.Cell(currentRow, 3).Value = usuario.Persona.Apellidos;
                     worksheet.Cell(currentRow, 4).Value = usuario.Email;
                     worksheet.Cell(currentRow, 5).Value = usuario.UserName;
-                    worksheet.Cell(currentRow, 6).Value = usuario.Domicilio;
-                    worksheet.Cell(currentRow, 7).Value = usuario.NumeroCelular;
-                    worksheet.Cell(currentRow, 8).Value = usuario.Sexo;
-                    worksheet.Cell(currentRow, 9).Value = usuario.FechaNacimiento;
-                    worksheet.Cell(currentRow, 10).Value = usuario.Edad;
+                    worksheet.Cell(currentRow, 6).Value = usuario.Persona.Domicilio;
+                    worksheet.Cell(currentRow, 7).Value = usuario.Persona.Telefono;
+                    worksheet.Cell(currentRow, 8).Value = usuario.Persona.Genero;
+                    worksheet.Cell(currentRow, 9).Value = usuario.Persona.FechaNacimiento;
+                    worksheet.Cell(currentRow, 10).Value = usuario.Persona.Edad;
                     worksheet.Cell(currentRow, 11).Value = string.Join(",", usuario.Roles);
                 }
                 using (var stream = new MemoryStream())

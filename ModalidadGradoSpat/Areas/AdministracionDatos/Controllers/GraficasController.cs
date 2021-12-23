@@ -34,7 +34,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Graficas/GetGraficasAdopciones", Method.GET).AddParameter("filtro", filtro);
                 var response = await client.ExecuteAsync<List<DataGraficaDto>>(request);
-                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                if (!response.IsSuccessful)
                     throw new Exception();
                 var vista = response.Data;
                 return vista;
@@ -72,7 +72,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Graficas/GetGraficasMascotas", Method.GET).AddParameter("filtro", filtro);
                 var response = await client.ExecuteAsync<List<DataGraficaDto>>(request);
-                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                if (!response.IsSuccessful)
                     throw new Exception();
                 var vista = response.Data;
                 return vista;
@@ -110,7 +110,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Graficas/GetGraficasReporteSeguimientos", Method.GET).AddParameter("filtro", filtro);
                 var response = await client.ExecuteAsync<List<DataGraficaDto>>(request);
-                if (response.ResponseStatus.Equals(ResponseStatus.Error))
+                if (!response.IsSuccessful)
                     throw new Exception();
                 var vista = response.Data;
                 return vista;

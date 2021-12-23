@@ -24,26 +24,26 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="idNombre">Nombre(s):</label>
-                <input class="form-control" asp-for="Nombres" value="@Model.Nombres" id="idNombre" placeholder="Ingresa tu(s) Nombre(s)">
+                <input class="form-control" asp-for="Persona.Nombres" value="@Model.Persona.Nombres" id="idNombre" placeholder="Ingresa tu(s) Nombre(s)">
             </div>
             <div class="form-group col-md-6">
                 <label for="idApellido">Apellido(s):</label>
-                <input class="form-control" asp-for="Apellidos" value="@Model.Apellidos" id="idApellido" placeholder="Ingresa tu(s) Apellido(s)">
+                <input class="form-control" asp-for="Persona.Apellidos" value="@Model.Persona.Apellidos" id="idApellido" placeholder="Ingresa tu(s) Apellido(s)">
             </div>
         </div>
         <div class="form-group">
             <label for="idDomicilio">Domicilio:</label>
-            <input class="form-control" asp-for="Domicilio" value="@Model.Domicilio" id="idDomicilio" placeholder="Ingresa tu Domicilio">
+            <input class="form-control" asp-for="Persona.Domicilio" value="@Model.Persona.Domicilio" id="idDomicilio" placeholder="Ingresa tu Domicilio">
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label for="idNumero">N&uacute;mero de Celular:</label>
-                <input class="form-control" onkeypress="return isNumber(event);" asp-for="NumeroCelular" value="@Model.NumeroCelular" id="idNumero" placeholder="Ingresa tu Numero de Celular">
+                <label for="idNumero">N&uacute;mero de Tel&eacute;fono/Celular:</label>
+                <input class="form-control" onkeypress="return isNumber(event);" asp-for="Persona.Telefono" value="@Model.Persona.Telefono" id="idNumero" placeholder="Ingresa tu Numero de Celular">
             </div>
             <div class="form-group col-md-4">
-                <label for="idSexo">Sexo:</label>
-                <select class="form-control" asp-for="Sexo" value="@Model.Sexo" id="idSexo">
-                    @if (Model.Sexo == null || Model.Sexo.Equals("Masculino"))
+                <label for="idSexo">G&eacute;nero:</label>
+                <select class="form-control" asp-for="Persona.Genero" value="@Model.Persona.Genero" id="idSexo">
+                    @if (Model.Persona.Genero == null || Model.Persona.Genero.Equals("Masculino"))
                     {
                         <option value="Masculino" selected>Masculino</option>
                         <option value="Femenino">Femenino</option>
@@ -56,15 +56,15 @@
                 </select>
             </div>
             <div class="form-group col-md-4">
-                @if (Model.FechaNacimiento.ToShortDateString().Equals("01/01/0001"))
+                @if (Model.Persona.FechaNacimiento.ToShortDateString().Equals("01/01/0001"))
                 {
                     <label for="idFechaNacimiento">Fecha de Nacimiento:</label>
-                    <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@DateTime.Now.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
+                    <input type="text" class="form-control" data-toggle="datepicker" asp-for="Persona.FechaNacimiento" value="@DateTime.Now.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
                 }
                 else
                 {
-                    <label for="idFechaNacimiento">Fecha de Nacimiento (@Model.Edad a&ntilde;os):</label>
-                    <input type="text" class="form-control" data-toggle="datepicker" asp-for="FechaNacimiento" value="@Model.FechaNacimiento.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
+                    <label for="idFechaNacimiento">Fecha de Nacimiento (@Model.Persona.Edad a&ntilde;os):</label>
+                    <input type="text" class="form-control" data-toggle="datepicker" asp-for="Persona.FechaNacimiento" value="@Model.Persona.FechaNacimiento.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
                 }
             </div>
         </div>

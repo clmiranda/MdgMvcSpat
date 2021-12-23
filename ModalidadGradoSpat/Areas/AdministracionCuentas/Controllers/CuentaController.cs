@@ -32,15 +32,20 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         [NoDirectAccess]
         public ActionResult CreateUsuario()
         {
-            return View(new User());
+            var user = new User
+            {
+                Persona = new Persona()
+            };
+            return View(user);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateUsuario(User usuario)
+        public async Task<IActionResult> CreateUsuario(User usuario, Persona persona)
         {
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                usuario.Persona = persona;
                 var request = new RestRequest("api/User/CreateUser/", Method.POST).AddJsonBody(usuario);
                 try
                 {
@@ -59,7 +64,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     TempData["alerterror"] = msg["mensaje"];
                 }
             }
-            return Json(new { isValid = false });
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateUsuario", usuario) });
         }
         [NoDirectAccess]
         public ActionResult AsignarRoles(int id, string[] roles)
