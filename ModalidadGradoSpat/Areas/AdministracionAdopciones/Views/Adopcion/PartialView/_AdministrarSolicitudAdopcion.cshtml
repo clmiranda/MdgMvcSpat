@@ -4,7 +4,7 @@
         <div class="form-row justify-content-around">
             @if (Model.Estado.Equals("Pendiente"))
             {
-                <form asp-action="AprobarSolicitudAdopcion" asp-route-id="@Model.Id" method="post" onsubmit="return showForm(this);">
+                <form asp-action="AprobarSolicitudAdopcion" asp-route-id="@Model.Id" method="post" onsubmit="return redirectToView(this);">
                     <button type="submit" class="btn btn-primary btn-lg">Aprobar Solicitud de Adopci&oacute;n</button>
                 </form>
                 <button type="button" asp-action="AddSolicitudAdopcionRechazada" onclick="showInPopup('@Url.Action("AddSolicitudAdopcionRechazada","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon del Rechazo de Solicitud de Adopcion');" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#form-modal">Rechazar Solicitud de Adopci&oacute;n</button>

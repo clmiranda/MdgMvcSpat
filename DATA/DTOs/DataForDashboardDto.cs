@@ -14,6 +14,6 @@ namespace DATA.DTOs
         public int ContadorSeguimientosActuales { get; set; }
         public int ContadorVoluntariosRegistrados { get; set; }
         public List<DataGraficaDto> DataGraficaMascota { get; set; }
-        public List<DataGraficaDto> DataGraficaSeguimiento { get; set; }
+        public List<DataGraficaDto> DataGraficaSolicitudAdopcion { get; set; }
     }
 }

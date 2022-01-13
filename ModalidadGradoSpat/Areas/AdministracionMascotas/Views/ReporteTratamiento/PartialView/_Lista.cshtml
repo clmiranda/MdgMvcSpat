@@ -1,16 +1,19 @@
 ﻿@model Mascota
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @if (Model == null)
 {
-<div class="row mt-5">
-    <div class="card col-6 mx-auto">
-        <div class="card-body">
-            <p class="card-text">
-                La mascota no existe, no se puede listar.
-            </p>
+    <div class="row mt-5">
+        <div class="card col-6 mx-auto">
+            <div class="card-body">
+                <p class="card-text">
+                    La mascota no existe, no se puede listar.
+                </p>
+            </div>
         </div>
     </div>
-</div>
 }
 else
 {
@@ -32,6 +35,7 @@ else
                         <th>Id</th>
                         <th>Titulo</th>
                         <th>Descripcion</th>
+                        <th>Fecha de Registro</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -45,13 +49,28 @@ else
                             <td width="30%">
                                 <p>@item.Titulo</p>
                             </td>
-                            <td width="60%">
+                            <td width="30%">
                                 <p>@item.Descripcion</p>
+                            </td>
+                            <td width="30%">
+                                <form method="post" asp-action="UpdateFecha">
+                                    <input type="hidden" name="Id" value="@item.Id" />
+                                    <div class="input-group">
+                                        <input id="datePicker-@item.Id" class="form-control" type="text" data-toggle="datepicker" name="FechaReporteTratamiento" value="@item.FechaCreacion.Date.ToShortDateString()" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-primary">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </td>
                             <td width="5%">
                                 <div class="d-flex flex-row">
                                     <button type="button" onclick="showInPopup('@Url.Action("AddOrEditReporteTratamiento","ReporteTratamiento",new { id=item.Id,area="AdministracionMascotas"},Context.Request.Scheme)','Actualizar Reporte Tratamiento');"
-                                            class="btn btn-info" data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                                            class="btn btn-info" data-toggle="modal" data-target="#form-modal">
+                                        <i class="fa fa-edit fa-2" aria-hidden="true"></i>
+                                    </button>
                                     <form asp-action="DeleteReporteTratamiento" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fa fa-trash fa-2" aria-hidden="true"></i>
@@ -67,6 +86,7 @@ else
                         <th>Id</th>
                         <th>Titulo</th>
                         <th>Descripcion</th>
+                        <th>Fecha de Registro</th>
                         <th>Acciones</th>
                     </tr>
                 </tfoot>
@@ -108,14 +128,17 @@ else
     }
     else
     {
-<div class="row mt-5">
-    <div class="card col-6 mx-auto">
-        <div class="card-body">
-            <p class="card-text">
-                El estado de la mascota debe ser "Inactivo" para poder visualizar.
-            </p>
+        <div class="row mt-5">
+            <div class="card col-6 mx-auto">
+                <div class="card-body">
+                    <p class="card-text">
+                        El estado de la mascota debe ser "Inactivo" para poder visualizar.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
     }
 }
+<script>
+    function _0x4c13() { var _0x494d4b = ['12703GjkZlg', '11369439vZOTfx', 'change', '/Error/', '4WzzOUn', '#view-all', '13569GYKGJg', 'form', 'POST', '10cmEROn', 'href', '[data-toggle=\x22datepicker\x22]', '7uCZKcR', '11HjiXVV', '146jMpTWA', 'html', '8406960OXwxCb', '7669288VUFrwj', '840020QvhDvt', '5330460IBtiEm', '/archivos/js/daterangepicker.js', 'fail', 'status', 'ajax']; _0x4c13 = function () { return _0x494d4b; }; return _0x4c13(); } var _0x1af51c = _0x5f48; (function (_0x39dce6, _0x2f789c) { var _0x30e7d1 = _0x5f48, _0x2bf370 = _0x39dce6(); while (!![]) { try { var _0x2eaeec = parseInt(_0x30e7d1(0x126)) / 0x1 * (-parseInt(_0x30e7d1(0x11c)) / 0x2) + parseInt(_0x30e7d1(0x114)) / 0x3 * (parseInt(_0x30e7d1(0x112)) / 0x4) + -parseInt(_0x30e7d1(0x120)) / 0x5 + -parseInt(_0x30e7d1(0x121)) / 0x6 + parseInt(_0x30e7d1(0x11a)) / 0x7 * (parseInt(_0x30e7d1(0x11f)) / 0x8) + parseInt(_0x30e7d1(0x127)) / 0x9 * (parseInt(_0x30e7d1(0x117)) / 0xa) + parseInt(_0x30e7d1(0x11b)) / 0xb * (parseInt(_0x30e7d1(0x11e)) / 0xc); if (_0x2eaeec === _0x2f789c) break; else _0x2bf370['push'](_0x2bf370['shift']()); } catch (_0x42f821) { _0x2bf370['push'](_0x2bf370['shift']()); } } }(_0x4c13, 0xe64c6)); function _0x5f48(_0x214b98, _0xe9d50f) { var _0x4c13d5 = _0x4c13(); return _0x5f48 = function (_0x5f4819, _0x19cccd) { _0x5f4819 = _0x5f4819 - 0x110; var _0x9d3b8e = _0x4c13d5[_0x5f4819]; return _0x9d3b8e; }, _0x5f48(_0x214b98, _0xe9d50f); } var url = _0x1af51c(0x122); $['getScript'](url), $(_0x1af51c(0x119))['on'](_0x1af51c(0x110), function () { var _0x55da83 = _0x1af51c; return $[_0x55da83(0x125)]({ 'type': _0x55da83(0x116), 'url': this[_0x55da83(0x115)]['action'], 'data': new FormData(this[_0x55da83(0x115)]), 'contentType': ![], 'processData': ![], 'success': function (_0x3124a6) { var _0x5f2840 = _0x55da83; $(_0x5f2840(0x113))[_0x5f2840(0x11d)](_0x3124a6[_0x5f2840(0x11d)]); }, 'error': function (_0x3e0020) { console['log'](_0x3e0020); } })[_0x55da83(0x123)](function (_0x1ed7b3, _0x51a7f2, _0x275ccd) { var _0xd873f5 = _0x55da83; window['location'][_0xd873f5(0x118)] = _0xd873f5(0x111) + _0x1ed7b3[_0xd873f5(0x124)]; }), ![]; });
+</script>

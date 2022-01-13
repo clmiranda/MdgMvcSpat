@@ -84,20 +84,20 @@
                 <nav class="nav my-5">
                     <div class="nav_list">
                         <a href="@Url.Action("Inicio","Adopciones",new { area=""})" class="nav_link active text-decoration-none"><i class='fas fa-home nav_icon'></i><span class="nav_name">Inicio</span></a>
-                        @if (User.IsInRole("Superadministrador"))
+                        @if (User.IsInRole("SuperAdministrador"))
                         {
                             <a href="@Url.Action("Dashboard","Inicio",new { area=""})" class="nav_link text-decoration-none"><i class='far fa-clipboard nav_icon'></i><span class="nav_name">Dashboard</span></a>
                         }
-                        @if (User.IsInRole("Superadministrador") || User.IsInRole("Administrador"))
+                        @if (User.IsInRole("SuperAdministrador") || User.IsInRole("Administrador"))
                         {
-                            <a class="nav_link dropdown text-decoration-none" id="mascotasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-paw nav_icon"></i>
-                                <span>Mascotas</span>
-                            </a>
-                            <div class="dropdown-menu m-0" aria-labelledby="mascotasDropdown">
-                                <a class="dropdown-item" href="@Url.Action("Lista","Denuncia",new { area="AdministracionMascotas"})">Administrar Denuncias</a>
-                                <a class="dropdown-item" href="@Url.Action("Lista","Mascota",new { area="AdministracionMascotas"})">Administrar Mascotas</a>
-                            </div>
+                                <a class="nav_link text-decoration-none" href="@Url.Action("Lista","Denuncia",new { area="AdministracionMascotas"})">
+                                    <i class="fas fa-balance-scale-right nav_icon"></i>
+                                    <span class="nav_name">Admin. Denuncias</span>
+                                </a>
+                                <a class="nav_link text-decoration-none" href="@Url.Action("Lista","Mascota",new { area="AdministracionMascotas"})">
+                                    <i class="fas fa-dog nav_icon"></i>
+                                    <span class="nav_name">Admin. Mascotas</span>
+                                </a>
                             <a href="@Url.Action("Lista","Seguimiento",new { area="AdministracionSeguimientos"})" class="nav_link text-decoration-none">
                                 <i class='fas fa-search-location nav_icon'></i>
                                 <span class="nav_name">Admin. Seguimientos</span>
@@ -106,7 +106,7 @@
                                 <i class='fas fa-pen-alt nav_icon'></i>
                                 <span class="nav_name">Admin. Adopciones</span>
                             </a>
-                            <a href="@Url.Action("Lista","Cuenta",new { area="AdministracionCuentas"})" class="nav_link text-decoration-none">
+                            <a href="@Url.Action("ListaUsuarios","Cuenta",new { area="AdministracionCuentas"})" class="nav_link text-decoration-none">
                                 <i class='fas fa-user-circle nav_icon'></i>
                                 <span class="nav_name">Admin. Usuarios</span>
                             </a>
@@ -118,13 +118,13 @@
                                 <span class="nav_name">Seg. Asignados</span>
                             </a>
                         }
-                        @if (User.IsInRole("Superadministrador") || User.IsInRole("Administrador"))
+                        @if (User.IsInRole("SuperAdministrador") || User.IsInRole("Administrador"))
                         {
-                            <a class="nav_link dropdown text-decoration-none" id="mascotasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav_link dropdown text-decoration-none" id="reportesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-chart-area nav_icon"></i>
                                 <span>Reportes</span>
                             </a>
-                            <div class="dropdown-menu m-0" aria-labelledby="mascotasDropdown">
+                            <div class="dropdown-menu m-0" aria-labelledby="reportesDropdown">
                                 <a class="dropdown-item" href="@Url.Action("Adopciones","Graficas",new { area="AdministracionDatos"})">Reportes Adopciones</a>
                                 <a class="dropdown-item" href="@Url.Action("Mascotas","Graficas",new { area="AdministracionDatos"})">Reportes Mascotas</a>
                                 <a class="dropdown-item" href="@Url.Action("ReporteSeguimientos","Graficas",new { area="AdministracionDatos"})">Reportes Seguimientos</a>

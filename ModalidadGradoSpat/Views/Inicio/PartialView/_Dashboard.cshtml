@@ -3,8 +3,8 @@
     var labelsMascota = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaMascota.Select(x => x.Nombre).ToList());
     var valuesMascota = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaMascota.Select(x => x.Cantidad.ToString()).ToList());
 
-    var labelsSeguimiento = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaSeguimiento.Select(x => x.Nombre).ToList());
-    var valuesSeguimiento = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaSeguimiento.Select(x => x.Cantidad.ToString()).ToList());
+    var labelsSolicitudAdopcion = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaSolicitudAdopcion.Select(x => x.Nombre).ToList());
+    var valuesSolicitudAdopcion = Newtonsoft.Json.JsonConvert.SerializeObject(Model.DataGraficaSolicitudAdopcion.Select(x => x.Cantidad.ToString()).ToList());
 }
 <form method="post" hidden>
 </form>
@@ -96,7 +96,7 @@
         <div class="col-lg-6 my-3">
             <div class="card rounded shadow">
                 <div class="card-body">
-                    <canvas id="chartSeguimiento" style="width:100%;"></canvas>
+                    <canvas id="chartSolicitudAdopcion" style="width:100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -141,12 +141,12 @@
     });
 
         $(function () {
-            var chartName = "chartSeguimiento";
+            var chartName = "chartSolicitudAdopcion";
         var ctx = document.getElementById(chartName).getContext('2d');
         var speedData = {
-            labels: @Html.Raw(labelsSeguimiento),
+            labels: @Html.Raw(labelsSolicitudAdopcion),
             datasets: [{
-                data: @Html.Raw(valuesSeguimiento),
+                data: @Html.Raw(valuesSolicitudAdopcion),
                 borderWidth: 2,
                 fill: false,
                 backgroundColor: [
@@ -169,7 +169,7 @@
                     },
                     title: {
                         display: true,
-                        text: 'Lista de Seguimientos Registrados por Estado'
+                        text: 'Lista de Solicitudes de Adopción por Estado'
                     }
                 }
             }

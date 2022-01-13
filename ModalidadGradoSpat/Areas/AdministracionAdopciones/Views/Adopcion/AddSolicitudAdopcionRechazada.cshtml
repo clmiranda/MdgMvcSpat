@@ -1,5 +1,5 @@
 ﻿@model AdopcionRechazada
-<form asp-action="RechazarSolicitudAdopcion" method="post" onsubmit="return jQueryAjaxPostAlterno(this);" autocomplete="off">
+<form asp-action="RechazarSolicitudAdopcion" method="post" onsubmit="return modalRedirectToView(this);" autocomplete="off">
     <input asp-for="SolicitudAdopcionId" type="hidden" value="@Model.SolicitudAdopcionId" />
     <div class="form-group">
         <label for="inputTitulo">Ingrese la Raz&oacute;n del Rechazo de la Solicitud de Adopci&oacute;n</label>
