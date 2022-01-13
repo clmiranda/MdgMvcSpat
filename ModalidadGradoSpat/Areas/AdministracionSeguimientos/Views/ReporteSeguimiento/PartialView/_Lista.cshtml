@@ -85,7 +85,7 @@ else
                             @if (item.Estado.Equals("Enviado"))
                             {
                                 <div class="input-group">
-                                    <input id="idFecha-@item.Id" name="Fecha" value="@item.FechaReporte.Date.ToShortDateString()" type="text" class="form-control" readonly>
+                                    <input id="idFecha-@item.Id" name="FechaReporte" value="@item.FechaReporte.Date.ToShortDateString()" type="text" class="form-control" readonly>
                                 </div>
                             }
                             else
@@ -94,7 +94,7 @@ else
                                     <input type="hidden" name="Id" value="@item.Id" />
                                     <input type="hidden" name="SeguimientoId" value="@item.SeguimientoId" />
                                     <div class="input-group">
-                                        <input id="idFecha-@item.Id" name="Fecha" value="@item.FechaReporte.Date.ToShortDateString()" type="text" class="form-control" data-toggle="datepicker" readonly>
+                                        <input id="idFecha-@item.Id" name="FechaReporte" value="@item.FechaReporte.Date.ToShortDateString()" type="text" class="form-control" data-toggle="datepicker" readonly>
                                     </div>
                                 </form>
                             }

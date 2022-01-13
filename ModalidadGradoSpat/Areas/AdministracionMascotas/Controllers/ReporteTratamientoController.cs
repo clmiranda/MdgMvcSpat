@@ -60,6 +60,31 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateFecha(int id, DateTime FechaReporteTratamiento)
+        {
+            try
+            {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/ReporteTratamiento/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaCreacion", FechaReporteTratamiento);
+                var response = await client.ExecuteAsync<Mascota>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception(response.Content);
+                TempData["alertsuccess"] = "Fecha actualizada exitosamente.";
+                var vista = await ListadoReporteTratamientos();
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
+                var vista = await ListadoReporteTratamientos();
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddOrEditReporteTratamiento(ReporteTratamiento model)
         {
             if (ModelState.IsValid)

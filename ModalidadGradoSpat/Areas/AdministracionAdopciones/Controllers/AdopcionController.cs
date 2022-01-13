@@ -80,10 +80,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         {
             ViewData["filter"] = filtrado;
             ViewData["listaSolicitudes"] = _listaPDF;
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Adopcion/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaAdopcion", FechaAdopcion);
             try
             {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/Adopcion/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaAdopcion", FechaAdopcion);
                 var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
@@ -113,7 +113,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "La solicitud de adopción se ha aprobado correctamente, se ha creado el seguimiento respectivo.";
-                return Json(new {html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", response.Data)});
+                //return Json(new {html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", response.Data)});
+                return Json(new { isValid = true, url = Url.Action("Lista", "Adopcion", new { area = "AdministracionAdopciones" }) });
             }
             catch (Exception ex)
             {
@@ -121,7 +122,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", _solicitudAdopcion) });
+                //return Json(new { html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", _solicitudAdopcion) });
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", _solicitudAdopcion) });
             }
         }
         [HttpPost]
@@ -138,7 +140,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Solicitud de adopción rechazada, se ha creado un nuevo informe.";
-                    return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeSolicitudAdopcion", response.Data) });
+                    //return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeSolicitudAdopcion", response.Data) });
+                    return Json(new { isValid = true, url = Url.Action("Lista", "Adopcion", new { area = "AdministracionAdopciones" }) });
                 }
                 catch (Exception ex)
                 {
@@ -146,6 +149,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                         throw new Exception();
                     dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                     TempData["alerterror"] = msg["mensaje"];
+                    //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddSolicitudAdopcionRechazada", rechazada) });
                     return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddSolicitudAdopcionRechazada", rechazada) });
                 }
             }
@@ -165,7 +169,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Adopción cancelada, se ha creado un nuevo informe.";
-                    return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeSolicitudAdopcion", response.Data) });
+                    //return Json(new { isValid = true, html2 = Helper.RenderRazorViewToString(this, "PartialView/_AdministrarSolicitudAdopcion", response.Data), html = Helper.RenderRazorViewToString(this, "PartialView/_InformeSolicitudAdopcion", response.Data) });
+                    return Json(new { isValid = true, url = Url.Action("Lista", "Adopcion", new { area = "AdministracionAdopciones" }) });
                 }
                 catch (Exception ex)
                 {
@@ -173,7 +178,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                         throw new Exception();
                     dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                     TempData["alerterror"] = msg["mensaje"];
-                    return Json(new { html = Helper.RenderRazorViewToString(this, "AddAdopcionCancelada", cancelada) });
+                    //return Json(new { html = Helper.RenderRazorViewToString(this, "AddAdopcionCancelada", cancelada) });
+                    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddAdopcionCancelada", cancelada) });
                 }
             }
             return Json(new { isValid = false });

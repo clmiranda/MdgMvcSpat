@@ -83,6 +83,8 @@ namespace ModalidadGradoSpat.Controllers
                 if (!response.IsSuccessful)
                     throw new Exception();
                 TempData["MascotaId"] = id;
+                if (response.Data == null)
+                    return View(null);
                 return View(response.Data);
             }
             catch (Exception)
