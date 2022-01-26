@@ -33,7 +33,7 @@ else
                 <p>Actualmente no se agregaron fotos de la mascota @Model.Nombre.</p>
             </div>
     }
-    <div id="carouselFotosMascota" class="carousel slide carousel-fade" data-ride="carousel">
+    <div id="carouselMascota" class="carousel slide carousel-fade" data-ride="carousel">
         <div class="carousel-inner">
             @foreach (var foto in Model.Fotos)
             {
@@ -51,11 +51,11 @@ else
                 }
             }
         </div>
-        <a class="carousel-control-prev" href="#carouselFotosMascota" type="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#carouselMascota" type="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#carouselFotosMascota" type="button" data-slide="next">
+        <a class="carousel-control-next" href="#carouselMascota" type="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
@@ -95,23 +95,23 @@ else
             }
             @if (Model.Estado == "Inactivo")
             {
-                <a role="button" href="#" class="btn btn-primary btn-block rounded-pill" disabled>
+                <button type="button" class="btn btn-primary btn-block rounded-pill" disabled>
                     <i class="fa fa-paw fa-2x mr-3" aria-hidden="true"></i>Quiero Adoptar
-                </a>
+                </button>
                 <div class="alert alert-warning mt-5" role="alert">
                     <p class="text-center">La mascota actualmente no est&aacute; en adopci&oacute;n.</p>
                 </div>
             }
             else if (Model.Estado == "Adoptada")
             {
-                <a role="button" href="#" class="btn btn-primary btn-block rounded-pill" disabled><i class="fa fa-paw fa-2x mr-3" aria-hidden="true"></i>Quiero Adoptar</a>
+                <button type="button" class="btn btn-primary btn-block rounded-pill" disabled><i class="fa fa-paw fa-2x mr-3" aria-hidden="true"></i>Quiero Adoptar</button>
                 <div class="alert alert-warning mt-5" role="alert">
                     <p class="text-center">La mascota ha sido adoptada.</p>
                 </div>
             }
             else if (Model.Estado == "En Proceso")
             {
-                <a role="button" href="#" class="btn btn-primary btn-block rounded-pill" disabled><i class="fa fa-paw fa-2x mr-3" aria-hidden="true"></i>Quiero Adoptar</a>
+                <button type="button" class="btn btn-primary btn-block rounded-pill" disabled><i class="fa fa-paw fa-2x mr-3" aria-hidden="true"></i>Quiero Adoptar</button>
                 <div class="alert alert-warning mt-5" role="alert">
                     <p class="text-center">La mascota se encuentra en un proceso de adopci&oacute;n.</p>
                 </div>

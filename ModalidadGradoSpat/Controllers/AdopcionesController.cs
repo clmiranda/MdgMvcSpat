@@ -26,6 +26,7 @@ namespace ModalidadGradoSpat.Controllers
         public async Task<IActionResult> Inicio()
         {
             ViewData["filter"] = "Adopcion";
+            filtrado = "Adopcion";
             var vista = await Listado();
             return View(vista);
         }

@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DATA.Models
 {
-    public partial class User
+    public partial class User: BaseEntity
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         [Required(ErrorMessage = "El Email es requerido.")]
         [EmailAddress(ErrorMessage ="Ingresa un correo válido.")]
         public string Email { get; set; }
@@ -26,6 +26,7 @@ namespace DATA.Models
         //[Required(ErrorMessage = "La Fecha de Nacimiento es requerida.")]
         //public DateTime FechaNacimiento { get; set; }
         //public string Edad { get; set; }
+        [MaxLength(20)]
         public string Estado { get; set; }
         //[Required(ErrorMessage = "El Sexo del usuario es requerido.")]
         //public string Sexo { get; set; }
