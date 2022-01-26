@@ -90,21 +90,21 @@
                         }
                         @if (User.IsInRole("SuperAdministrador") || User.IsInRole("Administrador"))
                         {
-                                <a class="nav_link text-decoration-none" href="@Url.Action("Lista","Denuncia",new { area="AdministracionMascotas"})">
-                                    <i class="fas fa-balance-scale-right nav_icon"></i>
-                                    <span class="nav_name">Admin. Denuncias</span>
-                                </a>
-                                <a class="nav_link text-decoration-none" href="@Url.Action("Lista","Mascota",new { area="AdministracionMascotas"})">
-                                    <i class="fas fa-dog nav_icon"></i>
-                                    <span class="nav_name">Admin. Mascotas</span>
-                                </a>
-                            <a href="@Url.Action("Lista","Seguimiento",new { area="AdministracionSeguimientos"})" class="nav_link text-decoration-none">
-                                <i class='fas fa-search-location nav_icon'></i>
-                                <span class="nav_name">Admin. Seguimientos</span>
+                            <a class="nav_link text-decoration-none" href="@Url.Action("Lista","Denuncia",new { area="AdministracionMascotas"})">
+                                <i class="fas fa-balance-scale-right nav_icon"></i>
+                                <span class="nav_name">Admin. Denuncias</span>
+                            </a>
+                            <a class="nav_link text-decoration-none" href="@Url.Action("Lista","Mascota",new { area="AdministracionMascotas"})">
+                                <i class="fas fa-dog nav_icon"></i>
+                                <span class="nav_name">Admin. Mascotas</span>
                             </a>
                             <a href="@Url.Action("Lista","Adopcion",new { area="AdministracionAdopciones"})" class="nav_link text-decoration-none">
                                 <i class='fas fa-pen-alt nav_icon'></i>
                                 <span class="nav_name">Admin. Adopciones</span>
+                            </a>
+                            <a href="@Url.Action("Lista","Seguimiento",new { area="AdministracionSeguimientos"})" class="nav_link text-decoration-none">
+                                <i class='fas fa-search-location nav_icon'></i>
+                                <span class="nav_name">Admin. Seguimientos</span>
                             </a>
                             <a href="@Url.Action("ListaUsuarios","Cuenta",new { area="AdministracionCuentas"})" class="nav_link text-decoration-none">
                                 <i class='fas fa-user-circle nav_icon'></i>

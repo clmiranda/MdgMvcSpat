@@ -10,6 +10,7 @@ namespace DATA.Models
         public string[] RangoFechas { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
+        [MaxLength(20)]
         public string Estado { get; set; }
         public virtual User User { get; set; }
         public int UserId { get; set; }
