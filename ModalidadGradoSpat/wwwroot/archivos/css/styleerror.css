@@ -65,7 +65,7 @@ body {
         text-transform: uppercase;
         margin-top: 15px;
     }
-    .error button {
+    .error a {
         font-family: 'Maven Pro', sans-serif;
         font-size: 14px;
         text-decoration: none;
@@ -81,7 +81,7 @@ body {
         transition: 0.2s all;
         cursor: pointer;
     }
-        .error button:hover {
+        .error a:hover {
             background-color: #fff;
             border-color: #189cf0;
             color: #189cf0;

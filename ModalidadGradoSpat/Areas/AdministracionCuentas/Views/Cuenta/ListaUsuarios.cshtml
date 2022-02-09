@@ -7,10 +7,21 @@
         Lista de Usuarios registrados
     </h3>
     <p class="mb-4">
-        En esta vista se visualiza la informaci&oacute;n de los usuarios registrados en 
-        el sistema as&iacute; como tambi&eacute;n poder asignar roles, cambiar de estado 
+        En esta vista se visualiza la informaci&oacute;n de los usuarios registrados en
+        el sistema as&iacute; como tambi&eacute;n poder asignar roles, cambiar de estado
         para usuarios inactivos o eliminar completamente un usuario.
     </p>
+    <div class="d-md-flex">
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-primary"><i class="fa fa-wrench" aria-hidden="true"></i></button> -> Asignar o desasignar roles.
+        </p>
+        <p class="shadow mr-md-5 p-3 bg-white rounded">
+            <button class="btn btn-warning"><i class="fa fa-undo" aria-hidden="true"></i></button> -> Cambiar estado de usuario.
+        </p>
+        <p class="shadow p-3 bg-white rounded">
+            <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button> -> Eliminar usuario.
+        </p>
+    </div>
     <div id="view-all">
         @await Html.PartialAsync("PartialView/_ListaUsuarios.cshtml", Model)
     </div>

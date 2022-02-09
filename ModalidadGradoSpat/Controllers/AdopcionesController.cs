@@ -1,11 +1,9 @@
 ﻿using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
-using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -99,7 +97,6 @@ namespace ModalidadGradoSpat.Controllers
         {
             if (ModelState.IsValid)
             {
-                //client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Adopcion/CreateSolicitudAdopcion", Method.POST).AddJsonBody(modelo);
                 try
                 {

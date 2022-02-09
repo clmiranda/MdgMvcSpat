@@ -78,25 +78,25 @@
 <div class="row mt-5">
     @foreach (var item in Model)
     {
-    <div class="col-lg-6 col-xl-4 mb-5">
-        <div class="card h-100 border-0 shadow mx-auto rounded">
-            <div class="card-img-top">
-                <a href="@Url.Action("InformacionMascota", "Adopciones",new { id=item.Id, area=""},Context.Request.Scheme)">
-                    @if (item.Foto == null)
-                    {
-                        <img alt="@item.Nombre" src="~/archivos/imagenes/spat.png" class="img-fluid rounded" />
-                    }
-                    else
-                    {
-                        <img alt="@item.Nombre" src="@item.Foto.Url" class="img-fluid w-100 rounded" />
-                    }
-                </a>
-            </div>
-            <div class="card-body text-center">
-                <p class="card-text">@item.Nombre</p>
+        <div class="col-lg-6 col-xl-4 mb-5">
+            <div class="card h-100 border-0 shadow mx-auto rounded">
+                <div class="card-img-top">
+                    <a class="text-decoration-none lead text-success font-weight-bold" href="@Url.Action("InformacionMascota", "Adopciones",new { id=item.Id, area=""},Context.Request.Scheme)">
+                        @if (item.Foto == null)
+                        {
+                            <img alt="@item.Nombre" src="https://res.cloudinary.com/dfgd6kc8v/image/upload/v1643849629/spat_gvfgem.jpg" class="img-fluid rounded-top" />
+                        }
+                        else
+                        {
+                            <img alt="@item.Nombre" src="@item.Foto.Url" class="img-fluid w-100 rounded-top" />
+                        }
+                        <div class="card-body text-center">
+                            <p class="card-text">@item.Nombre</p>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
     }
 </div>
 <nav class="table-responsive mt-5">

@@ -76,13 +76,13 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td width="5%">
                             @item.Id
                         </td>
-                        <td>
+                        <td width="30%">
                             @item.Denuncia.Titulo
                         </td>
-                        <td>
+                        <td width="30%">
                             @item.Nombre
                         </td>
                         <td width="25%">
@@ -114,15 +114,24 @@
                                 </form>
                             }
                         </td>
-                        <td width="5px">
-                            <div class="d-flex flex-row">
-                                    <a role="button" href="@Url.Action("EditMascota", "Mascota",new { id=item.Id, area="AdministracionMascotas"})" class="btn btn-success">
-                                        <i class="fas fa-dog fa-2"></i>
-                                    </a>
+                        <td width="10%">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <a role="button" href="@Url.Action("EditMascota", "Mascota",new { id=item.Id, area="AdministracionMascotas"})" class="btn btn-success">
+                                    <i class="fas fa-dog fa-2"></i>
+                                </a>
+                                @if (item.Estado.Equals("Inactivo"))
+                                {
                                     <a role="button" class="btn btn-primary" href="@Url.Action("Lista","ReporteTratamiento", new {id=item.Id, area="AdministracionMascotas"})">
                                         <i class="fas fa-list"></i>
                                     </a>
-                                </div>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-primary" disabled>
+                                        <i class="fas fa-list"></i>
+                                    </button>
+                                }
+                            </div>
                         </td>
                     </tr>
                 }

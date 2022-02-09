@@ -21,7 +21,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
     {
         private static RestClient client;
         private static List<Seguimiento> _listaSeg;
-        private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Asignado";
+        private static int? pagesize = 10; private static int? pagenumber = 1;
         public ReporteVoluntarioController()
         {
             client = new RestClient("https://localhost:44398/");
@@ -29,69 +29,16 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         [Route("Voluntario/Reporte/Lista")]
         public async Task<IActionResult> Lista()
         {
-            ViewData["filter"] = filtrado;
             var vista = await Listado();
             return View(vista);
         }
-        public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1, string filter = "Asignado")
+        public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1)
         {
             pagesize = sizePage;
             pagenumber = currentPage;
-            filtrado = filter;
-            ViewData["filter"] = filter;
             var vista = await Listado();
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Aceptar(int id)
-        //{
-        //    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-        //    var request = new RestRequest("api/Seguimiento/" + id + "/AceptarSeguimientoVoluntario", Method.POST);
-        //    try
-        //    {
-        //        var response = await client.ExecuteAsync<List<Seguimiento>>(request);
-        //        if (!response.IsSuccessful)
-        //            throw new Exception(response.Content);
-        //        TempData["alertsuccess"] = "Se ha asignado el seguimiento.";
-        //        ViewData["filter"] = filtrado;
-        //        var vista = await Listado();
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (ex.Message == "")
-        //            throw new Exception();
-        //        dynamic msg = JsonConvert.DeserializeObject(ex.Message);
-        //        TempData["alerterror"] = msg["mensaje"];
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
-        //    }
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Rechazar(int id)
-        //{
-        //    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-        //    var request = new RestRequest("api/Seguimiento/" + id + "/RechazarSeguimientoVoluntario", Method.POST);
-        //    try
-        //    {
-        //        var response = await client.ExecuteAsync<List<Seguimiento>>(request);
-        //        if (!response.IsSuccessful)
-        //            throw new Exception(response.Content);
-        //        TempData["alertsuccess"] = "Se ha rechazado el seguimiento.";
-        //        ViewData["filter"] = filtrado;
-        //        var vista = await Listado();
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (ex.Message == "")
-        //            throw new Exception();
-        //        dynamic msg = JsonConvert.DeserializeObject(ex.Message);
-        //        TempData["alerterror"] = msg["mensaje"];
-        //        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaSeg) });
-        //    }
-        //}
         [Route("Voluntario/Reporte/ListaReportes/{id}")]
         public async Task<IActionResult> ListaReportes(int id)
         {
@@ -191,7 +138,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimiento", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
+                var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimientoVoluntario", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize);
                 var response = await client.ExecuteAsync<List<Seguimiento>>(requestGet);
                 if (!response.IsSuccessful)
                     throw new Exception();

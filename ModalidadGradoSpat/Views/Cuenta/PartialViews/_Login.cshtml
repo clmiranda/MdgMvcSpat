@@ -14,23 +14,26 @@ else
         <div class="col-12 col-sm-8 mx-auto">
             <div class="card border-0 rounded shadow-lg">
                 <p class="card-header text-center">Inicio de Sesi&oacute;n</p>
-                <div class="card-body p-5">
+                <div class="card-body pl-5 pr-5 pb-5 pt-3">
+                    <div class="alert alert-info text-center" role="alert">
+                        Solo miembros de la asociaci&oacute;n SPAT podr&aacute;n iniciar sesi&oacute;n.
+                    </div>
                     <form asp-action="SendDataLogin" onsubmit="return login(this);" method="post">
                         <div class="form-group">
-                            <label for="idUsername">Nombre de Usuario o Correo Electr&oacute;nico</label>
-                            <input type="text" name="Username" id="idUsername" class="form-control" placeholder="Ingresa tu Nombre de Usuario o Correo Electrónico" autofocus="autofocus">
-                            @Html.ValidationMessageFor(x => x.Username, "", new { @class = "text-danger" })
+                            <label for="UsernameEmail">Nombre de Usuario o Correo Electr&oacute;nico:</label>
+                            <input type="text" name="UsernameEmail" class="form-control" placeholder="Ingresa tu Nombre de Usuario o Correo Electrónico" autofocus="autofocus">
+                            @Html.ValidationMessageFor(x => x.UsernameEmail, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
-                            <label for="idPassword">Contrase&ntilde;a</label>
+                            <label for="Password">Contrase&ntilde;a:</label>
                             <div class="input-group">
-                                <input type="password" name="Password" id="idPassword" class="form-control" placeholder="Password">
+                                <input type="password" name="Password" class="form-control password" placeholder="Ingresa tu contraseña">
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="far fa-eye"></i></span>
                                 </div>
                             </div>
+                            @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                         </div>
-                        @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                         <button class="btn btn-primary btn-user btn-block" type="submit">
                             Iniciar Sesi&oacute;n
                         </button>
@@ -45,6 +48,6 @@ else
     </div>
     <script>
         var _0xdf8f = ['/Error/', 'form', 'fail', '162146xSGtNe', '1MPbIFJ', 'ajax', 'html', 'status', '43bVQIDK', '59ENblEf', 'valid', '37cLeijf', 'url', 'href', 'POST', '802XIiUSM', '124395YUgJyL', '171128FPDAgK', '245140excSUK', '1571UqWXae', '5bLxXMC', 'preventDefault', 'location']; function _0x489d(_0x4334a8, _0x1412c2) { return _0x489d = function (_0xdf8ff2, _0x489d79) { _0xdf8ff2 = _0xdf8ff2 - 0xee; var _0x1b727a = _0xdf8f[_0xdf8ff2]; return _0x1b727a; }, _0x489d(_0x4334a8, _0x1412c2); } (function (_0x580751, _0x5b2c1c) { var _0x1e0364 = _0x489d; while (!![]) { try { var _0x3c7832 = parseInt(_0x1e0364(0xf8)) * parseInt(_0x1e0364(0xff)) + parseInt(_0x1e0364(0x102)) + -parseInt(_0x1e0364(0x100)) + -parseInt(_0x1e0364(0x104)) * parseInt(_0x1e0364(0x103)) + -parseInt(_0x1e0364(0x101)) * -parseInt(_0x1e0364(0xf4)) + -parseInt(_0x1e0364(0xf3)) + -parseInt(_0x1e0364(0xf9)) * parseInt(_0x1e0364(0xfb)); if (_0x3c7832 === _0x5b2c1c) break; else _0x580751['push'](_0x580751['shift']()); } catch (_0x5eec5a) { _0x580751['push'](_0x580751['shift']()); } } }(_0xdf8f, 0x25a3f), login = _0x25874d => { var _0x18d82b = _0x489d; event[_0x18d82b(0xee)](); if ($(_0x18d82b(0xf1))[_0x18d82b(0xfa)]()) return $[_0x18d82b(0xf5)]({ 'type': _0x18d82b(0xfe), 'url': _0x25874d['action'], 'data': new FormData(_0x25874d), 'contentType': ![], 'processData': ![], 'success': function (_0x9fdb8c) { var _0x13f7dc = _0x18d82b; if (_0x9fdb8c[_0x13f7dc(0xf6)] != null) $('#body-content-action')['html'](_0x9fdb8c[_0x13f7dc(0xf6)]); else _0x9fdb8c[_0x13f7dc(0xfc)] != null && (window['location'][_0x13f7dc(0xfd)] = _0x9fdb8c[_0x13f7dc(0xfc)]); } })[_0x18d82b(0xf2)](function (_0x2b1735, _0x525b57, _0x4f6203) { var _0x393df9 = _0x18d82b; window[_0x393df9(0xef)]['href'] = _0x393df9(0xf0) + _0x2b1735[_0x393df9(0xf7)]; }), ![]; });
-        var _0x4deb = ['699buGkdS', '1837534dIGgyj', '1907VwMMjZ', 'text', 'querySelector', '571733DnXmKr', '2423ApUQtL', '113jTKWur', 'addEventListener', 'getAttribute', 'fa-eye-slash', 'type', '81MIXngf', '1112DnxeiZ', 'password', 'classList', '537277rTSxlU', '1442vfJPIE', '17173AuplZs', 'toggle']; var _0x568edd = _0x383b; function _0x383b(_0x31293f, _0x55b852) { return _0x383b = function (_0x4deb70, _0x383bdf) { _0x4deb70 = _0x4deb70 - 0x159; var _0x376c00 = _0x4deb[_0x4deb70]; return _0x376c00; }, _0x383b(_0x31293f, _0x55b852); } (function (_0x29efd2, _0x2ee52d) { var _0x4b6e94 = _0x383b; while (!![]) { try { var _0x5eb858 = parseInt(_0x4b6e94(0x15c)) + -parseInt(_0x4b6e94(0x16c)) * parseInt(_0x4b6e94(0x15e)) + parseInt(_0x4b6e94(0x166)) * parseInt(_0x4b6e94(0x160)) + parseInt(_0x4b6e94(0x165)) + parseInt(_0x4b6e94(0x161)) + -parseInt(_0x4b6e94(0x167)) * parseInt(_0x4b6e94(0x15d)) + -parseInt(_0x4b6e94(0x159)) * parseInt(_0x4b6e94(0x162)); if (_0x5eb858 === _0x2ee52d) break; else _0x29efd2['push'](_0x29efd2['shift']()); } catch (_0x840894) { _0x29efd2['push'](_0x29efd2['shift']()); } } }(_0x4deb, 0xebc2e)); var togglePassword = document[_0x568edd(0x164)]('.fa-eye'), password = document['querySelector']('#idPassword'); togglePassword[_0x568edd(0x168)]('click', function (_0x385478) { var _0x59b231 = _0x568edd, _0x5aea48 = password[_0x59b231(0x169)](_0x59b231(0x16b)) === _0x59b231(0x15a) ? _0x59b231(0x163) : _0x59b231(0x15a); password['setAttribute'](_0x59b231(0x16b), _0x5aea48), this[_0x59b231(0x15b)][_0x59b231(0x15f)](_0x59b231(0x16a)); });
+        var _0x4deb = ['699buGkdS', '1837534dIGgyj', '1907VwMMjZ', 'text', 'querySelector', '571733DnXmKr', '2423ApUQtL', '113jTKWur', 'addEventListener', 'getAttribute', 'fa-eye-slash', 'type', '81MIXngf', '1112DnxeiZ', 'password', 'classList', '537277rTSxlU', '1442vfJPIE', '17173AuplZs', 'toggle']; var _0x568edd = _0x383b; function _0x383b(_0x31293f, _0x55b852) { return _0x383b = function (_0x4deb70, _0x383bdf) { _0x4deb70 = _0x4deb70 - 0x159; var _0x376c00 = _0x4deb[_0x4deb70]; return _0x376c00; }, _0x383b(_0x31293f, _0x55b852); } (function (_0x29efd2, _0x2ee52d) { var _0x4b6e94 = _0x383b; while (!![]) { try { var _0x5eb858 = parseInt(_0x4b6e94(0x15c)) + -parseInt(_0x4b6e94(0x16c)) * parseInt(_0x4b6e94(0x15e)) + parseInt(_0x4b6e94(0x166)) * parseInt(_0x4b6e94(0x160)) + parseInt(_0x4b6e94(0x165)) + parseInt(_0x4b6e94(0x161)) + -parseInt(_0x4b6e94(0x167)) * parseInt(_0x4b6e94(0x15d)) + -parseInt(_0x4b6e94(0x159)) * parseInt(_0x4b6e94(0x162)); if (_0x5eb858 === _0x2ee52d) break; else _0x29efd2['push'](_0x29efd2['shift']()); } catch (_0x840894) { _0x29efd2['push'](_0x29efd2['shift']()); } } }(_0x4deb, 0xebc2e)); var togglePassword = document[_0x568edd(0x164)]('.fa-eye'), password = document['querySelector']('.password'); togglePassword[_0x568edd(0x168)]('click', function (_0x385478) { var _0x59b231 = _0x568edd, _0x5aea48 = password[_0x59b231(0x169)](_0x59b231(0x16b)) === _0x59b231(0x15a) ? _0x59b231(0x163) : _0x59b231(0x15a); password['setAttribute'](_0x59b231(0x16b), _0x5aea48), this[_0x59b231(0x15b)][_0x59b231(0x15f)](_0x59b231(0x16a)); });
     </script>
 }

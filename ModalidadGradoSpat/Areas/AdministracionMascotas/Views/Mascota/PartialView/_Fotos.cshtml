@@ -40,35 +40,35 @@ else
             {
                 foreach (var item in Model.Fotos)
                 {
-    <div class="img-container">
-        <img src="@item.Url" width="200" height="200" class="img-thumbnail img-responsive">
-        @if (item.IsPrincipal)
-        {
-            <form>
-                <button type="submit" class="btn btn-warning" disabled>
-                    Asignar Foto Principal
-                </button>
-            </form>
-            <form>
-                <button type="submit" class="btn btn-danger" disabled>
-                    Eliminar
-                </button>
-            </form>
-        }
-        else
-        {
-            <form asp-action="SetFotoPrincipal" asp-route-id="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit=" return showFormAux(this);">
-                <button type="submit" class="btn btn-warning">
-                    Asignar Foto Principal
-                </button>
-            </form>
-            <form asp-action="DeleteFotoMascota" asp-route-idmascota="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit="return jQueryAjaxDeleteForm2(this);">
-                <button type="submit" class="btn btn-danger">
-                    Eliminar
-                </button>
-            </form>
-        }
-    </div>
+                    <div class="img-container">
+                        <img src="@item.Url" width="200" height="200" class="img-thumbnail img-responsive">
+                        @if (item.IsPrincipal)
+                        {
+                            <form>
+                                <button type="submit" class="btn btn-warning" disabled>
+                                    Asignar Foto Principal
+                                </button>
+                            </form>
+                            <form>
+                                <button type="submit" class="btn btn-danger" disabled>
+                                    Eliminar
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="SetFotoPrincipal" asp-route-id="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit=" return showFormAux(this);">
+                                <button type="submit" class="btn btn-warning">
+                                    Asignar Foto Principal
+                                </button>
+                            </form>
+                            <form asp-action="DeleteFotoMascota" asp-route-idmascota="@item.MascotaId" asp-route-idfoto="@item.Id" onsubmit="return jQueryAjaxDeleteForm2(this);">
+                                <button type="submit" class="btn btn-danger">
+                                    Eliminar
+                                </button>
+                            </form>
+                        }
+                    </div>
                 }
             }
             else
@@ -108,21 +108,17 @@ else
                     xhr.setRequestHeader("Authorization", "Bearer " + "@ViewData["TokenBearer"]");
                 },
                 success: function (data) {
-                    const Toast = Swal.mixin({
+                    Swal.fire({
                         toast: true,
                         position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 5000,
-                        timerProgressBar: true,
-                        onOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-                    Toast.fire({
                         icon: 'success',
-                        title: 'Foto(s) agregada(s) correctamente, recargar para visualizar los cambios.'
+                        title: 'Foto(s) agregada(s).',
+                        showConfirmButton: false,
+                        timer: 2000
                     })
+                    window.setTimeout(function () {
+                        location.reload();
+                    }, 2500);
                 },
                 error: function (data) {
                     alert("Ha ocurrido un error.");

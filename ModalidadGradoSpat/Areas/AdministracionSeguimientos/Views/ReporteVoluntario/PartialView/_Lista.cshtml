@@ -62,13 +62,13 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td width="3%">
+                        <td width="5%">
                             @item.Id
                         </td>
-                        <td>
+                        <td width="40%">
                             <p>Desde @item.FechaInicio.ToShortDateString() hasta @item.FechaFin.ToShortDateString()</p>
                         </td>
-                        <td>
+                        <td width="30%">
                             @if (item.ReporteSeguimientos == null)
                             {
                                 <p>No tiene reportes creados.</p>
@@ -79,9 +79,11 @@
                             }
                         </td>
                         <td width="10%">
-                            <a role="button" class="btn btn-success" href="@Url.Action("ListaReportes","ReporteVoluntario", new { id=item.Id, area="AdministracionSeguimientos"})">
-                                <i class="fas fa-list" aria-hidden="true"></i>
-                            </a>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <a role="button" class="btn btn-success" href="@Url.Action("ListaReportes","ReporteVoluntario", new { id=item.Id, area="AdministracionSeguimientos"})">
+                                    <i class="fas fa-list" aria-hidden="true"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 }
@@ -159,5 +161,5 @@
     </form>
 </nav>
 <script>
-    var _0x5971 = ['#resetear', 'POST', '749564oyOISr', '255775lwlvZP', 'form', 'location', '[name=\x27currentPage\x27]', '1MFreuZ', 'change', '31533ZngBAZ', '736163GbJVsH', 'click', '/Error/', 'ajax', 'Asignado', '116168FvhoDi', 'val', 'href', 'fail', '381998PznOnf', 'select[name=\x27sizePage\x27]\x20option', 'status', '552116UWdVwG', '#view-all', 'select']; var _0x4d389f = _0x2b47; (function (_0x63c73f, _0x12ad36) { var _0x59ccd3 = _0x2b47; while (!![]) { try { var _0x4b800d = parseInt(_0x59ccd3(0xb4)) * parseInt(_0x59ccd3(0xb1)) + -parseInt(_0x59ccd3(0xac)) + -parseInt(_0x59ccd3(0xad)) + parseInt(_0x59ccd3(0xbd)) + parseInt(_0x59ccd3(0xb3)) + parseInt(_0x59ccd3(0xa7)) + -parseInt(_0x59ccd3(0xb9)); if (_0x4b800d === _0x12ad36) break; else _0x63c73f['push'](_0x63c73f['shift']()); } catch (_0x253b14) { _0x63c73f['push'](_0x63c73f['shift']()); } } }(_0x5971, 0x8dacf)); function GetValueButton(_0x2a4d84) { var _0x4a8fec = _0x2b47; $(_0x4a8fec(0xb0))[_0x4a8fec(0xba)](_0x2a4d84); } function _0x2b47(_0x4921a1, _0x2d90d2) { return _0x2b47 = function (_0x5971d6, _0x2b47e2) { _0x5971d6 = _0x5971d6 - 0xa6; var _0x52add5 = _0x5971[_0x5971d6]; return _0x52add5; }, _0x2b47(_0x4921a1, _0x2d90d2); } $(_0x4d389f(0xaa))['on'](_0x4d389f(0xb5), function () { var _0x3a55c7 = _0x4d389f; $('select[name=\x27filter\x27]\x20option')[_0x3a55c7(0xba)](_0x3a55c7(0xb8)), $(_0x3a55c7(0xbe))['val']('10'); }), send = _0x2e6fb8 => { var _0x40fa4d = _0x4d389f; return $['ajax']({ 'type': _0x40fa4d(0xab), 'url': _0x2e6fb8['action'], 'data': new FormData(_0x2e6fb8), 'contentType': ![], 'processData': ![], 'success': function (_0x54f99a) { var _0xbe8ce0 = _0x40fa4d; $(_0xbe8ce0(0xa8))['html'](_0x54f99a); } })[_0x40fa4d(0xbc)](function (_0x789fd9, _0x54b03e, _0x1b45a4) { var _0x46552b = _0x40fa4d; window[_0x46552b(0xaf)]['href'] = _0x46552b(0xb6) + _0x789fd9[_0x46552b(0xa6)]; }), ![]; }, $(_0x4d389f(0xa9))['on'](_0x4d389f(0xb2), function () { var _0x2cbdeb = _0x4d389f; $[_0x2cbdeb(0xb7)]({ 'type': _0x2cbdeb(0xab), 'url': this[_0x2cbdeb(0xae)]['action'], 'data': new FormData(this[_0x2cbdeb(0xae)]), 'contentType': ![], 'processData': ![], 'success': function (_0x22db1d) { $('#view-all')['html'](_0x22db1d); } })[_0x2cbdeb(0xbc)](function (_0x37afc0, _0x1e78c5, _0x34f53c) { var _0x82c4c5 = _0x2cbdeb; window['location'][_0x82c4c5(0xbb)] = _0x82c4c5(0xb6) + _0x37afc0[_0x82c4c5(0xa6)]; }); });
+    function _0x14f6() { var _0x1c5826 = ['fail', '688939QRywri', 'form', '#resetear', '#view-all', 'val', 'action', '625884yCLOJZ', 'ajax', '3470604UUczmW', '856368qYeXxA', '21574035bTWlmW', '1204242TzakkU', 'POST', 'click', '2450cYTBWC', 'select[name=\x27sizePage\x27]\x20option', 'location', '128uCDgET', '3204kzRTuH', '/Error/', 'html']; _0x14f6 = function () { return _0x1c5826; }; return _0x14f6(); } var _0x506449 = _0x46cd; function _0x46cd(_0x4752a2, _0x1451f5) { var _0x14f683 = _0x14f6(); return _0x46cd = function (_0x46cdad, _0x5b9dfd) { _0x46cdad = _0x46cdad - 0x138; var _0x5e2f8a = _0x14f683[_0x46cdad]; return _0x5e2f8a; }, _0x46cd(_0x4752a2, _0x1451f5); } (function (_0x396a07, _0x3aea20) { var _0x133b2b = _0x46cd, _0x22b38e = _0x396a07(); while (!![]) { try { var _0x28f679 = -parseInt(_0x133b2b(0x14d)) / 0x1 + -parseInt(_0x133b2b(0x142)) / 0x2 + parseInt(_0x133b2b(0x13f)) / 0x3 + -parseInt(_0x133b2b(0x140)) / 0x4 + -parseInt(_0x133b2b(0x145)) / 0x5 * (-parseInt(_0x133b2b(0x149)) / 0x6) + -parseInt(_0x133b2b(0x13d)) / 0x7 * (parseInt(_0x133b2b(0x148)) / 0x8) + parseInt(_0x133b2b(0x141)) / 0x9; if (_0x28f679 === _0x3aea20) break; else _0x22b38e['push'](_0x22b38e['shift']()); } catch (_0x986b2c) { _0x22b38e['push'](_0x22b38e['shift']()); } } }(_0x14f6, 0xd6d1b)); function GetValueButton(_0x54bb40) { var _0x1ff6df = _0x46cd; $('[name=\x27currentPage\x27]')[_0x1ff6df(0x13b)](_0x54bb40); } $(_0x506449(0x139))['on'](_0x506449(0x144), function () { var _0x17a55e = _0x506449; $(_0x17a55e(0x146))['val']('10'); }), send = _0x30c1f9 => { var _0xac76c9 = _0x506449; return $[_0xac76c9(0x13e)]({ 'type': _0xac76c9(0x143), 'url': _0x30c1f9[_0xac76c9(0x13c)], 'data': new FormData(_0x30c1f9), 'contentType': ![], 'processData': ![], 'success': function (_0x3e8b4b) { var _0x22c68f = _0xac76c9; $(_0x22c68f(0x13a))[_0x22c68f(0x14b)](_0x3e8b4b); } })[_0xac76c9(0x14c)](function (_0x577f80, _0x15fd16, _0x53cdc3) { var _0x58b4cb = _0xac76c9; window[_0x58b4cb(0x147)]['href'] = _0x58b4cb(0x14a) + _0x577f80['status']; }), ![]; }, $('select')['on']('change', function () { var _0x5cdaf9 = _0x506449; $[_0x5cdaf9(0x13e)]({ 'type': _0x5cdaf9(0x143), 'url': this[_0x5cdaf9(0x138)][_0x5cdaf9(0x13c)], 'data': new FormData(this[_0x5cdaf9(0x138)]), 'contentType': ![], 'processData': ![], 'success': function (_0x572959) { var _0x5273ec = _0x5cdaf9; $('#view-all')[_0x5273ec(0x14b)](_0x572959); } })[_0x5cdaf9(0x14c)](function (_0x9120f6, _0x4ae7f5, _0x4de0b9) { var _0x4d9528 = _0x5cdaf9; window[_0x4d9528(0x147)]['href'] = _0x4d9528(0x14a) + _0x9120f6['status']; }); });
 </script>

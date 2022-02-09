@@ -17,12 +17,6 @@
                     <option value="Activo">Activo</option>
                     <option value="Asignado" selected>Asignado</option>
                 }
-                @*else if (ViewData["filter"].ToString().Equals("Pendiente"))
-                {
-                    <option value="Activo">Activo</option>
-                    <option value="Asignado">Asignado</option>
-                    <option value="Pendiente" selected>Pendiente</option>
-                }*@
             </select>
         </div>
         <div class="input-group">
@@ -93,8 +87,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Mascota</th>
-                <th>Adpotante</th>
+                <th>Datos Mascota</th>
+                <th>Datos Adoptante</th>
                 <th>Rango Fechas Seguimiento</th>
                 <th>Acciones</th>
             </tr>
@@ -111,23 +105,23 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td width="5%">
                             @item.Id
                         </td>
-                        <td>
+                        <td width="35%">
                             Nombre: @item.SolicitudAdopcion.Mascota.Nombre /
                             Tama&ntilde;o: @item.SolicitudAdopcion.Mascota.Tamano /
                             Sexo: @item.SolicitudAdopcion.Mascota.Sexo
                         </td>
-                        <td>
+                        <td width="30%">
                             Nombre Completo:  @item.SolicitudAdopcion.NombreCompleto /
                             Direcci&oacute;n:  @item.SolicitudAdopcion.Domicilio
                         </td>
-                        <td>
+                        <td width="20%">
                             De @item.FechaInicio.ToShortDateString() a @item.FechaFin.ToShortDateString()
                         </td>
                         <td width="10%">
-                            <div class="d-flex flex-row">
+                            <div class="d-flex justify-content-center align-items-center">
                                 <a role="button" class="btn btn-info" href="@Url.Action("Asignar","Seguimiento", new { item.Id, area="AdministracionSeguimientos"})">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                 </a>
@@ -222,7 +216,7 @@
     function generatePDF() {
         const doc = new jsPDF("landscape")
         doc.autoTable({
-            head: [['Id', 'Fecha Inicio', 'Fecha Conclusion', 'Nombres y Apellidos Usuario','Nombre Mascota', 'Id Adopcion']],
+            head: [['Id', 'Fecha Inicio', 'Fecha Conclusion', 'Nombre Completo Voluntario Asignado','Nombre Mascota', 'Rasgos Particulares', 'Id Adopcion']],
             body: [
                 @if (ViewData["listaSeguimientos"]!=null)
                  {
@@ -231,7 +225,7 @@
                         if (item.User!=null)
                         {
                             <text>
-                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', '@item.User.Persona.Nombres @item.User.Persona.Apellidos', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcionId'],
+                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', '@item.User.Persona.Nombres @item.User.Persona.Apellidos', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcion.Mascota.RasgosParticulares', '@item.SolicitudAdopcionId'],
                             </text>
                         }
                         else

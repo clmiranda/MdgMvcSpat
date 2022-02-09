@@ -2,19 +2,19 @@
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <form class="text-center" asp-action="AsignarRoles" method="post" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
     <div class="custom-control custom-checkbox mb-3">
-        <input name="RolesUsuario[]" value="Administrador" class="custom-control-input" type="checkbox" id="idAdmin">
+        <input name="RolesUser[]" value="Administrador" class="custom-control-input" type="checkbox" id="idAdmin">
         <label class="custom-control-label" for="idAdmin">
             Administrador
         </label>
     </div>
     <div class="custom-control custom-checkbox mb-3">
-        <input name="RolesUsuario[]" value="Voluntario" class="custom-control-input" type="checkbox" id="idVoluntario">
+        <input name="RolesUser[]" value="Voluntario" class="custom-control-input" type="checkbox" id="idVoluntario">
         <label class="custom-control-label" for="idVoluntario">
             Voluntario
         </label>
     </div>
     <div class="custom-control custom-checkbox mb-3">
-        <input name="RolesUsuario[]" value="Moderador" class="custom-control-input" type="checkbox" id="idModerador">
+        <input name="RolesUser[]" value="Moderador" class="custom-control-input" type="checkbox" id="idModerador">
         <label class="custom-control-label" for="idModerador">
             Moderador
         </label>

@@ -4,7 +4,13 @@
     @if (Model != null)
     {
         <h3 class="mb-3"><b>FORMULARIO DE ADOPCION</b></h3>
-        <p>Debes ser mayor de edad para poder realizar el proceso de adopci&oacute;n.</p>
+        <p>Para poder adoptar deber&aacute; llenar el formulario y tomar en cuenta lo siguiente:</p>
+        <ul>
+            <li>Deber&aacute; ser mayor de edad.</li>
+            <li>Deber&aacute; contar con una casa propia y cerrada.</li>
+            <li>Deber&aacute; presentar una fotocopia de su carnet de identidad y factura de agua o luz.</li>
+            <li>Deber&aacute; firmar el contrato de adopci&oacute;n f&iacute;sico y aceptar el seguimiento a la mascota.</li>
+        </ul>
         <form asp-action="CreateSolicitudAdopcion" autocomplete="off" onsubmit="return showFormAux(this);" method="post">
             <div class="form-row">
                 <input type="hidden" asp-for="@Model.MascotaId" value="@TempData["MascotaId"]" />
