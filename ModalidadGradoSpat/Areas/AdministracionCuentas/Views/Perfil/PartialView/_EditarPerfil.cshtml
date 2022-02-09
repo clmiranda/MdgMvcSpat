@@ -16,7 +16,9 @@
 </div>
 <div class="shadow-lg col-xl-10 mx-auto border p-5 bg-white rounded">
     <form id="formPerfil" method="post" asp-action="UpdateUser" onsubmit="return showFormAux(this);" autocomplete="off">
-        <input type="hidden" id="idUpdateUser" asp-for="Id" />
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Persona.Id" />
+        <input type="hidden" asp-for="Email" />
         <div class="form-group">
             <label for="idUsername">Nombre de Usuario:</label>
             <input class="form-control" id="idUsername" asp-for="UserName" value="@Model.UserName" placeholder="Ingresa Nombre de Usuario">

@@ -110,7 +110,7 @@
                 <th>Fecha Solicitud Adopci&oacute;n</th>
                 <th>Fecha Adopci&oacute;n</th>
                 <th>Estado</th>
-                <th>Acciones</th>
+                <th>Detalle</th>
             </tr>
         </thead>
         <tbody id="tbodySolicitudAdopcion">
@@ -124,80 +124,77 @@
             {
                 @foreach (var item in Model)
                 {
-        <tr>
-            <td width="3%">
-                <button data-toggle="collapse" data-target="#details-@item.Id" type="button" class="btn btn-sm btn-info mr-sm-1"><i class="fas fa-info-circle"></i></button>
-            </td>
-            <td width="3%">
-                @item.Id
-            </td>
-            <td>
-                @item.Respuesta1
-            </td>
-            <td width="20%">
-                @item.FechaSolicitudAdopcion.ToShortDateString()
-            </td>
-            <td width="15%">
-                @if (item.Estado.Equals("Aprobado"))
-                {
-                    <form method="post" asp-action="UpdateFecha">
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <div class="input-group">
-                            <input id="datePicker-@item.Id" class="form-control" type="text" data-toggle="datepicker" name="FechaAdopcion" value="@item.FechaAdopcion.Date.ToShortDateString()" readonly />
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </button>
+                    <tr>
+                        <td width="3%">
+                            <button data-toggle="collapse" data-target="#details-@item.Id" type="button" class="btn btn-sm btn-info mr-sm-1"><i class="fas fa-info-circle"></i></button>
+                        </td>
+                        <td width="3%">
+                            @item.Id
+                        </td>
+                        <td>
+                            @item.Respuesta1
+                        </td>
+                        <td width="20%">
+                            @item.FechaSolicitudAdopcion.ToShortDateString()
+                        </td>
+                        <td width="20%">
+                            @if (item.Estado.Equals("Aprobado"))
+                            {
+                                <form method="post" asp-action="UpdateFecha">
+                                    <input type="hidden" name="Id" value="@item.Id" />
+                                    <div class="input-group">
+                                        <input id="datePicker-@item.Id" class="form-control" type="text" data-toggle="datepicker" name="FechaAdopcion" value="@item.FechaAdopcion.Date.ToShortDateString()" readonly />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-primary">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            }
+                            else
+                            {
+                                <p>@item.FechaAdopcion.ToShortDateString()</p>
+                            }
+                        </td>
+                        <td width="10%">
+                            @item.Estado
+                        </td>
+                        <td width="5%">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <a role="button" href="@Url.Action("Detalle","Adopcion",new { id=item.Id, area="AdministracionAdopciones"})" class="btn btn-primary">
+                                    <i class="far fa-eye"></i>
+                                </a>
                             </div>
-                        </div>
-                    </form>
-                }
-                else
-                {
-                    <p>@item.FechaAdopcion.ToShortDateString()</p>
-                }
-            </td>
-            <td width="10%">
-                @item.Estado
-            </td>
-            <td width="10%">
-                <div class="d-flex flex-row">
-                    <a role="button" href="@Url.Action("Detalle","Adopcion",new { id=item.Id, area="AdministracionAdopciones"})" class="btn btn-primary">
-                        <i class="far fa-eye"></i>
-                    </a>
-                    <form asp-action="Eliminar" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                    </form>
-                </div>
-            </td>
-        </tr>
+                        </td>
+                    </tr>
                     <tr class="hiddentablerow">
                         <td colspan="7">
                             <div class="collapse" id="details-@item.Id">
                                 <p class="text-center mb-1">
                                     <strong>Informaci&oacute;n del Adoptante</strong><br />
-                                    <strong>Nombre Completo: </strong>@item.NombreCompleto / 
+                                    <strong>Nombre Completo: </strong>@item.NombreCompleto /
                                     <strong>Domicilio: </strong>@item.Domicilio
                                 </p>
                                 @if (item.Estado.Equals("Aprobado") || item.Estado.Equals("Pendiente"))
                                 {
                                     <p class="text-center">
                                         <strong>Informaci&oacute;n de Mascota</strong><br />
-                                        <strong>Nombre: </strong>@item.Mascota.Nombre / 
-                                        <strong>Tama&ntilde;o: </strong>@item.Mascota.Tamano
+                                        <strong>Nombre: </strong>@item.Mascota.Nombre /
+                                        <strong>Rasgos Particulares: </strong>@item.Mascota.RasgosParticulares
                                     </p>
                                 }
                                 else if (item.Estado.Equals("Rechazado"))
                                 {
                                     <p class="text-center">
-                                        <strong>Raz&oacute;n del Rechazo</strong><br />
+                                        <strong>Raz&oacute;n del Rechazo:</strong>
                                         @item.AdopcionRechazada.Razon
                                     </p>
                                 }
                                 else
                                 {
                                     <p class="text-center">
-                                        <strong>Raz&oacute;n de la Cancelaci&oacute;n</strong><br />
+                                        <strong>Raz&oacute;n de la Cancelaci&oacute;n:</strong>
                                         @item.AdopcionCancelada.Razon
                                     </p>
                                 }
@@ -215,7 +212,7 @@
                 <th>Fecha Solicitud Adopci&oacute;n</th>
                 <th>Fecha Adopci&oacute;n</th>
                 <th>Estado</th>
-                <th>Acciones</th>
+                <th>Detalle</th>
             </tr>
         </tfoot>
     </table>

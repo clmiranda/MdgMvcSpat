@@ -27,7 +27,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ReporteSeguimiento/GetSeguimientoForReportes/" + id, Method.GET);
+                var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
                 var response = await client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();

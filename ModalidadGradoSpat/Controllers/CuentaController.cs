@@ -36,7 +36,6 @@ namespace ModalidadGradoSpat.Controllers
         {
             return View();
         }
-        //[Route("ResetPassword")]
         public ActionResult ResetPassword(string email, string token)
         {
             var model = new ResetPassword { Token = token, Email = email };

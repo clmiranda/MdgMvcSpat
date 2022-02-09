@@ -15,7 +15,7 @@
     </button>
 </div>
 <div class="table-responsive">
-    <table id="example" class="table table-bordered table-hover">
+    <table id="example" class="table table-bordered table-hover display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th>Id</th>
@@ -61,7 +61,7 @@
                         <td>
                             @if (item.Estado.Equals("Activo"))
                             {
-                                <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
+                                <h5 class="d-flex justify-content-center align-items-center"><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
                             }
                             else
                             {
@@ -69,23 +69,23 @@
                             }
                         </td>
                         <td>
-                            <div class="d-flex flex-row">
+                            <div class="d-flex justify-content-center align-items-center">
                                 @if (item.Roles.Contains("SuperAdministrador"))
                                 {
-                                    <button type="button" class="btn btn-primary" disabled>Asignar Roles</button>
+                                    <button type="button" class="btn btn-primary" disabled><i class="fa fa-wrench" aria-hidden="true"></i></button>
                                 }
                                 else
                                 {
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" 
-                                     onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">
-                                        Asignar Roles
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">
+                                        <i class="fa fa-wrench" aria-hidden="true"></i>
                                     </button>
                                 }
                                 <form asp-action="CambiarEstado" asp-route-idUser="@item.Id" onsubmit="return changeEstado(this);">
-                                    <button type="submit" class="btn btn-warning">Cambiar Estado</button>
+                                    <button type="submit" class="btn btn-warning"><i class="fa fa-undo" aria-hidden="true"></i></button>
                                 </form>
                                 <form asp-action="DeleteUsuario" asp-route-idUser="@item.Id" onsubmit="return eliminarUsuario(this);">
-                                    <button type="submit" class="btn btn-danger">Eliminar Usuario</button>
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                         </td>

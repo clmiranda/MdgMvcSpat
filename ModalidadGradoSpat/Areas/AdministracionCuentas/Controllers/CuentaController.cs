@@ -53,8 +53,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Un Email de confirmacion de la cuenta ha sido enviado al Correo Electronico.";
-                    var vista = await Listado();
-                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaUsuarios", vista) });
+                    var lista = JsonConvert.DeserializeObject<IEnumerable<User>>(response.Content);
+                    return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaUsuarios", lista) });
                 }
                 catch (Exception ex)
                 {
@@ -74,10 +74,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AsignarRoles(string[] rolesUser)
+        public async Task<ActionResult> AsignarRoles(string[] RolesUser)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/User/AsignarRoles/" + idUser, Method.POST).AddJsonBody(rolesUser);
+            var request = new RestRequest("api/User/AsignarRoles/" + idUser, Method.POST).AddJsonBody(RolesUser);
             try
             {
                 var response = await client.ExecuteAsync(request);
@@ -85,7 +85,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Roles asignados.";
                 var vista = await Listado();
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaUsuarios", vista) });
             }
             catch (Exception ex)
             {
@@ -93,10 +93,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AsignarRoles", rolesUser) });
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AsignarRoles", RolesUser) });
             }
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CambiarEstado(int idUser)
@@ -110,7 +109,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Estado modificado.";
                 var vista = await Listado();
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaUsuarios", vista) });
             }
             catch (Exception ex)
             {
@@ -134,7 +133,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Usuario eliminado.";
                 var vista = await Listado();
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaUsuarios", vista) });
             }
             catch (Exception ex)
             {

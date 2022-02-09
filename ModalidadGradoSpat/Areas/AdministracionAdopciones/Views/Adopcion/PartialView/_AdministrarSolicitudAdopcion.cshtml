@@ -1,33 +1,33 @@
 ﻿@model SolicitudAdopcion
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <div class="shadow-lg border p-5 bg-white rounded">
-        <div class="form-row justify-content-around">
-            @if (Model.Estado.Equals("Pendiente"))
-            {
-                <form asp-action="AprobarSolicitudAdopcion" asp-route-id="@Model.Id" method="post" onsubmit="return redirectToView(this);">
-                    <button type="submit" class="btn btn-primary btn-lg">Aprobar Solicitud de Adopci&oacute;n</button>
-                </form>
-                <button type="button" asp-action="AddSolicitudAdopcionRechazada" onclick="showInPopup('@Url.Action("AddSolicitudAdopcionRechazada","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon del Rechazo de Solicitud de Adopcion');" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#form-modal">Rechazar Solicitud de Adopci&oacute;n</button>
-                <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar Solicitud de Adopci&oacute;n</button>
-            }
-            else if (Model.Estado.Equals("Aprobado"))
-            {
-        <button type="button" class="btn btn-primary btn-lg" disabled>Aprobar Solicitud de Adopci&oacute;n</button>
-        <button type="button" class="btn btn-danger btn-lg" disabled>Rechazar Solicitud de Adopci&oacute;n</button>
-        <button type="button" asp-action="AddAdopcionCancelada" onclick="showInPopup('@Url.Action("AddAdopcionCancelada","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon de la Cancelacion de la Adopcion');" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#form-modal">Cancelar Solicitud de Adopci&oacute;n</button>
-            }
-            else if (Model.Estado.Equals("Rechazado") || Model.Estado.Equals("Cancelado"))
-            {
-        <button type="button" class="btn btn-primary btn-lg" disabled>Aprobar Solicitud de Adopci&oacute;n</button>
-        <button type="button" class="btn btn-danger btn-lg" disabled>Rechazar Solicitud de Adopci&oacute;n</button>
-        <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar Solicitud de Adopci&oacute;n</button>
-            }
-        </div>
-        <div class="alert alert-warning alert-dismissible fade show mt-5" role="alert">
-            <strong>Atenci&oacute;n!</strong> Solo puede aprobar o rechazar una vez la solicitud de adopci&oacute;n, en caso de ser aprobado,
-            puede cancelar la adopci&oacute;n si el adoptante no cumple con lo establecido en el contrato.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+    <div class="form-row justify-content-around">
+        @if (Model.Estado.Equals("Pendiente"))
+        {
+            <form asp-action="AprobarSolicitudAdopcion" asp-route-id="@Model.Id" method="post" onsubmit="return redirectToView(this);">
+                <button type="submit" class="btn btn-primary btn-lg">Aprobar Solicitud de Adopci&oacute;n</button>
+            </form>
+            <button type="button" asp-action="AddSolicitudAdopcionRechazada" onclick="showInPopup('@Url.Action("AddSolicitudAdopcionRechazada","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon del Rechazo de Solicitud de Adopcion');" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#form-modal">Rechazar Solicitud de Adopci&oacute;n</button>
+            <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar Solicitud de Adopci&oacute;n</button>
+        }
+        else if (Model.Estado.Equals("Aprobado"))
+        {
+            <button type="button" class="btn btn-primary btn-lg" disabled>Aprobar Solicitud de Adopci&oacute;n</button>
+            <button type="button" class="btn btn-danger btn-lg" disabled>Rechazar Solicitud de Adopci&oacute;n</button>
+            <button type="button" asp-action="AddAdopcionCancelada" onclick="showInPopup('@Url.Action("AddAdopcionCancelada","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon de la Cancelacion de la Adopcion');" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#form-modal">Cancelar Solicitud de Adopci&oacute;n</button>
+        }
+        else if (Model.Estado.Equals("Rechazado") || Model.Estado.Equals("Cancelado"))
+        {
+            <button type="button" class="btn btn-primary btn-lg" disabled>Aprobar Solicitud de Adopci&oacute;n</button>
+            <button type="button" class="btn btn-danger btn-lg" disabled>Rechazar Solicitud de Adopci&oacute;n</button>
+            <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar Solicitud de Adopci&oacute;n</button>
+        }
+    </div>
+    <div class="alert alert-warning alert-dismissible fade show mt-5" role="alert">
+        <strong>Atenci&oacute;n!</strong> Solo puede aprobar o rechazar una vez la solicitud de adopci&oacute;n, en caso de ser aprobado,
+        puede cancelar la adopci&oacute;n si el adoptante no cumple con lo establecido en el contrato.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </div>

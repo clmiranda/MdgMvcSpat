@@ -3,8 +3,8 @@
 {<div class="row">
         <div class="col-lg-6 mb-5 mx-auto">
             <div class="shadow-lg border p-5 bg-white rounded text-justify">
-                <h4>Raz&oacute;n del Rechazo de Solicitud de Adopci&oacute;n</h4>
-                <p class="card-text text-success">@Model.AdopcionRechazada.Razon</p>
+                <h4 class="text-primary">Raz&oacute;n del Rechazo de Solicitud de Adopci&oacute;n</h4>
+                <p class="card-text">@Model.AdopcionRechazada.Razon</p>
             </div>
         </div>
     </div>
@@ -13,8 +13,8 @@ else if (Model.AdopcionCancelada != null)
 {<div class="row">
         <div class="col-lg-6 mb-5 mx-auto">
             <div class="shadow-lg border p-5 bg-white rounded text-justify">
-                <h4>Raz&oacute;n de la Cancelaci&oacute;n de Adopci&oacute;n</h4>
-                <p class="card-text text-success">@Model.AdopcionCancelada.Razon</p>
+                <h4 class="text-primary">Raz&oacute;n de la Cancelaci&oacute;n de Adopci&oacute;n</h4>
+                <p class="card-text">@Model.AdopcionCancelada.Razon</p>
             </div>
         </div>
     </div>
@@ -24,8 +24,8 @@ else if (Model.AdopcionCancelada != null)
     <div class="row">
         <div class="col-lg-6 mb-5">
             <div class="shadow-lg border p-5 bg-white rounded text-justify">
-                <h4>Informaci&oacute;n del Adoptante</h4>
-                <div class="card-text text-success">
+                <h4 class="text-primary">Informaci&oacute;n del Adoptante</h4>
+                <div class="card-text">
                     <p>
                         <b>Nombre Completo del Adoptante: </b>@Model.NombreCompleto
                     </p>
@@ -41,8 +41,8 @@ else if (Model.AdopcionCancelada != null)
         </div>
         <div class="col-lg-6 mb-5">
             <div class="shadow-lg border p-5 bg-white rounded text-justify">
-                <h4>Informaci&oacute;n de la Mascota</h4>
-                <div class="card-text text-success">
+                <h4 class="text-primary">Informaci&oacute;n de la Mascota</h4>
+                <div class="card-text">
                     <p><b>Nombre de la Mascota: </b>@Model.Mascota.Nombre</p>
                     @if (Model.Mascota.Esterilizado)
                     {<p>
@@ -69,7 +69,9 @@ else if (Model.AdopcionCancelada != null)
                     <p>
                         <b>Rasgos Particulares: </b>@Model.Mascota.RasgosParticulares
                     </p>
-                    <p><b>Caracteristicas: </b>@Model.Mascota.Caracteristicas</p>
+                    <p>
+                        <b>Caracteristicas: </b>@Model.Mascota.Caracteristicas
+                    </p>
                 </div>
             </div>
         </div>
@@ -80,8 +82,8 @@ else
     <div class="row">
         <div class="col-lg-6 mb-5 mx-auto">
             <div class="shadow-lg border p-5 bg-white rounded text-justify">
-                <h4>Informaci&oacute;n del Adoptante</h4>
-                <div class="card-text text-success">
+                <h4 class="text-primary">Informaci&oacute;n del Adoptante</h4>
+                <div class="card-text">
                     <p>
                         <b>Nombre Completo del Adoptante: </b>@Model.NombreCompleto
                     </p>
@@ -98,8 +100,8 @@ else
     </div>
 }
 <div class="shadow-lg border p-5 bg-white rounded text-justify">
-    <h4>Respuestas de Encuesta</h4>
-    <div class="card-text text-success">
+    <h4 class="text-primary">Respuestas de Encuesta</h4>
+    <div class="card-text">
         <label for="rp1">
             <b>
                 ¿Cu&aacute;l es la raz&oacute;n por la que quieres adoptar?

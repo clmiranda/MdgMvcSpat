@@ -20,7 +20,7 @@
                 </div>
                 <h2>Lo sentimos, debes iniciar sesi&oacute;n para acceder a esta vista.</h2>
                 <p><b>Es posible que no hayas iniciado sesi&oacute;n o que tu sesi&oacute;n haya caducado.</b></p>
-                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+                <a role="button" href="@Url.Action("Inicio","Adopciones", new { area = "" })">Volver a Inicio</a>
             </div>
         </div>
     }
@@ -32,7 +32,7 @@
                     <h1>403</h1>
                 </div>
                 <h2>No tienes el permiso para acceder a esta vista.</h2>
-                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+                <a role="button" href="@Url.Action("Inicio","Adopciones", new { area = "" })">Volver a Inicio</a>
             </div>
         </div>
     }
@@ -45,7 +45,7 @@
                 </div>
                 <h2>Lo sentimos, la p&aacute;gina no fue encontrada.</h2>
                 <p><b>La p&aacute;gina que buscabas talvez sea la incorrecta o ya no este disponible.</b></p>
-                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+                <a role="button" href="@Url.Action("Inicio","Adopciones", new { area = "" })">Volver a Inicio</a>
             </div>
         </div>
     }
@@ -58,7 +58,7 @@
                 </div>
                 <h2>M&eacute;todo no permitido.</h2>
                 <p><b>Ocurri&oacute; un problema con la petici&oacute;n que se intentaba realizar.</b></p>
-                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+                <a role="button" href="@Url.Action("Inicio","Adopciones", new { area = "" })">Volver a Inicio</a>
             </div>
         </div>
     }
@@ -71,7 +71,7 @@
                 </div>
                 <h2>Error de servidor.</h2>
                 <p><b>Ha ocurrido un problema con la solicitud.</b></p>
-                <button type="button" onclick="window.history.back();">Volver Atr&aacute;s</button>
+                <a role="button" href="@Url.Action("Inicio","Adopciones", new { area = "" })">Volver a Inicio</a>
             </div>
         </div>
     }
