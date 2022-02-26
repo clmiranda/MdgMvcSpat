@@ -112,7 +112,7 @@ else
                         toast: true,
                         position: 'top-end',
                         icon: 'success',
-                        title: 'Foto(s) agregada(s).',
+                        title: data,
                         showConfirmButton: false,
                         timer: 2000
                     })
@@ -121,7 +121,14 @@ else
                     }, 2500);
                 },
                 error: function (data) {
-                    alert("Ha ocurrido un error.");
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'error',
+                        title: data.responseText,
+                        showConfirmButton: false,
+                        timer: 5000
+                    })
                 }
             },
             mergeAjaxCallbacks: true,

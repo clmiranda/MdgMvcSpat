@@ -3,17 +3,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<div class="shadow-lg col-lg-8 mx-auto border p-5 mb-5 bg-white rounded">
-    <form id="formEmail" method="post" asp-action="UpdateEmail" onsubmit="return showFormAux(this);" autocomplete="off">
-        <input type="hidden" id="idUpdateEmail" asp-for="Id" />
-        <div class="form-group">
-            <label for="idEmail">Actualizar Email:</label>
-            <input class="form-control" asp-for="Email" value="@Model.Email" placeholder="Ingresa tu Email">
-            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
-        </div>
-        <button id="btnEmail" class="btn btn-primary" type="submit" disabled>Guardar Cambios</button>
-    </form>
-</div>
 <div class="shadow-lg col-xl-10 mx-auto border p-5 bg-white rounded">
     <form id="formPerfil" method="post" asp-action="UpdateUser" onsubmit="return showFormAux(this);" autocomplete="off">
         <input type="hidden" asp-for="Id" />
@@ -22,25 +11,30 @@
         <div class="form-group">
             <label for="idUsername">Nombre de Usuario:</label>
             <input class="form-control" id="idUsername" asp-for="UserName" value="@Model.UserName" placeholder="Ingresa Nombre de Usuario">
+            @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="idNombre">Nombre(s):</label>
                 <input class="form-control" asp-for="Persona.Nombres" value="@Model.Persona.Nombres" id="idNombre" placeholder="Ingresa tu(s) Nombre(s)">
+                @Html.ValidationMessageFor(x => x.Persona.Nombres, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-6">
                 <label for="idApellido">Apellido(s):</label>
                 <input class="form-control" asp-for="Persona.Apellidos" value="@Model.Persona.Apellidos" id="idApellido" placeholder="Ingresa tu(s) Apellido(s)">
+                @Html.ValidationMessageFor(x => x.Persona.Apellidos, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             <label for="idDomicilio">Domicilio:</label>
             <input class="form-control" asp-for="Persona.Domicilio" value="@Model.Persona.Domicilio" id="idDomicilio" placeholder="Ingresa tu Domicilio">
+            @Html.ValidationMessageFor(x => x.Persona.Domicilio, "", new { @class = "text-danger" })
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="idNumero">N&uacute;mero de Tel&eacute;fono/Celular:</label>
                 <input class="form-control" onkeypress="return isNumber(event);" asp-for="Persona.Telefono" value="@Model.Persona.Telefono" id="idNumero" placeholder="Ingresa tu Numero de Celular">
+                @Html.ValidationMessageFor(x => x.Persona.Telefono, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-4">
                 <label for="idSexo">G&eacute;nero:</label>
@@ -56,24 +50,28 @@
                         <option value="Femenino" selected>Femenino</option>
                     }
                 </select>
+                @Html.ValidationMessageFor(x => x.Persona.Genero, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-4">
                 @if (Model.Persona.FechaNacimiento.ToShortDateString().Equals("01/01/0001"))
                 {
                     <label for="idFechaNacimiento">Fecha de Nacimiento:</label>
                     <input type="text" class="form-control" data-toggle="datepicker" asp-for="Persona.FechaNacimiento" value="@DateTime.Now.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
+                    @Html.ValidationMessageFor(x => x.Persona.FechaNacimiento, "", new { @class = "text-danger" })
                 }
                 else
                 {
                     <label for="idFechaNacimiento">Fecha de Nacimiento (@Model.Persona.Edad a&ntilde;os):</label>
                     <input type="text" class="form-control" data-toggle="datepicker" asp-for="Persona.FechaNacimiento" value="@Model.Persona.FechaNacimiento.Date.ToShortDateString()" id="idFechaNacimiento" readonly>
+                    @Html.ValidationMessageFor(x => x.Persona.FechaNacimiento, "", new { @class = "text-danger" })
                 }
             </div>
         </div>
-        <button id="btnPerfil" type="submit" class="btn btn-primary" disabled>Guardar Cambios</button>
+        <button id="btnPerfil" type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form>
 </div>
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-    var _0x4846 = ['1182193OdqWap', '47068vniSYm', '523116llzPXR', '29ISuwgk', 'disabled', '2FEatOX', '618439OmVXyJ', '344495gsaySD', '#btnEmail', 'keyCode', '68BSksui', 'getScript', '5bgRFGF', 'prop', 'change\x20input', '1sAGrXR', '#formEmail\x20[class=\x22form-control\x22]', 'which', '3592vfUGbe', '#formPerfil\x20[class=\x22form-control\x22]', '/archivos/js/daterangepicker.js', '21146rfuVlU']; var _0x45c67c = _0x8911; (function (_0x10ae35, _0x42da27) { var _0x575838 = _0x8911; while (!![]) { try { var _0x5501a1 = -parseInt(_0x575838(0xa5)) * -parseInt(_0x575838(0xa3)) + -parseInt(_0x575838(0x9e)) + -parseInt(_0x575838(0xa4)) * -parseInt(_0x575838(0x97)) + -parseInt(_0x575838(0xa0)) + -parseInt(_0x575838(0xa1)) * parseInt(_0x575838(0x9a)) + -parseInt(_0x575838(0x94)) * parseInt(_0x575838(0x9f)) + -parseInt(_0x575838(0xa8)) * -parseInt(_0x575838(0x9d)); if (_0x5501a1 === _0x42da27) break; else _0x10ae35['push'](_0x10ae35['shift']()); } catch (_0x135592) { _0x10ae35['push'](_0x10ae35['shift']()); } } }(_0x4846, 0xab07c)); function _0x8911(_0x1da120, _0x141b0a) { return _0x8911 = function (_0x4846f7, _0x89116c) { _0x4846f7 = _0x4846f7 - 0x94; var _0x3d0a3f = _0x4846[_0x4846f7]; return _0x3d0a3f; }, _0x8911(_0x1da120, _0x141b0a); } var url = _0x45c67c(0x9c); $[_0x45c67c(0xa9)](url); function isNumber(_0x3b8144) { var _0x44c8d8 = _0x45c67c, _0x4ad197 = _0x3b8144[_0x44c8d8(0x99)] ? _0x3b8144[_0x44c8d8(0x99)] : _0x3b8144[_0x44c8d8(0xa7)]; if (_0x4ad197 != 0x2e && _0x4ad197 > 0x1f && (_0x4ad197 < 0x30 || _0x4ad197 > 0x39)) return ![]; return !![]; } $(_0x45c67c(0x9b))['on'](_0x45c67c(0x96), function () { var _0x287d86 = _0x45c67c; $('#btnPerfil')[_0x287d86(0x95)](_0x287d86(0xa2), ![]); }), $(_0x45c67c(0x98))['on'](_0x45c67c(0x96), function () { var _0x229d0a = _0x45c67c; $(_0x229d0a(0xa6))[_0x229d0a(0x95)]('disabled', ![]); });
+    var url = "/archivos/js/daterangepicker.js";
+    $.getScript(url);
 </script>

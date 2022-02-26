@@ -1,0 +1,13 @@
+﻿@model User
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<div class="shadow-lg col-lg-8 mx-auto border p-5 mb-5 bg-white rounded">
+    <form id="formEmail" method="post" asp-action="UpdateEmail" onsubmit="return showFormAux(this);" autocomplete="off">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label for="idEmail">Email Actual: <text class="text-primary">@Model.Email</text></label>
+            <input class="form-control" asp-for="Email" value="" placeholder="Ingresa el Email a actualizar">
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+        </div>
+        <button id="btnEmail" class="btn btn-primary" type="submit">Guardar Cambios</button>
+    </form>
+</div>

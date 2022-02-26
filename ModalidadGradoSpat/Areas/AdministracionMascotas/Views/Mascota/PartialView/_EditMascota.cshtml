@@ -23,12 +23,12 @@ else
             <input type="hidden" asp-for="DenunciaId" value="@Model.DenunciaId" />
             <div class="row">
                 <div class="form-group col-md-12 my-3">
-                    <label for="idNombre">Ingrese el Nombre de la Mascota</label>
+                    <label for="idNombre">Ingrese el Nombre de la Mascota:</label>
                     <input id="idNombre" type="text" asp-for="Nombre" class="form-control" />
                     @Html.ValidationMessageFor(x => x.Nombre, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-12 mb-3">
-                    <label for="idEspecie">Ingrese la Especie</label>
+                    <label for="idEspecie">Ingrese la Especie:</label>
                     <input id="idEspecie" type="text" asp-for="Especie" class="form-control" />
                     @Html.ValidationMessageFor(x => x.Especie, "", new { @class = "text-danger" })
                 </div>
@@ -43,7 +43,7 @@ else
                     @Html.ValidationMessageFor(x => x.RasgosParticulares, "", new { @class = "text-danger" })
                 </div>
                 <div id="idCheckSexo" class="form-group col-md-6 mb-3">
-                    <label>Elija el Sexo de la Mascota:</label>
+                    <label>Sexo de la Mascota:</label>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" id="radioButtonSexo1" value="Macho" asp-for="Sexo" checked>
                         <label class="form-check-label" for="radioButtonSexo1">
@@ -59,7 +59,7 @@ else
                     @Html.ValidationMessageFor(x => x.Sexo, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-6 mb-3">
-                    <label for="idTamano">Ingrese el tamaño de la Mascota (Ej: Pequeño, Mediano, etc.)</label>
+                    <label for="idTamano">Ingrese el tamaño de la Mascota (Ej: Pequeño, Mediano, etc.):</label>
                     <input id="idTamano" type="text" asp-for="Tamano" class="form-control" />
                     @Html.ValidationMessageFor(x => x.Tamano, "", new { @class = "text-danger" })
                 </div>
@@ -80,7 +80,7 @@ else
                     @Html.ValidationMessageFor(x => x.Esterilizado, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-6 mb-3">
-                    <label for="idEdad">Ingrese la Edad aproximada de la Mascota (Ej: 2 meses, 1 a&ntilde;o, etc.)</label>
+                    <label for="idEdad">Ingrese la Edad aproximada de la Mascota (Ej: 2 meses, 1 a&ntilde;o, etc.):</label>
                     <input id="idEdad" type="text" asp-for="Edad" class="form-control" />
                     @Html.ValidationMessageFor(x => x.Edad, "", new { @class = "text-danger" })
                 </div>

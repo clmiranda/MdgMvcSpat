@@ -13,7 +13,7 @@
 }
 else
 {
-    <div class="d-lg-flex justify-content-between my-3">
+    <div class="d-xl-flex justify-content-between my-3">
         <div class="my-2">
             <form asp-action="AddReporte" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostList(this);" method="post">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
@@ -22,15 +22,18 @@ else
         <div class="my-2">
             @if (Model.User == null)
             {
-                <p class="shadow px-3 py-1 bg-white rounded">A&uacute;n no tiene un Voluntario asignado.</p>
+                <p class="shadow px-2 py-2 bg-white rounded">A&uacute;n no tiene un Voluntario asignado.</p>
             }
             else
             {
-                <p class="shadow px-3 py-1 bg-white rounded">Voluntario Asignado: @Model.User.Persona.Nombres @Model.User.Persona.Apellidos</p>
+                <p class="shadow px-2 py-2 bg-white rounded">Voluntario Asignado: @Model.User.Persona.Nombres @Model.User.Persona.Apellidos</p>
             }
         </div>
         <div class="my-2">
-            <p class="shadow px-3 py-1 bg-white rounded">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaFin.ToShortDateString()</p>
+            <p class="shadow px-2 py-2 bg-white rounded">Fecha de Adopci&oacute;n: @Model.SolicitudAdopcion.FechaAdopcion.ToShortDateString()</p>
+        </div>
+        <div class="my-2">
+            <p class="shadow px-2 py-2 bg-white rounded">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaFin.ToShortDateString()</p>
         </div>
         <div class="my-2">
             <button class="btn btn-primary" type="button"
@@ -85,7 +88,7 @@ else
                         <td>
                             @if (item.Estado.Equals("Activo") || item.Estado.Equals("Asignado"))
                             {
-                                <p><strong>A&uacute;n no se realiz&oacute; el reporte.</strong></p>
+                                <p>A&uacute;n no se realiz&oacute; el reporte.</p>
                             }
                             else
                             {
@@ -158,7 +161,7 @@ else
                                 }
                                 else
                                 {
-                                    <form asp-action="DeleteReporte" asp-route-id="@item.Id" asp-route-idseg="@item.SeguimientoId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                                    <form asp-action="DeleteReporte" asp-route-idReporte="@item.Id" asp-route-idSeguimiento="@item.SeguimientoId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fa fa-trash"></i>
                                         </button>
