@@ -17,10 +17,10 @@
 <div class="row mt-5">
     <div class="col-lg-10 mx-auto">
         <div class="shadow border p-5 bg-white rounded text-center">
-                <h5>
-                    <strong>Domicilio del Adoptante</strong>
-                </h5>
-                <p class="card-text">Direcci&oacute;n del Adoptante:  @Model.Item2.SolicitudAdopcion.Domicilio</p>
+            <h5>
+                <strong>Domicilio del Adoptante</strong>
+            </h5>
+            <p class="card-text">Direcci&oacute;n del Adoptante:  @Model.Item2.SolicitudAdopcion.Domicilio</p>
         </div>
     </div>
     <div class="col-lg-8 mx-auto mt-5">
@@ -29,33 +29,33 @@
             {
                 <div class="card">
                     <a role="button" class="btn card-header d-md-flex justify-content-md-between collapsed" id="heading-@item.Id" data-toggle="collapse" data-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
+                        <h5>
+                            Voluntario: @item.Persona.Nombres @item.Persona.Apellidos
+                        </h5>
+                        @if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
+                        {
                             <h5>
-                                Voluntario: @item.Persona.Nombres @item.Persona.Apellidos
+                                <span class="badge badge-pill p-1 badge-primary">
+                                    Voluntario Asignado
+                                </span>
                             </h5>
-                            @if (Model.Item2.Estado.Equals("Asignado") && item.Id == Model.Item2.UserId)
-                            {
-                                <h5>
-                                    <span class="badge badge-pill p-1 badge-primary">
-                                        Voluntario Asignado
-                                    </span>
-                                </h5>
-                            }
+                        }
                     </a>
 
                     <div id="collapse-@item.Id" class="collapse" aria-labelledby="heading-@item.Id" data-parent="#accordion">
                         <div class="card-body row">
                             <div class="col-lg-10">
                                 <p class="card-text">
-                                    Direcci&oacute;n: @item.Persona.Domicilio
+                                    <b>Direcci&oacute;n:</b> @item.Persona.Domicilio
                                 </p>
                                 <p class="card-text">
-                                    Edad: @item.Persona.Edad a&ntilde;o(s)
+                                    <b>Edad:</b> @item.Persona.Edad a&ntilde;o(s)
                                 </p>
                                 <p class="card-text">
-                                    N&uacute;mero de Tel&eacute;fono/Celular: @item.Persona.Telefono
+                                    <b>N&uacute;mero de Tel&eacute;fono/Celular:</b> @item.Persona.Telefono
                                 </p>
                                 <p class="card-text">
-                                    Correo Electr&oacute;nico: @item.Email
+                                    <b>Correo Electr&oacute;nico:</b> @item.Email
                                 </p>
                             </div>
                             <div class="col-lg-2">

@@ -13,10 +13,10 @@ using static ModalidadGradoSpat.Helper;
 namespace ModalidadGradoSpat.Controllers
 {
     [AllowAnonymous]
-    public class CuentaController : Controller
+    public class LoginAccountController : Controller
     {
         private static RestClient client;
-        public CuentaController()
+        public LoginAccountController()
         {
             client = new RestClient("https://localhost:44398/");
         }
@@ -25,11 +25,10 @@ namespace ModalidadGradoSpat.Controllers
         {
             return View();
         }
-        [NoDirectAccess]
         public ActionResult ConfirmEmail()
         {
             TempData["alertsuccess"] = "Email verificado correctamente.";
-            return RedirectToAction("Login","Cuenta", new { area="" });
+            return RedirectToAction("Login", "LoginAccount", new { area = "" });
         }
         [Route("ForgotPassword")]
         public ActionResult ForgotPassword()
@@ -57,8 +56,10 @@ namespace ModalidadGradoSpat.Controllers
                     User user = JsonConvert.DeserializeObject<User>(Convert.ToString(valor["user"]));
                     string token = valor["token"];
                     HttpContext.Session.SetString("JWToken", token);
-                    if (user.Roles.Contains("Superadministrador") || user.Roles.Contains("Administrador"))
-                        return Json(new { url = Url.Action("Dashboard", "Inicio", new { area = "" }) });
+                    if (user.Roles.Contains("SuperAdministrador"))
+                        return Json(new { url = Url.Action("Dashboard", "Dashboard", new { area = "AdministracionCuentas" }) });
+                    else if (user.Roles.Contains("Administrador"))
+                        return Json(new { url = Url.Action("Lista", "Denuncia", new { area = "AdministracionMascotas" }) });
                     else if (user.Roles.Contains("Voluntario"))
                         return Json(new { url = Url.Action("Lista", "ReporteVoluntario", new { area = "AdministracionSeguimientos" }) });
                     else
@@ -87,7 +88,7 @@ namespace ModalidadGradoSpat.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Email enviado a su correo electrónico, debe ingresar al enlace enviado para reestablecer su Contraseña.";
-                    return Json(new { url = Url.Action("Login", "Cuenta", new { area = "" }) });
+                    return Json(new { url = Url.Action("Login", "LoginAccount", new { area = "" }) });
                 }
                 catch (Exception ex)
                 {
@@ -112,7 +113,7 @@ namespace ModalidadGradoSpat.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Contraseña restaurada correctamente.";
-                    return Json(new { url = Url.Action("Login", "Cuenta", new { area = "" }) });
+                    return Json(new { url = Url.Action("Login", "LoginAccount", new { area = "" }) });
                 }
                 catch (Exception ex)
                 {

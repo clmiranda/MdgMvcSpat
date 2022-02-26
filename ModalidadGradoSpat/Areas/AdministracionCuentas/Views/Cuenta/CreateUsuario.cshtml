@@ -9,18 +9,18 @@
     <input type="hidden" asp-for="Id" />
         @await Html.PartialAsync("PartialView/_CreatePersona.cshtml", Model.Persona)
     <div class="form-group">
-        <label for="idEmail">Correo Electr&oacute;nico</label>
+        <label for="idEmail">Correo Electr&oacute;nico:</label>
         <input type="text" class="form-control" asp-for="Email" name="Email" id="idEmail" placeholder="Ingresa el Correo del Usuario a Registrar">
         @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="idUsername">Nombre de Usuario</label>
+            <label for="idUsername">Nombre de Usuario:</label>
             <input type="text" class="form-control" asp-for="UserName" name="UserName" autocomplete="off" id="idUsername" placeholder="Ingresa el Nombre de Usuario">
             @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
         </div>
         <div class="form-group col-md-6">
-            <label for="idPassword">Contrase&ntilde;a</label>
+            <label for="idPassword">Contrase&ntilde;a:</label>
             <div class="input-group mb-3">
                 <input type="password" value="@Model.Password" class="form-control" asp-for="Password" name="Password" autocomplete="off" id="idPassword" placeholder="Ingresa la Contraseña">
                 <div class="input-group-append">

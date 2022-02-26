@@ -61,9 +61,10 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="@Url.Action("EditarPerfil","Perfil",new { area="AdministracionCuentas"})">Ver mi Perfil</a>
+                            <a class="dropdown-item" href="@Url.Action("ActualizarEmail","Perfil",new { area="AdministracionCuentas"})">Actualizar Email</a>
                             <a class="dropdown-item" href="@Url.Action("ResetPassword","Perfil",new { area="AdministracionCuentas"})">Resetear Password</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="@Url.Action("LogOut","Cuenta",new { area=""})">Cerrar Sesi&oacute;n</a>
+                            <a class="dropdown-item" href="@Url.Action("LogOut","LoginAccount",new { area=""})">Cerrar Sesi&oacute;n</a>
                         </div>
                     </li>
                 </ul>
@@ -73,7 +74,7 @@
                 <a class="nav-link text-white btn btn-outline-success ml-auto mr-3" href="@Url.Action("QuienesSomos","Adopciones", new { area=""})">
                     Qui&eacute;nes Somos
                 </a>
-                <a class="nav-link text-white btn btn-outline-primary" href="@Url.Action("Login","Cuenta", new { area=""})">
+                <a class="nav-link text-white btn btn-outline-primary" href="@Url.Action("Login","LoginAccount", new { area=""})">
                     Iniciar Sesi&oacute;n
                 </a>
             }
@@ -86,7 +87,7 @@
                         <a href="@Url.Action("Inicio","Adopciones",new { area=""})" class="nav_link active text-decoration-none"><i class='fas fa-home nav_icon'></i><span class="nav_name">Inicio</span></a>
                         @if (User.IsInRole("SuperAdministrador"))
                         {
-                            <a href="@Url.Action("Dashboard","Inicio",new { area=""})" class="nav_link text-decoration-none"><i class='far fa-clipboard nav_icon'></i><span class="nav_name">Dashboard</span></a>
+                            <a href="@Url.Action("Dashboard","Dashboard",new { area="AdministracionCuentas"})" class="nav_link text-decoration-none"><i class='far fa-clipboard nav_icon'></i><span class="nav_name">Dashboard</span></a>
                         }
                         @if (User.IsInRole("SuperAdministrador") || User.IsInRole("Administrador"))
                         {
@@ -106,6 +107,9 @@
                                 <i class='fas fa-search-location nav_icon'></i>
                                 <span class="nav_name">Admin. Seguimientos</span>
                             </a>
+                        }
+                        @if (User.IsInRole("SuperAdministrador"))
+                        {
                             <a href="@Url.Action("ListaUsuarios","Cuenta",new { area="AdministracionCuentas"})" class="nav_link text-decoration-none">
                                 <i class='fas fa-user-circle nav_icon'></i>
                                 <span class="nav_name">Admin. Usuarios</span>

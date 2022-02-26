@@ -7,41 +7,30 @@ using RestSharp.Authenticators;
 using System;
 using System.Threading.Tasks;
 
-namespace ModalidadGradoSpat.Controllers
+namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
 {
-    [Authorize(Roles = "SuperAdministrador, Administrador")]
-    public class InicioController : Controller
+    [Area("AdministracionCuentas")]
+    [Authorize(Roles = "SuperAdministrador")]
+    public class DashboardController : Controller
     {
         private static RestClient client;
         private string filtro = "3 meses";
-        public InicioController()
+        public DashboardController()
         {
             client = new RestClient("https://localhost:44398/");
         }
         [HttpGet]
         [Route("Dashboard")]
-        public async Task<IActionResult> Dashboard() {
+        public async Task<IActionResult> Dashboard()
+        {
             if (HttpContext.Session.GetString("JWToken") == "" || HttpContext.Session.GetString("JWToken") == null)
                 return RedirectToAction("Login", "Cuenta");
             ViewData["filter"] = filtro;
             var vista = await Datos();
             return View(vista);
         }
-        public async Task<IActionResult> ReturnVista(string filtrado)
+        public async Task<DataForDashboardDto> Datos()
         {
-            filtro = filtrado;
-            ViewData["filter"] = filtrado;
-            try
-            {
-                var vista = await Datos();
-                return Json(Helper.RenderRazorViewToString(this, "PartialView/_Dashboard", vista));
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
-        }
-        public async Task<DataForDashboardDto> Datos() {
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));

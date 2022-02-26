@@ -5,12 +5,12 @@
     <input type="hidden" asp-for="FechaCreacion" />
     <div class="row">
         <div class="form-group col-12">
-            <label for="idTitulo">Ingrese la T&iacute;tulo del reporte actual</label>
+            <label for="idTitulo">Ingrese la T&iacute;tulo del reporte actual:</label>
             <input asp-for="Titulo" class="form-control" id="idTitulo" placeholder="Ingrese el Titulo" />
             @Html.ValidationMessageFor(x => x.Titulo, "", new { @class = "text-danger" })
         </div>
         <div class="form-group col-12">
-            <label for="idDescripcion">Ingrese la Descripci&oacute;n del reporte actual</label>
+            <label for="idDescripcion">Ingrese la Descripci&oacute;n del reporte actual:</label>
             <input asp-for="Descripcion" class="form-control" id="idDescripcion" placeholder="Ingrese la Descripcion" />
             @Html.ValidationMessageFor(x => x.Descripcion, "", new { @class = "text-danger" })
         </div>

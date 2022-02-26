@@ -74,6 +74,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Rango de fechas actualizada.";
+                    _seguimiento = response.Data;
                     return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", response.Data) });
                 }
                 catch (Exception ex)

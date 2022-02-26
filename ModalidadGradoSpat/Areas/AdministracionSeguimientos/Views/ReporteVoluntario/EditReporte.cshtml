@@ -12,12 +12,12 @@
     <input asp-for="SeguimientoId" type="hidden" value="@Model.SeguimientoId" />
     <div class="row">
         <div class="form-group col-12">
-            <label for="idDescripcion">Descripci&oacute;n general de reporte: </label>
+            <label for="idDescripcion">Descripci&oacute;n general de reporte:</label>
             <textarea asp-for="Observaciones" class="form-control" id="idDescripcion"></textarea>
             @Html.ValidationMessageFor(x => x.Observaciones, "", new { @class = "text-danger" })
         </div>
         <div class="form-group col-sm-12 col-md-6">
-            <label for="idFileFoto">Seleccione la Imagen de la Mascota: </label>
+            <label for="idFileFoto">Seleccione la Imagen de la Mascota:</label>
             <input id="idFileFoto" asp-for="Foto" type="file" class="form-control-file" placeholder="Cargar Imagen">
             <div class="mx-auto">
                 <img src="https://placehold.co/400x200" class="img-thumbnail" id="prevImg">
