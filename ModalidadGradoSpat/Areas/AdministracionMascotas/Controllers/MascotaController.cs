@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
 {
@@ -62,6 +63,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             {
                 throw new Exception();
             }
+        }
+        [NoDirectAccess]
+        public IActionResult GetFotoMascota(string url = "")
+        {
+            return PartialView("GetFotoMascota", url);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

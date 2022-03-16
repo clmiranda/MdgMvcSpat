@@ -424,7 +424,9 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Cuenta\PartialView\_ListaUsuarios.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Dashboard\Dashboard.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Dashboard\PartialView\_Dashboard.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\ActualizarEmail.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\EditarPerfil.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\PartialView\_ActualizarEmail.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\PartialView\_EditarPerfil.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\PartialView\_ResetPassword.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\ResetPassword.cshtml.g.cs
@@ -460,6 +462,7 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteVoluntario\PartialView\_Lista.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteVoluntario\PartialView\_ListaReportes.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\Seguimiento\Asignar.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\Seguimiento\Detalle.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\Seguimiento\Lista.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\Seguimiento\PartialView\_Asignar.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\Seguimiento\PartialView\_Lista.cshtml.g.cs
@@ -489,5 +492,4 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.dll
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.pdb
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.genruntimeconfig.cache
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\PartialView\_ActualizarEmail.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionCuentas\Views\Perfil\ActualizarEmail.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionMascotas\Views\Mascota\GetFotoMascota.cshtml.g.cs

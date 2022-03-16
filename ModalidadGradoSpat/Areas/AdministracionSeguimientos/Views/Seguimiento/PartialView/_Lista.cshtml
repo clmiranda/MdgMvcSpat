@@ -11,11 +11,19 @@
                 {
                     <option value="Activo" selected>Activo</option>
                     <option value="Asignado">Asignado</option>
+                    <option value="Finalizado">Finalizado</option>
                 }
                 else if (ViewData["filter"].ToString().Equals("Asignado"))
                 {
                     <option value="Activo">Activo</option>
                     <option value="Asignado" selected>Asignado</option>
+                    <option value="Finalizado">Finalizado</option>
+                }
+                else if (ViewData["filter"].ToString().Equals("Finalizado"))
+                {
+                    <option value="Activo">Activo</option>
+                    <option value="Asignado">Asignado</option>
+                    <option value="Finalizado" selected>Finalizado</option>
                 }
             </select>
         </div>
@@ -91,6 +99,7 @@
                 <th>Id</th>
                 <th>Datos Mascota</th>
                 <th>Datos Adoptante</th>
+                <th>Voluntario Asignado</th>
                 <th>Rango Fechas Seguimiento</th>
                 <th>Acciones</th>
             </tr>
@@ -99,7 +108,7 @@
             @if (Model.Count() <= 0)
             {
                 <tr>
-                    <td colspan="5"><h1 class="text-center">No hay registros para mostrar.</h1></td>
+                    <td colspan="6"><h1 class="text-center">No hay registros para mostrar.</h1></td>
                 </tr>
             }
             else
@@ -107,32 +116,47 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td width="5%">
+                        <td width="3%">
                             @item.Id
                         </td>
-                        <td width="35%">
-                            <b>Nombre:</b> @item.SolicitudAdopcion.Mascota.Nombre /
-                            <b>Tama&ntilde;o:</b> @item.SolicitudAdopcion.Mascota.Tamano /
+                        <td width="15%">
+                            <b>Nombre:</b> @item.SolicitudAdopcion.Mascota.Nombre <br />
                             <b>Sexo:</b> @item.SolicitudAdopcion.Mascota.Sexo
                         </td>
-                        <td width="30%">
-                            <b>Nombre Completo:</b>  @item.SolicitudAdopcion.NombreCompleto /
+                        <td width="25%">
+                            <b>Nombre Completo:</b>  @item.SolicitudAdopcion.NombreCompleto <br />
                             <b>Direcci&oacute;n:</b>  @item.SolicitudAdopcion.Domicilio
+                        </td>
+                        <td width="20%">
+                            @if (item.Estado.Equals("Asignado") || item.Estado.Equals("Finalizado"))
+                            {
+                               <text>@item.User.Persona.Nombres @item.User.Persona.Apellidos</text>
+                            }
+                            else
+                            {
+                                <b>No asignado</b>
+                            }
                         </td>
                         <td width="20%">
                             De @item.FechaInicio.ToShortDateString() a @item.FechaFin.ToShortDateString()
                         </td>
                         <td width="10%">
                             <div class="d-flex justify-content-center align-items-center">
-                                <a role="button" class="btn btn-info" href="@Url.Action("Asignar","Seguimiento", new { item.Id, area="AdministracionSeguimientos"})">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                </a>
+                                @if (!item.Estado.Equals("Finalizado"))
+                                {
+                                    <a role="button" class="btn btn-info" href="@Url.Action("Asignar","Seguimiento", new { item.Id, area="AdministracionSeguimientos"})">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                    </a>
+                                }
                                 @if (!item.Estado.Equals("Activo"))
                                 {
                                     <a role="button" class="btn btn-warning" href="@Url.Action("Lista","ReporteSeguimiento", new { id=item.Id, area="AdministracionSeguimientos"})">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 }
+                                <a role="button" class="btn btn-secondary" href="@Url.Action("Detalle","Seguimiento", new { idSolicitudAdopcion=item.SolicitudAdopcionId, area="AdministracionSeguimientos"})">
+                                    <i class="fas fa-list" aria-hidden="true"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -144,6 +168,7 @@
                 <th>Id</th>
                 <th>Datos Mascota</th>
                 <th>Datos Adpotante</th>
+                <th>Voluntario Asignado</th>
                 <th>Rango Fechas Seguimiento</th>
                 <th>Acciones</th>
             </tr>
@@ -233,7 +258,7 @@
                         else
                         {
                             <text>
-                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', 'No asignado', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcionId'],
+                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', 'No asignado', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcionId'],
                             </text>
                         }
                      }

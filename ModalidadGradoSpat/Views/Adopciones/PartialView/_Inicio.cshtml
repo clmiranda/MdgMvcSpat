@@ -1,4 +1,16 @@
 ﻿@model List<Mascota>
+<style>
+    img {
+        max-width: 100% !important;
+        height: 350px;
+        margin: 0 auto;
+        display: block;
+    }
+    .card-img-top {
+        height: 100%;
+        background-color: #036917;
+    }
+</style>
 <div class="d-xl-flex justify-content-between my-3">
     <form class="form-inline" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
         <div class="input-group">
@@ -78,19 +90,19 @@
 <div class="row mt-5">
     @foreach (var item in Model)
     {
-        <div class="col-lg-6 col-xl-4 mb-5">
-            <div class="card h-100 border-0 shadow mx-auto rounded">
+        <div class="col-lg-6 col-xl-4 mb-4">
+            <div class="card border-0 shadow mx-auto rounded">
                 <div class="card-img-top">
                     <a class="text-decoration-none lead text-success font-weight-bold" href="@Url.Action("InformacionMascota", "Adopciones",new { id=item.Id, area=""},Context.Request.Scheme)">
                         @if (item.Foto == null)
                         {
-                            <img alt="@item.Nombre" src="https://res.cloudinary.com/dfgd6kc8v/image/upload/v1643849629/spat_gvfgem.jpg" class="img-fluid rounded-top" />
+                            <img alt="@item.Nombre" src="https://res.cloudinary.com/dfgd6kc8v/image/upload/v1643849629/spat_gvfgem.jpg" class="rounded-top" />
                         }
                         else
                         {
-                            <img alt="@item.Nombre" src="@item.Foto.Url" class="img-fluid w-100 rounded-top" />
+                            <img alt="@item.Nombre" src="@item.Foto.Url" class="rounded-top" />
                         }
-                        <div class="card-body text-center">
+                        <div class="card-body text-center bg-white">
                             <p class="card-text">@item.Nombre</p>
                         </div>
                     </a>

@@ -14,11 +14,20 @@
 else
 {
     <div class="d-xl-flex justify-content-between my-3">
-        <div class="my-2">
-            <form asp-action="AddReporte" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostList(this);" method="post">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-            </form>
-        </div>
+        @if (Model.Estado.Equals("Finalizado"))
+        {
+            <div class="my-2">
+                <button type="button" class="btn btn-primary" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+            </div>
+        }
+        else
+        {
+            <div class="my-2">
+                <form asp-action="AddReporte" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostList(this);" method="post">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        }
         <div class="my-2">
             @if (Model.User == null)
             {
@@ -96,7 +105,7 @@ else
                             }
                         </td>
                         <td width=20%>
-                            @if (item.Estado.Equals("Enviado"))
+                            @if (item.Estado.Equals("Enviado") || Model.Estado.Equals("Finalizado"))
                             {
                                 <div class="input-group">
                                     <input id="idFecha-@item.Id" name="FechaReporte" value="@item.FechaReporte.Date.ToShortDateString()" type="text" class="form-control" readonly>
@@ -155,7 +164,7 @@ else
                         </td>
                         <td width="5%">
                             <div class="d-flex justify-content-center align-items-center">
-                                @if (item.Estado.Equals("Enviado"))
+                                @if (item.Estado.Equals("Enviado") || Model.Estado.Equals("Finalizado"))
                                 {
                                     <button type="button" class="btn btn-danger" disabled><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 }

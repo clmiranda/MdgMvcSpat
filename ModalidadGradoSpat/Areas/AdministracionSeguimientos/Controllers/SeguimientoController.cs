@@ -47,6 +47,23 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             ViewData["listaSeguimientos"] = _listaSeguimientos;
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
+        [Route("Seguimiento/Detalle/{idSolicitudAdopcion}")]
+        public async Task<IActionResult> Detalle(int idSolicitudAdopcion)
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Adopcion/GetById/" + idSolicitudAdopcion, Method.GET);
+            try
+            {
+                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
+                return View(response.Data);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
         [Route("Seguimiento/Asignar/{id}")]
         public async Task<IActionResult> Asignar(int id)
         {

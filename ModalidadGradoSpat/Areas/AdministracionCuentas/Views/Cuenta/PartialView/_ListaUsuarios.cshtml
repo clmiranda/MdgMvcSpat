@@ -50,12 +50,7 @@
                             }
                             else
                             {
-                                @foreach (var rol in item.Roles)
-                                {
-                                    <p class="text-center">
-                                        @rol
-                                    </p>
-                                }
+                                @(string.Join(", ", item.Roles));
                             }
                         </td>
                         <td>
