@@ -2,15 +2,21 @@
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 @if (Model == null)
 {
-    <div class="shadow-lg border p-5 bg-white rounded text-justify">
-        <p class="card-text">Id incorrecto, el seguimiento no existe.</p>
+    <div class="shadow-lg border p-5 bg-white rounded text-center">
+        <h5 class="card-text">Id incorrecto, el seguimiento no existe.</h5>
+    </div>
+}
+else if (Model.Estado.Equals("Finalizado"))
+{
+    <div class="shadow-lg border p-5 bg-white rounded text-center">
+        <h5 class="card-text">El seguimiento se ha finalizado.</h5>
     </div>
 }
 else
 {
     @if (Model.ReporteSeguimientos.Any(x => x.FechaReporte.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) && !x.Estado.Equals("Enviado")))
     {
-        <div class="alert alert-warning alert-dismissible fade show my-3 bg-warning" role="alert">
+        <div class="alert alert-warning alert-dismissible fade show my-3 bg-info text-white" role="alert">
             <strong>Hay un reporte por realizar hoy!</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -20,7 +26,7 @@ else
     <div class="d-lg-flex justify-content-between my-3">
         <div class="my-2">
             <p class="shadow-lg border px-2 py-2 rounded">
-                Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaFin.ToShortDateString()
+                Rango de Fechas del Seguimiento: @Model.FechaInicio.ToShortDateString() - @Model.FechaFin.ToShortDateString()
             </p>
         </div>
         <div class="my-2">
@@ -61,34 +67,38 @@ else
                                 </p>
                             }
                         </td>
-                        <td>
+                        <td width="15%">
                             <p>
                                 @item.FechaReporte.Date.ToShortDateString()
                             </p>
                         </td>
-                        <td>
-                            @if (item.Estado.Equals("Enviado"))
-                            {
-                                <h5><span class="badge badge-pill p-2 badge-danger">@item.Estado</span></h5>
-                            }
-                            else
-                            {
-                                <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
-                            }
+                        <td width="10%">
+                            <div class="d-flex justify-content-center align-items-center">
+                                @if (item.Estado.Equals("Enviado"))
+                                {
+                                    <h5><span class="badge badge-pill p-2 badge-danger">@item.Estado</span></h5>
+                                }
+                                else
+                                {
+                                    <h5><span class="badge badge-pill p-2 badge-primary">@item.Estado</span></h5>
+                                }
+                            </div>
                         </td>
                         <td width="5%">
-                            @if (!item.FechaReporte.Date.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) || item.Estado.Equals("Enviado"))
-                            {
-                                <button type="button" class="btn btn-info" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
-                            }
-                            else
-                            {
-                                <button type="button" asp-action="EditReporte"
-                                        onclick="showInPopup('@Url.Action("EditReporte","ReporteVoluntario",new { id=item.Id,area="AdministracionSeguimientos"})','Editar Reporte');"
-                                        class="btn btn-info" data-toggle="modal" data-target="#form-modal">
-                                    <i class="fa fa-edit fa-2" aria-hidden="true"></i>
-                                </button>
-                            }
+                            <div class="d-flex justify-content-center align-items-center">
+                                @if (!item.FechaReporte.Date.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) || item.Estado.Equals("Enviado"))
+                                {
+                                    <button type="button" class="btn btn-info" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                                }
+                                else
+                                {
+                                    <button type="button" asp-action="EditReporte"
+                                            onclick="showInPopup('@Url.Action("EditReporte","ReporteVoluntario",new { id=item.Id,area="AdministracionSeguimientos"})','Editar Reporte');"
+                                            class="btn btn-info" data-toggle="modal" data-target="#form-modal">
+                                        <i class="fa fa-edit fa-2" aria-hidden="true"></i>
+                                    </button>
+                                }
+                            </div>
                         </td>
                     </tr>
                 }

@@ -18,6 +18,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
     {
         private static int id;
         private static RestClient client;
+        private static User _user;
         public PerfilController(IHttpContextAccessor httpContextAccessor)
         {
             client = new RestClient("https://localhost:44398/");
@@ -50,6 +51,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 var response = await client.ExecuteAsync<User>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
+                _user = response.Data;
                 return View(response.Data);
             }
             catch (Exception)
@@ -109,7 +111,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     TempData["alerterror"] = msg["mensaje"];
                 }
             }
-            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ActualizarEmail", user) });
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ActualizarEmail", _user) });
         }
         [Route("Perfil/ResetPassword")]
         public ActionResult ResetPassword()
