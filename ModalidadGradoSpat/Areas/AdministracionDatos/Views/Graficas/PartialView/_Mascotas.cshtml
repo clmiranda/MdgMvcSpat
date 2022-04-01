@@ -3,7 +3,7 @@
     var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Nombre).ToList());
     var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Cantidad.ToString()).ToList());
 }
-<form method="post" asp-action="ReturnVistaMascotas">
+<form class="py-3" method="post" asp-action="ReturnVistaMascotas">
     <select id="selectMascotas" class="form-control" name="filtrado">
         @if (ViewData["filter"].Equals("3 meses"))
         {
@@ -27,15 +27,15 @@ else @if (ViewData["filter"].Equals("9 meses"))
     <option value="12 meses">&Uacute;ltimos 12 meses</option>
 }
 else @if (ViewData["filter"].Equals("12 meses"))
-{
-<option value="3 meses">&Uacute;ltimos 3 meses</option>
-<option value="6 meses">&Uacute;ltimos 6 meses</option>
-<option value="9 meses">&Uacute;ltimos 9 meses</option>
-<option value="12 meses" selected>&Uacute;ltimos 12 meses</option>
+   {
+    <option value="3 meses">&Uacute;ltimos 3 meses</option>
+    <option value="6 meses">&Uacute;ltimos 6 meses</option>
+    <option value="9 meses">&Uacute;ltimos 9 meses</option>
+    <option value="12 meses" selected>&Uacute;ltimos 12 meses</option>
 }
 </select>
 </form>
-<div class="row mt-5">
+<div class="row my-3">
     <div class="col-12">
         <div class="shadow-lg border p-sm-1 p-md-3 bg-white rounded">
             <canvas id="chartLineMascotas" style="width:100%;"></canvas>

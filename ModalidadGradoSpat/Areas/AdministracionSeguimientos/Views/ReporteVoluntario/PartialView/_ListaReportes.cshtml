@@ -2,14 +2,22 @@
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 @if (Model == null)
 {
-    <div class="shadow-lg border p-5 bg-white rounded text-center">
-        <h5 class="card-text">Id incorrecto, el seguimiento no existe.</h5>
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="shadow-lg border p-5 bg-white rounded text-center">
+                No se puede mostrar el listado de reportes, id de seguimiento incorrecto.
+            </div>
+        </div>
     </div>
 }
 else if (Model.Estado.Equals("Finalizado"))
 {
-    <div class="shadow-lg border p-5 bg-white rounded text-center">
-        <h5 class="card-text">El seguimiento se ha finalizado.</h5>
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="shadow-lg border p-5 bg-white rounded text-center">
+                El seguimiento se ha finalizado.
+            </div>
+        </div>
     </div>
 }
 else

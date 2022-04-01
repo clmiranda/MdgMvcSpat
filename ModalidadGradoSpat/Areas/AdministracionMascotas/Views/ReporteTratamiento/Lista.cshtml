@@ -2,16 +2,25 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container-fluid my-5">
-    <h3>
-        Vista del Tratamiento de la Mascota @Model.Nombre.
-    </h3>
-    <p class="mb-2">
+<div class="container-fluid py-3">
+    @if (Model == null)
+    {
+        <h3>
+            Vista del Tratamiento de la Mascota.
+        </h3>
+    }
+    else
+    {
+        <h3>
+            Vista del Tratamiento de la Mascota @Model.Nombre.
+        </h3>
+    }
+    <p class="mb-3">
         En esta vista se puede ver la evoluci&oacute;n de la mascota desde que
         es registrada en la asociaci&oacute;n hasta que ya es apta para ser
         adoptada.
     </p>
-    <div class="d-md-flex">
+    <div class="d-md-flex mb-3">
         <p class="shadow mr-md-5 p-3 bg-white rounded">
             <button class="btn btn-primary"><i class="fas fa-plus-square"></i></button> -> Agregar Reporte Tratamiento.
         </p>

@@ -3,233 +3,253 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-@if (Model.Estado.Equals("Activo"))
+@if (Model == null)
 {
-    <div class="border-0 p-5 my-5 rounded shadow-lg">
-        <div class="card-text text-center">
-            <h5>No puede ingresar al listado de reportes si el seguimiento no est&aacute; asignado a un voluntario.</h5>
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="shadow-lg border p-5 bg-white rounded text-center">
+                No se puede mostrar el listado de reportes, id de seguimiento incorrecto.
+            </div>
         </div>
     </div>
 }
 else
 {
-    <div class="d-xl-flex justify-content-between my-3">
-        @if (Model.Estado.Equals("Finalizado"))
-        {
-            <div class="my-2">
-                <button type="button" class="btn btn-primary" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-            </div>
-        }
-        else
-        {
-            <div class="my-2">
-                <form asp-action="AddReporte" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostList(this);" method="post">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-                </form>
-            </div>
-        }
-        <div class="my-2">
-            @if (Model.User == null)
-            {
-                <p class="shadow px-2 py-2 bg-white rounded">A&uacute;n no tiene un Voluntario asignado.</p>
-            }
-            else
-            {
-                <p class="shadow px-2 py-2 bg-white rounded">Voluntario Asignado: @Model.User.Persona.Nombres @Model.User.Persona.Apellidos</p>
-            }
-        </div>
-        <div class="my-2">
-            <p class="shadow px-2 py-2 bg-white rounded">Fecha de Adopci&oacute;n: @Model.SolicitudAdopcion.FechaAdopcion.ToShortDateString()</p>
-        </div>
-        <div class="my-2">
-            <p class="shadow px-2 py-2 bg-white rounded">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaFin.ToShortDateString()</p>
-        </div>
-        <div class="my-2">
-            <button class="btn btn-primary" type="button"
-                    onclick="showInPopup('@Url.Action("SetRangoFechasSeguimiento","ReporteSeguimiento", new { id=Model.Id, area="AdministracionSeguimientos" })', 'Actualizar Seguimiento');"
-                    data-toggle="modal" data-target="#form-modal">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-            </button>
-        </div>
-    </div>
-    @if (Model.FechaInicio.Date.Equals(Model.FechaFin.Date))
+    @if (Model.Estado.Equals("Activo"))
     {
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <strong>
-                No se ha asignado un rango de fechas al seguimiento actual.
-            </strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+        <div class="border-0 p-5 my-5 rounded shadow-lg">
+            <div class="card-text text-center">
+                <h5>No puede ingresar al listado de reportes si el seguimiento no est&aacute; asignado a un voluntario.</h5>
+            </div>
         </div>
     }
-    @if (Model.ReporteSeguimientos.Any(x => x.FechaReporte.Date < Model.FechaInicio.Date || x.FechaReporte.Date > Model.FechaFin.Date))
+    else
     {
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>
-                Existen fechas que no estan en el rango establecido, debe establecerlas
-                para que los reportes puedan realizarse.
-            </strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    }
-    <div class="table-responsive">
-        <table id="example" class="table table-bordered table-hover" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Observaciones</th>
-                    <th>Fecha Reporte</th>
-                    <th>Estado</th>
-                    <th>Ver Imagen</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody id="tbodyReporteSeguimiento">
-                @foreach (var item in Model.ReporteSeguimientos)
+        <div class="d-xl-flex justify-content-between my-3">
+            <div class="my-2">
+                @if (Model.Estado.Equals("Finalizado"))
                 {
+                    <button type="button" class="btn btn-primary" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                }
+                else
+                {
+                    <form asp-action="AddReporte" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostList(this);" method="post">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                    </form>
+                }
+            </div>
+            <div class="my-2">
+                @if (Model.User == null)
+                {
+                    <p class="shadow px-2 py-2 bg-white rounded">A&uacute;n no tiene un Voluntario asignado.</p>
+                }
+                else
+                {
+                    <p class="shadow px-2 py-2 bg-white rounded">Voluntario Asignado: @Model.User.Persona.Nombres @Model.User.Persona.Apellidos</p>
+                }
+            </div>
+            <div class="my-2">
+                <p class="shadow px-2 py-2 bg-white rounded">Fecha de Adopci&oacute;n: @Model.SolicitudAdopcion.FechaAdopcion.ToShortDateString()</p>
+            </div>
+            <div class="my-2">
+                <p class="shadow px-2 py-2 bg-white rounded">Rango de Fechas: @Model.FechaInicio.ToShortDateString() - @Model.FechaFin.ToShortDateString()</p>
+            </div>
+            <div class="my-2">
+                @if (Model.Estado.Equals("Finalizado"))
+                {
+                    <button class="btn btn-primary" type="button" disabled>
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-primary" type="button"
+                            onclick="showInPopup('@Url.Action("SetRangoFechasSeguimiento","ReporteSeguimiento", new { id=Model.Id, area="AdministracionSeguimientos" })', 'Actualizar Seguimiento');"
+                            data-toggle="modal" data-target="#form-modal">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </button>
+                }
+            </div>
+        </div>
+        @if (Model.FechaInicio.Date.Equals(Model.FechaFin.Date))
+        {
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>
+                    No se ha asignado un rango de fechas al seguimiento actual.
+                </strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        @if (Model.ReporteSeguimientos.Any(x => x.FechaReporte.Date < Model.FechaInicio.Date || x.FechaReporte.Date > Model.FechaFin.Date))
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>
+                    Existen fechas que no estan en el rango establecido, debe establecerlas
+                    para que los reportes puedan realizarse.
+                </strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <div class="table-responsive">
+            <table id="example" class="table table-bordered table-hover" style="width:100%">
+                <thead>
                     <tr>
-                        <td width="5%">
-                            @item.Id
-                        </td>
-                        <td>
-                            @if (item.Estado.Equals("Activo") || item.Estado.Equals("Asignado"))
-                            {
-                                <p>A&uacute;n no se realiz&oacute; el reporte.</p>
-                            }
-                            else
-                            {
-                                @item.Observaciones
-                            }
-                        </td>
-                        <td width=20%>
-                            @if (item.Estado.Equals("Enviado") || Model.Estado.Equals("Finalizado"))
-                            {
-                                <div class="input-group">
-                                    <input id="idFecha-@item.Id" name="FechaReporte" value="@item.FechaReporte.Date.ToShortDateString()" type="text" class="form-control" readonly>
-                                </div>
-                            }
-                            else
-                            {
-                                <form asp-action="UpdateFechaReporte" autocomplete="off" method="post">
-                                    <input type="hidden" name="Id" value="@item.Id" />
-                                    <input type="hidden" name="SeguimientoId" value="@item.SeguimientoId" />
-                                    <div class="input-group">
-                                        <input id="idFecha-@item.Id" name="FechaReporte" value="@item.FechaReporte.Date.ToShortDateString()" type="text" class="form-control" data-toggle="datepicker" readonly>
-                                    </div>
-                                </form>
-                            }
-                        </td>
-                        <td width="5%">
-                            @if (item.Estado.Equals("Activo"))
-                            {
-                                <h5>
-                                    <span class="badge badge-pill p-2 badge-warning">
-                                        @item.Estado
-                                    </span>
-                                </h5>
-                            }
-                            else if (item.Estado.Equals("Asignado"))
-                            {
-                                <h5>
-                                    <span class="badge badge-pill p-2 badge-info">
-                                        @item.Estado
-                                    </span>
-                                </h5>
-                            }
-                            else
-                            {
-                                <h5>
-                                    <span class="badge badge-pill p-2 badge-primary">
-                                        @item.Estado
-                                    </span>
-                                </h5>
-                            }
-                        </td>
-                        <td width="10%" class="text-center">
-                            @if (item.Foto != null)
-                            {
-                                <button type="button" onclick="showInPopup('@Url.Action("GetFotoReporteSeguimiento","ReporteSeguimiento", new { url=item.Foto.Url, area="AdministracionSeguimientos"})','Imagen del Reporte');"
-                                        data-toggle="modal" data-target="#form-modal"
-                                        class="btn btn-success">
-                                    <i class="fas fa-images"></i>
-                                </button>
-                            }
-                            else
-                            {
-                                <p>Sin Imagen.</p>
-                            }
-                        </td>
-                        <td width="5%">
-                            <div class="d-flex justify-content-center align-items-center">
-                                @if (item.Estado.Equals("Enviado") || Model.Estado.Equals("Finalizado"))
+                        <th>Id</th>
+                        <th>Observaciones</th>
+                        <th>Fecha Reporte</th>
+                        <th>Estado</th>
+                        <th>Ver Imagen</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyReporteSeguimiento">
+                    @foreach (var item in Model.ReporteSeguimientos)
+                    {
+                        <tr>
+                            <td width="5%">
+                                @item.Id
+                            </td>
+                            <td>
+                                @if (item.Estado.Equals("Activo") || item.Estado.Equals("Asignado"))
                                 {
-                                    <button type="button" class="btn btn-danger" disabled><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <p>A&uacute;n no se realiz&oacute; el reporte.</p>
                                 }
                                 else
                                 {
-                                    <form asp-action="DeleteReporte" asp-route-idReporte="@item.Id" asp-route-idSeguimiento="@item.SeguimientoId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
+                                    @item.Observaciones
+                                }
+                            </td>
+                            <td width=20%>
+                                @if (item.Estado.Equals("Enviado") || Model.Estado.Equals("Finalizado"))
+                                {
+                                    <div class="input-group">
+                                        <input id="idFecha-@item.Id" name="FechaReporte" value="@item.FechaReporte.Date.ToShortDateString()" type="text" class="form-control" readonly>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form asp-action="UpdateFechaReporte" autocomplete="off" method="post">
+                                        <input type="hidden" name="Id" value="@item.Id" />
+                                        <input type="hidden" name="SeguimientoId" value="@item.SeguimientoId" />
+                                        <div class="input-group">
+                                            <input id="idFecha-@item.Id" name="FechaReporte" value="@item.FechaReporte.Date.ToShortDateString()" type="text" class="form-control" data-toggle="datepicker" readonly>
+                                        </div>
                                     </form>
                                 }
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Descripcion</th>
-                    <th>Fecha Reporte</th>
-                    <th>Estado</th>
-                    <th>Ver Imagen</th>
-                    <th>Eliminar</th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <script>
-        $(document).ready(function () {
-            var url = "/archivos/js/daterangepicker.js";
-            $.getScript(url);
-            $('#example').DataTable({
-                "processing": true,
-                "ordering": false,
-                "language": {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
-                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    },
-                    "buttons": {
-                        "copy": "Copiar",
-                        "colvis": "Visibilidad"
+                            </td>
+                            <td width="5%">
+                                @if (item.Estado.Equals("Activo"))
+                                {
+                                    <h5>
+                                        <span class="badge badge-pill p-2 badge-warning">
+                                            @item.Estado
+                                        </span>
+                                    </h5>
+                                }
+                                else if (item.Estado.Equals("Asignado"))
+                                {
+                                    <h5>
+                                        <span class="badge badge-pill p-2 badge-info">
+                                            @item.Estado
+                                        </span>
+                                    </h5>
+                                }
+                                else
+                                {
+                                    <h5>
+                                        <span class="badge badge-pill p-2 badge-primary">
+                                            @item.Estado
+                                        </span>
+                                    </h5>
+                                }
+                            </td>
+                            <td width="10%" class="text-center">
+                                @if (item.Foto != null)
+                                {
+                                    <button type="button" onclick="showInPopup('@Url.Action("GetFotoReporteSeguimiento","ReporteSeguimiento", new { url=item.Foto.Url, area="AdministracionSeguimientos"})','Imagen del Reporte');"
+                                            data-toggle="modal" data-target="#form-modal"
+                                            class="btn btn-success">
+                                        <i class="fas fa-images"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <p>Sin Imagen.</p>
+                                }
+                            </td>
+                            <td width="5%">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    @if (item.Estado.Equals("Enviado") || Model.Estado.Equals("Finalizado"))
+                                    {
+                                        <button type="button" class="btn btn-danger" disabled><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="DeleteReporte" asp-route-idReporte="@item.Id" asp-route-idSeguimiento="@item.SeguimientoId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
                     }
-                }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Id</th>
+                        <th>Descripcion</th>
+                        <th>Fecha Reporte</th>
+                        <th>Estado</th>
+                        <th>Ver Imagen</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <script>
+            $(document).ready(function () {
+                var url = "/archivos/js/daterangepicker.js";
+                $.getScript(url);
+                $('#example').DataTable({
+                    "processing": true,
+                    "ordering": false,
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        },
+                        "buttons": {
+                            "copy": "Copiar",
+                            "colvis": "Visibilidad"
+                        }
+                    }
+                });
             });
-        });
-        var _0x348b = ['form', '982688hxuies', '3067LHAMSU', 'fail', '475836mDmlwk', '1114735DQJLMN', 'POST', '3191sDcGky', 'location', 'change', 'status', '471610ifpBbE', '174BBIsDK', '66763aWctuf', '/Error/', 'ajax', 'href', '353bSkgOp', 'html']; function _0x4f1f(_0x52e421, _0x35d253) { return _0x4f1f = function (_0x348b0a, _0x4f1f35) { _0x348b0a = _0x348b0a - 0x10e; var _0x3df4a8 = _0x348b[_0x348b0a]; return _0x3df4a8; }, _0x4f1f(_0x52e421, _0x35d253); } var _0xe7cc8f = _0x4f1f; (function (_0x3c4c7e, _0x2bc1e8) { var _0x551e71 = _0x4f1f; while (!![]) { try { var _0x32c9db = -parseInt(_0x551e71(0x110)) + -parseInt(_0x551e71(0x10f)) + parseInt(_0x551e71(0x118)) + -parseInt(_0x551e71(0x116)) + parseInt(_0x551e71(0x117)) * parseInt(_0x551e71(0x120)) + parseInt(_0x551e71(0x11f)) + parseInt(_0x551e71(0x11c)) * parseInt(_0x551e71(0x112)); if (_0x32c9db === _0x2bc1e8) break; else _0x3c4c7e['push'](_0x3c4c7e['shift']()); } catch (_0x484ee0) { _0x3c4c7e['push'](_0x3c4c7e['shift']()); } } }(_0x348b, 0x9e0b7), $('[data-toggle=\x22datepicker\x22]')['on'](_0xe7cc8f(0x114), function () { var _0x3ba887 = _0xe7cc8f; return $[_0x3ba887(0x11a)]({ 'type': _0x3ba887(0x111), 'url': this[_0x3ba887(0x11e)]['action'], 'data': new FormData(this['form']), 'contentType': ![], 'processData': ![], 'success': function (_0x56b50a) { var _0x36558b = _0x3ba887; $('#view-all')[_0x36558b(0x11d)](_0x56b50a[_0x36558b(0x11d)]); } })[_0x3ba887(0x10e)](function (_0x2f079, _0x2dae44, _0x478c44) { var _0xa452e5 = _0x3ba887; window[_0xa452e5(0x113)][_0xa452e5(0x11b)] = _0xa452e5(0x119) + _0x2f079[_0xa452e5(0x115)]; }), ![]; }));
-    </script>
+            var _0x348b = ['form', '982688hxuies', '3067LHAMSU', 'fail', '475836mDmlwk', '1114735DQJLMN', 'POST', '3191sDcGky', 'location', 'change', 'status', '471610ifpBbE', '174BBIsDK', '66763aWctuf', '/Error/', 'ajax', 'href', '353bSkgOp', 'html']; function _0x4f1f(_0x52e421, _0x35d253) { return _0x4f1f = function (_0x348b0a, _0x4f1f35) { _0x348b0a = _0x348b0a - 0x10e; var _0x3df4a8 = _0x348b[_0x348b0a]; return _0x3df4a8; }, _0x4f1f(_0x52e421, _0x35d253); } var _0xe7cc8f = _0x4f1f; (function (_0x3c4c7e, _0x2bc1e8) { var _0x551e71 = _0x4f1f; while (!![]) { try { var _0x32c9db = -parseInt(_0x551e71(0x110)) + -parseInt(_0x551e71(0x10f)) + parseInt(_0x551e71(0x118)) + -parseInt(_0x551e71(0x116)) + parseInt(_0x551e71(0x117)) * parseInt(_0x551e71(0x120)) + parseInt(_0x551e71(0x11f)) + parseInt(_0x551e71(0x11c)) * parseInt(_0x551e71(0x112)); if (_0x32c9db === _0x2bc1e8) break; else _0x3c4c7e['push'](_0x3c4c7e['shift']()); } catch (_0x484ee0) { _0x3c4c7e['push'](_0x3c4c7e['shift']()); } } }(_0x348b, 0x9e0b7), $('[data-toggle=\x22datepicker\x22]')['on'](_0xe7cc8f(0x114), function () { var _0x3ba887 = _0xe7cc8f; return $[_0x3ba887(0x11a)]({ 'type': _0x3ba887(0x111), 'url': this[_0x3ba887(0x11e)]['action'], 'data': new FormData(this['form']), 'contentType': ![], 'processData': ![], 'success': function (_0x56b50a) { var _0x36558b = _0x3ba887; $('#view-all')[_0x36558b(0x11d)](_0x56b50a[_0x36558b(0x11d)]); } })[_0x3ba887(0x10e)](function (_0x2f079, _0x2dae44, _0x478c44) { var _0xa452e5 = _0x3ba887; window[_0xa452e5(0x113)][_0xa452e5(0x11b)] = _0xa452e5(0x119) + _0x2f079[_0xa452e5(0x115)]; }), ![]; }));
+        </script>
+    }
 }
