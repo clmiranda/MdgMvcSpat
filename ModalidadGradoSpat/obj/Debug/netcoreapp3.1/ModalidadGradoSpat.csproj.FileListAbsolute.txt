@@ -399,7 +399,6 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.AssemblyInfoInputs.cache
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.AssemblyInfo.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.csproj.CoreCompileInputs.cache
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.RazorAssemblyInfo.cache
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.RazorAssemblyInfo.cs
@@ -456,12 +455,6 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteSeguimiento\Lista.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteSeguimiento\PartialView\_Lista.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteSeguimiento\SetRangoFechasSeguimiento.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteVoluntario\Detalle.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteVoluntario\EditReporte.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteVoluntario\Lista.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteVoluntario\ListaReportes.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteVoluntario\PartialView\_Lista.cshtml.g.cs
-C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\ReporteVoluntario\PartialView\_ListaReportes.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\Seguimiento\Asignar.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\Seguimiento\Detalle.cshtml.g.cs
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\Seguimiento\Lista.cshtml.g.cs
@@ -493,3 +486,10 @@ C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\ne
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.dll
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.pdb
 C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.genruntimeconfig.cache
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\ModalidadGradoSpat.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\SeguimientoAsignado\Detalle.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\SeguimientoAsignado\EditReporte.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\SeguimientoAsignado\Lista.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\SeguimientoAsignado\ListaReportes.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\SeguimientoAsignado\PartialView\_Lista.cshtml.g.cs
+C:\Users\Usuario\source\repos\ModalidadGradoSpat\ModalidadGradoSpat\obj\Debug\netcoreapp3.1\Razor\Areas\AdministracionSeguimientos\Views\SeguimientoAsignado\PartialView\_ListaReportes.cshtml.g.cs
