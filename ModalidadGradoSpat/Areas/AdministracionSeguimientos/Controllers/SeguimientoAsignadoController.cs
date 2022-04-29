@@ -17,16 +17,16 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
 {
     [Area("AdministracionSeguimientos")]
     [Authorize(Roles = "SuperAdministrador, Voluntario")]
-    public class ReporteVoluntarioController : Controller
+    public class SeguimientoAsignadoController : Controller
     {
         private static RestClient client;
         private static List<Seguimiento> _listaSeg;
         private static int? pagesize = 10; private static int? pagenumber = 1;
-        public ReporteVoluntarioController()
+        public SeguimientoAsignadoController()
         {
             client = new RestClient("https://localhost:44398/");
         }
-        [Route("Voluntario/Reporte/Lista")]
+        [Route("SeguimientoAsignado/Lista")]
         public async Task<IActionResult> Lista()
         {
             var vista = await Listado();
@@ -39,7 +39,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             var vista = await Listado();
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
-        [Route("Voluntario/Reporte/ListaReportes/{id}")]
+        [Route("SeguimientoAsignado/ListaReportes/{id}")]
         public async Task<IActionResult> ListaReportes(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -56,7 +56,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 throw new Exception();
             }
         }
-        [Route("Voluntario/Reporte/Detalle/{id}")]
+        [Route("SeguimientoAsignado/Detalle/{id}")]
         public async Task<IActionResult> Detalle(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));

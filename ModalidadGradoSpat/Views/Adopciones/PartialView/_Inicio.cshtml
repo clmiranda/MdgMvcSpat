@@ -111,7 +111,7 @@
         </div>
     }
 </div>
-<nav class="table-responsive mt-5">
+<nav class="table-responsive">
     <form asp-action="ReturnVista" method="post" onsubmit="return send(this);">
         <input type="hidden" name="sizePage" value="@ViewData["itemsPerPage"]" />
         <input type="hidden" name="filter" value="@ViewData["filter"]" />
