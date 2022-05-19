@@ -25,14 +25,7 @@ namespace ModalidadGradoSpat
         {
             services.AddHttpContextAccessor();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            //////////
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    // Cookie settings
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            //    options.Cookie.SameSite = SameSiteMode.None;
-            //});
+
             services.AddCors();
             services.AddMvc();
             services.AddSession(options =>

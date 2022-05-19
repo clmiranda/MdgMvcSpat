@@ -2,12 +2,13 @@
 <style>
     img {
         max-width: 100% !important;
-        height: 350px;
+        object-fit: contain;
         margin: 0 auto;
         display: block;
+        height: 350px;
     }
+
     .card-img-top {
-        height: 100%;
         background-color: #036917;
     }
 </style>
@@ -96,11 +97,11 @@
                     <a class="text-decoration-none lead text-success font-weight-bold" href="@Url.Action("InformacionMascota", "Adopciones",new { id=item.Id, area=""},Context.Request.Scheme)">
                         @if (item.Foto == null)
                         {
-                            <img alt="@item.Nombre" src="https://res.cloudinary.com/dfgd6kc8v/image/upload/v1643849629/spat_gvfgem.jpg" class="rounded-top" />
+                            <img alt="@item.Nombre" src="https://res.cloudinary.com/dfgd6kc8v/image/upload/v1643849629/spat_gvfgem.jpg" />
                         }
                         else
                         {
-                            <img alt="@item.Nombre" src="@item.Foto.Url" class="rounded-top" />
+                            <img alt="@item.Nombre" src="@item.Foto.Url" />
                         }
                         <div class="card-body text-center bg-white">
                             <p class="card-text">@item.Nombre</p>

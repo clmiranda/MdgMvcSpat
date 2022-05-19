@@ -61,7 +61,7 @@ namespace ModalidadGradoSpat.Controllers
                     else if (user.Roles.Contains("Administrador"))
                         return Json(new { url = Url.Action("Lista", "Denuncia", new { area = "AdministracionMascotas" }) });
                     else if (user.Roles.Contains("Voluntario"))
-                        return Json(new { url = Url.Action("Lista", "ReporteVoluntario", new { area = "AdministracionSeguimientos" }) });
+                        return Json(new { url = Url.Action("Lista", "SeguimientoAsignado", new { area = "AdministracionSeguimientos" }) });
                     else
                         return Json(new { url = Url.Action("Inicio", "Adopciones", new { area = "" }) });
                 }
