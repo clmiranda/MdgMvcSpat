@@ -120,7 +120,7 @@ namespace ModalidadGradoSpat.Controllers
         {
             try
             {
-                var request = new RestRequest("api/Mascota/GetAllMascotaAdopcion", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
+                var request = new RestRequest("api/Mascota/GetAllMascotasForAdopcion", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
                 var response = await client.ExecuteAsync<List<Mascota>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();

@@ -20,7 +20,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
     public class SeguimientoAsignadoController : Controller
     {
         private static RestClient client;
-        private static List<Seguimiento> _listaSeg;
+        private static List<Seguimiento> _listaSeguimientos;
         private static int? pagesize = 10; private static int? pagenumber = 1;
         public SeguimientoAsignadoController()
         {
@@ -149,7 +149,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 ViewData["totalItems"] = head["totalItems"].ToString();
                 ViewData["totalPages"] = head["totalPages"].ToString();
                 var vista = response.Data;
-                _listaSeg = vista;
+                _listaSeguimientos = vista;
                 return vista;
             }
             catch (Exception)

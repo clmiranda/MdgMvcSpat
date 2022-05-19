@@ -21,7 +21,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     {
         private static RestClient client;
         private static Mascota _mascota;
-        private static List<Mascota> _listaMascota;
+        private static List<Mascota> _listaPDF;
         private static int? pagesize = 10; private static int? pagenumber = 1; private static string busqueda = "";
         public MascotaController()
         {
@@ -32,6 +32,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             ViewData["search"] = busqueda;
             var vista = await Listado();
+            _listaPDF = await ListadoPDF();
+            ViewData["ListaMascotas"] = _listaPDF;
             return View(vista);
         }
         public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1, string search = "")
@@ -39,7 +41,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             pagesize = sizePage; pagenumber = currentPage; busqueda = search;
             ViewData["search"] = search;
             var vista = await Listado();
-            return Json(new {html= Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+            ViewData["ListaMascotas"] = _listaPDF;
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
         }
         [Route("Denuncia/EditMascota/{id}")]
         public async Task<IActionResult> EditMascota(int id)
@@ -116,7 +119,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new {html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
             }
         }
         [HttpPost]
@@ -136,7 +139,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Registrado correctamente.";
-                        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", response.Data), html2 = Helper.RenderRazorViewToString(this, "PartialView/_Fotos",response.Data) });
+                        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", response.Data), html2 = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
                     }
                     catch (Exception ex)
                     {
@@ -157,7 +160,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Modificado Correctamente.";
-                        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", response.Data)});
+                        return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", response.Data) });
                     }
                     catch (Exception ex)
                     {
@@ -169,14 +172,14 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     }
                 }
             }
-            return Json(new { isValid = false});
+            return Json(new { isValid = false });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CambiarEstado(int id, string estado)
+        public async Task<IActionResult> ChangeEstado(int id, string estado)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Mascota/ChangeStateSituacion/" + id, Method.PUT).AddJsonBody(estado);
+            var request = new RestRequest("api/Mascota/ChangeEstado/" + id, Method.PUT).AddJsonBody(estado);
             try
             {
                 var response = await client.ExecuteAsync<string>(request);
@@ -185,7 +188,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 TempData["alertsuccess"] = "Estado actualizado correctamente.";
                 ViewData["search"] = busqueda;
                 var vista = await Listado();
-                return Json(new { html= Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                ViewData["ListaMascotas"] = _listaPDF;
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
             {
@@ -193,7 +197,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", _listaMascota) });
+                var vista = await Listado();
+                ViewData["ListaMascotas"] = _listaPDF;
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
         }
         public async Task<List<Mascota>> Listado()
@@ -201,7 +207,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var requestGet = new RestRequest("api/Mascota/GetAllMascotaAdmin", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize);
+                var requestGet = new RestRequest("api/Mascota/GetAllMascotasForAdmin", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize);
                 var response = await client.ExecuteAsync<List<Mascota>>(requestGet);
                 if (response.ResponseStatus.Equals(ResponseStatus.Error))
                     throw new Exception();
@@ -212,8 +218,23 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 ViewData["totalItems"] = head["totalItems"].ToString();
                 ViewData["totalPages"] = head["totalPages"].ToString();
                 var vista = response.Data;
-                _listaMascota = response.Data;
                 return vista;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+        public async Task<List<Mascota>> ListadoPDF()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Mascota/GetAllMascotasForReport", Method.GET);
+            try
+            {
+                var response = await client.ExecuteAsync<List<Mascota>>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
+                return response.Data;
             }
             catch (Exception)
             {
@@ -223,7 +244,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public async Task<IActionResult> ExcelMascotas()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Mascota/GetAll", Method.GET);
+            var request = new RestRequest("api/Mascota/GetAllMascotasForReport", Method.GET);
             try
             {
                 var response = await client.ExecuteAsync<List<Mascota>>(request);

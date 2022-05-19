@@ -5,7 +5,7 @@
 @if (Model == null)
 {
     <div class="shadow m-3 p-5 bg-white rounded text-center">
-            La mascota no pudo ser encontrada, Id incorrecto.
+        La mascota no pudo ser encontrada, Id incorrecto.
     </div>
 }
 else
@@ -21,6 +21,7 @@ else
 
         .carousel-inner img {
             max-width: 100% !important;
+            object-fit: contain;
             height: 500px;
             margin: 0 auto;
             display: block;

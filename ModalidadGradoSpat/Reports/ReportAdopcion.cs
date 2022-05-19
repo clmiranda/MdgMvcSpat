@@ -7,12 +7,12 @@ namespace ModalidadGradoSpat.Reports
 {
     public class ReportAdopcion
     {
-        public static byte[] ExcelAdopciones(IEnumerable<SolicitudAdopcion> adopciones)
+        public static byte[] ExcelAdopciones(IEnumerable<SolicitudAdopcion> adopcionesAprobadas)
         {
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Adopciones");
-                var currentRow = 1;
+                int currentRow = 1;
                 worksheet.Cell(currentRow, 1).Value = "Id";
                 worksheet.Cell(currentRow, 2).Value = "Nombre Completo Adoptante";
                 worksheet.Cell(currentRow, 3).Value = "Domicilio";
@@ -28,7 +28,7 @@ namespace ModalidadGradoSpat.Reports
                 worksheet.Cell(currentRow, 13).Value = "Respuesta Pregunta 7";
                 worksheet.Cell(currentRow, 14).Value = "Id Mascota";
                 worksheet.Cell(currentRow, 15).Value = "Nombre Mascota";
-                foreach (var adopcion in adopciones)
+                foreach (var adopcion in adopcionesAprobadas)
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = adopcion.Id;
@@ -46,13 +46,13 @@ namespace ModalidadGradoSpat.Reports
                     worksheet.Cell(currentRow, 13).Value = adopcion.Respuesta7;
                     if (adopcion.Mascota == null)
                     {
+                        worksheet.Cell(currentRow, 14).Value = "Sin datos";
                         worksheet.Cell(currentRow, 15).Value = "Sin datos";
-                        worksheet.Cell(currentRow, 16).Value = "Sin datos";
                     }
                     else
                     {
-                        worksheet.Cell(currentRow, 15).Value = adopcion.Mascota.Id;
-                        worksheet.Cell(currentRow, 16).Value = adopcion.Mascota.Nombre;
+                        worksheet.Cell(currentRow, 14).Value = adopcion.Mascota.Id;
+                        worksheet.Cell(currentRow, 15).Value = adopcion.Mascota.Nombre;
                     }
                 }
                 using (var stream = new MemoryStream())
@@ -63,28 +63,19 @@ namespace ModalidadGradoSpat.Reports
                 }
             }
         }
-        public static byte[] ExcelAdopcionesRechazadas(IEnumerable<AdopcionRechazada> adopciones)
+        public static byte[] ExcelAdopcionesRechazadas(IEnumerable<AdopcionRechazada> adopcionesRechazadas)
         {
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Adopciones");
-                var currentRow = 1;
+                int currentRow = 1;
                 worksheet.Cell(currentRow, 1).Value = "Id";
-                worksheet.Cell(currentRow, 2).Value = "Razon";
-                worksheet.Cell(currentRow, 3).Value = "Id de Solicitud";
-                foreach (var adopcion in adopciones)
+                worksheet.Cell(currentRow, 2).Value = "Razon de Rechazo";
+                foreach (var adopcion in adopcionesRechazadas)
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = adopcion.Id;
                     worksheet.Cell(currentRow, 2).Value = adopcion.Razon;
-                    if (adopcion.SolicitudAdopcion == null)
-                    {
-                        worksheet.Cell(currentRow, 3).Value = "Sin datos";
-                    }
-                    else
-                    {
-                        worksheet.Cell(currentRow, 3).Value = adopcion.SolicitudAdopcionId;
-                    }
                 }
                 using (var stream = new MemoryStream())
                 {
@@ -94,28 +85,19 @@ namespace ModalidadGradoSpat.Reports
                 }
             }
         }
-        public static byte[] ExcelAdopcionesCanceladas(IEnumerable<AdopcionCancelada> adopciones)
+        public static byte[] ExcelAdopcionesCanceladas(IEnumerable<AdopcionCancelada> adopcionesCanceladas)
         {
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Adopciones");
-                var currentRow = 1;
+                int currentRow = 1;
                 worksheet.Cell(currentRow, 1).Value = "Id";
-                worksheet.Cell(currentRow, 2).Value = "Razon";
-                worksheet.Cell(currentRow, 3).Value = "Id de Solicitud";
-                foreach (var adopcion in adopciones)
+                worksheet.Cell(currentRow, 2).Value = "Razon de Cancelacion";
+                foreach (var adopcion in adopcionesCanceladas)
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = adopcion.Id;
                     worksheet.Cell(currentRow, 2).Value = adopcion.Razon;
-                    if (adopcion.SolicitudAdopcion == null)
-                    {
-                        worksheet.Cell(currentRow, 3).Value = "Sin datos";
-                    }
-                    else
-                    {
-                        worksheet.Cell(currentRow, 3).Value = adopcion.SolicitudAdopcionId;
-                    }
                 }
                 using (var stream = new MemoryStream())
                 {

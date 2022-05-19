@@ -20,6 +20,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     public class DenunciaController : Controller
     {
         private static RestClient client;
+        private static List<Denuncia> _listaPDF;
         private static int? sizepage = 10; private static int? pagenumber = 1; private static string busqueda = "";
         public DenunciaController()
         {
@@ -30,6 +31,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             ViewData["search"] = busqueda;
             var vista = await Listado();
+            _listaPDF = await ListadoPDF();
+            ViewData["ListaDenuncias"] = _listaPDF;
             return View(vista);
         }
         public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1, string search = "")
@@ -39,6 +42,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             sizepage = sizePage;
             ViewData["search"] = search;
             var vista = await Listado();
+            ViewData["ListaDenuncias"] = _listaPDF;
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
         [NoDirectAccess]
@@ -83,6 +87,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         TempData["alertsuccess"] = "Denuncia creada.";
                         ViewData["search"] = busqueda;
                         var vista = await Listado();
+                        ViewData["ListaDenuncias"] = _listaPDF;
                         return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
                     }
                     catch (Exception ex)
@@ -106,6 +111,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         TempData["alertsuccess"] = "Denuncia actualizada.";
                         ViewData["search"] = busqueda;
                         var vista = await Listado();
+                        ViewData["ListaDenuncias"] = _listaPDF;
                         return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
                     }
                     catch (Exception ex)
@@ -126,15 +132,16 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Denuncia/DeleteDenuncia/" + id, Method.DELETE);
+            ViewData["search"] = busqueda;
+            ViewData["ListaDenuncias"] = _listaPDF;
             try
             {
                 var response = await client.ExecuteAsync<Denuncia>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "La denuncia fue eliminada de manera exitosa";
-                ViewData["search"] = busqueda;
                 var vista = await Listado();
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
             {
@@ -142,7 +149,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                     throw new Exception();
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
-                return Json(new { isValid = false });
+                var vista = await Listado();
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
         }
         public async Task<List<Denuncia>> Listado()
@@ -160,8 +168,23 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 ViewData["itemsPerPage"] = head["itemsPerPage"].ToString();
                 ViewData["totalItems"] = head["totalItems"].ToString();
                 ViewData["totalPages"] = head["totalPages"].ToString();
-                var vista = response.Data;
-                return vista;
+                return response.Data;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+        public async Task<List<Denuncia>> ListadoPDF()
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Denuncia/GetAllDenunciasForReport", Method.GET);
+            try
+            {
+                var response = await client.ExecuteAsync<List<Denuncia>>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
+                return response.Data;
             }
             catch (Exception)
             {
@@ -171,7 +194,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public async Task<IActionResult> ExcelDenuncias()
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Denuncia/GetAll", Method.GET);
+            var request = new RestRequest("api/Denuncia/GetAllDenunciasForReport", Method.GET);
             try
             {
                 var response = await client.ExecuteAsync<List<Denuncia>>(request);

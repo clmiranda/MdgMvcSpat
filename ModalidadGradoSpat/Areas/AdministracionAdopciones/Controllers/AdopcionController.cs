@@ -33,7 +33,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             ViewData["filter"] = filtrado;
             var vista = await Listado();
             _listaPDF = await ListadoPDF();
-            ViewData["listaSolicitudes"] = _listaPDF;
+            ViewData["ListaSolicitudes"] = _listaPDF;
             return View(vista);
         }
         public async Task<IActionResult> ReturnVista(int? sizePage = 10, int? currentPage = 1, string filter = "Pendiente")
@@ -43,7 +43,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             filtrado = filter;
             ViewData["filter"] = filter;
             var vista = await Listado();
-            ViewData["listaSolicitudes"] = _listaPDF;
+            ViewData["ListaSolicitudes"] = _listaPDF;
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista));
         }
         [NoDirectAccess]
@@ -79,7 +79,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         public async Task<IActionResult> UpdateFecha(int id, DateTime FechaAdopcion)
         {
             ViewData["filter"] = filtrado;
-            ViewData["listaSolicitudes"] = _listaPDF;
+            ViewData["ListaSolicitudes"] = _listaPDF;
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
@@ -89,6 +89,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Fecha actualizada exitosamente.";
                 var vista = await Listado();
+                ViewData["ListaSolicitudes"] = _listaPDF;
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
             catch (Exception ex)
@@ -98,6 +99,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 dynamic msg = JsonConvert.DeserializeObject(ex.Message);
                 TempData["alerterror"] = msg["mensaje"];
                 var vista = await Listado();
+                ViewData["ListaSolicitudes"] = _listaPDF;
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }
         }
@@ -201,9 +203,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 throw new Exception();
             }
         }
-        public async Task<List<SolicitudAdopcion>> ListadoPDF() {
+        public async Task<List<SolicitudAdopcion>> ListadoPDF()
+        {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Adopcion/GetAll", Method.GET);
+            var request = new RestRequest("api/Adopcion/GetAllAdopcionesForReport", Method.GET);
             try
             {
                 var response = await client.ExecuteAsync<List<SolicitudAdopcion>>(request);
@@ -216,65 +219,32 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 throw new Exception();
             }
         }
-        public async Task<IActionResult> ExcelAdopciones()
+        public IActionResult ExcelAdopcionesAprobadas()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Adopcion/GetAll", Method.GET);
-            try
-            {
-                var response = await client.ExecuteAsync<List<SolicitudAdopcion>>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception();
-                var content = ReportAdopcion.ExcelAdopciones(response.Data);
-                return File(
-                    content,
-                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    "Adopciones.xlsx");
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
+            var listaSolicitudesAprobadas = _listaPDF.Where(x => x.Estado.Equals("Aprobado"));
+            var content = ReportAdopcion.ExcelAdopciones(listaSolicitudesAprobadas);
+            return File(
+                content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "AdopcionesAprobadas.xlsx");
         }
-        public async Task<IActionResult> ExcelSolicitudesAdopcionRechazadas()
+        public IActionResult ExcelSolicitudesAdopcionRechazadas()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Adopcion/GetAllSolicitudesAdopcionRechazadas", Method.GET);
-            try
-            {
-                var response = await client.ExecuteAsync<List<AdopcionRechazada>>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception();
-                var content = ReportAdopcion.ExcelAdopcionesRechazadas(response.Data);
-                return File(
-                    content,
-                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    "AdopcionesRechazadas.xlsx");
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
+            var listaSolicitudesRechazadas = _listaPDF.Where(x => x.Estado.Equals("Rechazado")).ToList().ConvertAll(x => x.AdopcionRechazada);
+            var content = ReportAdopcion.ExcelAdopcionesRechazadas(listaSolicitudesRechazadas);
+            return File(
+                content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "AdopcionesRechazadas.xlsx");
         }
-        public async Task<IActionResult> ExcelSolicitudesAdopcionCanceladas()
+        public IActionResult ExcelAdopcionesCanceladas()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Adopcion/GetAllSolicitudesAdopcionCanceladas", Method.GET);
-            try
-            {
-                var response = await client.ExecuteAsync<List<AdopcionCancelada>>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception();
-                var content = ReportAdopcion.ExcelAdopcionesCanceladas(response.Data);
-                return File(
-                    content,
-                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    "AdopcionesCanceladas.xlsx");
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
+            var listaSolicitudesCanceladas = _listaPDF.Where(x => x.Estado.Equals("Cancelado")).ToList().ConvertAll(x => x.AdopcionCancelada);
+            var content = ReportAdopcion.ExcelAdopcionesCanceladas(listaSolicitudesCanceladas);
+            return File(
+                content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "AdopcionesCanceladas.xlsx");
         }
     }
 }
