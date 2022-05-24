@@ -134,7 +134,7 @@
                                 <div class="d-flex justify-content-center align-items-center">
                                     @if (!item.Estado.Equals("Finalizado"))
                                     {
-                                        <a role="button" class="btn btn-info" href="@Url.Action("AsignarSeguimiento","Seguimiento", new { idseguimiento=item.Id, area="AdministracionSeguimientos"})">
+                                        <a role="button" class="btn btn-primary" href="@Url.Action("AsignarSeguimiento","Seguimiento", new { idseguimiento=item.Id, area="AdministracionSeguimientos"})">
                                             <i class="fa fa-user" aria-hidden="true"></i>
                                         </a>
                                     }
@@ -144,7 +144,7 @@
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                         </a>
                                     }
-                                    <a role="button" class="btn btn-secondary" href="@Url.Action("Detalle","Seguimiento", new { idSolicitudAdopcion=item.SolicitudAdopcionId, area="AdministracionSeguimientos"})">
+                                    <a role="button" class="btn btn-success" href="@Url.Action("Detalle","Seguimiento", new { idSolicitudAdopcion=item.SolicitudAdopcionId, area="AdministracionSeguimientos"})">
                                         <i class="fas fa-list" aria-hidden="true"></i>
                                     </a>
                                 </div>

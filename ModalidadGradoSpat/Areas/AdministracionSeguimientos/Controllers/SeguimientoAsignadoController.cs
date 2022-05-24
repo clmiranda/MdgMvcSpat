@@ -1,4 +1,5 @@
-﻿using DATA.Models;
+﻿using DATA.DTOs;
+using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         public async Task<IActionResult> ListaReportes(int id)
         {
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-            var request = new RestRequest("api/Seguimiento/GetSeguimientoVoluntario/" + id, Method.GET);
+            var request = new RestRequest("api/Seguimiento/GetSeguimientoForVoluntario/" + id, Method.GET);
             try
             {
                 var response = await client.ExecuteAsync<Seguimiento>(request);
@@ -76,13 +77,12 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendReporte(ReporteSeguimiento reporte, IFormFile Foto)
+        public async Task<IActionResult> SendReporte(ReporteSeguimientoDto reporteSeguimientoDto)
         {
-            ModelState.Clear();
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ReporteSeguimiento/SendReporte", Method.PUT).AddParameter("Id", reporte.Id).AddParameter("SeguimientoId", reporte.SeguimientoId).AddParameter("Observaciones", reporte.Observaciones);
+                var request = new RestRequest("api/ReporteSeguimiento/SendReporte", Method.PUT).AddParameter("Id", reporteSeguimientoDto.Id).AddParameter("SeguimientoId", reporteSeguimientoDto.SeguimientoId).AddParameter("Observaciones", reporteSeguimientoDto.Observaciones);
                 using (var stream = new MemoryStream())
                 {
                     request.Files.Add(new FileParameter
@@ -90,11 +90,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                         Name = "Foto",
                         Writer = (s) =>
                         {
-                            Foto.CopyTo(s);
+                            reporteSeguimientoDto.Foto.CopyTo(s);
                         },
-                        FileName = Foto.FileName,
-                        ContentType = Foto.ContentType,
-                        ContentLength = Foto.Length
+                        FileName = reporteSeguimientoDto.Foto.FileName,
+                        ContentType = reporteSeguimientoDto.Foto.ContentType,
+                        ContentLength = reporteSeguimientoDto.Foto.Length
                     });
                 }
                 try
@@ -113,7 +113,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     TempData["alerterror"] = msg["mensaje"];
                 }
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "EditReporte", reporte) });
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "EditReporte", reporteSeguimientoDto) });
         }
 
         [NoDirectAccess]
@@ -123,7 +123,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             var request = new RestRequest("api/ReporteSeguimiento/GetById/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<ReporteSeguimiento>(request);
+                var response = await client.ExecuteAsync<ReporteSeguimientoDto>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return View(response.Data);

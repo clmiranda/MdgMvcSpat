@@ -88,13 +88,12 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateEmail(User user)
+        public async Task<IActionResult> UpdateEmail(int Id, string Email)
         {
-            ModelState.Clear();
             if (ModelState.IsValid)
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/User/UpdateEmail/", Method.PUT).AddJsonBody(user);
+                var request = new RestRequest("api/User/UpdateEmail/", Method.PUT).AddJsonBody(JsonConvert.SerializeObject(new { Id, Email }));
                 try
                 {
                     var response = await client.ExecuteAsync<User>(request);
@@ -120,7 +119,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PutPasswordUser(UpdateUserPassword dto)
+        public async Task<IActionResult> ResetPasswordUser(UpdateUserPassword dto)
         {
             if (ModelState.IsValid)
             {

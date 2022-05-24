@@ -71,18 +71,18 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             try
             {
-                var requestVolun = new RestRequest("api/Seguimiento/GetAllVoluntarios/", Method.GET);
-                var responseVolun = await client.ExecuteAsync<List<User>>(requestVolun);
-                if (!responseVolun.IsSuccessful)
+                var requestVoluntario = new RestRequest("api/Seguimiento/GetAllVoluntarios/", Method.GET);
+                var responseVoluntario = await client.ExecuteAsync<List<User>>(requestVoluntario);
+                if (!responseVoluntario.IsSuccessful)
                     throw new Exception();
-                _listaVoluntarios = responseVolun.Data;
+                _listaVoluntarios = responseVoluntario.Data;
 
                 var requestSeg = new RestRequest("api/Seguimiento/GetSeguimiento/" + idseguimiento, Method.GET);
                 var responseSeg = await client.ExecuteAsync<Seguimiento>(requestSeg);
                 if (!responseSeg.IsSuccessful)
                     throw new Exception();
                 _seguimiento = responseSeg.Data;
-                var tupleModel = new Tuple<List<User>, Seguimiento>(responseVolun.Data, responseSeg.Data);
+                var tupleModel = new Tuple<List<User>, Seguimiento>(responseVoluntario.Data, responseSeg.Data);
                 return View(tupleModel);
             }
             catch (Exception)
@@ -202,7 +202,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/ReporteSeguimiento/GetAll", Method.GET);
+                var request = new RestRequest("api/ReporteSeguimiento/GetAllReporteSeguimientosForReport", Method.GET);
                 var response = await client.ExecuteAsync<List<ReporteSeguimiento>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();

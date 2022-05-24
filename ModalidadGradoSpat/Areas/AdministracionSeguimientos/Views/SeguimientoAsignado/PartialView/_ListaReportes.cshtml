@@ -96,13 +96,13 @@ else
                             <div class="d-flex justify-content-center align-items-center">
                                 @if (!item.FechaReporte.Date.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) || item.Estado.Equals("Enviado"))
                                 {
-                                    <button type="button" class="btn btn-info" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
+                                    <button type="button" class="btn btn-primary" disabled><i class="fa fa-edit fa-2" aria-hidden="true"></i></button>
                                 }
                                 else
                                 {
                                     <button type="button" asp-action="EditReporte"
                                             onclick="showInPopup('@Url.Action("EditReporte","SeguimientoAsignado",new { id=item.Id,area="AdministracionSeguimientos"})','Editar Reporte');"
-                                            class="btn btn-info" data-toggle="modal" data-target="#form-modal">
+                                            class="btn btn-primary" data-toggle="modal" data-target="#form-modal">
                                         <i class="fa fa-edit fa-2" aria-hidden="true"></i>
                                     </button>
                                 }
