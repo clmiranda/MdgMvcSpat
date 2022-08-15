@@ -62,14 +62,12 @@ body {
     transition: .5s;
     z-index: var(--z-fixed);
 }
-
     .l-navbar > .nav {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
         overflow: hidden;
     }
+
+/*overflow-x: hidden;
+overflow-y: auto;*/
 
 .nav_logo,
 .nav_link {
@@ -101,7 +99,7 @@ body {
     }
 
 .nav_icon {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     margin-right: 15px;
 }
 
@@ -127,6 +125,10 @@ body {
     body {
         padding-left: 15px;
         margin: var(--header-height) 0 0 -2.5vh;
+    }
+    .l-navbar {
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 }
     @media screen and (min-width: 768px) {

@@ -21,8 +21,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
     {
         private static RestClient client;
         private static List<SolicitudAdopcion> _listaPDF;
-        private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Pendiente";
         private static SolicitudAdopcion _solicitudAdopcion = new SolicitudAdopcion();
+        private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Pendiente";
+        private static int? pagenumberMascota = 1; private static string filtradoMascota = "Adopcion"; private static string busquedaMascota = ""; private static int? sizepageMascota = 5;
         public AdopcionController()
         {
             client = new RestClient("https://localhost:44398/");
@@ -74,6 +75,72 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 throw new Exception();
             }
         }
+        [Route("Adopcion/AdopcionPresencial")]
+        public async Task<IActionResult> AdopcionPresencial()
+        {
+            ViewData["searchMascota"] = busquedaMascota;
+            var vista = await ListadoMascota();
+            return View(new Tuple<SolicitudAdopcion, List<Mascota>>(new SolicitudAdopcion(), vista));
+        }
+        public async Task<IActionResult> ReturnListadoMascota(int? currentPageMascota = 1, string searchMascota = "")
+        {
+            pagenumberMascota = currentPageMascota;
+            busquedaMascota = searchMascota;
+            ViewData["searchMascota"] = searchMascota;
+            var vista = await ListadoMascota();
+            return Json(Helper.RenderRazorViewToString(this, "PartialView/_ListadoMascotaAdopcionPresencial", vista));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAdopcionPresencial([Bind(Prefix = "Item1")] SolicitudAdopcion solicitudAdopcion)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                    var request = new RestRequest("api/Adopcion/CreateAdopcionPresencial", Method.POST).AddJsonBody(solicitudAdopcion);
+                    var response = await client.ExecuteAsync(request);
+                    if (!response.IsSuccessful)
+                        throw new Exception(response.Content);
+                    TempData["alertsuccess"] = "Adopción aprobada, se ha generado el seguimiento.";
+                    return Json(new { isValid = true, url = Url.Action("Lista", "Adopcion", new { area = "AdministracionAdopciones" }) });
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
+                    var vista = await ListadoMascota();
+                    ViewData["searchMascota"] = busquedaMascota;
+                    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PartialView/_AdopcionPresencial", new Tuple<SolicitudAdopcion, List<Mascota>>(solicitudAdopcion, vista)) });
+                }
+            }
+            var vistaAux = await ListadoMascota();
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "PartialView/_AdopcionPresencial", new Tuple<SolicitudAdopcion, List<Mascota>>(solicitudAdopcion, vistaAux)) });
+        }
+        public async Task<List<Mascota>> ListadoMascota()
+        {
+            try
+            {
+                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/Mascota/GetAllMascotasForAdopcionPresencial/", Method.GET).AddParameter("PageNumber", pagenumberMascota).AddParameter("PageSize", sizepageMascota).AddParameter("Busqueda", busquedaMascota).AddParameter("Filter", filtradoMascota);
+                var response = await client.ExecuteAsync<List<Mascota>>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
+                var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
+                var head = JObject.Parse(header.Value.ToString());
+                ViewData["currentPageMascota"] = head["currentPage"].ToString();
+                ViewData["totalItemsMascota"] = head["totalItems"].ToString();
+                ViewData["totalPagesMascota"] = head["totalPages"].ToString();
+                return new List<Mascota>(response.Data);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateFecha(int id, DateTime FechaAdopcion)
@@ -114,7 +181,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
-                TempData["alertsuccess"] = "La solicitud de adopción se ha aprobado correctamente, se ha creado el seguimiento respectivo.";
+                TempData["alertsuccess"] = "Solicitud de adopción aprobada, se ha creado el seguimiento respectivo.";
                 return Json(new { isValid = true, url = Url.Action("Lista", "Adopcion", new { area = "AdministracionAdopciones" }) });
             }
             catch (Exception ex)

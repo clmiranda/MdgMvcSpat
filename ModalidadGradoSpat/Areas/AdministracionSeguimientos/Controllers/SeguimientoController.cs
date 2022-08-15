@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
 {
@@ -98,7 +99,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
             var requestUserVolun = new RestRequest("api/Seguimiento/" + idSeguimiento + "/AsignarSeguimiento/" + idUser, Method.PUT);
             try
             {
-                var responseUser = await client.ExecuteAsync<List<User>>(requestUserVolun);
+                var responseUser = await client.ExecuteAsync/*<List<User>>*/(requestUserVolun);
                 if (!responseUser.IsSuccessful)
                     throw new Exception(responseUser.Content);
                 TempData["alertsuccess"] = "Usuario asignado correctamente.";
@@ -127,7 +128,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 TempData["alertsuccess"] = "Usuario desvinculado del seguimiento.";
                 var requestSeguimiento = new RestRequest("api/Seguimiento/GetSeguimiento/" + idSeguimiento, Method.GET);
                 var responseSeguimiento = await client.ExecuteAsync<Seguimiento>(requestSeguimiento);
-                return Json(new {html = Helper.RenderRazorViewToString(this, "PartialView/_AsignarSeguimiento", new Tuple<List<User>, Seguimiento>(responseUser.Data, responseSeguimiento.Data)) });
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_AsignarSeguimiento", new Tuple<List<User>, Seguimiento>(responseUser.Data, responseSeguimiento.Data)) });
             }
             catch (Exception ex)
             {

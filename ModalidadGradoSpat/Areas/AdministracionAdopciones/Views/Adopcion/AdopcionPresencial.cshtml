@@ -1,0 +1,17 @@
+﻿@model Tuple<SolicitudAdopcion, List<Mascota>>
+@{
+    ViewData["Title"] = "AdopcionManual";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid py-3">
+    <h3>
+        Adopci&oacute;n Manual
+    </h3>
+    <p class="mb-3">
+        Esta vista sirve para crear una adopci&oacute;n de forma manual, sin necesidad de aprobar una solicitud
+        de adopci&oacute;n previamente.
+    </p>
+    <div id="view-all">
+        @await Html.PartialAsync("PartialView/_AdopcionPresencial", Model)
+    </div>
+</div>

@@ -16,15 +16,14 @@ namespace ModalidadGradoSpat.Controllers
     public class AdopcionesController : Controller
     {
         private static RestClient client;
-        private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Adopcion";
+        private static int? pagesize = 9; private static int? pagenumber = 1; private static string filtrado = "Adopcion";
         public AdopcionesController()
         {
             client = new RestClient("https://localhost:44398/");
         }
         public async Task<IActionResult> Inicio()
         {
-            ViewData["filter"] = "Adopcion";
-            filtrado = "Adopcion";
+            ViewData["filter"] = filtrado;
             var vista = await Listado();
             return View(vista);
         }
@@ -103,7 +102,7 @@ namespace ModalidadGradoSpat.Controllers
                     var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
-                    TempData["alertsuccess"] = "Solicitud de adopción enviada, nos comunicaremos con usted en caso de ser apto para la adopción.";
+                    TempData["alertsuccess"] = "Solicitud de adopción enviada correctamente, nos comunicaremos con usted en caso de ser apto para la adopción.";
                     return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_FomularioSolicitudAdopcion", response.Data) });
                 }
                 catch (Exception ex)

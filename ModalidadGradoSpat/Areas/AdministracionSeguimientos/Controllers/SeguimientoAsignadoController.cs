@@ -102,7 +102,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                     var response = await client.ExecuteAsync<Seguimiento>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
-                    TempData["alertsuccess"] = "El Reporte fue enviado exitosamente.";
+                    TempData["alertsuccess"] = "El reporte fue enviado exitosamente.";
                     return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaReportes", response.Data) });
                 }
                 catch (Exception ex)

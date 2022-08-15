@@ -1,214 +1,218 @@
 ﻿@model List<Denuncia>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
-    @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-    <div class="d-xl-flex justify-content-between my-3">
-        <form class="form-inline mr-3" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="selectCantidad">Cantidad:</label>
-                </div>
-                <select id="selectCantidad" name="sizePage" class="custom-select dropdown-toggle mr-3">
-                    @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
-                    {
-                        <option value="5" selected>5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
-                    {
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
-                    {
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20" selected>20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
-                    {
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50" selected>50</option>
-                        <option value="100">100</option>
-                    }
-                    else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
-                    {
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100" selected>100</option>
-                    }
-                </select>
+@{ int id = 1;}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<div class="d-xl-flex justify-content-between my-3">
+    <form class="form-inline mr-3" asp-action="ReturnVista" method="post" onsubmit="return send(this);">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="selectCantidad">Cantidad:</label>
             </div>
-            <div class="flex-row">
-                <input id="inputBuscar" placeholder="Buscar" autocomplete="off" type="text" class="form-control mr-3" name="search" value="@ViewData["search"]">
-                <button id="btnBuscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
-                <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
-            </div>
-        </form>
-        <div class="flex-row">
-            <button onclick="location.href='@Url.Action("ExcelDenuncias", "Denuncia", new { area="AdministracionMascotas"})'" type="button" class="btn btn-success">
-                <i class="fas fa-file-csv fa-lg mr-2"></i>Excel Denuncias
-            </button>
-            <button type="button" class="btn btn-danger" onclick="generatePDF()">
-                <i class="fas fa-file-pdf fa-lg mr-2"></i>PDF Denuncias
-            </button>
+            <select id="selectCantidad" name="sizePage" class="custom-select dropdown-toggle mr-3">
+                @if (int.Parse(ViewData["itemsPerPage"].ToString()) == 5)
+                {
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 10)
+                {
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 20)
+                {
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20" selected>20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 50)
+                {
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50" selected>50</option>
+                    <option value="100">100</option>
+                }
+                else if (int.Parse(ViewData["itemsPerPage"].ToString()) == 100)
+                {
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100" selected>100</option>
+                }
+            </select>
         </div>
+        <div class="flex-row">
+            <input id="inputBuscar" placeholder="Buscar" autocomplete="off" type="text" class="form-control mr-3" name="search" value="@ViewData["search"]">
+            <button id="btnBuscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
+            <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
+        </div>
+    </form>
+    <div class="flex-row">
+        <button onclick="location.href='@Url.Action("ExcelDenuncias", "Denuncia", new { area="AdministracionMascotas"})'" type="button" class="btn btn-success">
+            <i class="fas fa-file-csv fa-lg mr-2"></i>Excel Denuncias
+        </button>
+        <button type="button" class="btn btn-danger" onclick="generatePDF()">
+            <i class="fas fa-file-pdf fa-lg mr-2"></i>PDF Denuncias
+        </button>
     </div>
-    <button type="button" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"})', 'Nueva Denuncia');"
-            class="btn btn-primary mb-3" data-toggle="modal" data-target="#form-modal">
-        <i class="fas fa-plus-square fa-lg mr-2"></i>Agregar Denuncia
-    </button>
-    <div class="table-responsive">
-        <table id="tableDenuncia" class="table table-hover table-bordered" style="width:100%">
-            <thead>
+</div>
+<button type="button" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=0, area="AdministracionMascotas"})', 'Nueva Denuncia');"
+        class="btn btn-primary mb-3" data-toggle="modal" data-target="#form-modal">
+    <i class="fas fa-plus-square fa-lg mr-2"></i>Agregar Denuncia
+</button>
+<div class="table-responsive">
+    <table id="tableDenuncia" class="table table-hover table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Mascota</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyDenuncia">
+            @if (Model.Count() <= 0)
+            {
                 <tr>
-                    <th>Id</th>
-                    <th>Titulo</th>
-                    <th>Descripcion</th>
-                    <th>Nombre Mascota</th>
-                    <th>Acciones</th>
+                    <td colspan="4"><h1 class="text-center">No hay registros para mostrar.</h1></td>
                 </tr>
-            </thead>
-            <tbody id="tbodyDenuncia">
-                @if (Model.Count() <= 0)
+            }
+            else
+            {
+                @foreach (var item in Model)
                 {
                     <tr>
-                        <td colspan="4"><h1 class="text-center">No hay registros para mostrar.</h1></td>
+                        <td width="3%">
+                            <p>@(id++)</p>
+                        </td>
+                        <td width="30%">
+                            <p>@item.Titulo</p>
+                        </td>
+                        <td width="40%">
+                            <p>@item.Descripcion</p>
+                        </td>
+                        <td width="10%">
+                            @if (item.Mascota != null)
+                            {
+                                <p>
+                                    @item.Mascota.Nombre
+                                </p>
+                            }
+                            else
+                            {
+                                <p>No tiene mascota creada</p>
+                            }
+                        </td>
+                        <td width="7%">
+                            <div class="d-flex align-items-center">
+                                <a type="button" href="@Url.Action("EditMascota", "Mascota",new { id=item.Id, area="AdministracionMascotas"})" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Vista de mascota">
+                                    <i class="fas fa-dog fa-2"></i>
+                                </a>
+                                <button type="button" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=item.Id,area="AdministracionMascotas"})','Actualizar Denuncia');"
+                                        class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Editar denuncia">
+                                    <span data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></span>
+                                </button>
+                                <form asp-action="DeleteDenuncia" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                                    <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar denuncia">
+                                        <i class="fa fa-trash fa-2" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                 }
-                else
-                {
-                    @foreach (var item in Model)
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Mascota</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<!-- pager -->
+<nav class="table-responsive">
+    <form asp-action="ReturnVista" method="post" onsubmit="return send(this);">
+        <input type="hidden" name="sizePage" value="@ViewData["itemsPerPage"]" />
+        <input type="hidden" name="search" value="@ViewData["search"]" />
+        <input type="hidden" name="currentPage" />
+        <ul class="pagination justify-content-center d-flex flex-wrap">
+            @if (int.Parse(ViewData["currentPage"].ToString()) > 1)
+            {
+                <li class="page-item">
+                    <button class="page-link" value="1" onclick="GetValueButton(this.value)">Primer</button>
+                </li>
+                <li class="page-item">
+                    @{ int p = int.Parse(ViewData["currentPage"].ToString()) - 1;}
+                    <button class="page-link" value="@p" onclick="GetValueButton(this.value)">Anterior</button>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <button type="button" class="page-link">Primer<span class="sr-only"></span></button>
+                </li>
+                <li class="page-item">
+                    <button type="button" class="page-link">Anterior<span class="sr-only"></span></button>
+                </li>
+            }
+
+            @for (var pagina = 1; pagina <= int.Parse(ViewData["totalPages"].ToString()); pagina++)
+            {
+                <li class="page-item @(pagina == int.Parse(ViewData["currentPage"].ToString()) ? "active" : "")">
+                    @if (pagina == int.Parse(ViewData["currentPage"].ToString()))
                     {
-                        <tr>
-                            <td width="5%">
-                                <p>@item.Id</p>
-                            </td>
-                            <td width="20%">
-                                <p>@item.Titulo</p>
-                            </td>
-                            <td width="40%">
-                                <p>@item.Descripcion</p>
-                            </td>
-                            <td width="20%">
-                                @if (item.Mascota != null)
-                                {
-                                    <p>
-                                        @item.Mascota.Nombre
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p>No tiene mascota creada</p>
-                                }
-                            </td>
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <a role="button" href="@Url.Action("EditMascota", "Mascota",new { id=item.Id, area="AdministracionMascotas"})" class="btn btn-success">
-                                        <i class="fas fa-dog fa-2"></i>
-                                    </a>
-                                    <button type="button" onclick="showInPopup('@Url.Action("AddOrEditDenuncia","Denuncia",new { id=item.Id,area="AdministracionMascotas"})','Actualizar Denuncia');"
-                                            class="btn btn-info" data-toggle="modal" data-target="#form-modal">
-                                        <i class="fa fa-edit fa-2" aria-hidden="true"></i>
-                                    </button>
-                                    <form asp-action="DeleteDenuncia" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-trash fa-2" aria-hidden="true"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
+                        <button type="button" class="page-link" value="@pagina" role="button">@(pagina)<span class="sr-only"></span></button>
                     }
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Titulo</th>
-                    <th>Descripcion</th>
-                    <th>Nombre Mascota</th>
-                    <th>Acciones</th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <!-- pager -->
-    <nav class="table-responsive">
-        <form asp-action="ReturnVista" method="post" onsubmit="return send(this);">
-            <input type="hidden" name="sizePage" value="@ViewData["itemsPerPage"]" />
-            <input type="hidden" name="search" value="@ViewData["search"]" />
-            <input type="hidden" name="currentPage" />
-            <ul class="pagination justify-content-center d-flex flex-wrap">
-                @if (int.Parse(ViewData["currentPage"].ToString()) > 1)
-                {
-                    <li class="page-item">
-                        <button class="page-link" value="1" onclick="GetValueButton(this.value)">Primer</button>
-                    </li>
-                    <li class="page-item">
-                        @{ int p = int.Parse(ViewData["currentPage"].ToString()) - 1;}
-                        <button class="page-link" value="@p" onclick="GetValueButton(this.value)">Anterior</button>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                        <button type="button" class="page-link">Primer<span class="sr-only"></span></button>
-                    </li>
-                    <li class="page-item">
-                        <button type="button" class="page-link">Anterior<span class="sr-only"></span></button>
-                    </li>
-                }
+                    else
+                    {
+                        <button class="page-link" value="@pagina" onclick="GetValueButton(this.value)">@(pagina)</button>
+                    }
+                </li>
+            }
 
-                @for (var pagina = 1; pagina <= int.Parse(ViewData["totalPages"].ToString()); pagina++)
-                {
-                    <li class="page-item @(pagina == int.Parse(ViewData["currentPage"].ToString()) ? "active" : "")">
-                        @if (pagina == int.Parse(ViewData["currentPage"].ToString()))
-                        {
-                            <button type="button" class="page-link" value="@pagina" role="button">@(pagina)<span class="sr-only"></span></button>
-                        }
-                        else
-                        {
-                            <button class="page-link" value="@pagina" onclick="GetValueButton(this.value)">@(pagina)</button>
-                        }
-                    </li>
-                }
-
-                @if (int.Parse(ViewData["currentPage"].ToString()) < int.Parse(ViewData["totalPages"].ToString()))
-                {
-                    <li class="page-item">
-                        @{int n = int.Parse(ViewData["currentPage"].ToString()) + 1;}
-                        <button class="page-link" value="@n" onclick="GetValueButton(this.value)">Siguiente</button>
-                    </li>
-                    <li class="page-item">
-                        <button class="page-link" value="@ViewData["totalPages"]" onclick="GetValueButton(this.value)">&Uacute;ltimo</button>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                        <button type="button" class="page-link">Siguiente<span class="sr-only"></span></button>
-                    </li>
-                    <li class="page-item">
-                        <button type="button" class="page-link">&Uacute;ltimo<span class="sr-only"></span></button>
-                    </li>
-                }
-            </ul>
-        </form>
-    </nav>
-    <script>
+            @if (int.Parse(ViewData["currentPage"].ToString()) < int.Parse(ViewData["totalPages"].ToString()))
+            {
+                <li class="page-item">
+                    @{int n = int.Parse(ViewData["currentPage"].ToString()) + 1;}
+                    <button class="page-link" value="@n" onclick="GetValueButton(this.value)">Siguiente</button>
+                </li>
+                <li class="page-item">
+                    <button class="page-link" value="@ViewData["totalPages"]" onclick="GetValueButton(this.value)">&Uacute;ltimo</button>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <button type="button" class="page-link">Siguiente<span class="sr-only"></span></button>
+                </li>
+                <li class="page-item">
+                    <button type="button" class="page-link">&Uacute;ltimo<span class="sr-only"></span></button>
+                </li>
+            }
+        </ul>
+    </form>
+</nav>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
+    });
     function generatePDF() {
         const doc = new jsPDF()
         doc.autoTable({
@@ -240,4 +244,4 @@
         window.open(URL.createObjectURL(doc.output("blob")));
     }
     var _0x1e34 = ['1228703lBRLxR', 'click', '[name=\x27currentPage\x27]', 'POST', 'ajax', '379682sNaBSs', 'href', '/Error/', 'status', '#inputBuscar', 'location', '#btnBuscar', 'disabled', 'change', '12505KDaFON', '#view-all', 'select\x20option', '1541222xzVEjw', '3511JSMiAO', 'fail', '15vYqMVm', 'html', 'action', 'prop', 'input[name=\x27search\x27]', 'value', 'form', 'select', 'val', '281wdoyTo', '353066owxhzg', 'keyup', '2011943YjMXpC']; function _0x3adf(_0x1c19c0, _0x569521) { return _0x3adf = function (_0x1e3488, _0x3adf58) { _0x1e3488 = _0x1e3488 - 0x135; var _0x442792 = _0x1e34[_0x1e3488]; return _0x442792; }, _0x3adf(_0x1c19c0, _0x569521); } var _0x28a6bb = _0x3adf; (function (_0x2be6c6, _0x148f67) { var _0x564f83 = _0x3adf; while (!![]) { try { var _0x429666 = parseInt(_0x564f83(0x13c)) * -parseInt(_0x564f83(0x147)) + -parseInt(_0x564f83(0x14b)) + parseInt(_0x564f83(0x13e)) * parseInt(_0x564f83(0x138)) + -parseInt(_0x564f83(0x148)) + parseInt(_0x564f83(0x13b)) + -parseInt(_0x564f83(0x150)) + parseInt(_0x564f83(0x14a)); if (_0x429666 === _0x148f67) break; else _0x2be6c6['push'](_0x2be6c6['shift']()); } catch (_0x32924e) { _0x2be6c6['push'](_0x2be6c6['shift']()); } } }(_0x1e34, 0xc187a)); function GetValueButton(_0xb6d424) { var _0x5b0365 = _0x3adf; $(_0x5b0365(0x14d))[_0x5b0365(0x146)](_0xb6d424); } $('#resetear')['on'](_0x28a6bb(0x14c), function () { var _0x373543 = _0x28a6bb; $(_0x373543(0x13a))[_0x373543(0x146)]('10'), $(_0x373543(0x142))[_0x373543(0x146)](''); }), $(_0x28a6bb(0x154))[_0x28a6bb(0x149)](function () { var _0x55a555 = _0x28a6bb; $(_0x55a555(0x135))[_0x55a555(0x141)](_0x55a555(0x136), this[_0x55a555(0x143)] == '' ? !![] : ![]); }), $(_0x28a6bb(0x145))['on'](_0x28a6bb(0x137), function () { var _0x1335c2 = _0x28a6bb; $['ajax']({ 'type': _0x1335c2(0x14e), 'url': this[_0x1335c2(0x144)][_0x1335c2(0x140)], 'data': new FormData(this['form']), 'contentType': ![], 'processData': ![], 'success': function (_0x5b7837) { var _0x62acaf = _0x1335c2; $('#view-all')[_0x62acaf(0x13f)](_0x5b7837); } })['fail'](function (_0x284f74, _0x4330f4, _0x161c23) { var _0x4dae16 = _0x1335c2; window[_0x4dae16(0x155)][_0x4dae16(0x151)] = _0x4dae16(0x152) + _0x284f74['status']; }); }), send = _0x34cf3a => { var _0x5481e2 = _0x28a6bb; return $[_0x5481e2(0x14f)]({ 'type': _0x5481e2(0x14e), 'url': _0x34cf3a[_0x5481e2(0x140)], 'data': new FormData(_0x34cf3a), 'contentType': ![], 'processData': ![], 'success': function (_0x158009) { var _0x4f8967 = _0x5481e2; $(_0x4f8967(0x139))[_0x4f8967(0x13f)](_0x158009); } })[_0x5481e2(0x13d)](function (_0x295240, _0x4401d6, _0x3034d8) { var _0x21bf8f = _0x5481e2; window[_0x21bf8f(0x155)][_0x21bf8f(0x151)] = '/Error/' + _0x295240[_0x21bf8f(0x153)]; }), ![]; };
-    </script>
+</script>

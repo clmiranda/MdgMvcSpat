@@ -73,7 +73,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     var response = await client.ExecuteAsync<User>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
-                    TempData["alertsuccess"] = "Datos actualizados.";
+                    TempData["alertsuccess"] = "Datos de usuario actualizados.";
                     return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditarPerfil", response.Data) });
                 }
                 catch (Exception ex)
@@ -130,7 +130,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     var response = await client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
-                    TempData["alertsuccess"] = "Contraseña Actualizada.";
+                    TempData["alertsuccess"] = "Contraseña actualizada.";
                     return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ResetPassword", dto) });
                 }
                 catch (Exception ex)

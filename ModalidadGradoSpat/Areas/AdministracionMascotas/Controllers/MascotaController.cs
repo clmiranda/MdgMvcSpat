@@ -1,4 +1,5 @@
-﻿using DATA.Models;
+﻿using DATA.DTOs;
+using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static ModalidadGradoSpat.Helper;
@@ -71,6 +73,46 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public IActionResult GetFotoMascota(string url = "")
         {
             return PartialView("GetFotoMascota", url);
+        }
+        [HttpPost]
+        [Route("Mascota/{idMascota}/AddFotoMascota")]
+        public async Task<IActionResult> AddFotoMascotaAsync(int idMascota, [FromForm] FotoForCreationDto fotoDto)
+        {
+            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Fotos/Mascota/"+ idMascota + "/AddFotoMascota", Method.POST);
+            foreach (var foto in fotoDto.Archivo)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    request.Files.Add(new FileParameter
+                    {
+                        Name = "Archivo",
+                        Writer = (s) =>
+                        {
+                            foto.CopyTo(s);
+                        },
+                        FileName = foto.FileName,
+                        ContentType = foto.ContentType,
+                        ContentLength = foto.Length
+                    });
+                }
+            }
+            try
+            {
+                var response = await client.ExecuteAsync<Mascota>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception(response.Content);
+                TempData["alertsuccess"] = "Foto(s) agregada(s) correctamente.";
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "")
+                    throw new Exception();
+                dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                TempData["alerterror"] = msg["mensaje"];
+                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", _mascota) });
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -138,7 +180,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         var response = await client.ExecuteAsync<Mascota>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
-                        TempData["alertsuccess"] = "Registrado correctamente.";
+                        TempData["alertsuccess"] = "Mascota registrada correctamente.";
                         return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", response.Data), html2 = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
                     }
                     catch (Exception ex)
@@ -159,7 +201,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         var response = await client.ExecuteAsync<Mascota>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
-                        TempData["alertsuccess"] = "Modificado Correctamente.";
+                        TempData["alertsuccess"] = "Datos de mascota actualizados correctamente.";
                         return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_EditMascota", response.Data) });
                     }
                     catch (Exception ex)

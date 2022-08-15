@@ -171,16 +171,13 @@ else
         </style>
         <div class="container-fluid row">
             <div class="col-lg-6 mx-auto">
-                <h3 class="my-5">Evoluci&oacute;n de la mascota desde su rescate.</h3>
+                <h3 class="my-5">Registros del tratamiento que lleva la mascota.</h3>
                 <ul class="timeline">
                     @foreach (var item in Model.ReporteTratamientos)
                     {
-                        <li class="bg-white rounded ml-3 p-1 shadow">
-                            <div class="d-flex justify-content-between">
-                                <p class="text-primary">@item.Titulo</p>
-                                <p class="float-right text-primary">@item.FechaCreacion.ToShortDateString()</p>
-                            </div>
-                            <p>@item.Descripcion</p>
+                        <li class="bg-white rounded ml-3 p-3 shadow">
+                            <p class="text-primary">@item.FechaCreacion.ToShortDateString()</p>
+                            @item.Descripcion
                         </li>
 
                     }

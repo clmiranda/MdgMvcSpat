@@ -1,5 +1,6 @@
 ﻿@model Seguimiento
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+@{ int id = 1;}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -34,7 +35,7 @@ else
                 else
                 {
                     <form asp-action="AddReporte" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPostList(this);" method="post">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Agregar reporte"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
                     </form>
                 }
             </div>
@@ -45,7 +46,7 @@ else
                 }
                 else
                 {
-                    <p class="shadow px-2 py-2 bg-white rounded">Voluntario Asignado: @Model.User.Persona.Nombres @Model.User.Persona.Apellidos</p>
+                    <p class="shadow px-2 py-2 bg-white rounded">Voluntario: @Model.User.Persona.Nombres @Model.User.Persona.Apellidos | Mascota: @Model.SolicitudAdopcion.Mascota.Nombre</p>
                 }
             </div>
             <div class="my-2">
@@ -65,8 +66,10 @@ else
                 {
                     <button class="btn btn-primary" type="button"
                             onclick="showInPopup('@Url.Action("SetRangoFechasSeguimiento","ReporteSeguimiento", new { id=Model.Id, area="AdministracionSeguimientos" })', 'Actualizar Seguimiento');"
-                            data-toggle="modal" data-target="#form-modal">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                            data-toggle="tooltip" data-placement="top" title="Actualizar rango de fechas">
+                        <span data-toggle="modal" data-target="#form-modal">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </span>
                     </button>
                 }
             </div>
@@ -75,19 +78,20 @@ else
         {
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <strong>
-                    No se ha asignado un rango de fechas al seguimiento actual.
+                    No se ha asignado un rango de fechas al seguimiento, debe establecer un rango
+                    para asignar las fechas de los reportes.
                 </strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
         }
-        @if (Model.ReporteSeguimientos.Any(x => x.FechaReporte.Date < Model.FechaInicio.Date || x.FechaReporte.Date > Model.FechaFin.Date))
+        else if (Model.ReporteSeguimientos.Any(x => x.FechaReporte.Date < Model.FechaInicio.Date || x.FechaReporte.Date > Model.FechaFin.Date) || Model.ReporteSeguimientos.Any(x => x.Estado.Equals("Activo")))
         {
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <strong>
-                    Existen fechas que no estan en el rango establecido, debe establecerlas
-                    para que los reportes puedan realizarse.
+                    Hay registros cuyas fechas no est&aacute;n en el rango establecido o que no est&aacute;n asignadas,
+                    debe asignar la fecha de un registro al rango de fechas para realizar el reporte.
                 </strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -111,7 +115,7 @@ else
                     {
                         <tr>
                             <td width="5%">
-                                @item.Id
+                                @(id++)
                             </td>
                             <td>
                                 @if (item.Estado.Equals("Activo") || item.Estado.Equals("Asignado"))
@@ -171,9 +175,11 @@ else
                                 @if (item.Foto != null)
                                 {
                                     <button type="button" onclick="showInPopup('@Url.Action("GetFotoReporteSeguimiento","ReporteSeguimiento", new { url=item.Foto.Url, area="AdministracionSeguimientos"})','Imagen del Reporte');"
-                                            data-toggle="modal" data-target="#form-modal"
+                                            data-toggle="tooltip" data-placement="top" title="Ver foto"
                                             class="btn btn-success">
-                                        <i class="fas fa-images"></i>
+                                        <span data-toggle="modal" data-target="#form-modal">
+                                            <i class="fas fa-images"></i>
+                                        </span>
                                     </button>
                                 }
                                 else
@@ -190,7 +196,7 @@ else
                                     else
                                     {
                                         <form asp-action="DeleteReporte" asp-route-idReporte="@item.Id" asp-route-idSeguimiento="@item.SeguimientoId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                                            <button type="submit" class="btn btn-danger">
+                                            <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar registro">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
@@ -212,43 +218,14 @@ else
                 </tfoot>
             </table>
         </div>
-        <script>
-            $(document).ready(function () {
-                var url = "/archivos/js/daterangepicker.js";
-                $.getScript(url);
-                $('#example').DataTable({
-                    "processing": true,
-                    "ordering": false,
-                    "language": {
-                        "sProcessing": "Procesando...",
-                        "sLengthMenu": "Mostrar _MENU_ registros",
-                        "sZeroRecords": "No se encontraron resultados",
-                        "sEmptyTable": "Ningún dato disponible en esta tabla =(",
-                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                        "sInfoPostFix": "",
-                        "sSearch": "Buscar:",
-                        "sUrl": "",
-                        "sInfoThousands": ",",
-                        "sLoadingRecords": "Cargando...",
-                        "oPaginate": {
-                            "sFirst": "Primero",
-                            "sLast": "Último",
-                            "sNext": "Siguiente",
-                            "sPrevious": "Anterior"
-                        },
-                        "oAria": {
-                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                        },
-                        "buttons": {
-                            "copy": "Copiar",
-                            "colvis": "Visibilidad"
-                        }
-                    }
-                });
+        <script type="text/javascript" language=javascript>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
             });
+            $("button").click(function () {
+                $("[data-toggle='tooltip']").tooltip('hide');
+            });
+            function _0xcfb0() { var _0x479c2c = ['101555wKTKGj', '264240DEIkUM', 'ready', '57393oZVGso', 'Visibilidad', '22LcFbJO', 'Siguiente', 'Mostrando\x20registros\x20del\x200\x20al\x200\x20de\x20un\x20total\x20de\x200\x20registros', '34zGkbmd', 'Copiar', 'Cargando...', 'Mostrando\x20registros\x20del\x20_START_\x20al\x20_END_\x20de\x20un\x20total\x20de\x20_TOTAL_\x20registros', 'Último', '(filtrado\x20de\x20un\x20total\x20de\x20_MAX_\x20registros)', '965293CxNMkZ', '36Zyxony', ':\x20Activar\x20para\x20ordenar\x20la\x20columna\x20de\x20manera\x20ascendente', '2103790iHlXDH', 'Primero', '4996xZrPEh', 'DataTable', '#example', 'Buscar:', 'getScript', 'Anterior', '145576uSJEEV', '/archivos/js/daterangepicker.js', 'Procesando...', '81oXLgYb']; _0xcfb0 = function () { return _0x479c2c; }; return _0xcfb0(); } var _0x30492d = _0x484b; function _0x484b(_0x1eef87, _0x1815af) { var _0xcfb099 = _0xcfb0(); return _0x484b = function (_0x484b7d, _0x515fe7) { _0x484b7d = _0x484b7d - 0xa2; var _0xc74fc = _0xcfb099[_0x484b7d]; return _0xc74fc; }, _0x484b(_0x1eef87, _0x1815af); } (function (_0xc55435, _0x258e5a) { var _0x387dc5 = _0x484b, _0x4a8c3b = _0xc55435(); while (!![]) { try { var _0x44da67 = -parseInt(_0x387dc5(0xad)) / 0x1 * (-parseInt(_0x387dc5(0xb8)) / 0x2) + parseInt(_0x387dc5(0xa8)) / 0x3 + parseInt(_0x387dc5(0xb4)) / 0x4 * (parseInt(_0x387dc5(0xa5)) / 0x5) + -parseInt(_0x387dc5(0xa6)) / 0x6 + parseInt(_0x387dc5(0xb3)) / 0x7 + -parseInt(_0x387dc5(0xbe)) / 0x8 * (-parseInt(_0x387dc5(0xa4)) / 0x9) + parseInt(_0x387dc5(0xb6)) / 0xa * (-parseInt(_0x387dc5(0xaa)) / 0xb); if (_0x44da67 === _0x258e5a) break; else _0x4a8c3b['push'](_0x4a8c3b['shift']()); } catch (_0x25b96d) { _0x4a8c3b['push'](_0x4a8c3b['shift']()); } } }(_0xcfb0, 0x1e358), $(document)[_0x30492d(0xa7)](function () { var _0x5aca9b = _0x30492d, _0x276ae2 = _0x5aca9b(0xa2); $[_0x5aca9b(0xbc)](_0x276ae2), $(_0x5aca9b(0xba))[_0x5aca9b(0xb9)]({ 'processing': !![], 'ordering': ![], 'language': { 'sProcessing': _0x5aca9b(0xa3), 'sLengthMenu': 'Mostrar\x20_MENU_\x20registros', 'sZeroRecords': 'No\x20se\x20encontraron\x20resultados', 'sEmptyTable': 'Ningún\x20dato\x20disponible\x20en\x20esta\x20tabla\x20=(', 'sInfo': _0x5aca9b(0xb0), 'sInfoEmpty': _0x5aca9b(0xac), 'sInfoFiltered': _0x5aca9b(0xb2), 'sInfoPostFix': '', 'sSearch': _0x5aca9b(0xbb), 'sUrl': '', 'sInfoThousands': ',', 'sLoadingRecords': _0x5aca9b(0xaf), 'oPaginate': { 'sFirst': _0x5aca9b(0xb7), 'sLast': _0x5aca9b(0xb1), 'sNext': _0x5aca9b(0xab), 'sPrevious': _0x5aca9b(0xbd) }, 'oAria': { 'sSortAscending': _0x5aca9b(0xb5), 'sSortDescending': ':\x20Activar\x20para\x20ordenar\x20la\x20columna\x20de\x20manera\x20descendente' }, 'buttons': { 'copy': _0x5aca9b(0xae), 'colvis': _0x5aca9b(0xa9) } } }); }));
             var _0x348b = ['form', '982688hxuies', '3067LHAMSU', 'fail', '475836mDmlwk', '1114735DQJLMN', 'POST', '3191sDcGky', 'location', 'change', 'status', '471610ifpBbE', '174BBIsDK', '66763aWctuf', '/Error/', 'ajax', 'href', '353bSkgOp', 'html']; function _0x4f1f(_0x52e421, _0x35d253) { return _0x4f1f = function (_0x348b0a, _0x4f1f35) { _0x348b0a = _0x348b0a - 0x10e; var _0x3df4a8 = _0x348b[_0x348b0a]; return _0x3df4a8; }, _0x4f1f(_0x52e421, _0x35d253); } var _0xe7cc8f = _0x4f1f; (function (_0x3c4c7e, _0x2bc1e8) { var _0x551e71 = _0x4f1f; while (!![]) { try { var _0x32c9db = -parseInt(_0x551e71(0x110)) + -parseInt(_0x551e71(0x10f)) + parseInt(_0x551e71(0x118)) + -parseInt(_0x551e71(0x116)) + parseInt(_0x551e71(0x117)) * parseInt(_0x551e71(0x120)) + parseInt(_0x551e71(0x11f)) + parseInt(_0x551e71(0x11c)) * parseInt(_0x551e71(0x112)); if (_0x32c9db === _0x2bc1e8) break; else _0x3c4c7e['push'](_0x3c4c7e['shift']()); } catch (_0x484ee0) { _0x3c4c7e['push'](_0x3c4c7e['shift']()); } } }(_0x348b, 0x9e0b7), $('[data-toggle=\x22datepicker\x22]')['on'](_0xe7cc8f(0x114), function () { var _0x3ba887 = _0xe7cc8f; return $[_0x3ba887(0x11a)]({ 'type': _0x3ba887(0x111), 'url': this[_0x3ba887(0x11e)]['action'], 'data': new FormData(this['form']), 'contentType': ![], 'processData': ![], 'success': function (_0x56b50a) { var _0x36558b = _0x3ba887; $('#view-all')[_0x36558b(0x11d)](_0x56b50a[_0x36558b(0x11d)]); } })[_0x3ba887(0x10e)](function (_0x2f079, _0x2dae44, _0x478c44) { var _0xa452e5 = _0x3ba887; window[_0xa452e5(0x113)][_0xa452e5(0x11b)] = _0xa452e5(0x119) + _0x2f079[_0xa452e5(0x115)]; }), ![]; }));
         </script>
     }

@@ -2,10 +2,10 @@
 
 namespace ModalidadGradoSpat.Controllers
 {
-    public class ErrorsHandleController : Controller
+    public class ErrorController : Controller
     {
         [Route("Error/{statusCode}")]
-        public IActionResult StatusCodeHandle(int statusCode = 500)
+        public IActionResult Error(int statusCode = 500)
         {
             switch (statusCode)
             {

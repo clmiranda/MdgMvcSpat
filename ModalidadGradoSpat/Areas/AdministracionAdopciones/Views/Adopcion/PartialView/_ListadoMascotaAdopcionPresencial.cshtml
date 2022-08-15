@@ -1,0 +1,115 @@
+﻿@model List<Mascota>
+<form class="form-inline mr-3" asp-action="ReturnListadoMascota" method="post" onsubmit="return sendBusquedaMascota(this);">
+    <div class="flex-row">
+        <input id="inputBuscar" placeholder="Buscar" autocomplete="off" type="text" class="form-control mr-3" name="searchMascota" value="@ViewData["searchMascota"]">
+        <button id="btnBuscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
+        <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
+    </div>
+</form>
+<div class="list-group my-3" id="myList" role="tablist">
+    @if (Model.Count() <= 0)
+    {
+        <h1 class="text-center">No hay registros para mostrar.</h1>
+    }
+    else
+    {
+        @foreach (var mascota in Model)
+        {
+            <button id="mascota-@mascota.Id" value="@mascota.Id" class="list-group-item list-group-item-action" data-toggle="list" role="tab">
+                Nombre: @mascota.Nombre | Rasgos particulares: @mascota.RasgosParticulares | Tama&ntilde;o: @mascota.Tamano
+            </button>
+        }
+    }
+</div>
+<nav class="table-responsive">
+    <form asp-action="ReturnListadoMascota" method="post" onsubmit="return sendBusquedaMascota(this);">
+        <input type="hidden" name="searchMascota" value="@ViewData["searchMascota"]" />
+        <input type="hidden" name="currentPageMascota" />
+        <ul class="pagination justify-content-center d-flex flex-wrap">
+            @if (int.Parse(ViewData["currentPageMascota"].ToString()) > 1)
+            {
+                <li class="page-item">
+                    <button class="page-link" value="1" onclick="GetValueButton(this.value)">Primer</button>
+                </li>
+                <li class="page-item">
+                    @{ int p = int.Parse(ViewData["currentPageMascota"].ToString()) - 1;}
+                    <button class="page-link" value="@p" onclick="GetValueButton(this.value)">Anterior</button>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <button type="button" class="page-link">Primer<span class="sr-only"></span></button>
+                </li>
+                <li class="page-item">
+                    <button type="button" class="page-link">Anterior<span class="sr-only"></span></button>
+                </li>
+            }
+
+            @for (var pagina = 1; pagina <= int.Parse(ViewData["totalPagesMascota"].ToString()); pagina++)
+            {
+                <li class="page-item @(pagina == int.Parse(ViewData["currentPageMascota"].ToString()) ? "active" : "")">
+                    @if (pagina == int.Parse(ViewData["currentPageMascota"].ToString()))
+                    {
+                        <button type="button" class="page-link" value="@pagina" role="button">@(pagina)<span class="sr-only"></span></button>
+                    }
+                    else
+                    {
+                        <button class="page-link" value="@pagina" onclick="GetValueButton(this.value)">@(pagina)</button>
+                    }
+                </li>
+            }
+
+            @if (int.Parse(ViewData["currentPageMascota"].ToString()) < int.Parse(ViewData["totalPagesMascota"].ToString()))
+            {
+                <li class="page-item">
+                    @{int n = int.Parse(ViewData["currentPageMascota"].ToString()) + 1;}
+                    <button class="page-link" value="@n" onclick="GetValueButton(this.value)">Siguiente</button>
+                </li>
+                <li class="page-item">
+                    <button class="page-link" value="@ViewData["totalPagesMascota"]" onclick="GetValueButton(this.value)">&Uacute;ltimo</button>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <button type="button" class="page-link">Siguiente<span class="sr-only"></span></button>
+                </li>
+                <li class="page-item">
+                    <button type="button" class="page-link">&Uacute;ltimo<span class="sr-only"></span></button>
+                </li>
+            }
+        </ul>
+    </form>
+</nav>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    function GetValueButton(val) {
+        $("[name='currentPageMascota']").val(val);
+    }
+    $("#resetear").on("click", function () {
+        $("input[name='searchMascota']").val("");
+    });
+    $('#inputBuscar').keyup(function () {
+        $('#btnBuscar').prop('disabled', this.value == "" ? true : false);
+    });
+    sendBusquedaMascota = form => {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                $('#idListadoMascotas').html(res);
+            }
+        })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                window.location.href = "/Error/" + jqXHR.status;
+            })
+        return false;
+    };
+    $(".list-group-item").on('click', function () {
+        $("#idMascota").val($(this).val());
+    });
+</script>

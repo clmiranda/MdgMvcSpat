@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<User>
+@{ int id = 1;}
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -38,7 +39,7 @@
                 @if (!item.Roles.Contains("SuperAdministrador"))
                 {
                     <tr>
-                        <td>@item.Id</td>
+                        <td>@(id++)</td>
                         <td>@item.Persona.Nombres @item.Persona.Apellidos</td>
                         <td>@item.Persona.Domicilio</td>
                         <td>@item.UserName</td>
@@ -73,23 +74,23 @@
                                 }
                                 else
                                 {
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Asignar roles"
                                             onclick="showInPopup('@Url.Action("AsignarRoles","Cuenta", new {id=item.Id, roles=item.Roles, area="AdministracionCuentas" })', 'Asignar Roles');">
-                                        <i class="fa fa-wrench" aria-hidden="true"></i>
+                                        <span data-toggle="modal"><i class="fa fa-wrench" aria-hidden="true"></i></span>
                                     </button>
                                 }
                                 <form asp-action="CambiarEstado" asp-route-idUser="@item.Id" onsubmit="return ChangeEstado(this);">
                                     @if (item.Estado.Equals("Activo"))
                                     {
-                                        <button type="submit" class="btn btn-warning"><i class="fa fa-toggle-on fa-xl" aria-hidden="true"></i></button>
+                                        <button type="submit" class="btn btn-light border border-light" data-toggle="tooltip" data-placement="top" title="Cambiar a inactivo"><i class="fa fa-toggle-on fa-xl" aria-hidden="true"></i></button>
                                     }
                                     else
                                     {
-                                        <button type="submit" class="btn btn-warning"><i class="fa fa-toggle-off fa-xl" aria-hidden="true"></i></button>
+                                        <button type="submit" class="btn btn-light border border-light" data-toggle="tooltip" data-placement="top" title="Cambiar a activo"><i class="fa fa-toggle-off fa-xl" aria-hidden="true"></i></button>
                                     }
                                 </form>
                                 <form asp-action="DeleteUsuario" asp-route-idUser="@item.Id" onsubmit="return EliminarUsuario(this);">
-                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar registro"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                         </td>
@@ -114,6 +115,12 @@
     </table>
 </div>
 <script type="text/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
+    });
+    $("button").click(function () {
+        $("[data-toggle='tooltip']").tooltip('hide');
+    });
     function generatePDF() {
         const doc = new jsPDF('l', 'mm', [350, 200])
         doc.autoTable({
@@ -141,5 +148,5 @@
         });
         window.open(URL.createObjectURL(doc.output("blob")));
     }
-    var _0x52e7 = ['POST', '8033JTJYoy', 'ajax', 'Último', 'Aceptar', 'action', '412464vgfvIo', '/Error/', 'then', '325988JXxKzS', '1FbGAQG', '#3085d6', '270650jzUuos', '#view-all', 'El\x20usuario\x20actual\x20se\x20eliminará\x20por\x20completo.', 'Mostrar\x20_MENU_\x20registros', 'Copiar', 'Mostrando\x20registros\x20del\x200\x20al\x200\x20de\x20un\x20total\x20de\x200\x20registros', 'Mostrando\x20registros\x20del\x20_START_\x20al\x20_END_\x20de\x20un\x20total\x20de\x20_TOTAL_\x20registros', 'location', '(filtrado\x20de\x20un\x20total\x20de\x20_MAX_\x20registros)', '1wMSvOW', 'href', 'value', 'Cargando...', 'status', '103965OTihmt', '¿Estás\x20seguro\x20de\x20eliminar\x20este\x20usuario?', 'Ningún\x20dato\x20disponible\x20en\x20esta\x20tabla\x20=(', 'warning', 'Visibilidad', 'fail', 'isValid', '208006LVGtGy', 'Procesando...', 'Anterior', '14447gRSKvD', '29VJWEML', '#d33', 'html', '49VkEvmo', 'Cancelar']; function _0x1aab(_0x5522be, _0x33fd69) { return _0x1aab = function (_0x52e7d5, _0x1aab65) { _0x52e7d5 = _0x52e7d5 - 0x96; var _0x285568 = _0x52e7[_0x52e7d5]; return _0x285568; }, _0x1aab(_0x5522be, _0x33fd69); } var _0x16fbe7 = _0x1aab; (function (_0x3b56ad, _0x12b8bb) { var _0x2d484f = _0x1aab; while (!![]) { try { var _0x2b4764 = -parseInt(_0x2d484f(0xae)) * parseInt(_0x2d484f(0x97)) + -parseInt(_0x2d484f(0xb2)) * parseInt(_0x2d484f(0xb1)) + parseInt(_0x2d484f(0xbd)) + parseInt(_0x2d484f(0xa7)) + parseInt(_0x2d484f(0x99)) + -parseInt(_0x2d484f(0xb5)) * -parseInt(_0x2d484f(0xb8)) + -parseInt(_0x2d484f(0x96)) * parseInt(_0x2d484f(0xa2)); if (_0x2b4764 === _0x12b8bb) break; else _0x3b56ad['push'](_0x3b56ad['shift']()); } catch (_0x5083a) { _0x3b56ad['push'](_0x3b56ad['shift']()); } } }(_0x52e7, 0x3799b), $('#example')['DataTable']({ 'processing': !![], 'language': { 'sProcessing': _0x16fbe7(0xaf), 'sLengthMenu': _0x16fbe7(0x9c), 'sZeroRecords': 'No\x20se\x20encontraron\x20resultados', 'sEmptyTable': _0x16fbe7(0xa9), 'sInfo': _0x16fbe7(0x9f), 'sInfoEmpty': _0x16fbe7(0x9e), 'sInfoFiltered': _0x16fbe7(0xa1), 'sInfoPostFix': '', 'sSearch': 'Buscar:', 'sUrl': '', 'sInfoThousands': ',', 'sLoadingRecords': _0x16fbe7(0xa5), 'oPaginate': { 'sFirst': 'Primero', 'sLast': _0x16fbe7(0xba), 'sNext': 'Siguiente', 'sPrevious': _0x16fbe7(0xb0) }, 'oAria': { 'sSortAscending': ':\x20Activar\x20para\x20ordenar\x20la\x20columna\x20de\x20manera\x20ascendente', 'sSortDescending': ':\x20Activar\x20para\x20ordenar\x20la\x20columna\x20de\x20manera\x20descendente' }, 'buttons': { 'copy': _0x16fbe7(0x9d), 'colvis': _0x16fbe7(0xab) } } }), EliminarUsuario = _0xfd2e7 => { var _0x2d9bb9 = _0x16fbe7; event['preventDefault'](), Swal['fire']({ 'title': _0x2d9bb9(0xa8), 'text': _0x2d9bb9(0x9b), 'icon': _0x2d9bb9(0xaa), 'showCancelButton': !![], 'confirmButtonColor': _0x2d9bb9(0x98), 'cancelButtonColor': _0x2d9bb9(0xb3), 'confirmButtonText': _0x2d9bb9(0xbb), 'cancelButtonText': _0x2d9bb9(0xb6) })[_0x2d9bb9(0xbf)](_0x297bd5 => { var _0x45449e = _0x2d9bb9; if (_0x297bd5[_0x45449e(0xa4)]) return $[_0x45449e(0xb9)]({ 'type': _0x45449e(0xb7), 'url': _0xfd2e7[_0x45449e(0xbc)], 'data': new FormData(_0xfd2e7), 'contentType': ![], 'processData': ![], 'success': function (_0x248695) { var _0x46fe86 = _0x45449e; $(_0x46fe86(0x9a))[_0x46fe86(0xb4)](_0x248695[_0x46fe86(0xb4)]); } })['fail'](function (_0x22c56b, _0x1bab8f, _0x925a02) { var _0x3d7e6a = _0x45449e; window[_0x3d7e6a(0xa0)][_0x3d7e6a(0xa3)] = _0x3d7e6a(0xbe) + _0x22c56b[_0x3d7e6a(0xa6)]; }), ![]; }); }, ChangeEstado = _0x840eb8 => { var _0x304a42 = _0x16fbe7; return $[_0x304a42(0xb9)]({ 'type': _0x304a42(0xb7), 'url': _0x840eb8['action'], 'data': new FormData(_0x840eb8), 'contentType': ![], 'processData': ![], 'success': function (_0x12f5c7) { var _0x4e68e6 = _0x304a42; _0x12f5c7[_0x4e68e6(0xad)] && $('#view-all')[_0x4e68e6(0xb4)](_0x12f5c7[_0x4e68e6(0xb4)]); } })[_0x304a42(0xac)](function (_0x5b3266, _0x370499, _0x5f3cf3) { var _0x4ed7f6 = _0x304a42; window[_0x4ed7f6(0xa0)][_0x4ed7f6(0xa3)] = _0x4ed7f6(0xbe) + _0x5b3266[_0x4ed7f6(0xa6)]; }), ![]; });
+    var _0x52e7 = ['POST', '8033JTJYoy', 'ajax', 'Último', 'Aceptar', 'action', '412464vgfvIo', '/Error/', 'then', '325988JXxKzS', '1FbGAQG', '#3085d6', '270650jzUuos', '#view-all', 'El\x20usuario\x20actual\x20se\x20eliminará\x20por\x20completo\x20y\x20se\x20desasignará\x20de\x20todos\x20los\x20seguimientos\x20actuales.', 'Mostrar\x20_MENU_\x20registros', 'Copiar', 'Mostrando\x20registros\x20del\x200\x20al\x200\x20de\x20un\x20total\x20de\x200\x20registros', 'Mostrando\x20registros\x20del\x20_START_\x20al\x20_END_\x20de\x20un\x20total\x20de\x20_TOTAL_\x20registros', 'location', '(filtrado\x20de\x20un\x20total\x20de\x20_MAX_\x20registros)', '1wMSvOW', 'href', 'value', 'Cargando...', 'status', '103965OTihmt', '¿Estás\x20seguro\x20de\x20eliminar\x20este\x20usuario?', 'Ningún\x20dato\x20disponible\x20en\x20esta\x20tabla\x20=(', 'warning', 'Visibilidad', 'fail', 'isValid', '208006LVGtGy', 'Procesando...', 'Anterior', '14447gRSKvD', '29VJWEML', '#d33', 'html', '49VkEvmo', 'Cancelar']; function _0x1aab(_0x5522be, _0x33fd69) { return _0x1aab = function (_0x52e7d5, _0x1aab65) { _0x52e7d5 = _0x52e7d5 - 0x96; var _0x285568 = _0x52e7[_0x52e7d5]; return _0x285568; }, _0x1aab(_0x5522be, _0x33fd69); } var _0x16fbe7 = _0x1aab; (function (_0x3b56ad, _0x12b8bb) { var _0x2d484f = _0x1aab; while (!![]) { try { var _0x2b4764 = -parseInt(_0x2d484f(0xae)) * parseInt(_0x2d484f(0x97)) + -parseInt(_0x2d484f(0xb2)) * parseInt(_0x2d484f(0xb1)) + parseInt(_0x2d484f(0xbd)) + parseInt(_0x2d484f(0xa7)) + parseInt(_0x2d484f(0x99)) + -parseInt(_0x2d484f(0xb5)) * -parseInt(_0x2d484f(0xb8)) + -parseInt(_0x2d484f(0x96)) * parseInt(_0x2d484f(0xa2)); if (_0x2b4764 === _0x12b8bb) break; else _0x3b56ad['push'](_0x3b56ad['shift']()); } catch (_0x5083a) { _0x3b56ad['push'](_0x3b56ad['shift']()); } } }(_0x52e7, 0x3799b), $('#example')['DataTable']({ 'processing': !![], 'language': { 'sProcessing': _0x16fbe7(0xaf), 'sLengthMenu': _0x16fbe7(0x9c), 'sZeroRecords': 'No\x20se\x20encontraron\x20resultados', 'sEmptyTable': _0x16fbe7(0xa9), 'sInfo': _0x16fbe7(0x9f), 'sInfoEmpty': _0x16fbe7(0x9e), 'sInfoFiltered': _0x16fbe7(0xa1), 'sInfoPostFix': '', 'sSearch': 'Buscar:', 'sUrl': '', 'sInfoThousands': ',', 'sLoadingRecords': _0x16fbe7(0xa5), 'oPaginate': { 'sFirst': 'Primero', 'sLast': _0x16fbe7(0xba), 'sNext': 'Siguiente', 'sPrevious': _0x16fbe7(0xb0) }, 'oAria': { 'sSortAscending': ':\x20Activar\x20para\x20ordenar\x20la\x20columna\x20de\x20manera\x20ascendente', 'sSortDescending': ':\x20Activar\x20para\x20ordenar\x20la\x20columna\x20de\x20manera\x20descendente' }, 'buttons': { 'copy': _0x16fbe7(0x9d), 'colvis': _0x16fbe7(0xab) } } }), EliminarUsuario = _0xfd2e7 => { var _0x2d9bb9 = _0x16fbe7; event['preventDefault'](), Swal['fire']({ 'title': _0x2d9bb9(0xa8), 'text': _0x2d9bb9(0x9b), 'icon': _0x2d9bb9(0xaa), 'showCancelButton': !![], 'confirmButtonColor': _0x2d9bb9(0x98), 'cancelButtonColor': _0x2d9bb9(0xb3), 'confirmButtonText': _0x2d9bb9(0xbb), 'cancelButtonText': _0x2d9bb9(0xb6) })[_0x2d9bb9(0xbf)](_0x297bd5 => { var _0x45449e = _0x2d9bb9; if (_0x297bd5[_0x45449e(0xa4)]) return $[_0x45449e(0xb9)]({ 'type': _0x45449e(0xb7), 'url': _0xfd2e7[_0x45449e(0xbc)], 'data': new FormData(_0xfd2e7), 'contentType': ![], 'processData': ![], 'success': function (_0x248695) { var _0x46fe86 = _0x45449e; $(_0x46fe86(0x9a))[_0x46fe86(0xb4)](_0x248695[_0x46fe86(0xb4)]); } })['fail'](function (_0x22c56b, _0x1bab8f, _0x925a02) { var _0x3d7e6a = _0x45449e; window[_0x3d7e6a(0xa0)][_0x3d7e6a(0xa3)] = _0x3d7e6a(0xbe) + _0x22c56b[_0x3d7e6a(0xa6)]; }), ![]; }); }, ChangeEstado = _0x840eb8 => { var _0x304a42 = _0x16fbe7; return $[_0x304a42(0xb9)]({ 'type': _0x304a42(0xb7), 'url': _0x840eb8['action'], 'data': new FormData(_0x840eb8), 'contentType': ![], 'processData': ![], 'success': function (_0x12f5c7) { var _0x4e68e6 = _0x304a42; _0x12f5c7[_0x4e68e6(0xad)] && $('#view-all')[_0x4e68e6(0xb4)](_0x12f5c7[_0x4e68e6(0xb4)]); } })[_0x304a42(0xac)](function (_0x5b3266, _0x370499, _0x5f3cf3) { var _0x4ed7f6 = _0x304a42; window[_0x4ed7f6(0xa0)][_0x4ed7f6(0xa3)] = _0x4ed7f6(0xbe) + _0x5b3266[_0x4ed7f6(0xa6)]; }), ![]; });
 </script>

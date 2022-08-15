@@ -1,0 +1,55 @@
+﻿@model Tuple<SolicitudAdopcion, List<Mascota>>
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+<div class="row">
+    <form id="formDatos" asp-action="CreateAdopcionPresencial" method="post" onsubmit="return sendDataAdopcionPresencial(this);" autocomplete="off" class="col-12 col-xl-5">
+        <input id="idMascota" type="hidden" asp-for="Item1.MascotaId"/>
+
+        <div class="form-group col-12">
+            <label for="titulo">Ingrese el nombre completo del adoptante:</label>
+            <input asp-for="Item1.NombreCompleto" class="form-control" id="nombreCompleto" placeholder="Ingrese el nombre completo del adoptante" />
+            @Html.ValidationMessageFor(x => x.Item1.NombreCompleto, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-12">
+            <label for="descripcion">Ingrese el domicilio del adoptante:</label>
+            <input asp-for="Item1.Domicilio" class="form-control" id="descripcion" placeholder="Ingrese el domicilio del adoptante" />
+            @Html.ValidationMessageFor(x => x.Item1.Domicilio, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-12">
+            <label for="idNumero">Ingrese el n&uacute;mero de tel&eacute;fono del adoptante:</label>
+            <input type="text" id="idNumero" class="form-control" asp-for="Item1.Telefono" placeholder="Ingrese el teléfono del adoptante" />
+            @Html.ValidationMessageFor(x => x.Item1.Telefono, "", new { @class = "text-danger" })
+        </div>
+    </form>
+    <div id="idListadoMascotas" class="col-12 col-xl-7">
+        @await Html.PartialAsync("PartialView/_ListadoMascotaAdopcionPresencial", Model.Item2)
+        @Html.ValidationMessageFor(x => x.Item1.MascotaId, "", new { @class = "text-danger" })
+    </div>
+</div>
+<button type="submit" class="btn btn-primary btn-lg btn-block mt-3" form="formDatos">Enviar Datos</button>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    $("#mascota-@Model.Item1.MascotaId").addClass("active");
+    sendDataAdopcionPresencial = form => {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.isValid) {
+                    location.href = res.url;
+                }
+                else
+                    $('#view-all').html(res.html);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                window.location.href = "/Error/" + jqXHR.status;
+            })
+        return false;
+    };
+</script>

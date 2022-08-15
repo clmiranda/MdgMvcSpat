@@ -27,7 +27,7 @@ namespace ModalidadGradoSpat.Controllers
         }
         public ActionResult ConfirmEmail()
         {
-            TempData["alertsuccess"] = "Email verificado correctamente.";
+            TempData["alertsuccess"] = "Cuenta verificada correctamente.";
             return RedirectToAction("Login", "LoginAccount", new { area = "" });
         }
         [Route("ForgotPassword")]
