@@ -19,15 +19,8 @@ namespace ModalidadGradoSpat.Reports
                 worksheet.Cell(currentRow, 4).Value = "Numero Telefono/Celular";
                 worksheet.Cell(currentRow, 5).Value = "Fecha Solicitud Adopcion";
                 worksheet.Cell(currentRow, 6).Value = "Estado";
-                worksheet.Cell(currentRow, 7).Value = "Respuesta Pregunta 1";
-                worksheet.Cell(currentRow, 8).Value = "Respuesta Pregunta 2";
-                worksheet.Cell(currentRow, 9).Value = "Respuesta Pregunta 3";
-                worksheet.Cell(currentRow, 10).Value = "Respuesta Pregunta 4";
-                worksheet.Cell(currentRow, 11).Value = "Respuesta Pregunta 5";
-                worksheet.Cell(currentRow, 12).Value = "Respuesta Pregunta 6";
-                worksheet.Cell(currentRow, 13).Value = "Respuesta Pregunta 7";
-                worksheet.Cell(currentRow, 14).Value = "Id Mascota";
-                worksheet.Cell(currentRow, 15).Value = "Nombre Mascota";
+                worksheet.Cell(currentRow, 7).Value = "Id Mascota";
+                worksheet.Cell(currentRow, 8).Value = "Nombre Mascota";
                 foreach (var adopcion in adopcionesAprobadas)
                 {
                     currentRow++;
@@ -37,22 +30,15 @@ namespace ModalidadGradoSpat.Reports
                     worksheet.Cell(currentRow, 4).Value = adopcion.Telefono;
                     worksheet.Cell(currentRow, 5).Value = adopcion.FechaSolicitudAdopcion;
                     worksheet.Cell(currentRow, 6).Value = adopcion.Estado;
-                    worksheet.Cell(currentRow, 7).Value = adopcion.Respuesta1;
-                    worksheet.Cell(currentRow, 8).Value = adopcion.Respuesta2;
-                    worksheet.Cell(currentRow, 9).Value = adopcion.Respuesta3;
-                    worksheet.Cell(currentRow, 10).Value = adopcion.Respuesta4;
-                    worksheet.Cell(currentRow, 11).Value = adopcion.Respuesta5;
-                    worksheet.Cell(currentRow, 12).Value = adopcion.Respuesta6;
-                    worksheet.Cell(currentRow, 13).Value = adopcion.Respuesta7;
                     if (adopcion.Mascota == null)
                     {
-                        worksheet.Cell(currentRow, 14).Value = "Sin datos";
-                        worksheet.Cell(currentRow, 15).Value = "Sin datos";
+                        worksheet.Cell(currentRow, 7).Value = "Sin datos";
+                        worksheet.Cell(currentRow, 8).Value = "Sin datos";
                     }
                     else
                     {
-                        worksheet.Cell(currentRow, 14).Value = adopcion.Mascota.Id;
-                        worksheet.Cell(currentRow, 15).Value = adopcion.Mascota.Nombre;
+                        worksheet.Cell(currentRow, 7).Value = adopcion.Mascota.Id;
+                        worksheet.Cell(currentRow, 8).Value = adopcion.Mascota.Nombre;
                     }
                 }
                 using (var stream = new MemoryStream())

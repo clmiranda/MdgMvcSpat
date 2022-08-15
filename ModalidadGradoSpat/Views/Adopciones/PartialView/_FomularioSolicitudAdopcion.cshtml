@@ -1,9 +1,9 @@
 ﻿@model SolicitudAdopcion
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-<div class="shadow-lg border p-5 bg-white rounded col-lg-10 mx-auto">
+<div class="shadow-lg border px-sm-3 px-md-5 py-5 bg-white rounded col-lg-10 mx-auto">
     @if (Model != null)
     {
-        <h3 class="mb-3"><b>FORMULARIO DE ADOPCION</b></h3>
+        <h3><b>FORMULARIO DE ADOPCION</b></h3>
         <p>Para poder adoptar deber&aacute; llenar el formulario y tomar en cuenta lo siguiente:</p>
         <ul>
             <li>Deber&aacute; ser mayor de edad.</li>
@@ -30,61 +30,99 @@
                     @Html.ValidationMessageFor(x => x.Domicilio, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-12">
-                    <label for="idP1">Pregunta 1:</label>
-                    <p>¿Cu&aacute;l es la raz&oacute;n por la que quieres adoptar?</p>
-                    <textarea id="idP1" class="form-control" asp-for="@Model.Respuesta1" placeholder="Ingresa tu Respuesta"></textarea>
-                    @Html.ValidationMessageFor(x => x.Respuesta1, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group col-12">
-                    <label for="idP2">Pregunta 2:</label>
                     <p>
+                        <text class="font-weight-bold">Pregunta 1:</text>
                         Una nueva mascota es una gran responsabilidad que tendras por varios a&ntilde;os, ¿Est&aacute;s seguro de que
                         la cuidar&aacute;s durante todo ese tiempo?
                     </p>
-                    <textarea id="idP2" class="form-control" asp-for="@Model.Respuesta2" placeholder="Ingresa tu Respuesta"></textarea>
-                    @Html.ValidationMessageFor(x => x.Respuesta2, "", new { @class = "text-danger" })
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+                        <label class="form-check-label" for="exampleRadios1">
+                            S&iacute;
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            No
+                        </label>
+                    </div>
                 </div>
                 <div class="form-group col-12">
-                    <label for="idP3">Pregunta 3:</label>
                     <p>
+                        <text class="font-weight-bold">Pregunta 2:</text>
                         ¿Est&aacute;s de acuerdo a enviarnos fotos de la mascota, y a recibir visitas cada cierto tiempo
                         para asegurarnos de que la mascota est&aacute; siendo bien cuidada?
                     </p>
-                    <textarea id="idP3" class="form-control" asp-for="@Model.Respuesta3" placeholder="Ingresa tu Respuesta"></textarea>
-                    @Html.ValidationMessageFor(x => x.Respuesta3, "", new { @class = "text-danger" })
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+                        <label class="form-check-label" for="exampleRadios1">
+                            S&iacute;
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            No
+                        </label>
+                    </div>
                 </div>
                 <div class="form-group col-12">
-                    <label for="idP4">Pregunta 4:</label>
                     <p>
+                        <text class="font-weight-bold">Pregunta 3:</text>
                         ¿Est&aacute;s consciente de que si la mascota no esta siendo bien cuidada o evitas enviarnos fotos o
                         recibir las visitas de los voluntarios, deber&aacute;s entregar voluntariamente a la mascota?
                     </p>
-                    <textarea id="idP4" class="form-control" asp-for="@Model.Respuesta4" placeholder="Ingresa tu Respuesta"></textarea>
-                    @Html.ValidationMessageFor(x => x.Respuesta4, "", new { @class = "text-danger" })
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+                        <label class="form-check-label" for="exampleRadios1">
+                            S&iacute;
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            No
+                        </label>
+                    </div>
                 </div>
                 <div class="form-group col-12">
-                    <label for="idP5">Pregunta 5:</label>
                     <p>
+                        <text class="font-weight-bold">Pregunta 4:</text>
                         ¿Est&aacute;s consciente de que tener una mascota implica nuevos gastos, vacunas, medicinas o atenci&oacute;n
                         veterinaria cuando enferme?
                     </p>
-                    <textarea id="idP5" class="form-control" asp-for="@Model.Respuesta5" placeholder="Ingresa tu Respuesta"></textarea>
-                    @Html.ValidationMessageFor(x => x.Respuesta5, "", new { @class = "text-danger" })
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+                        <label class="form-check-label" for="exampleRadios1">
+                            S&iacute;
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            No
+                        </label>
+                    </div>
                 </div>
                 <div class="form-group col-12">
-                    <label for="idP6">Pregunta 6:</label>
                     <p>
+                        <text class="font-weight-bold">Pregunta 5:</text>
                         ¿Est&aacute;s consciente que la adopci&oacute;n es personal? Lo cual significa que no puedes regalar o
                         vender a la mascota.
                     </p>
-                    <textarea id="idP6" class="form-control" asp-for="@Model.Respuesta6" placeholder="Ingresa tu Respuesta"></textarea>
-                    @Html.ValidationMessageFor(x => x.Respuesta6, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group col-12">
-                    <label for="idP1">Pregunta 7:</label>
-                    <p>¿Vives en una casa, departamento propio o en alquiler?</p>
-                    <textarea id="idP7" class="form-control" asp-for="@Model.Respuesta7" placeholder="Ingresa tu Respuesta"></textarea>
-                    @Html.ValidationMessageFor(x => x.Respuesta7, "", new { @class = "text-danger" })
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+                        <label class="form-check-label" for="exampleRadios1">
+                            S&iacute;
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            No
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="text-center">

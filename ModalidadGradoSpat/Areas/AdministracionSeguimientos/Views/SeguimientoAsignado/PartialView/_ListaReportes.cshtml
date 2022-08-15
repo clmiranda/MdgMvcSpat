@@ -1,5 +1,6 @@
 ﻿@model Seguimiento
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+@{ int id = 1; }
 @if (Model == null)
 {
     <div class="row">
@@ -24,26 +25,34 @@ else
 {
     @if (Model.ReporteSeguimientos.Any(x => x.FechaReporte.ToShortDateString().Equals(DateTime.Now.ToShortDateString()) && !x.Estado.Equals("Enviado")))
     {
-        <div class="alert alert-warning alert-dismissible fade show my-3 bg-info text-white" role="alert">
+        <div class="alert alert-warning alert-dismissible fade show my-3" role="alert">
             <strong>Hay un reporte por realizar hoy!</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
     }
-    <div class="d-lg-flex justify-content-between my-3">
-        <div class="my-2">
-            <p class="shadow-lg border px-2 py-2 rounded">
-                Rango de Fechas del Seguimiento: @Model.FechaInicio.ToShortDateString() - @Model.FechaFin.ToShortDateString()
-            </p>
-        </div>
-        <div class="my-2">
-            <a role="button" class="btn btn-success"
-               href="@Url.Action("Detalle", "SeguimientoAsignado", new { id=Model.SolicitudAdopcion.Id, area="AdministracionSeguimientos" })">
-                <i class="fas fa-list" aria-hidden="true"></i>
-            </a>
-        </div>
+<div class="d-lg-flex justify-content-between my-3">
+    <div class="my-2">
+        <p class="shadow-lg border px-2 py-2 rounded">
+            Rango de Fechas del Seguimiento: @Model.FechaInicio.ToShortDateString() - @Model.FechaFin.ToShortDateString()
+        </p>
     </div>
+    <div class="my-2">
+        <p class="shadow-lg border px-2 py-2 rounded">
+            Nombre mascota: @Model.SolicitudAdopcion.Mascota.Nombre | 
+            Edad aprox: @Model.SolicitudAdopcion.Mascota.Edad | 
+            Tama&ntilde;o: @Model.SolicitudAdopcion.Mascota.Tamano 
+        </p>
+    </div>
+    <div class="my-2">
+        <a type="button" class="btn btn-success"
+           href="@Url.Action("Detalle", "SeguimientoAsignado", new { id=Model.SolicitudAdopcion.Id, area="AdministracionSeguimientos" })"
+           data-toggle="tooltip" data-placement="left" title="Ver detalle">
+            <i class="fas fa-list" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
 
     <div class="table-responsive">
         <table id="example" class="table table-bordered table-hover">
@@ -61,7 +70,7 @@ else
                 {
                     <tr>
                         <td>
-                            @item.Id
+                            @(id++)
                         </td>
                         <td>
                             @if (item.Observaciones == null)
@@ -102,8 +111,8 @@ else
                                 {
                                     <button type="button" asp-action="EditReporte"
                                             onclick="showInPopup('@Url.Action("EditReporte","SeguimientoAsignado",new { id=item.Id,area="AdministracionSeguimientos"})','Editar Reporte');"
-                                            class="btn btn-primary" data-toggle="modal" data-target="#form-modal">
-                                        <i class="fa fa-edit fa-2" aria-hidden="true"></i>
+                                            class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Editar reporte para envío">
+                                        <span data-toggle="modal" data-target="#form-modal"><i class="fa fa-edit fa-2" aria-hidden="true"></i></span>
                                     </button>
                                 }
                             </div>
@@ -123,6 +132,9 @@ else
         </table>
     </div>
     <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
+        });
         $(document).ready(function () {
             $('#example').DataTable({
                 "order": [],

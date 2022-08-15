@@ -1,4 +1,5 @@
 ﻿@model List<SolicitudAdopcion>
+@{ int id = 1;}
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -102,15 +103,41 @@
         <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
     </form>
 </div>
+<a type="button" href="@Url.Action("AdopcionPresencial", "Adopcion",new { area="AdministracionAdopciones"})"
+   class="btn btn-primary mb-3">
+    Registrar Adopci&oacute;n Presencial
+</a>
 <div class="table-responsive mt-3">
     <table id="tableAdminAdopciones" class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th></th>
+                @if (!ViewData["filter"].ToString().Equals("Aprobado") && !ViewData["filter"].ToString().Equals("Pendiente"))
+                {
+                    <th></th>
+                }
                 <th>Id</th>
-                <th>Raz&oacute;n de Adopci&oacute;n</th>
+                @if (ViewData["filter"].ToString().Equals("Rechazado"))
+                {
+                    <th>Raz&oacute;n de Rechazo</th>
+                }
+                else if (ViewData["filter"].ToString().Equals("Cancelado"))
+                {
+                    <th>Raz&oacute;n de Cancelaci&oacute;n</th>
+                }
+                else if (ViewData["filter"].ToString().Equals("Aprobado") || ViewData["filter"].ToString().Equals("Pendiente"))
+                {
+                    <th>Nombre Mascota</th>
+                    <th>Nombre Completo Adoptante</th>
+                }
+                else
+                {
+                    <th>Raz&oacute;n de Adopci&oacute;n</th>
+                }
                 <th>Fecha Solicitud Adopci&oacute;n</th>
-                <th>Fecha Adopci&oacute;n</th>
+                @if (!ViewData["filter"].ToString().Equals("Pendiente") && !ViewData["filter"].ToString().Equals("Rechazado"))
+                {
+                    <th>Fecha de Adopci&oacute;n</th>
+                }
                 <th>Estado</th>
                 <th>Detalle</th>
             </tr>
@@ -127,92 +154,120 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        @if (!item.Estado.Equals("Aprobado") && !item.Estado.Equals("Pendiente"))
+                        {
+                            <td width="3%">
+                                <button data-toggle="collapse" data-target="#details-@item.Id" type="button" class="btn btn-sm btn-info mr-sm-1"><i class="fas fa-info-circle"></i></button>
+                            </td>
+                        }
                         <td width="3%">
-                            <button data-toggle="collapse" data-target="#details-@item.Id" type="button" class="btn btn-sm btn-info mr-sm-1"><i class="fas fa-info-circle"></i></button>
+                            @(id++)
                         </td>
-                        <td width="3%">
-                            @item.Id
-                        </td>
-                        <td>
-                            @item.Respuesta1
-                        </td>
-                        <td width="20%">
+                        @if (item.Estado.Equals("Aprobado") || item.Estado.Equals("Pendiente"))
+                        {
+                            <td>
+                                @item.Mascota.Nombre
+                            </td>
+                            <td>
+                                @item.NombreCompleto
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @if (item.Estado.Equals("Rechazado"))
+                                {
+                                    @item.AdopcionRechazada.Razon
+                                }
+                                else if (item.Estado.Equals("Cancelado"))
+                                {
+                                    @item.AdopcionCancelada.Razon
+                                }
+                            </td>
+                        }
+                        <td width="18%">
                             @item.FechaSolicitudAdopcion.ToShortDateString()
                         </td>
-                        <td width="20%">
-                            @if (item.Estado.Equals("Aprobado"))
-                            {
-                                <form method="post" asp-action="UpdateFecha">
-                                    <input type="hidden" name="Id" value="@item.Id" />
-                                    <div class="input-group">
-                                        <input id="datePicker-@item.Id" class="form-control" type="text" data-toggle="datepicker" name="FechaAdopcion" value="@item.FechaAdopcion.Date.ToShortDateString()" readonly />
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-primary">
-                                                <i class="fas fa-calendar-alt"></i>
-                                            </button>
+                        @if (!item.Estado.Equals("Rechazado") && !item.Estado.Equals("Pendiente"))
+                        {
+                            <td width="15%">
+                                @if (item.Estado.Equals("Aprobado"))
+                                {
+                                    <form method="post" asp-action="UpdateFecha">
+                                        <input type="hidden" name="Id" value="@item.Id" />
+                                        <div class="input-group">
+                                            <input id="datePicker-@item.Id" class="form-control" type="text" data-toggle="datepicker" name="FechaAdopcion" value="@item.FechaAdopcion.Date.ToShortDateString()" readonly />
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-primary">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
-                            }
-                            else
-                            {
-                                <p>@item.FechaAdopcion.ToShortDateString()</p>
-                            }
-                        </td>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <p>@item.FechaAdopcion.ToShortDateString()</p>
+                                }
+                            </td>
+                        }
                         <td width="10%">
                             @item.Estado
                         </td>
                         <td width="5%">
                             <div class="d-flex justify-content-center align-items-center">
-                                <a role="button" href="@Url.Action("Detalle","Adopcion",new { id=item.Id, area="AdministracionAdopciones"})" class="btn btn-primary">
+                                <a type="button" href="@Url.Action("Detalle","Adopcion",new { id=item.Id, area="AdministracionAdopciones"})" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Vista detalle de adopción">
                                     <i class="far fa-eye"></i>
                                 </a>
                             </div>
                         </td>
                     </tr>
-                    <tr class="hiddentablerow">
-                        <td colspan="7">
-                            <div class="collapse" id="details-@item.Id">
-                                <p class="text-center mb-1">
-                                    <strong>Informaci&oacute;n del Adoptante</strong><br />
-                                    <strong>Nombre Completo: </strong>@item.NombreCompleto /
-                                    <strong>Domicilio: </strong>@item.Domicilio
-                                </p>
-                                @if (item.Estado.Equals("Aprobado") || item.Estado.Equals("Pendiente"))
-                                {
-                                    <p class="text-center">
-                                        <strong>Informaci&oacute;n de Mascota</strong><br />
-                                        <strong>Nombre: </strong>@item.Mascota.Nombre /
-                                        <strong>Rasgos Particulares: </strong>@item.Mascota.RasgosParticulares
+                    @if (!item.Estado.Equals("Aprobado") && !item.Estado.Equals("Pendiente"))
+                    {
+                        <tr class="hiddentablerow">
+                            <td colspan="7">
+                                <div class="collapse" id="details-@item.Id">
+                                    <p class="text-center mb-1">
+                                        <strong>Informaci&oacute;n del Adoptante</strong><br />
+                                        <strong>Nombre Completo: </strong>@item.NombreCompleto /
+                                        <strong>Domicilio: </strong>@item.Domicilio
                                     </p>
-                                }
-                                else if (item.Estado.Equals("Rechazado"))
-                                {
-                                    <p class="text-center">
-                                        <strong>Raz&oacute;n del Rechazo:</strong>
-                                        @item.AdopcionRechazada.Razon
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p class="text-center">
-                                        <strong>Raz&oacute;n de la Cancelaci&oacute;n:</strong>
-                                        @item.AdopcionCancelada.Razon
-                                    </p>
-                                }
-                            </div>
-                        </td>
-                    </tr>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 }
             }
         </tbody>
         <tfoot>
             <tr>
-                <th></th>
+                @if (!ViewData["filter"].ToString().Equals("Aprobado") && !ViewData["filter"].ToString().Equals("Pendiente"))
+                {
+                    <th></th>
+                }
                 <th>Id</th>
-                <th>Raz&oacute;n de Adopci&oacute;n</th>
+                @if (ViewData["filter"].ToString().Equals("Rechazado"))
+                {
+                    <th>Raz&oacute;n de Rechazo</th>
+                }
+                else if (ViewData["filter"].ToString().Equals("Cancelado"))
+                {
+                    <th>Raz&oacute;n de Cancelaci&oacute;n</th>
+                }
+                else if (ViewData["filter"].ToString().Equals("Aprobado") || ViewData["filter"].ToString().Equals("Pendiente"))
+                {
+                    <th>Nombre Mascota</th>
+                    <th>Nombre Completo Adoptante</th>
+                }
+                else
+                {
+                    <th>Raz&oacute;n de Adopci&oacute;n</th>
+                }
                 <th>Fecha Solicitud Adopci&oacute;n</th>
-                <th>Fecha Adopci&oacute;n</th>
+                @if (!ViewData["filter"].ToString().Equals("Pendiente") && !ViewData["filter"].ToString().Equals("Rechazado"))
+                {
+                    <th>Fecha de Adopci&oacute;n</th>
+                }
                 <th>Estado</th>
                 <th>Detalle</th>
             </tr>
@@ -282,18 +337,21 @@
     </form>
 </nav>
 <script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
+    });
     var _0x5522 = ['ajax', 'location', 'log', 'ready', 'change', '1829398sYNfDx', '/Home/Error/', 'html', 'form', '1548237XpaIzJ', 'status', '[data-toggle=\x22datepicker\x22]', 'action', '/archivos/js/daterangepicker.js', '920944xkdjAv', 'select', '71NFBBTP', 'Pendiente', 'select[name=\x27filter\x27]\x20option', 'fail', '#view-all', '248021oXqTws', 'POST', '#resetear', '10664kGkYkz', 'val', '49376IfybWm', 'select[name=\x27sizePage\x27]\x20option', '165062hqHZpl', 'href']; function _0x4736(_0x3cfedc, _0x59b6d2) { return _0x4736 = function (_0x552238, _0x473691) { _0x552238 = _0x552238 - 0xc8; var _0x4c6994 = _0x5522[_0x552238]; return _0x4c6994; }, _0x4736(_0x3cfedc, _0x59b6d2); } var _0x4ace9c = _0x4736; (function (_0x4ca861, _0x26a5a4) { var _0x3218eb = _0x4736; while (!![]) { try { var _0x3d622c = -parseInt(_0x3218eb(0xc9)) + parseInt(_0x3218eb(0xd2)) + -parseInt(_0x3218eb(0xd9)) + -parseInt(_0x3218eb(0xe0)) + parseInt(_0x3218eb(0xcd)) + parseInt(_0x3218eb(0xdc)) * parseInt(_0x3218eb(0xd4)) + -parseInt(_0x3218eb(0xde)); if (_0x3d622c === _0x26a5a4) break; else _0x4ca861['push'](_0x4ca861['shift']()); } catch (_0x2d0ea6) { _0x4ca861['push'](_0x4ca861['shift']()); } } }(_0x5522, 0xe4244), $(document)[_0x4ace9c(0xe5)](function () { var _0x85a521 = _0x4ace9c, _0x2059f5 = _0x85a521(0xd1); $['getScript'](_0x2059f5); }), $(_0x4ace9c(0xcf))['on'](_0x4ace9c(0xc8), function () { var _0x457e74 = _0x4ace9c; return $[_0x457e74(0xe2)]({ 'type': _0x457e74(0xda), 'url': this[_0x457e74(0xcc)]['action'], 'data': new FormData(this[_0x457e74(0xcc)]), 'contentType': ![], 'processData': ![], 'success': function (_0xfe231f) { var _0x2f1733 = _0x457e74; $(_0x2f1733(0xd8))['html'](_0xfe231f[_0x2f1733(0xcb)]); }, 'error': function (_0x558624) { var _0x13f84c = _0x457e74; console[_0x13f84c(0xe4)](_0x558624); } })[_0x457e74(0xd7)](function (_0x4b4cea, _0x164146, _0x5a6ea9) { var _0x1fd258 = _0x457e74; window[_0x1fd258(0xe3)][_0x1fd258(0xe1)] = '/Error/' + _0x4b4cea[_0x1fd258(0xce)]; }), ![]; })); function GetValueButton(_0x3cf8da) { var _0x222a7a = _0x4ace9c; $('[name=\x27currentPage\x27]')[_0x222a7a(0xdd)](_0x3cf8da); } $(_0x4ace9c(0xdb))['on']('click', function () { var _0x4b058f = _0x4ace9c; $(_0x4b058f(0xd6))['val'](_0x4b058f(0xd5)), $(_0x4b058f(0xdf))[_0x4b058f(0xdd)]('10'); }), $(_0x4ace9c(0xd3))['on'](_0x4ace9c(0xc8), function () { var _0x1b479f = _0x4ace9c; $[_0x1b479f(0xe2)]({ 'type': _0x1b479f(0xda), 'url': this[_0x1b479f(0xcc)]['action'], 'data': new FormData(this['form']), 'contentType': ![], 'processData': ![], 'success': function (_0x5f4fc8) { var _0x36af14 = _0x1b479f; $(_0x36af14(0xd8))[_0x36af14(0xcb)](_0x5f4fc8); } })[_0x1b479f(0xd7)](function (_0x5c6d45, _0x3f2145, _0xe5cd56) { var _0x55ccb9 = _0x1b479f; window[_0x55ccb9(0xe3)][_0x55ccb9(0xe1)] = _0x55ccb9(0xca) + _0x5c6d45['status']; }); }), send = _0x40d893 => { var _0x1389bf = _0x4ace9c; return $[_0x1389bf(0xe2)]({ 'type': _0x1389bf(0xda), 'url': _0x40d893[_0x1389bf(0xd0)], 'data': new FormData(_0x40d893), 'contentType': ![], 'processData': ![], 'success': function (_0x4093cc) { var _0x554281 = _0x1389bf; $(_0x554281(0xd8))[_0x554281(0xcb)](_0x4093cc); } })[_0x1389bf(0xd7)](function (_0x110583, _0x152b01, _0x3b4a6b) { var _0x3edfd3 = _0x1389bf; window[_0x3edfd3(0xe3)][_0x3edfd3(0xe1)] = _0x3edfd3(0xca) + _0x110583[_0x3edfd3(0xce)]; }), ![]; };
     function generatePDF() {
         const doc = new jsPDF("landscape")
         doc.autoTable({
-            head: [['Id', 'Nombre Completo', 'Domicilio', 'Numero de Celular', 'Nombre de Mascota', 'Razon de Adopcion','Fecha de Solicitud','Fecha de Adopcion']],
+            head: [['Id', 'Nombre Completo', 'Domicilio', 'Numero de Celular', 'Nombre de Mascota','Fecha de Solicitud','Fecha de Adopcion']],
             body: [
                 @foreach (var item in (List<SolicitudAdopcion>)ViewData["ListaSolicitudes"])
                 {
                     if (item.Estado.Equals("Aprobado"))
                     {
                         <text>
-                            ['@item.Id', '@item.NombreCompleto', '@item.Domicilio', '@item.Telefono', '@item.Mascota.Nombre', '@item.Respuesta1', '@item.FechaSolicitudAdopcion.ToShortDateString()', '@item.FechaAdopcion.ToShortDateString()'],
+                            ['@item.Id', '@item.NombreCompleto', '@item.Domicilio', '@item.Telefono', '@item.Mascota.Nombre', '@item.FechaSolicitudAdopcion.ToShortDateString()', '@item.FechaAdopcion.ToShortDateString()'],
                         </text>
                     }
                 }

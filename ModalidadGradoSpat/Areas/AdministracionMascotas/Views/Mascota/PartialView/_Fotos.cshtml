@@ -1,4 +1,5 @@
 ﻿@model Mascota
+@await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <link href="~/bootstrapfileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 <script src="~/bootstrapfileinput/js/plugins/piexif.min.js" type="text/javascript"></script>
 <script src="~/bootstrapfileinput/js/plugins/sortable.min.js" type="text/javascript"></script>
@@ -13,6 +14,7 @@
         text-align: center;
         margin: 0 auto;
     }
+
     img {
         object-fit: contain;
     }
@@ -98,35 +100,36 @@
                     xhr.setRequestHeader("Authorization", "Bearer " + "@ViewData["TokenBearer"]");
                 },
                 success: function (data) {
-                    Swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        icon: 'success',
-                        title: data,
-                        showConfirmButton: false,
-                        timer: 2000
-                    })
-                    window.setTimeout(function () {
-                        location.reload();
-                    }, 2500);
+                    $('#body-content-action').html(data.html);
+                    //Swal.fire({
+                    //    toast: true,
+                    //    position: 'top-end',
+                    //    icon: 'success',
+                    //    title: data,
+                    //    showConfirmButton: false,
+                    //    timer: 2000
+                    //})
+                    //window.setTimeout(function () {
+                    //    location.reload();
+                    //}, 2500);
                 },
                 error: function (data) {
-                    Swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        icon: 'error',
-                        title: data.responseText,
-                        showConfirmButton: false,
-                        timer: 5000
-                    })
+                    //Swal.fire({
+                    //    toast: true,
+                    //    position: 'top-end',
+                    //    icon: 'error',
+                    //    title: data.responseText,
+                    //    showConfirmButton: false,
+                    //    timer: 5000
+                    //})
                 }
             },
             mergeAjaxCallbacks: true,
-            uploadUrl: 'https://localhost:44398/api/Fotos/Mascota/' + @Model.Id +'/AddFotoMascota',
+            uploadUrl: 'https://localhost:44363/Mascota/' + @Model.Id +'/AddFotoMascota',
             showBrowse: false,
             browseOnZoneClick: true,
             enableResumableUpload: false,
-            maxFileSize: 5000,
+            maxFileSize: 3000,
             minFileCount: 1,
             maxFileCount: 4,
             uploadAsync: false,

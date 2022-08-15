@@ -16,7 +16,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     public class ReporteTratamientoController : Controller
     {
         private static RestClient client;
-        private static int idMascota;
+        private static int idMascota = 0;
         public ReporteTratamientoController()
         {
             client = new RestClient("https://localhost:44398/");
@@ -36,8 +36,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             return View(vista);
         }
         [NoDirectAccess]
-        public async Task<IActionResult> AddOrEditReporteTratamiento(int id = 0)
+        public async Task<IActionResult> AddOrEditReporteTratamiento(int idmascota, int id = 0)
         {
+            idMascota = idmascota;
             if (id == 0)
                 return View(new ReporteTratamiento { MascotaId = idMascota });
             else
@@ -60,8 +61,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateFecha(int id, DateTime FechaReporteTratamiento)
+        public async Task<IActionResult> UpdateFecha(int id, DateTime FechaReporteTratamiento, int mascotaId)
         {
+            idMascota = mascotaId;
             try
             {
                 client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));

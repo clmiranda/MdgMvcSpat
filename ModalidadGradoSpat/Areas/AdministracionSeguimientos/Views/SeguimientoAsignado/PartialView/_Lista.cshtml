@@ -1,5 +1,6 @@
 ﻿@model List<Seguimiento>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
+@{ int id = 1; }
 <div class="d-lg-flex justify-content-between my-3">
     <form class="form-inline mr-2" method="post" asp-action="ReturnVista" onsubmit="return send(this);">
         <div class="input-group">
@@ -63,7 +64,7 @@
                 {
                     <tr>
                         <td width="5%">
-                            @item.Id
+                            @(id++)
                         </td>
                         <td width="40%">
                             <p>Desde @item.FechaInicio.ToShortDateString() hasta @item.FechaFin.ToShortDateString()</p>
@@ -80,7 +81,8 @@
                         </td>
                         <td width="10%">
                             <div class="d-flex justify-content-center align-items-center">
-                                <a role="button" class="btn btn-success" href="@Url.Action("ListaReportes","SeguimientoAsignado", new { id=item.Id, area="AdministracionSeguimientos"})">
+                                <a type="button" class="btn btn-success" href="@Url.Action("ListaReportes","SeguimientoAsignado", new { id=item.Id, area="AdministracionSeguimientos"})"
+                                   data-toggle="tooltip" data-placement="top" title="Vista de reportes">
                                     <i class="fas fa-list" aria-hidden="true"></i>
                                 </a>
                             </div>
@@ -161,5 +163,8 @@
     </form>
 </nav>
 <script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
+    });
     function _0x14f6() { var _0x1c5826 = ['fail', '688939QRywri', 'form', '#resetear', '#view-all', 'val', 'action', '625884yCLOJZ', 'ajax', '3470604UUczmW', '856368qYeXxA', '21574035bTWlmW', '1204242TzakkU', 'POST', 'click', '2450cYTBWC', 'select[name=\x27sizePage\x27]\x20option', 'location', '128uCDgET', '3204kzRTuH', '/Error/', 'html']; _0x14f6 = function () { return _0x1c5826; }; return _0x14f6(); } var _0x506449 = _0x46cd; function _0x46cd(_0x4752a2, _0x1451f5) { var _0x14f683 = _0x14f6(); return _0x46cd = function (_0x46cdad, _0x5b9dfd) { _0x46cdad = _0x46cdad - 0x138; var _0x5e2f8a = _0x14f683[_0x46cdad]; return _0x5e2f8a; }, _0x46cd(_0x4752a2, _0x1451f5); } (function (_0x396a07, _0x3aea20) { var _0x133b2b = _0x46cd, _0x22b38e = _0x396a07(); while (!![]) { try { var _0x28f679 = -parseInt(_0x133b2b(0x14d)) / 0x1 + -parseInt(_0x133b2b(0x142)) / 0x2 + parseInt(_0x133b2b(0x13f)) / 0x3 + -parseInt(_0x133b2b(0x140)) / 0x4 + -parseInt(_0x133b2b(0x145)) / 0x5 * (-parseInt(_0x133b2b(0x149)) / 0x6) + -parseInt(_0x133b2b(0x13d)) / 0x7 * (parseInt(_0x133b2b(0x148)) / 0x8) + parseInt(_0x133b2b(0x141)) / 0x9; if (_0x28f679 === _0x3aea20) break; else _0x22b38e['push'](_0x22b38e['shift']()); } catch (_0x986b2c) { _0x22b38e['push'](_0x22b38e['shift']()); } } }(_0x14f6, 0xd6d1b)); function GetValueButton(_0x54bb40) { var _0x1ff6df = _0x46cd; $('[name=\x27currentPage\x27]')[_0x1ff6df(0x13b)](_0x54bb40); } $(_0x506449(0x139))['on'](_0x506449(0x144), function () { var _0x17a55e = _0x506449; $(_0x17a55e(0x146))['val']('10'); }), send = _0x30c1f9 => { var _0xac76c9 = _0x506449; return $[_0xac76c9(0x13e)]({ 'type': _0xac76c9(0x143), 'url': _0x30c1f9[_0xac76c9(0x13c)], 'data': new FormData(_0x30c1f9), 'contentType': ![], 'processData': ![], 'success': function (_0x3e8b4b) { var _0x22c68f = _0xac76c9; $(_0x22c68f(0x13a))[_0x22c68f(0x14b)](_0x3e8b4b); } })[_0xac76c9(0x14c)](function (_0x577f80, _0x15fd16, _0x53cdc3) { var _0x58b4cb = _0xac76c9; window[_0x58b4cb(0x147)]['href'] = _0x58b4cb(0x14a) + _0x577f80['status']; }), ![]; }, $('select')['on']('change', function () { var _0x5cdaf9 = _0x506449; $[_0x5cdaf9(0x13e)]({ 'type': _0x5cdaf9(0x143), 'url': this[_0x5cdaf9(0x138)][_0x5cdaf9(0x13c)], 'data': new FormData(this[_0x5cdaf9(0x138)]), 'contentType': ![], 'processData': ![], 'success': function (_0x572959) { var _0x5273ec = _0x5cdaf9; $('#view-all')[_0x5273ec(0x14b)](_0x572959); } })[_0x5cdaf9(0x14c)](function (_0x9120f6, _0x4ae7f5, _0x4de0b9) { var _0x4d9528 = _0x5cdaf9; window[_0x4d9528(0x147)]['href'] = _0x4d9528(0x14a) + _0x9120f6['status']; }); });
 </script>

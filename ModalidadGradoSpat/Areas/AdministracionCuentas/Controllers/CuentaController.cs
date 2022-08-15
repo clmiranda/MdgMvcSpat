@@ -52,7 +52,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                     var response = await client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
-                    TempData["alertsuccess"] = "Un Email de confirmacion de la cuenta ha sido enviado al Correo Electronico.";
+                    TempData["alertsuccess"] = "Usuario creado, email de confirmacion de la cuenta enviado al correo electronico.";
                     var lista = JsonConvert.DeserializeObject<IEnumerable<User>>(response.Content);
                     return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaUsuarios", lista) });
                 }

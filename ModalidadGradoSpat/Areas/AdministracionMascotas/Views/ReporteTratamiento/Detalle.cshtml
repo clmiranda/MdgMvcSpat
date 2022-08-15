@@ -4,11 +4,11 @@
 }
 <div class="container-fluid py-3">
     <h3>
-        Vista Detalle de Reportes de Evoluci&oacute;n de Mascota.
+        Previsualizaci&oacute;n de los registros del tratamiento de la mascota.
     </h3>
     <p class="mb-4">
-        En esta vista se puede ver el listado de reportes creados de la evoluci&oacute;n
-        de la mascota desde su llegada a la asociaci&oacute;n hasta su adopci&oacute;n.
+        En esta vista se puede previsualizar los registros realizados del tratamiento que
+        lleva la mascota actualmente.
     </p>
     @if (Model == null)
     {
@@ -66,16 +66,13 @@
                     }
                 </style>
                 <div class="shadow-lg border-1 py-5 px-3 bg-white rounded col-md-10 mx-auto">
-                    <h3>Evoluci&oacute;n de la mascota desde su rescate.</h3>
+                    <h3>Registros</h3>
                     <ul class="timeline">
                         @foreach (var item in Model.ReporteTratamientos)
                         {
                             <li class="bg-white rounded ml-3 p-3 shadow">
-                                <div class="d-flex justify-content-between">
-                                    <p class="text-primary">@item.Titulo</p>
                                     <p class="text-primary">@item.FechaCreacion.ToShortDateString()</p>
-                                </div>
-                                @item.Descripcion
+                                    @item.Descripcion
                             </li>
 
                         }

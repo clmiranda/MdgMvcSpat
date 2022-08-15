@@ -5,41 +5,21 @@ namespace DATA.Models
 {
     public partial class SolicitudAdopcion : BaseEntity
     {
-        [Required(ErrorMessage = "Debes ingresar tus Nombres.")]
+        [Required(ErrorMessage = "Debe ingresar su nombre completo.")]
         [MaxLength(300)]
         public string NombreCompleto { get; set; }
-        [Required(ErrorMessage = "Debes ingresar tu Domicilio.")]
+        [Required(ErrorMessage = "Debe ingresar su domicilio.")]
         [MaxLength(200)]
         public string Domicilio { get; set; }
-        [Required(ErrorMessage = "Para ponernos en contacto contigo, debes proporcionar tu numero de Telefono/Celular")]
+        [Required(ErrorMessage = "Para ponernos en contacto con usted, debe ingresar su número de teléfono/celular")]
         [MaxLength(20)]
         public string Telefono { get; set; }
-        [Required(ErrorMessage = "Debes responder la pregunta.")]
-        [MaxLength(300)]
-        public string Respuesta1 { get; set; }
-        [Required(ErrorMessage = "Debes responder la pregunta.")]
-        [MaxLength(300)]
-        public string Respuesta2 { get; set; }
-        [Required(ErrorMessage = "Debes responder la pregunta.")]
-        [MaxLength(300)]
-        public string Respuesta3 { get; set; }
-        [Required(ErrorMessage = "Debe responder la pregunta.")]
-        [MaxLength(300)]
-        public string Respuesta4 { get; set; }
-        [Required(ErrorMessage = "Debes responder la pregunta.")]
-        [MaxLength(300)]
-        public string Respuesta5 { get; set; }
-        [Required(ErrorMessage = "Debes responder la pregunta.")]
-        [MaxLength(300)]
-        public string Respuesta6 { get; set; }
-        [Required(ErrorMessage = "Debes responder la pregunta.")]
-        [MaxLength(300)]
-        public string Respuesta7 { get; set; }
         public DateTime FechaSolicitudAdopcion { get; set; }
         public DateTime FechaAdopcion { get; set; }
         [MaxLength(20)]
         public string Estado { get; set; }
         public virtual Mascota Mascota { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar la mascota a adoptar.")]
         public int MascotaId { get; set; }
         public virtual Seguimiento Seguimiento { get; set; }
         public virtual AdopcionRechazada AdopcionRechazada { get; set; }

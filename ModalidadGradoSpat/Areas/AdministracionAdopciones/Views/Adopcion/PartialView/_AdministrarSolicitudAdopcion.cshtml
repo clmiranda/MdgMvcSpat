@@ -8,19 +8,19 @@
                 <button type="submit" class="btn btn-primary btn-lg">Aprobar Solicitud de Adopci&oacute;n</button>
             </form>
             <button type="button" asp-action="AddSolicitudAdopcionRechazada" onclick="showInPopup('@Url.Action("AddSolicitudAdopcionRechazada","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon del Rechazo de Solicitud de Adopcion');" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#form-modal">Rechazar Solicitud de Adopci&oacute;n</button>
-            <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar Solicitud de Adopci&oacute;n</button>
+            <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar Adopci&oacute;n</button>
         }
         else if (Model.Estado.Equals("Aprobado"))
         {
             <button type="button" class="btn btn-primary btn-lg" disabled>Aprobar Solicitud de Adopci&oacute;n</button>
             <button type="button" class="btn btn-danger btn-lg" disabled>Rechazar Solicitud de Adopci&oacute;n</button>
-            <button type="button" asp-action="AddAdopcionCancelada" onclick="showInPopup('@Url.Action("AddAdopcionCancelada","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon de la Cancelacion de la Adopcion');" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#form-modal">Cancelar Solicitud de Adopci&oacute;n</button>
+            <button type="button" asp-action="AddAdopcionCancelada" onclick="showInPopup('@Url.Action("AddAdopcionCancelada","Adopcion",new { id=Model.Id, area="AdministracionAdopciones"},Context.Request.Scheme)', 'Razon de la Cancelacion de la Adopcion');" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#form-modal">Cancelar Adopci&oacute;n</button>
         }
         else if (Model.Estado.Equals("Rechazado") || Model.Estado.Equals("Cancelado"))
         {
             <button type="button" class="btn btn-primary btn-lg" disabled>Aprobar Solicitud de Adopci&oacute;n</button>
             <button type="button" class="btn btn-danger btn-lg" disabled>Rechazar Solicitud de Adopci&oacute;n</button>
-            <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar Solicitud de Adopci&oacute;n</button>
+            <button type="button" class="btn btn-warning btn-lg" disabled>Cancelar Adopci&oacute;n</button>
         }
     </div>
     <div class="alert alert-warning alert-dismissible fade show mt-5" role="alert">
