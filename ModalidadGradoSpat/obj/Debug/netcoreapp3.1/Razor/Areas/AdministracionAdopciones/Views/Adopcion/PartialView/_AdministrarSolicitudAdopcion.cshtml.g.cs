@@ -42,7 +42,9 @@ using ModalidadGradoSpat.Areas;
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"914f4deb82d6443ae28648626f0b89c9591aaf62", @"/Areas/AdministracionAdopciones/Views/Adopcion/PartialView/_AdministrarSolicitudAdopcion.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b887823c7989354ce31038c2062fde22dd578145", @"/Areas/AdministracionAdopciones/_ViewImports.cshtml")]
+    #nullable restore
     public class Areas_AdministracionAdopciones_Views_Adopcion_PartialView__AdministrarSolicitudAdopcion : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<SolicitudAdopcion>
+    #nullable disable
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "AprobarSolicitudAdopcion", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("method", "post", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -97,7 +99,7 @@ Write(await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml"));
 #line hidden
 #nullable disable
             WriteLiteral("            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "914f4deb82d6443ae28648626f0b89c9591aaf628452", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "914f4deb82d6443ae28648626f0b89c9591aaf628498", async() => {
                 WriteLiteral("\r\n                <button type=\"submit\" class=\"btn btn-primary btn-lg\">Aprobar Solicitud de Adopci&oacute;n</button>\r\n            ");
             }
             );
@@ -133,7 +135,7 @@ Write(await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml"));
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("button", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "914f4deb82d6443ae28648626f0b89c9591aaf6211400", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("button", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "914f4deb82d6443ae28648626f0b89c9591aaf6211446", async() => {
                 WriteLiteral("Rechazar Solicitud de Adopci&oacute;n");
             }
             );
@@ -181,7 +183,7 @@ AddHtmlAttributeValue("", 623, Url.Action("AddSolicitudAdopcionRechazada","Adopc
 #line hidden
 #nullable disable
             WriteLiteral("            <button type=\"button\" class=\"btn btn-primary btn-lg\" disabled>Aprobar Solicitud de Adopci&oacute;n</button>\r\n            <button type=\"button\" class=\"btn btn-danger btn-lg\" disabled>Rechazar Solicitud de Adopci&oacute;n</button>\r\n            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("button", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "914f4deb82d6443ae28648626f0b89c9591aaf6214969", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("button", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "914f4deb82d6443ae28648626f0b89c9591aaf6215015", async() => {
                 WriteLiteral("Cancelar Adopci&oacute;n");
             }
             );
@@ -250,16 +252,26 @@ AddHtmlAttributeValue("", 1442, Url.Action("AddAdopcionCancelada","Adopcion",new
 </div>");
         }
         #pragma warning restore 1998
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<SolicitudAdopcion> Html { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<SolicitudAdopcion> Html { get; private set; } = default!;
+        #nullable disable
     }
 }
 #pragma warning restore 1591

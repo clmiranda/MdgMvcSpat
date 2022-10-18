@@ -20,9 +20,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
     [Authorize(Roles = "SuperAdministrador, Voluntario")]
     public class SeguimientoAsignadoController : Controller
     {
-        private static RestClient client;
+        private RestClient client;
         private static List<Seguimiento> _listaSeguimientos;
-        private static int? pagesize = 10; private static int? pagenumber = 1;
+        private int? pagesize = 10; private int? pagenumber = 1;
         public SeguimientoAsignadoController()
         {
             client = new RestClient("https://localhost:44398/");

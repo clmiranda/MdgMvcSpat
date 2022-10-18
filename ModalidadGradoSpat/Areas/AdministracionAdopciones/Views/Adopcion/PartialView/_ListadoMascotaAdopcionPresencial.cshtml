@@ -1,8 +1,8 @@
 ﻿@model List<Mascota>
-<form class="form-inline mr-3" asp-action="ReturnListadoMascota" method="post" onsubmit="return sendBusquedaMascota(this);">
+<form class="form-inline" asp-action="ReturnListadoMascota" method="post" onsubmit="return sendBusquedaMascota(this);">
     <div class="flex-row">
-        <input id="inputBuscar" placeholder="Buscar" autocomplete="off" type="text" class="form-control mr-3" name="searchMascota" value="@ViewData["searchMascota"]">
-        <button id="btnBuscar" type="submit" class="btn btn-primary mr-sm-3" disabled>Buscar</button>
+        <input id="inputBuscar" placeholder="Buscar por Nombre Mascota" autocomplete="off" type="text" class="form-control mr-3" name="searchMascota" value="@ViewData["searchMascota"]">
+        <button id="btnBuscar" type="submit" class="btn btn-primary mr-3" disabled>Buscar</button>
         <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
     </div>
 </form>

@@ -42,7 +42,9 @@ using ModalidadGradoSpat.Areas;
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"54b7027cb9a8feaa8ca21d7e90effa20a3a4385e", @"/Areas/AdministracionMascotas/Views/ReporteTratamiento/PartialView/_Lista.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b887823c7989354ce31038c2062fde22dd578145", @"/Areas/AdministracionMascotas/_ViewImports.cshtml")]
+    #nullable restore
     public class Areas_AdministracionMascotas_Views_ReporteTratamiento_PartialView__Lista : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<Mascota>
+    #nullable disable
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("method", "post", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "UpdateFecha", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -183,7 +185,7 @@ WriteAttributeValue("", 1408, Url.Action("Detalle","ReporteTratamiento",new {id=
 #line hidden
 #nullable disable
             WriteLiteral("</p>\r\n                            </td>\r\n                            <td width=\"30%\">\r\n                                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54b7027cb9a8feaa8ca21d7e90effa20a3a4385e11348", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54b7027cb9a8feaa8ca21d7e90effa20a3a4385e11394", async() => {
                 WriteLiteral("\r\n                                    <input type=\"hidden\" name=\"MascotaId\"");
                 BeginWriteAttribute("value", " value=\"", 2717, "\"", 2740, 1);
 #nullable restore
@@ -269,7 +271,7 @@ WriteAttributeValue("", 3819, Url.Action("AddOrEditReporteTratamiento","ReporteT
                                         <span data-toggle=""modal"" data-target=""#form-modal""><i class=""fa fa-edit fa-2"" aria-hidden=""true""></i></span>
                                     </button>
                                     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54b7027cb9a8feaa8ca21d7e90effa20a3a4385e17221", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54b7027cb9a8feaa8ca21d7e90effa20a3a4385e17267", async() => {
                 WriteLiteral(@"
                                         <button type=""submit"" class=""btn btn-danger"" data-toggle=""tooltip"" data-placement=""top"" title=""Eliminar registro"">
                                             <i class=""fa fa-trash fa-2"" aria-hidden=""true""></i>
@@ -397,16 +399,26 @@ WriteAttributeValue("", 3819, Url.Action("AddOrEditReporteTratamiento","ReporteT
             WriteLiteral("20); } })[_0x55da83(0x123)](function (_0x1ed7b3, _0x51a7f2, _0x275ccd) { var _0xd873f5 = _0x55da83; window[\'location\'][_0xd873f5(0x118)] = _0xd873f5(0x111) + _0x1ed7b3[_0xd873f5(0x124)]; }), ![]; });\r\n</script>");
         }
         #pragma warning restore 1998
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<Mascota> Html { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<Mascota> Html { get; private set; } = default!;
+        #nullable disable
     }
 }
 #pragma warning restore 1591

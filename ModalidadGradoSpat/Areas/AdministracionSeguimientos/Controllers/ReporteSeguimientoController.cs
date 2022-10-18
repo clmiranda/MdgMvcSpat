@@ -15,7 +15,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class ReporteSeguimientoController : Controller
     {
-        private static RestClient client;
+        private RestClient client;
         private static Seguimiento _seguimiento;
         public ReporteSeguimientoController()
         {

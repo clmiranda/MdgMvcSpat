@@ -42,7 +42,9 @@ using ModalidadGradoSpat.Areas;
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4e9204b5c536f1d504198903960bc4e3f6fbf1a5", @"/Areas/AdministracionAdopciones/Views/Adopcion/PartialView/_Lista.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b887823c7989354ce31038c2062fde22dd578145", @"/Areas/AdministracionAdopciones/_ViewImports.cshtml")]
+    #nullable restore
     public class Areas_AdministracionAdopciones_Views_Adopcion_PartialView__Lista : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<List<SolicitudAdopcion>>
+    #nullable disable
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("value", "Aprobado", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("value", "Pendiente", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -157,7 +159,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
 </div>
 <div class=""my-3"">
     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a512358", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a512404", async() => {
                 WriteLiteral(@"
         <div class=""input-group"">
             <div class=""input-group-prepend"">
@@ -174,7 +176,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a513284", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a513330", async() => {
                     WriteLiteral("Aprobado");
                 }
                 );
@@ -193,7 +195,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a514853", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a514899", async() => {
                     WriteLiteral("Pendiente");
                 }
                 );
@@ -209,7 +211,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a516100", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a516146", async() => {
                     WriteLiteral("Rechazado");
                 }
                 );
@@ -225,7 +227,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a517347", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a517393", async() => {
                     WriteLiteral("Cancelado");
                 }
                 );
@@ -251,7 +253,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a518965", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a519011", async() => {
                     WriteLiteral("Aprobado");
                 }
                 );
@@ -267,7 +269,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a520211", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a520257", async() => {
                     WriteLiteral("Pendiente");
                 }
                 );
@@ -286,7 +288,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a521781", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a521827", async() => {
                     WriteLiteral("Rechazado");
                 }
                 );
@@ -302,7 +304,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a523028", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a523074", async() => {
                     WriteLiteral("Cancelado");
                 }
                 );
@@ -328,7 +330,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a524646", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a524692", async() => {
                     WriteLiteral("Aprobado");
                 }
                 );
@@ -344,7 +346,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a525892", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a525938", async() => {
                     WriteLiteral("Pendiente");
                 }
                 );
@@ -360,7 +362,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a527139", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a527185", async() => {
                     WriteLiteral("Rechazado");
                 }
                 );
@@ -379,7 +381,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a528709", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a528755", async() => {
                     WriteLiteral("Cancelado");
                 }
                 );
@@ -405,7 +407,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a530327", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a530373", async() => {
                     WriteLiteral("Aprobado");
                 }
                 );
@@ -421,7 +423,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a531573", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a531619", async() => {
                     WriteLiteral("Pendiente");
                 }
                 );
@@ -437,7 +439,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a532820", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a532866", async() => {
                     WriteLiteral("Rechazado");
                 }
                 );
@@ -453,7 +455,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a534067", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a534113", async() => {
                     WriteLiteral("Cancelado");
                 }
                 );
@@ -496,7 +498,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a536611", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a536657", async() => {
                     WriteLiteral("5");
                 }
                 );
@@ -515,7 +517,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a538173", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a538219", async() => {
                     WriteLiteral("10");
                 }
                 );
@@ -531,7 +533,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a539413", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a539459", async() => {
                     WriteLiteral("20");
                 }
                 );
@@ -547,7 +549,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a540653", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a540699", async() => {
                     WriteLiteral("50");
                 }
                 );
@@ -573,7 +575,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a542267", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a542313", async() => {
                     WriteLiteral("5");
                 }
                 );
@@ -589,7 +591,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a543506", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a543552", async() => {
                     WriteLiteral("10");
                 }
                 );
@@ -608,7 +610,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a545069", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a545115", async() => {
                     WriteLiteral("20");
                 }
                 );
@@ -624,7 +626,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a546309", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a546355", async() => {
                     WriteLiteral("50");
                 }
                 );
@@ -650,7 +652,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a547923", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a547969", async() => {
                     WriteLiteral("5");
                 }
                 );
@@ -666,7 +668,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a549162", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a549208", async() => {
                     WriteLiteral("10");
                 }
                 );
@@ -682,7 +684,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a550402", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a550448", async() => {
                     WriteLiteral("20");
                 }
                 );
@@ -701,7 +703,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a551965", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a552011", async() => {
                     WriteLiteral("50");
                 }
                 );
@@ -727,7 +729,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a553579", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a553625", async() => {
                     WriteLiteral("5");
                 }
                 );
@@ -743,7 +745,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a554818", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a554864", async() => {
                     WriteLiteral("10");
                 }
                 );
@@ -759,7 +761,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a556058", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a556104", async() => {
                     WriteLiteral("20");
                 }
                 );
@@ -775,7 +777,7 @@ WriteAttributeValue("", 1270, Url.Action("ExcelAdopcionesCanceladas", "Adopcion"
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a557298", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a557344", async() => {
                     WriteLiteral("50");
                 }
                 );
@@ -1086,7 +1088,7 @@ WriteAttributeValue("", 5877, Url.Action("AdopcionPresencial", "Adopcion",new { 
 #line hidden
 #nullable disable
             WriteLiteral("                                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a573014", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a573060", async() => {
                 WriteLiteral("\r\n                                        <input type=\"hidden\" name=\"Id\"");
                 BeginWriteAttribute("value", " value=\"", 10009, "\"", 10025, 1);
 #nullable restore
@@ -1343,7 +1345,7 @@ WriteAttributeValue("", 12046, item.Id, 12046, 8, false);
 #line hidden
 #nullable disable
             WriteLiteral("                <th>Estado</th>\r\n                <th>Detalle</th>\r\n            </tr>\r\n        </tfoot>\r\n    </table>\r\n</div>\r\n<nav class=\"table-responsive\">\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a586364", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e9204b5c536f1d504198903960bc4e3f6fbf1a586410", async() => {
                 WriteLiteral("\r\n        <input type=\"hidden\" name=\"sizePage\"");
                 BeginWriteAttribute("value", " value=\"", 14184, "\"", 14217, 1);
 #nullable restore
@@ -1823,16 +1825,26 @@ WriteAttributeValue("", 16563, ViewData["totalPages"], 16563, 23, false);
 ");
         }
         #pragma warning restore 1998
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<List<SolicitudAdopcion>> Html { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<List<SolicitudAdopcion>> Html { get; private set; } = default!;
+        #nullable disable
     }
 }
 #pragma warning restore 1591

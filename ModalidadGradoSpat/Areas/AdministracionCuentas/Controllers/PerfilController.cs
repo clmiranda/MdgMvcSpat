@@ -17,7 +17,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
     public class PerfilController : Controller
     {
         private static int id;
-        private static RestClient client;
+        private RestClient client;
         private static User _user;
         public PerfilController(IHttpContextAccessor httpContextAccessor)
         {

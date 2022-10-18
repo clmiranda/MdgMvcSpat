@@ -14,7 +14,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class GraficasController : Controller
     {
-        private static RestClient client;
+        private RestClient client;
         private string fechaInicio = DateTime.Now.AddMonths(-3).ToShortDateString();
         private string fechaFin = DateTime.Now.ToShortDateString();
         public GraficasController()

@@ -42,7 +42,9 @@ using ModalidadGradoSpat.Areas;
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"7e8890e068d3acc8c2e8c53d89e57e59073f6dba", @"/Areas/AdministracionSeguimientos/Views/Seguimiento/PartialView/_Lista.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b887823c7989354ce31038c2062fde22dd578145", @"/Areas/AdministracionSeguimientos/_ViewImports.cshtml")]
+    #nullable restore
     public class Areas_AdministracionSeguimientos_Views_Seguimiento_PartialView__Lista : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<List<Seguimiento>>
+    #nullable disable
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("value", "Activo", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("value", "Asignado", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -136,7 +138,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
 </div>
 <div class=""d-lg-flex justify-content-between my-3"">
     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba10471", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba10517", async() => {
                 WriteLiteral(@"
         <div class=""input-group"">
             <div class=""input-group-prepend"">
@@ -153,7 +155,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba11400", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba11446", async() => {
                     WriteLiteral("Activo");
                 }
                 );
@@ -172,7 +174,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba12967", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba13013", async() => {
                     WriteLiteral("Asignado");
                 }
                 );
@@ -188,7 +190,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba14213", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba14259", async() => {
                     WriteLiteral("Finalizado");
                 }
                 );
@@ -214,7 +216,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba15836", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba15882", async() => {
                     WriteLiteral("Activo");
                 }
                 );
@@ -230,7 +232,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba17080", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba17126", async() => {
                     WriteLiteral("Asignado");
                 }
                 );
@@ -249,7 +251,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba18649", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba18695", async() => {
                     WriteLiteral("Finalizado");
                 }
                 );
@@ -275,7 +277,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba20274", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba20320", async() => {
                     WriteLiteral("Activo");
                 }
                 );
@@ -291,7 +293,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba21518", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba21564", async() => {
                     WriteLiteral("Asignado");
                 }
                 );
@@ -307,7 +309,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba22764", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba22810", async() => {
                     WriteLiteral("Finalizado");
                 }
                 );
@@ -350,7 +352,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba25319", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba25365", async() => {
                     WriteLiteral("5");
                 }
                 );
@@ -369,7 +371,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba26881", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba26927", async() => {
                     WriteLiteral("10");
                 }
                 );
@@ -385,7 +387,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba28121", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba28167", async() => {
                     WriteLiteral("20");
                 }
                 );
@@ -401,7 +403,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba29361", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba29407", async() => {
                     WriteLiteral("50");
                 }
                 );
@@ -427,7 +429,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba30980", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba31026", async() => {
                     WriteLiteral("5");
                 }
                 );
@@ -443,7 +445,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba32219", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba32265", async() => {
                     WriteLiteral("10");
                 }
                 );
@@ -462,7 +464,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba33782", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba33828", async() => {
                     WriteLiteral("20");
                 }
                 );
@@ -478,7 +480,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba35022", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba35068", async() => {
                     WriteLiteral("50");
                 }
                 );
@@ -504,7 +506,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba36641", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba36687", async() => {
                     WriteLiteral("5");
                 }
                 );
@@ -520,7 +522,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba37880", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba37926", async() => {
                     WriteLiteral("10");
                 }
                 );
@@ -536,7 +538,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba39120", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba39166", async() => {
                     WriteLiteral("20");
                 }
                 );
@@ -555,7 +557,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba40683", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba40729", async() => {
                     WriteLiteral("50");
                 }
                 );
@@ -581,7 +583,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba42302", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba42348", async() => {
                     WriteLiteral("5");
                 }
                 );
@@ -597,7 +599,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba43541", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba43587", async() => {
                     WriteLiteral("10");
                 }
                 );
@@ -613,7 +615,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba44781", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba44827", async() => {
                     WriteLiteral("20");
                 }
                 );
@@ -629,7 +631,7 @@ WriteAttributeValue("", 661, Url.Action("ExcelReportes", "Seguimiento", new { ar
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba46021", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba46067", async() => {
                     WriteLiteral("50");
                 }
                 );
@@ -943,7 +945,7 @@ WriteAttributeValue("", 8363, Url.Action("Detalle","Seguimiento", new { idSolici
 <!-- pager -->
 <nav class=""table-responsive"">
     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba62195", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7e8890e068d3acc8c2e8c53d89e57e59073f6dba62241", async() => {
                 WriteLiteral("\r\n        <input type=\"hidden\" name=\"sizePage\"");
                 BeginWriteAttribute("value", " value=\"", 9349, "\"", 9382, 1);
 #nullable restore
@@ -1525,16 +1527,26 @@ WriteAttributeValue("", 11728, ViewData["totalPages"], 11728, 23, false);
 </script>");
         }
         #pragma warning restore 1998
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<List<Seguimiento>> Html { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<List<Seguimiento>> Html { get; private set; } = default!;
+        #nullable disable
     }
 }
 #pragma warning restore 1591

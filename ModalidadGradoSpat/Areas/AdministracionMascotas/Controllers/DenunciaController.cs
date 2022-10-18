@@ -19,9 +19,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class DenunciaController : Controller
     {
-        private static RestClient client;
+        private RestClient client;
         private static List<Denuncia> _listaPDF;
-        private static int? sizepage = 10; private static int? pagenumber = 1; private static string busqueda = "";
+        private int? sizepage = 10; private int? pagenumber = 1; private string busqueda = "";
         public DenunciaController()
         {
             client = new RestClient("https://localhost:44398/");
@@ -84,7 +84,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         var response = await client.ExecuteAsync<Denuncia>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
-                        TempData["alertsuccess"] = "Denuncia creada.";
+                        TempData["alertsuccess"] = "Denuncia creada de manera exitosa.";
                         ViewData["search"] = busqueda;
                         var vista = await Listado();
                         ViewData["ListaDenuncias"] = _listaPDF;
@@ -108,7 +108,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                         var response = await client.ExecuteAsync<Denuncia>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
-                        TempData["alertsuccess"] = "Denuncia actualizada.";
+                        TempData["alertsuccess"] = "Denuncia actualizada de manera exitosa.";
                         ViewData["search"] = busqueda;
                         var vista = await Listado();
                         ViewData["ListaDenuncias"] = _listaPDF;
@@ -139,7 +139,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 var response = await client.ExecuteAsync<Denuncia>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
-                TempData["alertsuccess"] = "La denuncia fue eliminada de manera exitosa";
+                TempData["alertsuccess"] = "Denuncia eliminada de manera exitosa.";
                 var vista = await Listado();
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
             }

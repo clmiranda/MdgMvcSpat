@@ -20,7 +20,7 @@
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
-        <script src="https://kit.fontawesome.com/0eb65ed4d3.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css" rel="stylesheet">
         @if (User.Identity.IsAuthenticated)
@@ -51,7 +51,7 @@
             margin-top: 50px;
         }
     </style>
-    <body id="body-pd" class="">
+    <body id="body-pd">
         <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top header py-3" id="header">
             @if (User.Identity.IsAuthenticated)
             {
@@ -100,7 +100,7 @@
                     @if (User.IsInRole("SuperAdministrador") || User.IsInRole("Administrador"))
                     {
                         <a class="nav_link text-decoration-none" href="@Url.Action("Lista","Denuncia",new { area="AdministracionMascotas"})">
-                            <i class="fas fa-balance-scale-right nav_icon"></i>
+                            <i class="fas fa-balance-scale nav_icon"></i>
                             <span class="nav_name">Admin. Denuncias</span>
                         </a>
                         <a class="nav_link text-decoration-none" href="@Url.Action("Lista","Mascota",new { area="AdministracionMascotas"})">
