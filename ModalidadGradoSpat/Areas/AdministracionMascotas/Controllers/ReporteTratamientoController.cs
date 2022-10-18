@@ -15,7 +15,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class ReporteTratamientoController : Controller
     {
-        private static RestClient client;
+        private RestClient client;
         private static int idMascota = 0;
         public ReporteTratamientoController()
         {

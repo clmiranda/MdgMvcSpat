@@ -1,22 +1,33 @@
 ﻿$(document).ready(function () {
+    if (localStorage.getItem('switch-state')) {
+        $('.l-navbar').addClass('mostrar');
+        $('#nav-bar').addClass('bx-x');
+        $('#body-pd').addClass('body-pd');
+    }
+
     $("#header-toggle").click(() => {
-        const showNavbar = (toggleId, navId, bodyId, headerId) => {
+        const showNavbar = (toggleId, navId, bodyId) => {
             const toggle = document.getElementById(toggleId),
                 nav = document.getElementById(navId),
-                bodypd = document.getElementById(bodyId),
-                headerpd = document.getElementById(headerId)
+                bodypd = document.getElementById(bodyId)
 
             // Validate that all variables exist
-            if (toggle && nav && bodypd && headerpd) {
+            if (toggle && nav && bodypd) {
                 // show navbar
                 nav.classList.toggle('mostrar');
                 // change icon
                 toggle.classList.toggle('bx-x');
                 // add padding to body
                 bodypd.classList.toggle('body-pd');
+                if (localStorage.getItem("switch-state")) {
+                    localStorage.removeItem("switch-state");
+                }
+                else {
+                    localStorage.setItem('switch-state', nav.classList.contains('mostrar'));
+                }
             }
         }
-        showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header');
+        showNavbar('header-toggle', 'nav-bar', 'body-pd');
     });
 });
 

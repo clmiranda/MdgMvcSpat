@@ -13,7 +13,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
     [Authorize(Roles = "SuperAdministrador")]
     public class DashboardController : Controller
     {
-        private static RestClient client;
+        private RestClient client;
         private string filtro = "3 meses";
         public DashboardController()
         {

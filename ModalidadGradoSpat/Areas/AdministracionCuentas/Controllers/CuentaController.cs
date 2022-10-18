@@ -17,7 +17,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
     [Authorize(Roles = "SuperAdministrador")]
     public class CuentaController : Controller
     {
-        private static RestClient client;
+        private RestClient client;
         private static int idUser;
         public CuentaController()
         {
@@ -83,7 +83,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
                 var response = await client.ExecuteAsync(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
-                TempData["alertsuccess"] = "Roles asignados.";
+                TempData["alertsuccess"] = "Roles actualizados.";
                 var vista = await Listado();
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "PartialView/_ListaUsuarios", vista) });
             }

@@ -19,11 +19,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class AdopcionController : Controller
     {
-        private static RestClient client;
+        private RestClient client;
         private static List<SolicitudAdopcion> _listaPDF;
         private static SolicitudAdopcion _solicitudAdopcion = new SolicitudAdopcion();
-        private static int? pagesize = 10; private static int? pagenumber = 1; private static string filtrado = "Pendiente";
-        private static int? pagenumberMascota = 1; private static string filtradoMascota = "Adopcion"; private static string busquedaMascota = ""; private static int? sizepageMascota = 5;
+        private int? pagesize = 10; private int? pagenumber = 1; private string filtrado = "Pendiente";
+        private int? pagenumberMascota = 1; private string filtradoMascota = "Adopcion"; private string busquedaMascota = ""; private int? sizepageMascota = 5;
         public AdopcionController()
         {
             client = new RestClient("https://localhost:44398/");
