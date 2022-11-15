@@ -1,4 +1,4 @@
-﻿@model SolicitudAdopcion
+﻿@model SolicitudAdopcionDto
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <div class="shadow-lg border px-sm-3 px-md-5 py-5 bg-white rounded col-lg-10 mx-auto">
     @if (Model != null)
@@ -36,17 +36,12 @@
                         la cuidar&aacute;s durante todo ese tiempo?
                     </p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-                        <label class="form-check-label" for="exampleRadios1">
-                            S&iacute;
+                        <input asp-for="@Model.Check1" class="form-check-input" type="checkbox" id="checkBox1">
+                        <label class="form-check-label" for="checkBox1">
+                            Debe marcar la opci&oacute;n para indicar que est&aacute; de acuerdo.
                         </label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                        <label class="form-check-label" for="exampleRadios2">
-                            No
-                        </label>
-                    </div>
+                    @Html.ValidationMessageFor(x => x.Check1, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-12">
                     <p>
@@ -55,17 +50,12 @@
                         para asegurarnos de que la mascota est&aacute; siendo bien cuidada?
                     </p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-                        <label class="form-check-label" for="exampleRadios1">
-                            S&iacute;
+                        <input asp-for="@Model.Check2" class="form-check-input" type="checkbox" id="checkBox2">
+                        <label class="form-check-label" for="checkBox2">
+                            Debe marcar la opci&oacute;n para indicar que est&aacute; de acuerdo.
                         </label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                        <label class="form-check-label" for="exampleRadios2">
-                            No
-                        </label>
-                    </div>
+                    @Html.ValidationMessageFor(x => x.Check2, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-12">
                     <p>
@@ -74,17 +64,12 @@
                         recibir las visitas de los voluntarios, deber&aacute;s entregar voluntariamente a la mascota?
                     </p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-                        <label class="form-check-label" for="exampleRadios1">
-                            S&iacute;
+                        <input asp-for="@Model.Check3" class="form-check-input" type="checkbox" id="checkBox3">
+                        <label class="form-check-label" for="checkBox3">
+                            Debe marcar la opci&oacute;n para indicar que est&aacute; de acuerdo.
                         </label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                        <label class="form-check-label" for="exampleRadios2">
-                            No
-                        </label>
-                    </div>
+                    @Html.ValidationMessageFor(x => x.Check3, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-12">
                     <p>
@@ -93,17 +78,12 @@
                         veterinaria cuando enferme?
                     </p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-                        <label class="form-check-label" for="exampleRadios1">
-                            S&iacute;
+                        <input asp-for="@Model.Check4" class="form-check-input" type="checkbox" id="checkBox4">
+                        <label class="form-check-label" for="checkBox4">
+                            Debe marcar la opci&oacute;n para indicar que est&aacute; de acuerdo.
                         </label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                        <label class="form-check-label" for="exampleRadios2">
-                            No
-                        </label>
-                    </div>
+                    @Html.ValidationMessageFor(x => x.Check4, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-12">
                     <p>
@@ -112,17 +92,12 @@
                         vender a la mascota.
                     </p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-                        <label class="form-check-label" for="exampleRadios1">
-                            S&iacute;
+                        <input asp-for="@Model.Check5" class="form-check-input" type="checkbox" id="checkBox5">
+                        <label class="form-check-label" for="checkBox5">
+                            Debe marcar la opci&oacute;n para indicar que est&aacute; de acuerdo.
                         </label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                        <label class="form-check-label" for="exampleRadios2">
-                            No
-                        </label>
-                    </div>
+                    @Html.ValidationMessageFor(x => x.Check5, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="text-center">

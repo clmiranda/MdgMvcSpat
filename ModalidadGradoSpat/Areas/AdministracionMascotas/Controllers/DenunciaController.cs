@@ -19,13 +19,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class DenunciaController : Controller
     {
-        private RestClient client;
         private static List<Denuncia> _listaPDF;
-        private int? sizepage = 10; private int? pagenumber = 1; private string busqueda = "";
-        public DenunciaController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
+        private static int? sizepage = 10; private int? pagenumber = 1; private string busqueda = "";
         [Route("Denuncia/Lista")]
         public async Task<IActionResult> Lista()
         {
@@ -52,11 +47,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 return View(new Denuncia());
             else
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Denuncia/GetDenuncia/" + id, Method.GET);
                 try
                 {
-                    var response = await client.ExecuteAsync<Denuncia>(request);
+                    var response = await APIConnection.client.ExecuteAsync<Denuncia>(request);
                     if (!response.IsSuccessful)
                     {
                         throw new Exception();
@@ -77,11 +72,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             {
                 if (model.Id == 0)
                 {
-                    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                    APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                     var request = new RestRequest("api/Denuncia/CreateDenuncia/", Method.POST).AddJsonBody(model);
                     try
                     {
-                        var response = await client.ExecuteAsync<Denuncia>(request);
+                        var response = await APIConnection.client.ExecuteAsync<Denuncia>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Denuncia creada de manera exitosa.";
@@ -101,11 +96,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 }
                 else
                 {
-                    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                    APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                     var request = new RestRequest("api/Denuncia/UpdateDenuncia/", Method.PUT).AddJsonBody(model);
                     try
                     {
-                        var response = await client.ExecuteAsync<Denuncia>(request);
+                        var response = await APIConnection.client.ExecuteAsync<Denuncia>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Denuncia actualizada de manera exitosa.";
@@ -130,13 +125,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteDenuncia(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Denuncia/DeleteDenuncia/" + id, Method.DELETE);
             ViewData["search"] = busqueda;
             ViewData["ListaDenuncias"] = _listaPDF;
             try
             {
-                var response = await client.ExecuteAsync<Denuncia>(request);
+                var response = await APIConnection.client.ExecuteAsync<Denuncia>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Denuncia eliminada de manera exitosa.";
@@ -157,9 +152,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var requestGet = new RestRequest("api/Denuncia/GetAllDenuncias", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", sizepage);
-                var response = await client.ExecuteAsync<List<Denuncia>>(requestGet);
+                var response = await APIConnection.client.ExecuteAsync<List<Denuncia>>(requestGet);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
@@ -177,11 +172,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         }
         public async Task<List<Denuncia>> ListadoPDF()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Denuncia/GetAllDenunciasForReport", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<List<Denuncia>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<Denuncia>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return response.Data;
@@ -193,11 +188,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         }
         public async Task<IActionResult> ExcelDenuncias()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Denuncia/GetAllDenunciasForReport", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<List<Denuncia>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<Denuncia>>(request);
                 if (!response.IsSuccessful)
                 {
                     throw new Exception();

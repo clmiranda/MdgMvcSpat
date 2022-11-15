@@ -1,4 +1,5 @@
-﻿using DATA.Models;
+﻿using DATA.DTOs;
+using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -15,12 +16,7 @@ namespace ModalidadGradoSpat.Controllers
     [AllowAnonymous]
     public class AdopcionesController : Controller
     {
-        private static RestClient client;
-        private static int? pagesize = 9; private static int? pagenumber = 1; private static string filtrado = "Adopcion";
-        public AdopcionesController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
+        private static int? pagesize = 9; private int? pagenumber = 1; private static string filtrado = "Adopcion";
         public async Task<IActionResult> Inicio()
         {
             ViewData["filter"] = filtrado;
@@ -61,7 +57,7 @@ namespace ModalidadGradoSpat.Controllers
             try
             {
                 var request = new RestRequest("api/Mascota/GetMascota/" + id, Method.GET);
-                var response = await client.ExecuteAsync<Mascota>(request);
+                var response = await APIConnection.client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return View(response.Data);
@@ -77,7 +73,7 @@ namespace ModalidadGradoSpat.Controllers
             try
             {
                 var request = new RestRequest("api/Adopcion/GetSolicitudAdopcionByIdMascota/" + id, Method.GET);
-                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
+                var response = await APIConnection.client.ExecuteAsync<SolicitudAdopcionDto>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 TempData["MascotaId"] = id;
@@ -99,7 +95,7 @@ namespace ModalidadGradoSpat.Controllers
                 var request = new RestRequest("api/Adopcion/CreateSolicitudAdopcion", Method.POST).AddJsonBody(modelo);
                 try
                 {
-                    var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
+                    var response = await APIConnection.client.ExecuteAsync<SolicitudAdopcion>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Solicitud de adopción enviada correctamente, nos comunicaremos con usted en caso de ser apto para la adopción.";
@@ -120,7 +116,7 @@ namespace ModalidadGradoSpat.Controllers
             try
             {
                 var request = new RestRequest("api/Mascota/GetAllMascotasForAdopcion", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-                var response = await client.ExecuteAsync<List<Mascota>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<Mascota>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
