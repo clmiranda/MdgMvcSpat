@@ -8,18 +8,12 @@ using RestSharp;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static ModalidadGradoSpat.Helper;
 
 namespace ModalidadGradoSpat.Controllers
 {
     [AllowAnonymous]
     public class LoginAccountController : Controller
     {
-        private static RestClient client;
-        public LoginAccountController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
         [Route("Login")]
         public ActionResult Login()
         {
@@ -49,7 +43,7 @@ namespace ModalidadGradoSpat.Controllers
                 var request = new RestRequest("api/Auth/Login/", Method.POST).AddJsonBody(datosUsuario);
                 try
                 {
-                    var response = await client.ExecuteAsync(request);
+                    var response = await APIConnection.client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     dynamic valor = JsonConvert.DeserializeObject(response.Content);
@@ -84,7 +78,7 @@ namespace ModalidadGradoSpat.Controllers
                 var request = new RestRequest("api/Auth/forgotpassword/", Method.POST).AddJsonBody(dto);
                 try
                 {
-                    var response = await client.ExecuteAsync(request);
+                    var response = await APIConnection.client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Email enviado a su correo electrónico, debe ingresar al enlace enviado para reestablecer su Contraseña.";
@@ -109,7 +103,7 @@ namespace ModalidadGradoSpat.Controllers
                 var request = new RestRequest("api/Auth/ResetPasswordExterno", Method.POST).AddJsonBody(valor);
                 try
                 {
-                    var response = await client.ExecuteAsync(request);
+                    var response = await APIConnection.client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Contraseña restaurada correctamente.";

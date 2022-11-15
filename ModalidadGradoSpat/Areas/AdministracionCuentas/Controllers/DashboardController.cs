@@ -13,19 +13,13 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
     [Authorize(Roles = "SuperAdministrador")]
     public class DashboardController : Controller
     {
-        private RestClient client;
-        private string filtro = "3 meses";
-        public DashboardController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
         [HttpGet]
         [Route("Dashboard")]
         public async Task<IActionResult> Dashboard()
         {
             if (HttpContext.Session.GetString("JWToken") == "" || HttpContext.Session.GetString("JWToken") == null)
                 return RedirectToAction("Login", "Cuenta");
-            ViewData["filter"] = filtro;
+            ViewData["filter"] = "3 meses";
             var vista = await Datos();
             return View(vista);
         }
@@ -33,9 +27,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Graficas/GetDataForDashboard/", Method.GET);
-                var response = await client.ExecuteAsync<DataForDashboardDto>(request);
+                var response = await APIConnection.client.ExecuteAsync<DataForDashboardDto>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return response.Data;

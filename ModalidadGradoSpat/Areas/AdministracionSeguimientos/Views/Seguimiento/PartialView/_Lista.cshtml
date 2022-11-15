@@ -1,6 +1,8 @@
 ﻿@model List<Seguimiento>
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
-@{ int id = 1;}
+@{
+    int id = 1;
+}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
 <div class="d-lg-flex justify-content-between my-3">
@@ -80,7 +82,7 @@
                 }
             </select>
         </div>
-        <button id="resetear" type="submit" class="btn btn-primary">Reiniciar</button>
+        <button id="resetear" type="submit" class="btn btn-primary">Reiniciar Filtros</button>
     </form>
 </div>
 <div class="table-responsive mt-3">
@@ -190,7 +192,9 @@
                     <button class="page-link" value="1" onclick="GetValueButton(this.value)">Primer</button>
                 </li>
                 <li class="page-item">
-                    @{ int p = int.Parse(ViewData["currentPage"].ToString()) - 1;}
+                    @{
+                        int p = int.Parse(ViewData["currentPage"].ToString()) - 1;
+                    }
                     <button class="page-link" value="@p" onclick="GetValueButton(this.value)">Anterior</button>
                 </li>
             }
@@ -221,7 +225,9 @@
             @if (int.Parse(ViewData["currentPage"].ToString()) < int.Parse(ViewData["totalPages"].ToString()))
             {
                 <li class="page-item">
-                    @{int n = int.Parse(ViewData["currentPage"].ToString()) + 1;}
+                    @{
+                        int n = int.Parse(ViewData["currentPage"].ToString()) + 1;
+                    }
                     <button class="page-link" value="@n" onclick="GetValueButton(this.value)">Siguiente</button>
                 </li>
                 <li class="page-item">
@@ -249,25 +255,25 @@
         doc.autoTable({
             head: [['Id', 'Fecha Inicio', 'Fecha Conclusion', 'Voluntario Asignado', 'Nombre Mascota', 'Rasgos Particulares', 'Estado Seguimiento', 'Id Adopcion']],
             body: [
-                @if (ViewData["ListaSeguimientos"] != null)
-                {
-                    foreach (var item in (List<Seguimiento>)ViewData["ListaSeguimientos"])
-                    {
-                        if (item.User != null)
-                        {
-                            <text>
-                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', '@item.User.Persona.Nombres @item.User.Persona.Apellidos', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcion.Mascota.RasgosParticulares', '@item.Estado', '@item.SolicitudAdopcionId'],
-                            </text>
-                        }
-                        else
-                        {
-                            <text>
-                                ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', 'No asignado', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.Estado', '@item.SolicitudAdopcionId'],
-                            </text>
-                        }
-                     }
-                 }
-            ],
+    @if (ViewData["ListaSeguimientos"] != null)
+    {
+        foreach (var item in (List<Seguimiento>)ViewData["ListaSeguimientos"])
+        {
+            if (item.User != null)
+            {
+                <text>
+                            ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', '@item.User.Persona.Nombres @item.User.Persona.Apellidos', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcion.Mascota.RasgosParticulares', '@item.Estado', '@item.SolicitudAdopcionId'],
+                </text>
+            }
+            else
+            {
+                <text>
+                            ['@item.Id', '@item.FechaInicio.ToShortDateString()', '@item.FechaFin.ToShortDateString()', 'No asignado', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.SolicitudAdopcion.Mascota.Nombre', '@item.Estado', '@item.SolicitudAdopcionId'],
+                </text>
+            }
+        }
+    }
+                    ],
             theme: 'grid',
             styles: {
                 font: 'times',
@@ -280,32 +286,33 @@
     function generatePDFReporteSeguimiento() {
         const doc = new jsPDF("landscape")
         doc.autoTable({
-            head: [['Id Reporte', 'Observaciones', 'Fecha Reporte','Estado Reporte', 'Id Seguimiento']],
+            head: [['Id Reporte', 'Observaciones', 'Fecha Reporte', 'Estado Reporte', 'Id Seguimiento']],
             body: [
-                @if (ViewData["ListaSeguimientos"] != null) {
-                     foreach (var item in (List<Seguimiento>)ViewData["ListaSeguimientos"])
-                     {
-                        if (item.ReporteSeguimientos!=null)
-                        {
-                            @foreach (var item2 in item.ReporteSeguimientos)
-                            {
-                                if (item2.Observaciones != null)
-                                {
-                                    <text>
-                                        ['@item2.Id', '@item2.Observaciones', '@item2.FechaReporte.ToShortDateString()', '@item2.Estado', '@item.Id'],
-                                    </text>
-                                }
-                                else
-                                {
-                                    <text>
-                                        ['@item2.Id', 'Aún no se realizó', '@item2.FechaReporte.ToShortDateString()', '@item2.Estado', '@item.Id'],
-                                    </text>
-                                }
-                            }
-                        }
-                     }
-                 }
-            ],
+    @if (ViewData["ListaSeguimientos"] != null)
+    {
+        foreach (var item in (List<Seguimiento>)ViewData["ListaSeguimientos"])
+        {
+            if (item.ReporteSeguimientos != null)
+            {
+                @foreach (var item2 in item.ReporteSeguimientos)
+                {
+                    if (item2.Observaciones != null)
+                    {
+                        <text>
+                                    ['@item2.Id', '@item2.Observaciones', '@item2.FechaReporte.ToShortDateString()', '@item2.Estado', '@item.Id'],
+                        </text>
+                    }
+                    else
+                    {
+                        <text>
+                                    ['@item2.Id', 'Aún no se realizó', '@item2.FechaReporte.ToShortDateString()', '@item2.Estado', '@item.Id'],
+                        </text>
+                    }
+                }
+            }
+        }
+    }
+                    ],
             columnStyles: {
                 0: { cellWidth: 20 },
                 1: { cellWidth: 150 }

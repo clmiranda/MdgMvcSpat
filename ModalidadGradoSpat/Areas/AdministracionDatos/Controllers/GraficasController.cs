@@ -14,13 +14,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class GraficasController : Controller
     {
-        private RestClient client;
         private string fechaInicio = DateTime.Now.AddMonths(-3).ToShortDateString();
         private string fechaFin = DateTime.Now.ToShortDateString();
-        public GraficasController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
         [Route("Grafica/Adopciones")]
         public async Task<IActionResult> Adopciones()
         {
@@ -33,9 +28,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Graficas/GetGraficasAdopciones", Method.POST).AddJsonBody(fechas);
-                var response = await client.ExecuteAsync<List<DataGraficaDto>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<DataGraficaDto>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var vista = response.Data;
@@ -74,9 +69,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Graficas/GetGraficasMascotas", Method.POST).AddJsonBody(fechas);
-                var response = await client.ExecuteAsync<List<DataGraficaDto>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<DataGraficaDto>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var vista = response.Data;
@@ -115,9 +110,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Graficas/GetGraficasReporteSeguimientos", Method.POST).AddJsonBody(fechas);
-                var response = await client.ExecuteAsync<List<DataGraficaDto>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<DataGraficaDto>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var vista = response.Data;

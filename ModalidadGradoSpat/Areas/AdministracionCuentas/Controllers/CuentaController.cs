@@ -17,12 +17,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
     [Authorize(Roles = "SuperAdministrador")]
     public class CuentaController : Controller
     {
-        private RestClient client;
         private static int idUser;
-        public CuentaController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
         [Route("Cuenta/ListaUsuarios")]
         public async Task<ActionResult> ListaUsuarios()
         {
@@ -44,12 +39,12 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         {
             if (ModelState.IsValid)
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 usuario.Persona = persona;
                 var request = new RestRequest("api/User/CreateUser/", Method.POST).AddJsonBody(usuario);
                 try
                 {
-                    var response = await client.ExecuteAsync(request);
+                    var response = await APIConnection.client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Usuario creado, email de confirmacion de la cuenta enviado al correo electronico.";
@@ -76,11 +71,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AsignarRoles(string[] RolesUser)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/User/AsignarRoles/" + idUser, Method.POST).AddJsonBody(RolesUser);
             try
             {
-                var response = await client.ExecuteAsync(request);
+                var response = await APIConnection.client.ExecuteAsync(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Roles actualizados.";
@@ -100,11 +95,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CambiarEstado(int idUser)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/User/CambiarEstado/" + idUser, Method.PUT);
             try
             {
-                var response = await client.ExecuteAsync(request);
+                var response = await APIConnection.client.ExecuteAsync(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Estado modificado.";
@@ -124,11 +119,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteUsuario(int idUser)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/User/DeleteUser/" + idUser, Method.DELETE);
             try
             {
-                var response = await client.ExecuteAsync(request);
+                var response = await APIConnection.client.ExecuteAsync(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Usuario eliminado.";
@@ -148,9 +143,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/User/GetAllUsers/", Method.GET);
-                var response = await client.ExecuteAsync(request);
+                var response = await APIConnection.client.ExecuteAsync(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var vista = JsonConvert.DeserializeObject<IEnumerable<User>>(response.Content);

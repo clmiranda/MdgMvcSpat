@@ -15,20 +15,15 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class ReporteSeguimientoController : Controller
     {
-        private RestClient client;
         private static Seguimiento _seguimiento;
-        public ReporteSeguimientoController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
         [Route("ReporteSeguimiento/Lista/{id}")]
         public async Task<IActionResult> Lista(int id)
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
-                var response = await client.ExecuteAsync<Seguimiento>(request);
+                var response = await APIConnection.client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 _seguimiento = response.Data;
@@ -42,11 +37,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> SetRangoFechasSeguimiento(int id = 0)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Seguimiento/GetSeguimiento/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<Seguimiento>(request);
+                var response = await APIConnection.client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return View(response.Data);
@@ -66,11 +61,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             if (ModelState.IsValid)
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ReporteSeguimiento/UpdateRangoFechasSeguimiento/", Method.PUT).AddJsonBody(modelo);
                 try
                 {
-                    var response = await client.ExecuteAsync<Seguimiento>(request);
+                    var response = await APIConnection.client.ExecuteAsync<Seguimiento>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Rango de fechas actualizada.";
@@ -93,11 +88,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         public async Task<IActionResult> UpdateFechaReporte(ReporteSeguimiento reporteSeguimiento)
         {
             ModelState.Clear();
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ReporteSeguimiento/UpdateFechaReporte/", Method.PUT).AddJsonBody(reporteSeguimiento);
             try
             {
-                var response = await client.ExecuteAsync<Seguimiento>(request);
+                var response = await APIConnection.client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Fecha actualizada.";
@@ -117,11 +112,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddReporte(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ReporteSeguimiento/CreateReporteSeguimiento/" + id, Method.POST);
             try
             {
-                var response = await client.ExecuteAsync<Seguimiento>(request);
+                var response = await APIConnection.client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Reporte creado.";
@@ -141,11 +136,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteReporte(int idReporte, int idSeguimiento)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ReporteSeguimiento/" + idSeguimiento + "/DeleteReporte/" + idReporte, Method.DELETE);
             try
             {
-                var response = await client.ExecuteAsync<Seguimiento>(request);
+                var response = await APIConnection.client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Reporte eliminado.";

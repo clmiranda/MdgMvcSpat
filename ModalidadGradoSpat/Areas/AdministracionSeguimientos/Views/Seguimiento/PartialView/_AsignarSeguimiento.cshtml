@@ -25,12 +25,15 @@ else
         {
             <style>
                 .card > .btn:after {
-                    font-family: FontAwesome;
+                    font-family: "Font Awesome 5 Free";
                     content: "\f106";
+                    font-weight: 600;
                     padding-right: 5px;
                 }
 
                 .card > .btn.collapsed:after {
+                    font-family: "Font Awesome 5 Free";
+                    font-weight: 600;
                     content: "\f107";
                 }
             </style>
@@ -79,7 +82,7 @@ else
                                         else if (Model.Item2.Estado.Equals("Activo"))
                                         {
                                             <form asp-action="Asignar" asp-route-idUser="@item.Id" method="post" onsubmit="return checkVoluntario(this);">
-                                                <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Asignar"><i class="fa fa-check-circle-o" aria-hidden="true"></i></button>
+                                                <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Asignar"><i class="fas fa-check-circle" aria-hidden="true"></i></button>
                                             </form>
                                         }
                                     </div>

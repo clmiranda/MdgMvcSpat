@@ -15,12 +15,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class ReporteTratamientoController : Controller
     {
-        private RestClient client;
         private static int idMascota = 0;
-        public ReporteTratamientoController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
         [Route("ReporteTratamiento/Lista/{id}")]
         public async Task<IActionResult> Lista(int id)
         {
@@ -43,11 +38,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 return View(new ReporteTratamiento { MascotaId = idMascota });
             else
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ReporteTratamiento/GetReporteTratamiento/" + id, Method.GET);
                 try
                 {
-                    var response = await client.ExecuteAsync<ReporteTratamiento>(request);
+                    var response = await APIConnection.client.ExecuteAsync<ReporteTratamiento>(request);
                     if (!response.IsSuccessful)
                         throw new Exception();
 
@@ -66,9 +61,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             idMascota = mascotaId;
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ReporteTratamiento/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaCreacion", FechaReporteTratamiento);
-                var response = await client.ExecuteAsync<Mascota>(request);
+                var response = await APIConnection.client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Fecha actualizada exitosamente.";
@@ -93,11 +88,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             {
                 if (model.Id == 0)
                 {
-                    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                    APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                     var request = new RestRequest("api/ReporteTratamiento/CreateReporteTratamiento/", Method.POST).AddJsonBody(model);
                     try
                     {
-                        var response = await client.ExecuteAsync(request);
+                        var response = await APIConnection.client.ExecuteAsync(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Reporte de tratamiento creado.";
@@ -115,11 +110,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 }
                 else
                 {
-                    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                    APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                     var request = new RestRequest("api/ReporteTratamiento/UpdateReporteTratamiento/", Method.PUT).AddJsonBody(model);
                     try
                     {
-                        var response = await client.ExecuteAsync(request);
+                        var response = await APIConnection.client.ExecuteAsync(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Reporte de tratamiento actualizado.";
@@ -142,11 +137,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteReporteTratamiento(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ReporteTratamiento/DeleteReporteTratamiento/" + id, Method.DELETE);
             try
             {
-                var response = await client.ExecuteAsync<Denuncia>(request);
+                var response = await APIConnection.client.ExecuteAsync<Denuncia>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Reporte de tratamiento eliminado.";
@@ -166,9 +161,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ReporteTratamiento/GetAllReporteTratamiento/" + idMascota, Method.GET);
-                var response = await client.ExecuteAsync<Mascota>(request);
+                var response = await APIConnection.client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var vista = response.Data;

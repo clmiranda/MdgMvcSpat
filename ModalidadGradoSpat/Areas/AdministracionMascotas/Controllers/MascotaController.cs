@@ -21,14 +21,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class MascotaController : Controller
     {
-        private RestClient client;
         private static Mascota _mascota;
         private static List<Mascota> _listaPDF;
-        private int? pagesize = 10; private int? pagenumber = 1; private string busqueda = "";
-        public MascotaController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
+        private static int? pagesize = 10; private int? pagenumber = 1; private string busqueda = "";
         [Route("Mascota/Lista")]
         public async Task<IActionResult> Lista()
         {
@@ -50,11 +45,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public async Task<IActionResult> EditMascota(int id)
         {
             ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetMascotaDenuncia/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<Mascota>(request);
+                var response = await APIConnection.client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
 
@@ -78,7 +73,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         [Route("Mascota/{idMascota}/AddFotoMascota")]
         public async Task<IActionResult> AddFotoMascotaAsync(int idMascota, [FromForm] FotoForCreationDto fotoDto)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Fotos/Mascota/"+ idMascota + "/AddFotoMascota", Method.POST);
             foreach (var foto in fotoDto.Archivo)
             {
@@ -99,10 +94,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
             }
             try
             {
-                var response = await client.ExecuteAsync<Mascota>(request);
+                var response = await APIConnection.client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Foto(s) agregada(s) correctamente.";
+                _mascota = response.Data;
                 return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Fotos", response.Data) });
             }
             catch (Exception ex)
@@ -119,11 +115,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public async Task<IActionResult> SetFotoPrincipal(int id, int idfoto)
         {
             ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Fotos/Mascota/" + id + "/SetFotoPrincipalMascota/" + idfoto, Method.POST);
             try
             {
-                var response = await client.ExecuteAsync<Mascota>(request);
+                var response = await APIConnection.client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Foto principal establecida.";
@@ -144,11 +140,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         public async Task<IActionResult> DeleteFotoMascota(int idmascota, int idfoto)
         {
             ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Fotos/Mascota/" + idmascota + "/DeleteFotoMascota/" + idfoto, Method.DELETE);
             try
             {
-                var response = await client.ExecuteAsync<Mascota>(request);
+                var response = await APIConnection.client.ExecuteAsync<Mascota>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Foto eliminada exitosamente.";
@@ -173,11 +169,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 ViewData["TokenBearer"] = HttpContext.Session.GetString("JWToken");
                 if (id == 0)
                 {
-                    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                    APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                     var request = new RestRequest("api/Mascota/CreateMascota/", Method.POST).AddJsonBody(model);
                     try
                     {
-                        var response = await client.ExecuteAsync<Mascota>(request);
+                        var response = await APIConnection.client.ExecuteAsync<Mascota>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Mascota registrada correctamente.";
@@ -194,11 +190,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
                 }
                 else
                 {
-                    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                    APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                     var request = new RestRequest("api/Mascota/UpdateMascota/", Method.PUT).AddJsonBody(model);
                     try
                     {
-                        var response = await client.ExecuteAsync<Mascota>(request);
+                        var response = await APIConnection.client.ExecuteAsync<Mascota>(request);
                         if (!response.IsSuccessful)
                             throw new Exception(response.Content);
                         TempData["alertsuccess"] = "Datos de mascota actualizados correctamente.";
@@ -220,11 +216,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeEstado(int id, string estado)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/ChangeEstado/" + id, Method.PUT).AddJsonBody(estado);
             try
             {
-                var response = await client.ExecuteAsync<string>(request);
+                var response = await APIConnection.client.ExecuteAsync<string>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Estado actualizado correctamente.";
@@ -248,9 +244,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var requestGet = new RestRequest("api/Mascota/GetAllMascotasForAdmin", Method.GET).AddParameter("Busqueda", busqueda).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize);
-                var response = await client.ExecuteAsync<List<Mascota>>(requestGet);
+                var response = await APIConnection.client.ExecuteAsync<List<Mascota>>(requestGet);
                 if (response.ResponseStatus.Equals(ResponseStatus.Error))
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
@@ -269,11 +265,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         }
         public async Task<List<Mascota>> ListadoPDF()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetAllMascotasForReport", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<List<Mascota>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<Mascota>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return response.Data;
@@ -285,11 +281,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
         }
         public async Task<IActionResult> ExcelMascotas()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Mascota/GetAllMascotasForReport", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<List<Mascota>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<Mascota>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var content = ReportMascota.ExcelMascotas(response.Data);

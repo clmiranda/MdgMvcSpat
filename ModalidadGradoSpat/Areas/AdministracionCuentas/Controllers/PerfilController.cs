@@ -17,21 +17,19 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
     public class PerfilController : Controller
     {
         private static int id;
-        private RestClient client;
         private static User _user;
         public PerfilController(IHttpContextAccessor httpContextAccessor)
         {
-            client = new RestClient("https://localhost:44398/");
             id = int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
         [Route("Perfil/EditarPerfil")]
         public async Task<IActionResult> EditarPerfil()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/User/GetUser/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<User>(request);
+                var response = await APIConnection.client.ExecuteAsync<User>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return View(response.Data);
@@ -44,11 +42,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         [Route("Perfil/ActualizarEmail")]
         public async Task<IActionResult> ActualizarEmail()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/User/GetUser/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<User>(request);
+                var response = await APIConnection.client.ExecuteAsync<User>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 _user = response.Data;
@@ -66,11 +64,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
             ModelState.Remove("Password");
             if (ModelState.IsValid)
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/User/UpdateUser/", Method.PUT).AddJsonBody(user);
                 try
                 {
-                    var response = await client.ExecuteAsync<User>(request);
+                    var response = await APIConnection.client.ExecuteAsync<User>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Datos de usuario actualizados.";
@@ -92,11 +90,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         {
             if (ModelState.IsValid)
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/User/UpdateEmail/", Method.PUT).AddJsonBody(JsonConvert.SerializeObject(new { Id, Email }));
                 try
                 {
-                    var response = await client.ExecuteAsync<User>(request);
+                    var response = await APIConnection.client.ExecuteAsync<User>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Email actualizado.";
@@ -123,11 +121,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionCuentas.Controllers
         {
             if (ModelState.IsValid)
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/User/ResetPassword/" + id, Method.PUT).AddJsonBody(dto);
                 try
                 {
-                    var response = await client.ExecuteAsync(request);
+                    var response = await APIConnection.client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Contraseña actualizada.";

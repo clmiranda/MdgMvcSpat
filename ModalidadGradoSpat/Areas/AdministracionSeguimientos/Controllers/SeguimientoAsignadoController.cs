@@ -20,13 +20,8 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
     [Authorize(Roles = "SuperAdministrador, Voluntario")]
     public class SeguimientoAsignadoController : Controller
     {
-        private RestClient client;
         private static List<Seguimiento> _listaSeguimientos;
-        private int? pagesize = 10; private int? pagenumber = 1;
-        public SeguimientoAsignadoController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
+        private static int? pagesize = 10; private int? pagenumber = 1;
         [Route("SeguimientoAsignado/Lista")]
         public async Task<IActionResult> Lista()
         {
@@ -43,11 +38,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         [Route("SeguimientoAsignado/ListaReportes/{id}")]
         public async Task<IActionResult> ListaReportes(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Seguimiento/GetSeguimientoForVoluntario/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<Seguimiento>(request);
+                var response = await APIConnection.client.ExecuteAsync<Seguimiento>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return View(response.Data);
@@ -60,11 +55,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         [Route("SeguimientoAsignado/Detalle/{id}")]
         public async Task<IActionResult> Detalle(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Adopcion/GetById/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
+                var response = await APIConnection.client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return View(response.Data);
@@ -81,7 +76,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             if (ModelState.IsValid)
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/ReporteSeguimiento/SendReporte", Method.PUT).AddParameter("Id", reporteSeguimientoDto.Id).AddParameter("SeguimientoId", reporteSeguimientoDto.SeguimientoId).AddParameter("Observaciones", reporteSeguimientoDto.Observaciones);
                 using (var stream = new MemoryStream())
                 {
@@ -99,7 +94,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
                 }
                 try
                 {
-                    var response = await client.ExecuteAsync<Seguimiento>(request);
+                    var response = await APIConnection.client.ExecuteAsync<Seguimiento>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "El reporte fue enviado exitosamente.";
@@ -119,11 +114,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> EditReporte(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/ReporteSeguimiento/GetById/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<ReporteSeguimientoDto>(request);
+                var response = await APIConnection.client.ExecuteAsync<ReporteSeguimientoDto>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return View(response.Data);
@@ -137,9 +132,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionSeguimientos.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var requestGet = new RestRequest("api/Seguimiento/GetAllSeguimientoVoluntario", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize);
-                var response = await client.ExecuteAsync<List<Seguimiento>>(requestGet);
+                var response = await APIConnection.client.ExecuteAsync<List<Seguimiento>>(requestGet);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));

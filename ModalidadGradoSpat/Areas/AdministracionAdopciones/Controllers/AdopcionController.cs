@@ -19,15 +19,10 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
     [Authorize(Roles = "SuperAdministrador, Administrador")]
     public class AdopcionController : Controller
     {
-        private RestClient client;
         private static List<SolicitudAdopcion> _listaPDF;
         private static SolicitudAdopcion _solicitudAdopcion = new SolicitudAdopcion();
-        private int? pagesize = 10; private int? pagenumber = 1; private string filtrado = "Pendiente";
-        private int? pagenumberMascota = 1; private string filtradoMascota = "Adopcion"; private string busquedaMascota = ""; private int? sizepageMascota = 5;
-        public AdopcionController()
-        {
-            client = new RestClient("https://localhost:44398/");
-        }
+        private static int? pagesize = 10; private int? pagenumber = 1; private static string filtrado = "Pendiente";
+        private int? pagenumberMascota = 1; private static string filtradoMascota = "Adopcion"; private string busquedaMascota = ""; private int? sizepageMascota = 5;
         [Route("Adopcion/Lista")]
         public async Task<IActionResult> Lista()
         {
@@ -60,11 +55,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         [Route("Adopcion/Detalle/{id}")]
         public async Task<IActionResult> Detalle(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Adopcion/GetById/" + id, Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
+                var response = await APIConnection.client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 _solicitudAdopcion = response.Data;
@@ -98,9 +93,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             {
                 try
                 {
-                    client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                    APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                     var request = new RestRequest("api/Adopcion/CreateAdopcionPresencial", Method.POST).AddJsonBody(solicitudAdopcion);
-                    var response = await client.ExecuteAsync(request);
+                    var response = await APIConnection.client.ExecuteAsync(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Adopción aprobada, se ha generado el seguimiento.";
@@ -124,9 +119,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Mascota/GetAllMascotasForAdopcionPresencial/", Method.GET).AddParameter("PageNumber", pagenumberMascota).AddParameter("PageSize", sizepageMascota).AddParameter("Busqueda", busquedaMascota).AddParameter("Filter", filtradoMascota);
-                var response = await client.ExecuteAsync<List<Mascota>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<Mascota>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
@@ -149,9 +144,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             ViewData["ListaSolicitudes"] = _listaPDF;
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Adopcion/UpdateFecha", Method.PUT).AddParameter("Id", id).AddParameter("FechaAdopcion", FechaAdopcion);
-                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
+                var response = await APIConnection.client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Fecha actualizada exitosamente.";
@@ -174,11 +169,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AprobarSolicitudAdopcion(int id)
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Adopcion/" + id + "/AprobarSolicitudAdopcion", Method.PUT);
             try
             {
-                var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
+                var response = await APIConnection.client.ExecuteAsync<SolicitudAdopcion>(request);
                 if (!response.IsSuccessful)
                     throw new Exception(response.Content);
                 TempData["alertsuccess"] = "Solicitud de adopción aprobada, se ha creado el seguimiento respectivo.";
@@ -199,11 +194,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         {
             if (ModelState.IsValid)
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Adopcion/RechazarSolicitudAdopcion", Method.PUT).AddJsonBody(rechazada);
                 try
                 {
-                    var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
+                    var response = await APIConnection.client.ExecuteAsync<SolicitudAdopcion>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Solicitud de adopción rechazada, se ha creado un nuevo informe.";
@@ -226,11 +221,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         {
             if (ModelState.IsValid)
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Adopcion/CancelarAdopcion", Method.PUT).AddJsonBody(cancelada);
                 try
                 {
-                    var response = await client.ExecuteAsync<SolicitudAdopcion>(request);
+                    var response = await APIConnection.client.ExecuteAsync<SolicitudAdopcion>(request);
                     if (!response.IsSuccessful)
                         throw new Exception(response.Content);
                     TempData["alertsuccess"] = "Adopción cancelada, se ha creado un nuevo informe.";
@@ -251,9 +246,9 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         {
             try
             {
-                client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
                 var request = new RestRequest("api/Adopcion/GetAllAdopciones", Method.GET).AddParameter("PageNumber", pagenumber).AddParameter("PageSize", pagesize).AddParameter("Filter", filtrado);
-                var response = await client.ExecuteAsync<List<SolicitudAdopcion>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<SolicitudAdopcion>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 var header = response.Headers.FirstOrDefault(x => x.Name.Equals("Pagination"));
@@ -272,11 +267,11 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
         }
         public async Task<List<SolicitudAdopcion>> ListadoPDF()
         {
-            client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
             var request = new RestRequest("api/Adopcion/GetAllAdopcionesForReport", Method.GET);
             try
             {
-                var response = await client.ExecuteAsync<List<SolicitudAdopcion>>(request);
+                var response = await APIConnection.client.ExecuteAsync<List<SolicitudAdopcion>>(request);
                 if (!response.IsSuccessful)
                     throw new Exception();
                 return response.Data;
