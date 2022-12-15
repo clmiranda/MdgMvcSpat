@@ -101,27 +101,8 @@
                 },
                 success: function (data) {
                     $('#body-content-action').html(data.html);
-                    //Swal.fire({
-                    //    toast: true,
-                    //    position: 'top-end',
-                    //    icon: 'success',
-                    //    title: data,
-                    //    showConfirmButton: false,
-                    //    timer: 2000
-                    //})
-                    //window.setTimeout(function () {
-                    //    location.reload();
-                    //}, 2500);
                 },
                 error: function (data) {
-                    //Swal.fire({
-                    //    toast: true,
-                    //    position: 'top-end',
-                    //    icon: 'error',
-                    //    title: data.responseText,
-                    //    showConfirmButton: false,
-                    //    timer: 5000
-                    //})
                 }
             },
             mergeAjaxCallbacks: true,

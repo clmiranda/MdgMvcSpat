@@ -11,7 +11,7 @@
             <li>Deber&aacute; presentar una fotocopia de su carnet de identidad y factura de agua o luz.</li>
             <li>Deber&aacute; firmar el contrato de adopci&oacute;n f&iacute;sico y aceptar el seguimiento a la mascota.</li>
         </ul>
-        <form asp-action="CreateSolicitudAdopcion" autocomplete="off" onsubmit="return showFormAux(this);" method="post">
+        <form asp-action="CreateSolicitudAdopcion" onsubmit="return showFormAux(this);" method="post">
             <div class="form-row">
                 <input type="hidden" asp-for="@Model.MascotaId" value="@TempData["MascotaId"]" />
                 <div class="form-group col-12">
@@ -25,7 +25,8 @@
                     @Html.ValidationMessageFor(x => x.Telefono, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-12">
-                    <label for="idDomicilio">Ingresa tu Domicilio:</label>
+                    <label for="idDomicilio">Ingresa tu Domicilio (detallando las calles, el n&uacute;mero de casa
+                        y puntos de referencia):</label>
                     <textarea id="idDomicilio" class="form-control" asp-for="@Model.Domicilio" placeholder="Ingresa tu Domicilio"></textarea>
                     @Html.ValidationMessageFor(x => x.Domicilio, "", new { @class = "text-danger" })
                 </div>

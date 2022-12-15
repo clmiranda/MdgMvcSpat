@@ -102,15 +102,15 @@
                                     @if (item.Estado.ToUpper().Equals("ACTIVO"))
                                     {
                                         <select name="estado" class="form-control">
-                                            <option value="Activo" selected>Activo</option>
-                                            <option value="Inactivo">Inactivo</option>
+                                            <option value="Activo" selected>En adopción</option>
+                                            <option value="Inactivo">En tratamiento</option>
                                         </select>
                                     }
                                     else if (item.Estado.ToUpper().Equals("INACTIVO"))
                                     {
                                         <select name="estado" class="form-control">
-                                            <option value="Activo">Activo</option>
-                                            <option value="Inactivo" selected>Inactivo</option>
+                                            <option value="Activo">En adopción</option>
+                                            <option value="Inactivo" selected>En tratamiento</option>
                                         </select>
                                     }
                                 </form>
