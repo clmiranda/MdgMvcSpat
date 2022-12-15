@@ -23,7 +23,7 @@ namespace ModalidadGradoSpat.Areas.AdministracionMascotas.Controllers
     {
         private static Mascota _mascota;
         private static List<Mascota> _listaPDF;
-        private static int? pagesize = 10; private int? pagenumber = 1; private string busqueda = "";
+        private static int? pagesize = 10; private static int? pagenumber = 1; private static string busqueda = "";
         [Route("Mascota/Lista")]
         public async Task<IActionResult> Lista()
         {

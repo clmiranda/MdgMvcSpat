@@ -1,4 +1,5 @@
-﻿using DATA.Models;
+﻿using DATA.DTOs;
+using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static ModalidadGradoSpat.Helper;
@@ -70,6 +72,23 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
                 throw new Exception();
             }
         }
+        [Route("Adopcion/Antecedentes/{id}")]
+        public async Task<IActionResult> Antecedentes(int id)
+        {
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Adopcion/GetAntecedenteSolicitudAdopcion/" + id, Method.GET);
+            try
+            {
+                var response = await APIConnection.client.ExecuteAsync<AntecedentesAdopcionDto>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception();
+                return View(response.Data);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
         [Route("Adopcion/AdopcionPresencial")]
         public async Task<IActionResult> AdopcionPresencial()
         {
@@ -84,6 +103,56 @@ namespace ModalidadGradoSpat.Areas.AdministracionAdopciones.Controllers
             ViewData["searchMascota"] = searchMascota;
             var vista = await ListadoMascota();
             return Json(Helper.RenderRazorViewToString(this, "PartialView/_ListadoMascotaAdopcionPresencial", vista));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadContratoAdopcion(int id, [FromForm] FileContratoAdopcion contrato)
+        {
+            ViewData["filter"] = filtrado;
+            var vista = new List<SolicitudAdopcion>();
+            if (ModelState.IsValid)
+            {
+                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+                var request = new RestRequest("api/Adopcion/" + id + "/UploadContratoAdopcion", Method.POST);
+                using (var stream = new MemoryStream())
+                {
+                    request.Files.Add(new FileParameter
+                    {
+                        Name = "Archivo",
+                        Writer = (s) =>
+                        {
+                            contrato.Archivo.CopyTo(s);
+                        },
+                        FileName = contrato.Archivo.FileName,
+                        ContentType = contrato.Archivo.ContentType,
+                        ContentLength = contrato.Archivo.Length
+                    });
+                }
+                try
+                {
+                    var response = await APIConnection.client.ExecuteAsync(request);
+                    if (!response.IsSuccessful)
+                        throw new Exception(response.Content);
+                    TempData["alertsuccess"] = "Documento subido correctamente.";
+                    vista = await Listado();
+                    ViewData["ListaSolicitudes"] = _listaPDF;
+                    return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message == "")
+                        throw new Exception();
+                    dynamic msg = JsonConvert.DeserializeObject(ex.Message);
+                    TempData["alerterror"] = msg["mensaje"];
+                    vista = await Listado();
+                    ViewData["ListaSolicitudes"] = _listaPDF;
+                    return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
+                }
+            }
+            vista = await Listado();
+            ViewData["ListaSolicitudes"] = _listaPDF;
+            TempData["alerterror"] = "No se cargo ningún documento.";
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Lista", vista) });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

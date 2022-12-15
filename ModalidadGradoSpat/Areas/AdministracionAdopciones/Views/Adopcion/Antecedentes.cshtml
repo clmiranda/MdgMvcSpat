@@ -1,0 +1,59 @@
+﻿@model AntecedentesAdopcionDto
+@{
+    int id = 1;
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid py-3">
+    <h3>
+        Antecedentes de adoptante.
+    </h3>
+    <p class="mb-5">
+        Vista para visualizar los antecedentes de un adoptante
+        (registros de solicitudes de adopci&oacute;n rechazadas o adopciones canceladas).
+    </p>
+    @if (Model == null)
+    {
+        <div class="shadow-lg border p-5 bg-white rounded mx-5">
+            <h3 class="text-center">El registro no existe.</h3>
+        </div>
+    }
+    else
+    {
+        <h3 class="mt-5">Solicitudes de Adopci&oacute;n Rechazadas</h3>
+        @if (Model.ListaAdopcionRechazada.Count() > 0)
+        {
+            @foreach (var adopcionRechazada in Model.ListaAdopcionRechazada)
+            {
+                <p class="shadow p-3 bg-white rounded">
+                    <span class="badge badge-pill badge-primary mr-3 p-2">@(id++)</span>
+                    <b>Raz&oacute;n de Rechazo:</b> @adopcionRechazada.Razon
+                </p>
+            }
+        }
+        else
+        {
+            <h5 class="shadow-lg border p-3 bg-white rounded text-center">
+                No hay antecedentes de Solicitudes de Adopci&oacute;n Rechazadas para mostrar.
+            </h5>
+        }
+        <h3 class="mt-5">Adopciones Canceladas</h3>
+        if (Model.ListaAdopcionCancelada.Count() > 0)
+        {
+            @foreach (var adopcionCancelada in Model.ListaAdopcionCancelada)
+            {
+                <p class="shadow p-3 bg-white rounded">
+                    <span class="badge badge-pill badge-primary mr-3 p-2">@(id++)</span>
+                    <b>Raz&oacute;n de Cancelaci&oacute;n:</b> @adopcionCancelada.Razon
+                </p>
+            }
+        }
+        else
+        {
+            <h5 class="shadow border p-3 bg-white rounded text-center">
+                No hay antecedentes de Adopciones Canceladas para mostrar.
+            </h5>
+        }
+    }
+</div>

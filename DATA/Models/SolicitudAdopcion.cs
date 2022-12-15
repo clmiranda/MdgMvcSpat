@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DATA.Models
@@ -18,6 +19,7 @@ namespace DATA.Models
         public DateTime FechaAdopcion { get; set; }
         [MaxLength(20)]
         public string Estado { get; set; }
+        public virtual ContratoAdopcion ContratoAdopcion { get; set; }
         public virtual Mascota Mascota { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar la mascota a adoptar.")]
         public int MascotaId { get; set; }

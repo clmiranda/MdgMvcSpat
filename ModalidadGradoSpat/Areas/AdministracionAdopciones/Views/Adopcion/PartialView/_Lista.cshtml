@@ -1,11 +1,18 @@
 ﻿@model List<SolicitudAdopcion>
-@{ int id = 1;}
+@{
+    int id = 1;
+}
 @await Html.PartialAsync("~/Views/RenderSweetAlert.cshtml")
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
+<style>
+    table {
+        overflow-x: auto;
+    }
+</style>
 <div class="row justify-content-around my-3">
     <button onclick="location.href='@Url.Action("ExcelAdopcionesAprobadas", "Adopcion", new { area="AdministracionAdopciones"})'" type="button" class="btn btn-success">
         <i class="fas fa-file-csv fa-lg mr-2"></i>Excel Adopciones Aprobadas
@@ -139,7 +146,15 @@
                     <th>Fecha de Adopci&oacute;n</th>
                 }
                 <th>Estado</th>
+                @if (ViewData["filter"].ToString().Equals("Pendiente"))
+                {
+                    <th>Antecedentes</th>
+                }
                 <th>Detalle</th>
+                @if (ViewData["filter"].ToString().Equals("Aprobado"))
+                {
+                    <th>Contrato Adopci&oacute;n</th>
+                }
             </tr>
         </thead>
         <tbody id="tbodySolicitudAdopcion">
@@ -185,7 +200,7 @@
                                 }
                             </td>
                         }
-                        <td width="18%">
+                        <td width="16%">
                             @item.FechaSolicitudAdopcion.ToShortDateString()
                         </td>
                         @if (!item.Estado.Equals("Rechazado") && !item.Estado.Equals("Pendiente"))
@@ -211,16 +226,49 @@
                                 }
                             </td>
                         }
-                        <td width="10%">
+                        <td width="5%">
                             @item.Estado
                         </td>
+                        @if (ViewData["filter"].ToString().Equals("Pendiente"))
+                        {
+                            <td width="5%">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <a type="button" href="@Url.Action("Antecedentes","Adopcion",new { id=item.Id, area="AdministracionAdopciones"})" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Vista de antecedentes">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        }
                         <td width="5%">
                             <div class="d-flex justify-content-center align-items-center">
                                 <a type="button" href="@Url.Action("Detalle","Adopcion",new { id=item.Id, area="AdministracionAdopciones"})" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Vista detalle de adopción">
-                                    <i class="far fa-eye"></i>
+                                    <i class="far fa-eye" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </td>
+                        @if (ViewData["filter"].ToString().Equals("Aprobado"))
+                        {
+                            <td width="15%">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    @if (item.ContratoAdopcion == null)
+                                    {
+                                        <form class="input-group" method="post" asp-action="UploadContratoAdopcion" asp-route-id="@item.Id" onsubmit="return jQueryAjaxPostList(this);">
+                                            <div class="custom-file">
+                                                <input type="file" name="Archivo" class="custom-file-input" accept="application/pdf" id="fileContrato" />
+                                                <label class="custom-file-label" for="fileContrato">Buscar</label>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                                            </div>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <a href="@item.ContratoAdopcion.Url" class="link-primary" target="_blank">Ver Contrato</a>
+                                    }
+                                </div>
+                            </td>
+                        }
                     </tr>
                     @if (!item.Estado.Equals("Aprobado") && !item.Estado.Equals("Pendiente"))
                     {
@@ -269,7 +317,15 @@
                     <th>Fecha de Adopci&oacute;n</th>
                 }
                 <th>Estado</th>
+                @if (ViewData["filter"].ToString().Equals("Pendiente"))
+                {
+                    <th>Antecedentes</th>
+                }
                 <th>Detalle</th>
+                @if (ViewData["filter"].ToString().Equals("Aprobado"))
+                {
+                    <th>Contrato Adopci&oacute;n</th>
+                }
             </tr>
         </tfoot>
     </table>
@@ -286,7 +342,9 @@
                     <button class="page-link" value="1" onclick="GetValueButton(this.value)">Primer</button>
                 </li>
                 <li class="page-item">
-                    @{ int p = int.Parse(ViewData["currentPage"].ToString()) - 1;}
+                    @{
+                        int p = int.Parse(ViewData["currentPage"].ToString()) - 1;
+                    }
                     <button class="page-link" value="@p" onclick="GetValueButton(this.value)">Anterior</button>
                 </li>
             }
@@ -317,7 +375,9 @@
             @if (int.Parse(ViewData["currentPage"].ToString()) < int.Parse(ViewData["totalPages"].ToString()))
             {
                 <li class="page-item">
-                    @{int n = int.Parse(ViewData["currentPage"].ToString()) + 1;}
+                    @{
+                        int n = int.Parse(ViewData["currentPage"].ToString()) + 1;
+                    }
                     <button class="page-link" value="@n" onclick="GetValueButton(this.value)">Siguiente</button>
                 </li>
                 <li class="page-item">
@@ -337,6 +397,10 @@
     </form>
 </nav>
 <script>
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
     $(function () {
         $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
     });
@@ -344,18 +408,18 @@
     function generatePDF() {
         const doc = new jsPDF("landscape")
         doc.autoTable({
-            head: [['Id', 'Nombre Completo', 'Domicilio', 'Numero de Celular', 'Nombre de Mascota','Fecha de Solicitud','Fecha de Adopcion']],
+            head: [['Id', 'Nombre Completo', 'Domicilio', 'Numero de Celular', 'Nombre de Mascota', 'Fecha de Solicitud', 'Fecha de Adopcion']],
             body: [
-                @foreach (var item in (List<SolicitudAdopcion>)ViewData["ListaSolicitudes"])
-                {
-                    if (item.Estado.Equals("Aprobado"))
-                    {
-                        <text>
-                            ['@item.Id', '@item.NombreCompleto', '@item.Domicilio', '@item.Telefono', '@item.Mascota.Nombre', '@item.FechaSolicitudAdopcion.ToShortDateString()', '@item.FechaAdopcion.ToShortDateString()'],
-                        </text>
-                    }
-                }
-            ],
+    @foreach (var item in (List<SolicitudAdopcion>)ViewData["ListaSolicitudes"])
+    {
+        if (item.Estado.Equals("Aprobado"))
+        {
+            <text>
+                        ['@item.Id', '@item.NombreCompleto', '@item.Domicilio', '@item.Telefono', '@item.Mascota.Nombre', '@item.FechaSolicitudAdopcion.ToShortDateString()', '@item.FechaAdopcion.ToShortDateString()'],
+            </text>
+        }
+    }
+                            ],
             theme: 'grid',
             styles: {
                 font: 'times',
@@ -370,16 +434,16 @@
         doc.autoTable({
             head: [['Id', 'Razon', 'Id Solicitud Adopcion']],
             body: [
-                @foreach (var item in (List<SolicitudAdopcion>)ViewData["ListaSolicitudes"])
-                {
-                    if (item.AdopcionRechazada != null)
-                    {
-                        <text>
-                            ['@item.AdopcionRechazada.Id', '@item.AdopcionRechazada.Razon', '@item.Id'],
-                        </text>
-                    }
-                }
-            ],
+    @foreach (var item in (List<SolicitudAdopcion>)ViewData["ListaSolicitudes"])
+    {
+        if (item.AdopcionRechazada != null)
+        {
+            <text>
+                        ['@item.AdopcionRechazada.Id', '@item.AdopcionRechazada.Razon', '@item.Id'],
+            </text>
+        }
+    }
+                            ],
             columnStyles: {
                 0: { cellWidth: 10 },
                 1: { cellWidth: 130 }
@@ -398,16 +462,16 @@
         doc.autoTable({
             head: [['Id', 'Razon', 'Id Solicitud Adopcion']],
             body: [
-                @foreach (var item in (List<SolicitudAdopcion>)ViewData["ListaSolicitudes"])
-                {
-                    if (item.AdopcionCancelada != null)
-                    {
-                        <text>
-                            ['@item.AdopcionCancelada.Id', '@item.AdopcionCancelada.Razon', '@item.Id'],
-                        </text>
-                    }
-                }
-            ],
+    @foreach (var item in (List<SolicitudAdopcion>)ViewData["ListaSolicitudes"])
+    {
+        if (item.AdopcionCancelada != null)
+        {
+            <text>
+                        ['@item.AdopcionCancelada.Id', '@item.AdopcionCancelada.Razon', '@item.Id'],
+            </text>
+        }
+    }
+                            ],
             columnStyles: {
                 0: { cellWidth: 10 },
                 1: { cellWidth: 130 }
