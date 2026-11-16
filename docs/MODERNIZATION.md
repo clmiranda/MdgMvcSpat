@@ -12,7 +12,10 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 - **Pendiente del mantenedor, antes de seguir:**
   1. Revisar `CLAUDE.md` y `docs/MODERNIZATION.md` (incluidas las secciones nuevas) y ajustar lo que haga falta.
   2. Commitear ambos archivos (mensaje sugerido: `docs: add project conventions and modernization roadmap`).
-- **Siguiente paso:** Fase 0, `global.json` (SDK 10) y `Directory.Build.props`, y build de línea base en `netcoreapp3.1` (el runtime 3.1.32 está instalado).
+- **Hecho en Fase 0 (2026-11-16, sin commitear):** `global.json`, `Directory.Build.props`, `Directory.Packages.props`, `.editorconfig`, línea base y inventario de paquetes.
+- **Fase 0 completa:** `DATA` no se comparte con la API (verificado en `SpatWebAPI`); el hallazgo y el contrato observado están en la sección "Contrato observado de la API".
+- **Añadido (2026-11-16):** nomenclatura en inglés como ciclo posterior (sección "Nomenclatura" y Fase 7). No empieza hasta terminar las fases 0 a 6 y coordinar el trabajo con `SpatWebAPI`; mientras tanto rige la regla transitoria de esa sección.
+- **Siguiente paso:** primer paso de la Fase 1, retirar los paquetes redundantes.
 - **Decisiones ya tomadas:** .NET 10, autenticación por cookie con `DelegatingHandler`, `HttpClient` tipado con `System.Text.Json`, y tests, CI, eliminación de `static` y logging dentro del alcance. El ajuste visual de Bootstrap queda fuera por ahora.
 
 ## Estándares de código
@@ -49,7 +52,7 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 ### Autenticación
 - Inicio de sesión con cookie `HttpOnly`, `Secure`, `SameSite=Lax`. El JWT de la API vive dentro de la cookie de autenticación, no en sesión.
 - Roles e identidad salen de los *claims*; nunca de campos estáticos.
-- El cliente no valida la firma del JWT: eso lo hace la API. Para construir los *claims* se lee el JWT sin validarlo (`JsonWebTokenHandler.ReadJsonWebToken`, paquete `Microsoft.IdentityModel.JsonWebTokens`) o, si la respuesta del login ya trae los datos del usuario, se usan esos y no hace falta el paquete *(a verificar)*.
+- El cliente no valida la firma del JWT: eso lo hace la API. La respuesta del login trae `{ user, token }` con `Id`, `UserName`, `Email` y `Roles`, así que los *claims* se construyen a partir de `user`. El `exp` se obtiene leyendo el JWT sin validarlo (`JsonWebTokenHandler.ReadJsonWebToken`, paquete `Microsoft.IdentityModel.JsonWebTokens`), para alinear la vida de la cookie.
 - La vida de la cookie se alinea con el `exp` del JWT. Un `401` de la API cierra la sesión (`SignOutAsync`) y redirige al login; lo gestiona el `DelegatingHandler`.
 
 ### Seguridad web
@@ -80,7 +83,48 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 - Dependabot para NuGet y GitHub Actions.
 - Cada cambio mantiene el build verde.
 
+### Nomenclatura
+Objetivo (se ejecuta en la Fase 7, junto con la API): identificadores en inglés legibles como inglés natural, no traducciones literales.
+
+**Regla transitoria (fases 0 a 6):**
+- El código nuevo de infraestructura va en inglés (`ApiResult<T>`, `BearerTokenHandler`, `IViewRenderService`).
+- Los conceptos de dominio conservan su nombre actual (`Mascota`, `Denuncia`, `IMascotaApi`, ...), para no mezclar idiomas dentro de un mismo concepto y para que la Fase 7 sea un renombrado mecánico.
+- No se renombra dominio "de paso" dentro de otro paso del checklist.
+
+**Qué se renombra:** clases, interfaces, propiedades, métodos, variables, archivos y carpetas de código, y en la API las tablas y columnas de la BD.
+
+**Qué no se traduce:**
+- Los textos visibles al usuario (vistas, mensajes de validación y de error). La interfaz sigue en español.
+- La documentación y los comentarios, que siguen en español según `CLAUDE.md`.
+- Lo que es contrato con otro sistema, hasta que se coordine el cambio: nombres de propiedades JSON, rutas y URLs, tablas y columnas, claves de configuración.
+
+**Convenciones:**
+- `PascalCase` para tipos y miembros; `camelCase` para parámetros y variables locales; campos privados `_camelCase`; interfaces con prefijo `I`.
+- Sufijo `Async` en los métodos asíncronos; booleanos con `Is`/`Has`/`Can`.
+- Entidades en singular y colecciones en plural; sin abreviaturas ni mezcla de idiomas (`GetMascotaById` → `GetPetById`, no `ObtenerPet`).
+- Nombres por significado de dominio, no por traducción literal; ante ambigüedad (p. ej. `Denuncia` y `Reporte...` no deben chocar), se fija en el glosario.
+- BD: tablas y columnas en inglés; singular o plural y mayúsculas o `snake_case` según el proveedor *(a decidir; la API muestra SQL Server y PostgreSQL)*.
+
+**Glosario propuesto** (a validar con el mantenedor antes de la Fase 7):
+
+| Español | Inglés | Nota |
+|---|---|---|
+| Mascota | `Pet` | |
+| Denuncia | `Complaint` | Evita `Report`, que choca con los reportes de seguimiento y de Excel |
+| Adopcion / SolicitudAdopcion | `Adoption` / `AdoptionRequest` | |
+| ContratoAdopcion | `AdoptionContract` | |
+| AdopcionCancelada / AdopcionRechazada | `CancelledAdoption` / `RejectedAdoption` | |
+| Seguimiento | `FollowUp` | |
+| ReporteSeguimiento / ReporteTratamiento | `FollowUpReport` / `TreatmentReport` | |
+| Foto | `Photo` | |
+| Persona | `Person` | |
+| Cuenta / Perfil | `Account` / `Profile` | |
+| Graficas / Datos | `Charts` / `Data` | |
+| Administracion... (áreas) | `Administration...` | |
+| Estado | `Status` | |
+
 ### Commits
+- Los renombrados de archivos se hacen con `git mv` en commits aparte de los cambios de contenido, para conservar el historial.
 - Conventional Commits en inglés (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`, `ci:`), uno por paso del checklist.
 - Los cambios los revisa y commitea el mantenedor.
 
@@ -88,19 +132,19 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 
 ### Fase 0: documentos y base
 - [x] Documentación del proyecto (`CLAUDE.md`, este archivo)
-- [ ] `global.json` (SDK 10) y `Directory.Build.props`
-- [ ] `Directory.Packages.props` (gestión central de paquetes) y `.editorconfig` con analizadores
-- [ ] Línea base: build en `netcoreapp3.1` antes de migrar
-- [ ] Inventario de paquetes: `dotnet list package --outdated`, `--deprecated` y `--vulnerable --include-transitive`; guardar el resultado como referencia
-- [ ] *(a verificar)* Confirmar si `DATA` se comparte con la API como proyecto o es una copia propia del cliente; de eso depende el destino de `DATA` (`net10.0` o multi-target)
+- [x] `global.json` (SDK 10) y `Directory.Build.props`
+- [x] `Directory.Packages.props` (gestión central de paquetes, mismas versiones que antes) y `.editorconfig` (reglas en `suggestion`; los analizadores se activan en la Fase 1)
+- [x] Línea base: build en `netcoreapp3.1` antes de migrar (SDK 10.0.402, 0 errores; 22 avisos de restore: plataforma sin soporte y paquetes vulnerables)
+- [x] Inventario de paquetes: `dotnet list package --outdated`, `--deprecated` y `--vulnerable --include-transitive`. El resultado se guardó fuera del repo, para no publicar un listado de vulnerabilidades
+- [x] Confirmar si `DATA` se comparte con la API: **no se comparte**. La API (repo `SpatWebAPI`, `net8.0`) tiene sus propios modelos en `webapi.core` y ninguna referencia a este `DATA`. `DATA` pasa a `net10.0` sin multi-target. Ver "Contrato observado de la API"
 
 ### Fase 1: plataforma y paquetes
 La limpieza de paquetes va **antes** del salto de framework, para reducir la superficie de migración. Cada paso deja el build verde en `netcoreapp3.1`.
 - [ ] Retirar de `ModalidadGradoSpat.csproj` los paquetes ya incluidos en el framework o solo de scaffolding: `Microsoft.AspNetCore.Http`, `Microsoft.AspNetCore.Diagnostics`, `Microsoft.CodeAnalysis.Razor`, `Microsoft.EntityFrameworkCore.Design`, `Microsoft.VisualStudio.Web.CodeGeneration.Design`, `Microsoft.Extensions.Logging.Debug`
 - [ ] Retirar `Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation` y `AddRazorRuntimeCompilation()`
-- [ ] *(a verificar)* Retirar `Microsoft.jQuery.Unobtrusive.Ajax` si ninguna vista ni script usa `jquery.unobtrusive-ajax` (no hay `data-ajax` ni `Ajax.BeginForm` en las vistas)
+- [ ] *(a verificar)* Retirar `Microsoft.jQuery.Unobtrusive.Ajax` si ninguna vista ni script usa `jquery.unobtrusive-ajax` (no hay `data-ajax` ni `Ajax.BeginForm` en las vistas). Es además la única fuente del paquete `jQuery` 1.8.0, con varias vulnerabilidades conocidas
 - [ ] `DATA`: sustituir `IdentityUserRole<int>` (`UserRole`) e `IdentityRole` (`Role`) por POCOs con las mismas propiedades y retirar `Microsoft.EntityFrameworkCore.SqlServer`, `Microsoft.AspNetCore.Identity.EntityFrameworkCore` y `Microsoft.AspNetCore.Http`; comprobar que la deserialización del JSON de la API no cambia
-- [ ] `DATA` y cliente a `net10.0`; alinear temporalmente `JwtBearer` y `System.IdentityModel.Tokens.Jwt` a 10.x/8.x hasta la Fase 2
+- [ ] `DATA` y cliente a `net10.0`; alinear temporalmente `JwtBearer` a 10.x y `System.IdentityModel.Tokens.Jwt` a 8.x hasta la Fase 2. Con `net10.0` se fija la línea **10.x** de los paquetes `Microsoft.*` aunque NuGet ya ofrezca 11.x; `System.IdentityModel.Tokens.Jwt` figura como en desuso (*Legacy*)
 - [ ] Actualizar ClosedXML con el test de reportes Excel como red de seguridad; probar en el sistema operativo de despliegue (el cálculo de fuentes en `AdjustToContents` puede variar)
 - [ ] Minimal hosting (`Program.cs`, eliminar `Startup.cs`); `MapStaticAssets()` y ruta única de áreas con `[Area]`
 - [ ] File-scoped namespaces con `dotnet format` (commit mecánico)
@@ -109,7 +153,7 @@ La limpieza de paquetes va **antes** del salto de framework, para reducir la sup
 ### Fase 2: configuración y autenticación
 - [ ] `ApiOptions` (`Api:BaseUrl`) validada al arrancar; actualizar `appsettings.example.json`
 - [ ] Autenticación por cookie; retirar `JwtBearer`, middleware de sesión (incluido el que copia el token de sesión al header `Authorization`) y `AppSettings:Token` del cliente
-- [ ] Decidir cómo se obtienen los *claims*: leer el JWT sin validar o usar los datos de la respuesta del login; retirar `System.IdentityModel.Tokens.Jwt` si ya no se usa
+- [ ] *Claims* desde `user` de la respuesta del login y `exp` desde el JWT (`Microsoft.IdentityModel.JsonWebTokens`); retirar `System.IdentityModel.Tokens.Jwt`, que está en desuso
 - [ ] `LoginPath`/`AccessDeniedPath` y `LogOut` con `SignOutAsync`; vida de la cookie alineada con el `exp` del JWT
 - [ ] Antiforgery global (`AutoValidateAntiforgeryTokenAttribute`) y revisión de las llamadas AJAX; Data Protection con llaves persistentes
 - [ ] `UseHsts`, cabeceras de seguridad y *rate limiting* en el login
@@ -139,17 +183,44 @@ La limpieza de paquetes va **antes** del salto de framework, para reducir la sup
 - [ ] Activar `TreatWarningsAsErrors` de forma gradual (primero `nullable`)
 - [ ] README con arquitectura, configuración y decisiones técnicas
 
+### Fase 7: nomenclatura en inglés (ciclo posterior, coordinado con la API)
+No empieza hasta terminar las fases 0 a 6 y planificar el trabajo en `SpatWebAPI`. Cliente y API se migran de forma coordinada. Primero se renombra el código manteniendo estable el contrato; solo después, si se decide, el contrato.
+- [ ] Acordar el glosario español → inglés y la convención de nombres de BD
+- [ ] Inventario de lo que es contrato (nombres JSON, rutas, tablas y columnas, claves de configuración) frente a lo que es solo código
+- [ ] API: renombrar clases, propiedades, métodos y archivos manteniendo el contrato (`[JsonPropertyName]`, `[Table]`/`[Column]`, `[Route]`); un commit mecánico por concepto del dominio
+- [ ] API: migración de EF Core para renombrar tablas y columnas (`RenameTable`/`RenameColumn`, sin pérdida de datos), con copia de seguridad y prueba previa en una BD de pruebas
+- [ ] Cliente: renombrar `DATA`, controladores, áreas, vistas y *view models*; revisar `asp-controller`, `asp-action`, `@model`, `nameof` y las cadenas de rutas, que las herramientas de refactorización no siempre alcanzan
+- [ ] Rutas públicas: decidir si se conservan las URLs actuales (`[Route]`) o se redirigen; actualizar las que la API codifica (`/LoginAccount/...`)
+- [ ] Retirar los atributos de compatibilidad (`[JsonPropertyName]`, `[Column]`) cuando ambos lados usen el mismo nombre, en un despliegue coordinado o con versión de API
+- [ ] Los tests de contrato y de reportes de la Fase 6 pasan en cada commit
+
 ## Riesgos y notas de migración
 1. **`Nullable` vuelve obligatorias las propiedades no anulables.** MVC trata las propiedades de referencia no anulables (`string`) como `[Required]` implícito, lo que puede romper formularios que hoy funcionan. Marcar `string?` donde corresponda, o fijar `SuppressImplicitRequiredAttributeForNonNullableReferenceTypes` solo mientras dure la migración.
 2. **Newtonsoft → `System.Text.Json` cambia el comportamiento.** Hay referencias a Newtonsoft, `JsonProperty` o RestSharp en 14 archivos (42 apariciones). Vigilar mayúsculas y minúsculas, enums, formato de fechas, ciclos de referencia y propiedades sin *setter* público. El test de contrato lo cubre.
-3. **`DATA` y la API.** Si la API referencia este mismo proyecto `DATA`, pasarlo a `net10.0` la rompe. Si es compartido, multi-targetear (`net10.0;netstandard2.1`); si es una copia, documentarlo. Cambiar la API está fuera de alcance.
+3. **`DATA` es una copia que ya diverge de la API.** No hay acoplamiento de compilación, así que `net10.0` es seguro, pero nada garantiza que los modelos coincidan con lo que la API envía (ver diferencias en "Contrato observado de la API"). El test de contrato con JSON real es la red de seguridad. Cambiar la API está fuera de alcance.
 4. **Salto directo de 3.1 a 10.** Son siete versiones mayores sin pasos intermedios. De ahí que cada paso exija build verde y que la limpieza de paquetes se haga antes del retarget.
 5. **CSRF y sesiones al pasar a cookies.** Sin antiforgery global y sin Data Protection persistente, la migración introduce un riesgo de seguridad y cierres de sesión en cada despliegue.
 6. **Reintentos y duplicados.** Reintentar un `POST` puede duplicar registros; los reintentos solo aplican a métodos idempotentes.
 7. **ClosedXML.** El salto desde 0.95 trae cambios de API y de fuentes; sin test de los reportes el riesgo no se ve hasta producción.
+8. **Renombrar a inglés rompe contratos si no se coordina (Fase 7).** Los nombres de propiedades JSON, las rutas, las tablas y las columnas son contrato entre cliente, API y BD. Un renombrado de código sin `[JsonPropertyName]`, `[Column]` o `[Route]` de compatibilidad rompe el otro lado sin avisos de compilación. Las cadenas en vistas (`asp-controller`, `asp-action`) tampoco las detecta el compilador. Hay que hacer copia de seguridad de la BD antes de la migración y desplegar API y cliente en el mismo momento, o con una versión de API intermedia.
+
+## Contrato observado de la API
+Verificado el 2026-11-16 leyendo el repo `SpatWebAPI` (solo lectura). La API está fuera de alcance, pero el cliente debe respetar lo siguiente.
+
+- **Plataforma:** `net8.0`, repo propio con capas `core`, `data`, `business` y `root`. No referencia este `DATA`.
+- **JSON de las respuestas:** `System.Text.Json` (la API usa `AddControllers()` sin Newtonsoft) en camelCase. Encaja con `JsonSerializerDefaults.Web` en el cliente.
+- **Paginación:** cabecera `Pagination` con un JSON camelCase: `currentPage`, `itemsPerPage`, `totalItems`, `totalPages`. Es lo único que la API serializa con Newtonsoft.
+- **Login:** `POST api/Auth/Login` devuelve `{ user, token }`. `user` incluye `id`, `userName`, `email`, `roles`, `estado` y `persona`. El JWT va firmado con HMAC-SHA512 y caduca a **1 día**; lleva los claims `NameIdentifier`, `Name` y `Role`. En el JWT se escriben con nombres cortos (`nameid`, `unique_name`, `role`), por eso los *claims* del cliente se toman de `user` y no del JWT.
+- **Errores:** las respuestas de error usan `{ mensaje }` (por ejemplo `401` en el login y `400` en el reseteo de contraseña). `ApiError` debe leer `mensaje`, y además la forma estándar de `ProblemDetails` de `[ApiController]` para los `400` de validación.
+- **Rutas del cliente fijadas por la API:** la API redirige a `https://localhost:44363/LoginAccount/ConfirmEmail` y `.../LoginAccount/ResetPassword?email=...&token=...`. **No renombrar** `LoginAccountController` ni esas acciones sin coordinar un cambio en la API. La URL base del cliente en la API está escrita en código, así que cualquier despliegue fuera de ese host necesita un cambio allí.
+- **Diferencias de modelos entre `DATA` y `webapi.core`** (ejemplos; los modelos son copias divergentes):
+  - `Mascota.DenunciaId` es `int` en el cliente y `int?` en la API. Si la API envía `null`, la deserialización falla.
+  - `User` en el cliente no es `IdentityUser` y lleva `Password` con validaciones; en la API hereda de `IdentityUser<int>`.
+  - `UserRole` en la API tiene `[Required]` y el cliente no.
+  - `Role` es idéntico en ambos.
 
 ## Fuera de alcance por ahora
 - Ajuste visual de Bootstrap y cambio de framework de frontend.
-- Cambios en la API.
+- Cambios en la API, salvo los de la Fase 7 (nomenclatura), que se planifican aparte y se coordinan con el repo `SpatWebAPI`.
 - Reemplazar las dependencias de CDN por archivos locales y actualizar jQuery/DataTables (ciclo posterior). Es también el momento de ajustar una CSP estricta y de valorar LibMan.
 - Contenedores (`dotnet publish -t:PublishContainer`), OpenTelemetry y el formato de solución `.slnx`: evaluar después de la Fase 6.
