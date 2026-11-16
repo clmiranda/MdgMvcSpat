@@ -142,8 +142,8 @@ Objetivo (se ejecuta en la Fase 7, junto con la API): identificadores en inglés
 ### Fase 1: plataforma y paquetes
 La limpieza de paquetes va **antes** del salto de framework, para reducir la superficie de migración. Cada paso deja el build verde en `netcoreapp3.1`.
 - [x] Retirar de `ModalidadGradoSpat.csproj` los paquetes ya incluidos en el framework o solo de scaffolding: `Microsoft.AspNetCore.Http`, `Microsoft.AspNetCore.Diagnostics`, `Microsoft.CodeAnalysis.Razor`, `Microsoft.EntityFrameworkCore.Design`, `Microsoft.VisualStudio.Web.CodeGeneration.Design`, `Microsoft.Extensions.Logging.Debug`
-- [ ] Retirar `Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation` y `AddRazorRuntimeCompilation()`
-- [ ] *(a verificar)* Retirar `Microsoft.jQuery.Unobtrusive.Ajax` si ninguna vista ni script usa `jquery.unobtrusive-ajax` (no hay `data-ajax` ni `Ajax.BeginForm` en las vistas). Es además la única fuente del paquete `jQuery` 1.8.0, con varias vulnerabilidades conocidas
+- [x] Retirar `Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation` y `AddRazorRuntimeCompilation()`
+- [x] Retirar `Microsoft.jQuery.Unobtrusive.Ajax`: verificado que ninguna vista ni script usa `unobtrusive-ajax`, `data-ajax` ni `Ajax.BeginForm`. Era la única fuente del paquete `jQuery` 1.8.0 (5 avisos de vulnerabilidad menos: de 22 a 17)
 - [ ] `DATA`: sustituir `IdentityUserRole<int>` (`UserRole`) e `IdentityRole` (`Role`) por POCOs con las mismas propiedades y retirar `Microsoft.EntityFrameworkCore.SqlServer`, `Microsoft.AspNetCore.Identity.EntityFrameworkCore` y `Microsoft.AspNetCore.Http`; comprobar que la deserialización del JSON de la API no cambia
 - [ ] `DATA` y cliente a `net10.0`; alinear temporalmente `JwtBearer` a 10.x y `System.IdentityModel.Tokens.Jwt` a 8.x hasta la Fase 2. Con `net10.0` se fija la línea **10.x** de los paquetes `Microsoft.*` aunque NuGet ya ofrezca 11.x; `System.IdentityModel.Tokens.Jwt` figura como en desuso (*Legacy*)
 - [ ] Actualizar ClosedXML con el test de reportes Excel como red de seguridad; probar en el sistema operativo de despliegue (el cálculo de fuentes en `AdjustToContents` puede variar)
