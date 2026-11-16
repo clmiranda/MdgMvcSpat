@@ -39,6 +39,7 @@ dotnet run --project ModalidadGradoSpat
 - La Fase 0 está en `main`. **Desde la Fase 1, cada fase vive en su propia rama** (`phase-<n>-<tema>`, p. ej. `phase-1-platform`) y se integra en `main` con un PR que abre y fusiona el mantenedor.
 - El mantenedor crea la rama antes de empezar cada fase. El asistente comprueba con `git branch --show-current` que no está en `main` antes de modificar archivos y, si lo está, avisa y se detiene.
 - Se mantiene un commit por paso del checklist dentro de la rama. El PR se fusiona con *merge commit* o *rebase*, **no con squash**, para conservar esos commits.
+- **Excepción:** los cambios en archivos `.md` y cualquier cambio sin relación con la fase en curso se commitean directamente en `main`, no en la rama de la fase. Si el asistente modifica un `.md` estando en una rama de fase, lo avisa para que el mantenedor lo lleve a `main` (por ejemplo con `git stash` y `git switch main`) y no se mezcle con los commits de la fase.
 - El PR no incluye secretos ni el inventario de vulnerabilidades; se aplica la misma revisión de la sección "Seguridad".
 - El asistente no crea ramas, PRs ni hace push. Al terminar un paso sugiere el mensaje de commit; al terminar la fase, sugiere el título y la descripción del PR.
 

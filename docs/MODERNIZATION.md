@@ -141,7 +141,7 @@ Objetivo (se ejecuta en la Fase 7, junto con la API): identificadores en inglés
 
 ### Fase 1: plataforma y paquetes
 La limpieza de paquetes va **antes** del salto de framework, para reducir la superficie de migración. Cada paso deja el build verde en `netcoreapp3.1`.
-- [ ] Retirar de `ModalidadGradoSpat.csproj` los paquetes ya incluidos en el framework o solo de scaffolding: `Microsoft.AspNetCore.Http`, `Microsoft.AspNetCore.Diagnostics`, `Microsoft.CodeAnalysis.Razor`, `Microsoft.EntityFrameworkCore.Design`, `Microsoft.VisualStudio.Web.CodeGeneration.Design`, `Microsoft.Extensions.Logging.Debug`
+- [x] Retirar de `ModalidadGradoSpat.csproj` los paquetes ya incluidos en el framework o solo de scaffolding: `Microsoft.AspNetCore.Http`, `Microsoft.AspNetCore.Diagnostics`, `Microsoft.CodeAnalysis.Razor`, `Microsoft.EntityFrameworkCore.Design`, `Microsoft.VisualStudio.Web.CodeGeneration.Design`, `Microsoft.Extensions.Logging.Debug`
 - [ ] Retirar `Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation` y `AddRazorRuntimeCompilation()`
 - [ ] *(a verificar)* Retirar `Microsoft.jQuery.Unobtrusive.Ajax` si ninguna vista ni script usa `jquery.unobtrusive-ajax` (no hay `data-ajax` ni `Ajax.BeginForm` en las vistas). Es además la única fuente del paquete `jQuery` 1.8.0, con varias vulnerabilidades conocidas
 - [ ] `DATA`: sustituir `IdentityUserRole<int>` (`UserRole`) e `IdentityRole` (`Role`) por POCOs con las mismas propiedades y retirar `Microsoft.EntityFrameworkCore.SqlServer`, `Microsoft.AspNetCore.Identity.EntityFrameworkCore` y `Microsoft.AspNetCore.Http`; comprobar que la deserialización del JSON de la API no cambia
