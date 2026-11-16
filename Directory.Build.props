@@ -1,0 +1,26 @@
+<Project>
+
+  <!--
+    Propiedades comunes a todos los proyectos de la solución.
+    Estándares completos en docs/MODERNIZATION.md.
+  -->
+  <PropertyGroup>
+    <!-- Auditoría de paquetes vulnerables, incluidas las dependencias transitivas. -->
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
+
+    <!-- Compilaciones reproducibles. -->
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <!--
+    Pendiente (Fase 1, ver docs/MODERNIZATION.md): se activan al migrar a net10.0
+    y al corregir las advertencias de nulabilidad.
+      <Nullable>enable</Nullable>
+      <ImplicitUsings>enable</ImplicitUsings>
+      <AnalysisLevel>latest-recommended</AnalysisLevel>
+      <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  -->
+
+</Project>
