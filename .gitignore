@@ -430,4 +430,5 @@ FodyWeavers.xsd
 
 # Local configuration with secrets (use appsettings.example.json as a template)
 **/appsettings.json
+**/appsettings.Development.json
 **/appsettings.*.local.json
