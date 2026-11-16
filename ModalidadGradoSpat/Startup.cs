@@ -24,7 +24,7 @@ namespace ModalidadGradoSpat
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddControllersWithViews();
 
             services.AddCors();
             services.AddMvc();

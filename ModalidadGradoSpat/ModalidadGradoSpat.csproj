@@ -15,7 +15,6 @@
   <ItemGroup>
     <PackageReference Include="ClosedXML" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="RestSharp" />
