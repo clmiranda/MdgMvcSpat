@@ -127,6 +127,7 @@ Objetivo (se ejecuta en la Fase 7, junto con la API): identificadores en inglés
 - Los renombrados de archivos se hacen con `git mv` en commits aparte de los cambios de contenido, para conservar el historial.
 - Conventional Commits en inglés (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`, `ci:`), uno por paso del checklist.
 - Los cambios los revisa y commitea el mantenedor.
+- Desde la Fase 1, una rama por fase (`phase-<n>-<tema>`) y PR hacia `main`, fusionado sin squash para conservar un commit por paso. Detalle en `CLAUDE.md`, "Flujo de ramas".
 
 ## Hoja de ruta
 

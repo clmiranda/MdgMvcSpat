@@ -35,6 +35,13 @@ dotnet run --project ModalidadGradoSpat
 - Cada paso debe dejar `dotnet build` en verde.
 - Al terminar un paso, marcar su casilla en `docs/MODERNIZATION.md`.
 
+## Flujo de ramas
+- La Fase 0 está en `main`. **Desde la Fase 1, cada fase vive en su propia rama** (`phase-<n>-<tema>`, p. ej. `phase-1-platform`) y se integra en `main` con un PR que abre y fusiona el mantenedor.
+- El mantenedor crea la rama antes de empezar cada fase. El asistente comprueba con `git branch --show-current` que no está en `main` antes de modificar archivos y, si lo está, avisa y se detiene.
+- Se mantiene un commit por paso del checklist dentro de la rama. El PR se fusiona con *merge commit* o *rebase*, **no con squash**, para conservar esos commits.
+- El PR no incluye secretos ni el inventario de vulnerabilidades; se aplica la misma revisión de la sección "Seguridad".
+- El asistente no crea ramas, PRs ni hace push. Al terminar un paso sugiere el mensaje de commit; al terminar la fase, sugiere el título y la descripción del PR.
+
 ## Seguridad
 - No versionar secretos: claves JWT, cadenas de conexión, `appsettings.json`, `*.user`, `bin/`, `obj/`, `.vs/`.
 - No registrar tokens, contraseñas ni datos personales en logs ni en mensajes de error.
