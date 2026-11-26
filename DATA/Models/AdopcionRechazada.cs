@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DATA.Models
+namespace DATA.Models;
+
+public class AdopcionRechazada : BaseEntity
 {
-    public class AdopcionRechazada : BaseEntity
-    {
-        [Required(ErrorMessage ="Necesita proporcionar la razon por la cual se esta rechazando la solicitud")]
-        [MaxLength(300)]
-        public string Razon { get; set; }
-        public virtual SolicitudAdopcion SolicitudAdopcion { get; set; }
-        public int SolicitudAdopcionId { get; set; }
+    [Required(ErrorMessage ="Necesita proporcionar la razon por la cual se esta rechazando la solicitud")]
+    [MaxLength(300)]
+    public string Razon { get; set; } = null!;
+    public virtual SolicitudAdopcion? SolicitudAdopcion { get; set; }
+    public int SolicitudAdopcionId { get; set; }
 
-        public static explicit operator AdopcionRechazada(List<SolicitudAdopcion> v)
-        {
-            throw new NotImplementedException();
-        }
+    public static explicit operator AdopcionRechazada(List<SolicitudAdopcion> v)
+    {
+        throw new NotImplementedException();
     }
 }

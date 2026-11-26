@@ -1,48 +1,43 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Routing;
-using System;
-using System.IO;
 
-namespace ModalidadGradoSpat
+namespace ModalidadGradoSpat;
+
+public class Helper
 {
-    public class Helper
+    public static string RenderRazorViewToString(Controller controller, string viewName, object model = null)
     {
-        public static string RenderRazorViewToString(Controller controller, string viewName, object model = null)
+        controller.ViewData.Model = model;
+        using (var sw = new StringWriter())
         {
-            controller.ViewData.Model = model;
-            using (var sw = new StringWriter())
-            {
-                IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
-                ViewEngineResult viewResult = viewEngine.FindView(controller.ControllerContext, viewName, false);
+            IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
+            ViewEngineResult viewResult = viewEngine.FindView(controller.ControllerContext, viewName, false);
 
-                ViewContext viewContext = new ViewContext(
-                    controller.ControllerContext,
-                    viewResult.View,
-                    controller.ViewData,
-                    controller.TempData,
-                    sw,
-                    new HtmlHelperOptions()
-                );
-                viewResult.View.RenderAsync(viewContext);
-                return sw.GetStringBuilder().ToString();
-            }
+            ViewContext viewContext = new ViewContext(
+                controller.ControllerContext,
+                viewResult.View,
+                controller.ViewData,
+                controller.TempData,
+                sw,
+                new HtmlHelperOptions()
+            );
+            viewResult.View.RenderAsync(viewContext);
+            return sw.GetStringBuilder().ToString();
         }
-        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        public class NoDirectAccessAttribute : ActionFilterAttribute
+    }
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class NoDirectAccessAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            if (filterContext.HttpContext.Request.GetTypedHeaders().Referer == null ||
+     filterContext.HttpContext.Request.GetTypedHeaders().Host.Host.ToString() != filterContext.HttpContext.Request.GetTypedHeaders().Referer.Host.ToString())
             {
-                if (filterContext.HttpContext.Request.GetTypedHeaders().Referer == null ||
-         filterContext.HttpContext.Request.GetTypedHeaders().Host.Host.ToString() != filterContext.HttpContext.Request.GetTypedHeaders().Referer.Host.ToString())
-                {
-                    filterContext.Result = new RedirectToRouteResult(new
-                           RouteValueDictionary(new { controller = "Cuenta", action = "Login", area = "" }));
-                }
+                filterContext.Result = new RedirectToRouteResult(new
+                       RouteValueDictionary(new { controller = "Cuenta", action = "Login", area = "" }));
             }
         }
     }

@@ -1,143 +1,138 @@
 ﻿using DATA.DTOs.Graficas;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using RestSharp.Authenticators;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers
+namespace ModalidadGradoSpat.Areas.AdministracionDatos.Controllers;
+
+[Area("AdministracionDatos")]
+[Authorize(Roles = "SuperAdministrador, Administrador")]
+public class GraficasController : Controller
 {
-    [Area("AdministracionDatos")]
-    [Authorize(Roles = "SuperAdministrador, Administrador")]
-    public class GraficasController : Controller
+    private string fechaInicio = DateTime.Now.AddMonths(-3).ToShortDateString();
+    private string fechaFin = DateTime.Now.ToShortDateString();
+    [Route("Grafica/Adopciones")]
+    public async Task<IActionResult> Adopciones()
     {
-        private string fechaInicio = DateTime.Now.AddMonths(-3).ToShortDateString();
-        private string fechaFin = DateTime.Now.ToShortDateString();
-        [Route("Grafica/Adopciones")]
-        public async Task<IActionResult> Adopciones()
+        ViewData["fechaInicio"] = fechaInicio;
+        ViewData["fechaFin"] = fechaFin;
+        var vista = await ListadoAdopciones(new string[] { fechaInicio, fechaFin });
+        return View(vista);
+    }
+    public async Task<List<DataGraficaDto>> ListadoAdopciones(string[] fechas)
+    {
+        try
         {
-            ViewData["fechaInicio"] = fechaInicio;
-            ViewData["fechaFin"] = fechaFin;
-            var vista = await ListadoAdopciones(new string[] { fechaInicio, fechaFin });
-            return View(vista);
-        }
-        public async Task<List<DataGraficaDto>> ListadoAdopciones(string[] fechas)
-        {
-            try
-            {
-                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/Graficas/GetGraficasAdopciones", Method.POST).AddJsonBody(fechas);
-                var response = await APIConnection.client.ExecuteAsync<List<DataGraficaDto>>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception();
-                var vista = response.Data;
-                return vista;
-            }
-            catch (Exception)
-            {
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Graficas/GetGraficasAdopciones", Method.POST).AddJsonBody(fechas);
+            var response = await APIConnection.client.ExecuteAsync<List<DataGraficaDto>>(request);
+            if (!response.IsSuccessful)
                 throw new Exception();
-            }
+            var vista = response.Data;
+            return vista;
         }
-        public async Task<IActionResult> ReturnVistaAdopciones(string[] fechas)
+        catch (Exception)
         {
-            fechaInicio = fechas[0];
-            fechaFin = fechas[1];
-            ViewData["fechaInicio"] = fechaInicio;
-            ViewData["fechaFin"] = fechaFin;
-            try
-            {
-                var vista = await ListadoAdopciones(fechas);
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Adopciones", vista) });
-            }
-            catch (Exception)
-            {
+            throw new Exception();
+        }
+    }
+    public async Task<IActionResult> ReturnVistaAdopciones(string[] fechas)
+    {
+        fechaInicio = fechas[0];
+        fechaFin = fechas[1];
+        ViewData["fechaInicio"] = fechaInicio;
+        ViewData["fechaFin"] = fechaFin;
+        try
+        {
+            var vista = await ListadoAdopciones(fechas);
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Adopciones", vista) });
+        }
+        catch (Exception)
+        {
+            throw new Exception();
+        }
+    }
+    [Route("Grafica/Mascotas")]
+    public async Task<IActionResult> Mascotas()
+    {
+        ViewData["fechaInicio"] = fechaInicio;
+        ViewData["fechaFin"] = fechaFin;
+        var vista = await ListadoMascotas(new string[] { fechaInicio, fechaFin });
+        return View(vista);
+    }
+    public async Task<List<DataGraficaDto>> ListadoMascotas(string[] fechas)
+    {
+        try
+        {
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Graficas/GetGraficasMascotas", Method.POST).AddJsonBody(fechas);
+            var response = await APIConnection.client.ExecuteAsync<List<DataGraficaDto>>(request);
+            if (!response.IsSuccessful)
                 throw new Exception();
-            }
+            var vista = response.Data;
+            return vista;
         }
-        [Route("Grafica/Mascotas")]
-        public async Task<IActionResult> Mascotas()
+        catch (Exception)
         {
-            ViewData["fechaInicio"] = fechaInicio;
-            ViewData["fechaFin"] = fechaFin;
-            var vista = await ListadoMascotas(new string[] { fechaInicio, fechaFin });
-            return View(vista);
+            throw new Exception();
         }
-        public async Task<List<DataGraficaDto>> ListadoMascotas(string[] fechas)
+    }
+    public async Task<IActionResult> ReturnVistaMascotas(string[] fechas)
+    {
+        fechaInicio = fechas[0];
+        fechaFin = fechas[1];
+        ViewData["fechaInicio"] = fechaInicio;
+        ViewData["fechaFin"] = fechaFin;
+        try
         {
-            try
-            {
-                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/Graficas/GetGraficasMascotas", Method.POST).AddJsonBody(fechas);
-                var response = await APIConnection.client.ExecuteAsync<List<DataGraficaDto>>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception();
-                var vista = response.Data;
-                return vista;
-            }
-            catch (Exception)
-            {
+            var vista = await ListadoMascotas(fechas);
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Mascotas", vista) });
+        }
+        catch (Exception)
+        {
+            throw new Exception();
+        }
+    }
+    [Route("Grafica/ReporteSeguimientos")]
+    public async Task<IActionResult> ReporteSeguimientos()
+    {
+        ViewData["fechaInicio"] = fechaInicio;
+        ViewData["fechaFin"] = fechaFin;
+        var vista = await ListadoReporteSeguimientos(new string[] { fechaInicio, fechaFin });
+        return View(vista);
+    }
+    public async Task<List<DataGraficaDto>> ListadoReporteSeguimientos(string[] fechas)
+    {
+        try
+        {
+            APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
+            var request = new RestRequest("api/Graficas/GetGraficasReporteSeguimientos", Method.POST).AddJsonBody(fechas);
+            var response = await APIConnection.client.ExecuteAsync<List<DataGraficaDto>>(request);
+            if (!response.IsSuccessful)
                 throw new Exception();
-            }
+            var vista = response.Data;
+            return vista;
         }
-        public async Task<IActionResult> ReturnVistaMascotas(string[] fechas)
+        catch (Exception)
         {
-            fechaInicio = fechas[0];
-            fechaFin = fechas[1];
-            ViewData["fechaInicio"] = fechaInicio;
-            ViewData["fechaFin"] = fechaFin;
-            try
-            {
-                var vista = await ListadoMascotas(fechas);
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_Mascotas", vista) });
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
+            throw new Exception();
         }
-        [Route("Grafica/ReporteSeguimientos")]
-        public async Task<IActionResult> ReporteSeguimientos()
+    }
+    public async Task<IActionResult> ReturnVistaReporteSeguimientos(string[] fechas)
+    {
+        fechaInicio = fechas[0];
+        fechaFin = fechas[1];
+        ViewData["fechaInicio"] = fechaInicio;
+        ViewData["fechaFin"] = fechaFin;
+        try
         {
-            ViewData["fechaInicio"] = fechaInicio;
-            ViewData["fechaFin"] = fechaFin;
-            var vista = await ListadoReporteSeguimientos(new string[] { fechaInicio, fechaFin });
-            return View(vista);
+            var vista = await ListadoReporteSeguimientos(fechas);
+            return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ReporteSeguimientos", vista) });
         }
-        public async Task<List<DataGraficaDto>> ListadoReporteSeguimientos(string[] fechas)
+        catch (Exception)
         {
-            try
-            {
-                APIConnection.client.Authenticator = new JwtAuthenticator(HttpContext.Session.GetString("JWToken"));
-                var request = new RestRequest("api/Graficas/GetGraficasReporteSeguimientos", Method.POST).AddJsonBody(fechas);
-                var response = await APIConnection.client.ExecuteAsync<List<DataGraficaDto>>(request);
-                if (!response.IsSuccessful)
-                    throw new Exception();
-                var vista = response.Data;
-                return vista;
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
-        }
-        public async Task<IActionResult> ReturnVistaReporteSeguimientos(string[] fechas)
-        {
-            fechaInicio = fechas[0];
-            fechaFin = fechas[1];
-            ViewData["fechaInicio"] = fechaInicio;
-            ViewData["fechaFin"] = fechaFin;
-            try
-            {
-                var vista = await ListadoReporteSeguimientos(fechas);
-                return Json(new { html = Helper.RenderRazorViewToString(this, "PartialView/_ReporteSeguimientos", vista) });
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
+            throw new Exception();
         }
     }
 }

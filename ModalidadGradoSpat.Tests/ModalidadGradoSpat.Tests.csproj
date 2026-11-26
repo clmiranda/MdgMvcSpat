@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <!-- Se activan aquí porque Directory.Build.props aún no los define (Fase 1, pasos 2 y 4). -->
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <!-- La versión la fija Directory.Packages.props: la misma que usa el cliente, para probar la que se despliega. -->
+    <PackageReference Include="ClosedXML" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModalidadGradoSpat\ModalidadGradoSpat.csproj" />
+    <ProjectReference Include="..\DATA\DATA.csproj" />
+  </ItemGroup>
+
+</Project>

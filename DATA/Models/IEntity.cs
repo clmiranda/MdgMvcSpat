@@ -1,7 +1,6 @@
-﻿namespace DATA.Models
+﻿namespace DATA.Models;
+
+public interface IEntity
 {
-    public interface IEntity
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }
