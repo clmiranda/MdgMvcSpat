@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DATA.DTOs.Graficas;
+﻿using DATA.DTOs.Graficas;
 
 namespace DATA.DTOs;
 

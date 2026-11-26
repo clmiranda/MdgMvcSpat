@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DATA.Models;
+﻿using DATA.Models;
 
 namespace DATA.DTOs;
 

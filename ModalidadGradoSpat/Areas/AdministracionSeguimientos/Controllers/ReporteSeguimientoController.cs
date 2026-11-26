@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using DATA.Models;
+﻿using DATA.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;

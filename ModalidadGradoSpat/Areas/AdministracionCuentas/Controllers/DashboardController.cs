@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using DATA.DTOs;
+﻿using DATA.DTOs;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using RestSharp.Authenticators;

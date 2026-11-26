@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
 using DATA.Models;
 
 namespace ModalidadGradoSpat.Reports;

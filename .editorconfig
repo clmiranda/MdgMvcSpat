@@ -21,6 +21,11 @@ indent_size = 4
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
 
+# Usings innecesarios. Por defecto es "hidden", y dotnet format ignora lo que está por
+# debajo de "info". Pasa a "warning" al activar el CI y TreatWarningsAsErrors (Fase 6).
+# Nota: para que se reporte, el proyecto necesita GenerateDocumentationFile=true.
+dotnet_diagnostic.IDE0005.severity = suggestion
+
 # Preferencias de estilo. Se dejan como "suggestion" para que no rompan el build
 # mientras dura la migración; se endurecen al terminar la Fase 1.
 csharp_style_namespace_declarations = file_scoped:suggestion
