@@ -1,9 +1,8 @@
 ﻿using RestSharp;
 
-namespace ModalidadGradoSpat
+namespace ModalidadGradoSpat;
+
+public class APIConnection
 {
-    public class APIConnection
-    {
-        public static RestClient client = new RestClient("https://localhost:44398/");
-    }
+    public static RestClient client = new RestClient("https://localhost:44398/");
 }
