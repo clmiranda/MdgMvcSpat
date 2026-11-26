@@ -12,10 +12,10 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 - **Fase 1, ClosedXML, hecho:** 0.95.4 → 0.105.1 con red de seguridad. Proyecto `ModalidadGradoSpat.Tests` (xunit v3, runner Microsoft.Testing.Platform fijado en `global.json`) con 11 tests que generan y reabren los 7 métodos de reporte. 0.105 deja como texto las fechas escritas con `ToShortDateString()`, así que `ReportMascota` y `ReportSeguimientoReporte` escriben ahora el `DateTime`. Desaparece el aviso crítico de `System.Drawing.Common`, que arrastraba ClosedXML 0.95. Pendiente verificar los Excel generados abriéndolos en el entorno de despliegue (el código no usa `AdjustToContents`).
 - **Fase 1, minimal hosting, hecho:** `Program.cs` con todo el arranque y `Startup.cs` eliminado; `MapStaticAssets()` con `.WithStaticAssets()` en lugar de `UseDefaultFiles`/`UseStaticFiles`; una sola ruta de áreas `{area:exists}/{controller}/{action}/{id?}` (los 11 controladores de área ya tenían `[Area]`). Servicios y orden del pipeline sin cambios (se rehacen en la Fase 2). Se retiró `AddMvc()` (redundante; no hay Razor Pages) y `ImplicitUsings` quedó activo en `Directory.Build.props`. Comprobado en ejecución: rutas públicas `200`, rutas protegidas y ruta de área `401`, estáticos con ETag y gzip. `/` da `500` sin la API levantada (`Listado()` lanza `throw new Exception()`; Fase 5). Un estático nuevo en `wwwroot` requiere recompilar.
 - **Fase 1, estilo de código, hecho:** *file-scoped namespaces* en los 48 `.cs` que usaban bloque (`dotnet format style --diagnostics IDE0161`, sin tocar nada más) y retirada de `using` innecesarios en 34 archivos (`IDE0005`). Ambos son commits mecánicos, revisables con `git diff -w`. Para `IDE0005`, `dotnet format` ignora lo que está por debajo de `info` y la regla es *hidden* por defecto, así que `.editorconfig` la declara como `suggestion`; además solo se reporta si el proyecto genera el XML de documentación (`GenerateDocumentationFile=true`), que se activó solo mientras se ejecutó la herramienta. La herramienta puede quitar el BOM o el salto de línea final de algún archivo: revisar el diff.
+- **Fase 1, `Nullable` en `DATA`, hecho:** `DATA` con `Nullable=enable` y sus 25 modelos y DTOs anotados (ver "Nulabilidad en `DATA`"); el cliente queda en `Nullable=annotations` (entiende los `?` sin emitir advertencias) y pasa a `enable` en la Fase 3, al migrar cada controlador, para no corregir 436 advertencias en código que se reescribe. Solo se añadieron anotaciones, sin inicializadores, así que el comportamiento en ejecución no cambia. No hizo falta `SuppressImplicitRequiredAttributeForNonNullableReferenceTypes`: el test `NulabilidadModelosTests` comprueba que la validación de los 26 tipos es la misma con y sin ese comportamiento.
 - **Fase 1, pendiente, en este orden:**
-  1. Activar `Nullable` y corregir advertencias (ver riesgo 1).
-  2. Al cerrar la fase: PR de `phase-1-platform` a `main`.
-- **Hallazgos para fases posteriores:** `ReportSeguimientoReporte.ExcelReportes` define la cabecera "Estado Mascota" (columna 2) pero nunca escribe esa columna, que queda vacía; decidir más adelante si se valida o se descarta. `ASP0019` en `Program.cs` (`Headers.Add`; Fase 2); `[Authorize]` anulado por `[AllowAnonymous]` de la clase en `LoginAccountController.LogOut` (`ASP0026`; Fase 2); `Mascota.DenunciaId` es `int` en el cliente y `int?` en la API (Fase 3, test de contrato).
+  1. Al cerrar la fase: PR de `phase-1-platform` a `main`.
+- **Hallazgos para fases posteriores:** `ReportSeguimientoReporte.ExcelReportes` define la cabecera "Estado Mascota" (columna 2) pero nunca escribe esa columna, que queda vacía; decidir más adelante si se valida o se descarta. `ASP0019` en `Program.cs` (`Headers.Add`; Fase 2); `[Authorize]` anulado por `[AllowAnonymous]` de la clase en `LoginAccountController.LogOut` (`ASP0026`; Fase 2); `Mascota.DenunciaId`, `Seguimiento.UserId` y `SolicitudAdopcion.MascotaId` son `int` en el cliente e `int?` en la API, y `Foto.ReporteSeguimientoId` no existe en `DATA` (Fase 3, test de contrato; no se cambiaron los tipos en el paso de `Nullable`). Cliente en `Nullable=annotations` hasta la Fase 3 (ver más abajo).
 - **No probado todavía:** un JWT válido ni ningún flujo con la API en marcha. Las pruebas de arranque cubren rutas públicas y rechazos `401` de una ruta protegida.
 - **Flujo de trabajo:** una rama por fase y PR a `main` sin squash; los `.md` y lo ajeno a la fase en curso se commitean directamente en `main` (ver `CLAUDE.md`, "Flujo de ramas").
 - **Nomenclatura en inglés:** ciclo posterior (sección "Nomenclatura" y Fase 7), coordinado con `SpatWebAPI`. Mientras tanto rige la regla transitoria de esa sección.
@@ -25,7 +25,7 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 
 ### Plataforma
 - Destino `net10.0` en todos los proyectos; SDK fijado con `global.json`.
-- `Nullable` e `ImplicitUsings` activos (configurados en `Directory.Build.props`; `ImplicitUsings` ya lo está, `Nullable` se activa al final de la Fase 1).
+- `Nullable` e `ImplicitUsings` activos. `ImplicitUsings` está en `Directory.Build.props`; `Nullable` está activo en `DATA` y en `annotations` en el cliente hasta la Fase 3, cuando pasa a `enable` (ver "Nulabilidad en `DATA`").
 - *File-scoped namespaces* en todo archivo `.cs`.
 - Minimal hosting: todo el arranque en `Program.cs`, sin `Startup.cs`.
 - Gestión central de paquetes (`Directory.Packages.props`): las versiones viven solo ahí.
@@ -38,6 +38,18 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 - Endpoint `/health` con *health checks*, incluida la disponibilidad de la API.
 - Localización con `UseRequestLocalization` y la cultura del despliegue (p. ej. `es-BO`, *a verificar*), para fechas y números en vistas y Excel.
 - Estilo C# moderno donde aporte: *primary constructors* para la DI, `record` y `required` en DTOs y *view models* de solo lectura, *collection expressions*, `TimeProvider` en lugar de `DateTime.Now` para lo testeable.
+
+### Nulabilidad en `DATA`
+Qué expresa cada pieza (no son equivalentes entre sí):
+- **`string?`**: opcional; puede ser nulo.
+- **`string`** (no anulable): obligatorio para el compilador. MVC lo trata además como `[Required]` implícito.
+- **`[Required]`**: lo único que valida de verdad y da el mensaje de error.
+- **`= null!;`**: solo silencia `CS8618` ("sin inicializar"). No valida nada y el valor sigue siendo `null` hasta que alguien lo asigna.
+- **`required`** (C# 11): no se usa en `DATA` porque `System.Text.Json` lanza una excepción si el JSON no trae la propiedad, y eso cambiaría el comportamiento con la API. Es la opción para los *view models* nuevos (Fase 3).
+
+Regla aplicada, solo con anotaciones y sin inicializadores (un `""` en lugar de `null` rompería comprobaciones como `mascota.Denuncia == null`): navegación, colecciones y cadenas sin `[Required]` → `?`; campos con `[Required]` (formularios, `IFormFile`) → no anulables con `= null!;`.
+
+Excepción conocida: `User.Password` lleva `[Required]` y `= null!;` por el formulario de alta, pero la API nunca la devuelve y en una respuesta vale `null`. Se dejó así a propósito; en la Fase 3 el alta pasa a un *view model* propio. El test `NulabilidadModelosTests` falla si alguien añade a `DATA` una propiedad no anulable sin `[Required]`.
 
 ### Configuración y secretos
 - La configuración se enlaza a clases tipadas con `IOptions<T>` y se valida al arrancar (`ValidateOnStart`).
@@ -153,7 +165,7 @@ La limpieza de paquetes va **antes** del salto de framework, para reducir la sup
 - [x] Minimal hosting (`Program.cs`, eliminar `Startup.cs`); `MapStaticAssets()` y ruta única de áreas con `[Area]`
 - [x] File-scoped namespaces con `dotnet format` (commit mecánico)
 - [x] Quitar `using` innecesarios (`IDE0005`, commit mecánico); `.editorconfig` declara la regla como `suggestion`
-- [ ] Activar `Nullable` y corregir advertencias (`DATA`, luego cliente); ver el riesgo del `[Required]` implícito
+- [x] Activar `Nullable` y corregir advertencias en `DATA`; el cliente queda en `Nullable=annotations` y se completa en la Fase 3 (ver el riesgo 1 y "Nulabilidad en `DATA`")
 
 ### Fase 2: configuración y autenticación
 - [ ] `ApiOptions` (`Api:BaseUrl`) validada al arrancar; actualizar `appsettings.example.json`
@@ -169,7 +181,9 @@ La limpieza de paquetes va **antes** del salto de framework, para reducir la sup
 - [ ] Clientes tipados por área con `IHttpClientFactory` y resiliencia (`Microsoft.Extensions.Http.Resilience`, sin reintentos en métodos no idempotentes)
 - [ ] `BearerTokenHandler` (`DelegatingHandler`), con manejo de `401` (cierre de sesión y redirección al login)
 - [ ] `ApiResult<T>`, `ApiError` y `PagedResult<T>` (cabecera `Pagination`)
-- [ ] Migrar controladores (un commit cada uno): `LoginAccount`, `Adopciones`, `Dashboard`, `Perfil`, `Cuenta`, `Graficas`, `Denuncia`, `ReporteTratamiento`, `Mascota`, `Seguimiento`, `SeguimientoAsignado`, `ReporteSeguimiento`, `Adopcion`
+- [ ] Migrar controladores (un commit cada uno): `LoginAccount`, `Adopciones`, `Dashboard`, `Perfil`, `Cuenta`, `Graficas`, `Denuncia`, `ReporteTratamiento`, `Mascota`, `Seguimiento`, `SeguimientoAsignado`, `ReporteSeguimiento`, `Adopcion`. Cada uno se migra ya sin advertencias de nulabilidad (`#nullable enable` en el archivo, y sus vistas parciales)
+- [ ] Cliente: pasar `Nullable` de `annotations` a `enable` al terminar la migración de controladores y revisar las advertencias que queden (había 218 en controladores y 211 en vistas antes de anotar `DATA`)
+- [ ] Decidir los tipos de valor divergentes con la API (`DenunciaId`, `Seguimiento.UserId`, `SolicitudAdopcion.MascotaId`) con el test de contrato
 - [ ] Eliminar `APIConnection.cs`, RestSharp y Newtonsoft
 
 ### Fase 4: estado compartido y vistas
@@ -200,7 +214,7 @@ No empieza hasta terminar las fases 0 a 6 y planificar el trabajo en `SpatWebAPI
 - [ ] Los tests de contrato y de reportes de la Fase 6 pasan en cada commit
 
 ## Riesgos y notas de migración
-1. **`Nullable` vuelve obligatorias las propiedades no anulables.** MVC trata las propiedades de referencia no anulables (`string`) como `[Required]` implícito, lo que puede romper formularios que hoy funcionan. Marcar `string?` donde corresponda, o fijar `SuppressImplicitRequiredAttributeForNonNullableReferenceTypes` solo mientras dure la migración.
+1. **`Nullable` vuelve obligatorias las propiedades no anulables.** MVC trata las propiedades de referencia no anulables (`string`) como `[Required]` implícito, lo que puede romper formularios que hoy funcionan. Mitigado en `DATA`: se anotó con `?` lo opcional y `[Required]` explícito lo obligatorio, y `NulabilidadModelosTests` verifica que la validación no cambia (no hizo falta `SuppressImplicitRequiredAttributeForNonNullableReferenceTypes`). Sigue vigente para los *view models* o tipos nuevos del cliente que se enlacen desde formularios.
 2. **Newtonsoft → `System.Text.Json` cambia el comportamiento.** Hay referencias a Newtonsoft, `JsonProperty` o RestSharp en 14 archivos (42 apariciones). Vigilar mayúsculas y minúsculas, enums, formato de fechas, ciclos de referencia y propiedades sin *setter* público. El test de contrato lo cubre.
 3. **`DATA` es una copia que ya diverge de la API.** No hay acoplamiento de compilación, así que `net10.0` es seguro, pero nada garantiza que los modelos coincidan con lo que la API envía (ver diferencias en "Contrato observado de la API"). El test de contrato con JSON real es la red de seguridad. Cambiar la API está fuera de alcance.
 4. **Salto directo de 3.1 a 10.** Son siete versiones mayores sin pasos intermedios. De ahí que cada paso exija build verde y que la limpieza de paquetes se haga antes del retarget.
