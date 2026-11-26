@@ -10,12 +10,12 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 - **Fase 0: completa.** `DATA` no se comparte con la API (verificado en `SpatWebAPI`); ver "Contrato observado de la API".
 - **Fase 1 (rama `phase-1-platform`), hecho:** paquetes redundantes retirados; `RuntimeCompilation` y `Microsoft.jQuery.Unobtrusive.Ajax` retirados; `DATA` sin EF Core ni Identity (POCOs); `DATA` y cliente en `net10.0` con `JwtBearer` 10.0.15, `System.IdentityModel.Tokens.Jwt` 8.23.0 y `Newtonsoft.Json` 13.0.4. Build con 0 errores y 4 avisos (22 en la línea base).
 - **Fase 1, ClosedXML, hecho:** 0.95.4 → 0.105.1 con red de seguridad. Proyecto `ModalidadGradoSpat.Tests` (xunit v3, runner Microsoft.Testing.Platform fijado en `global.json`) con 11 tests que generan y reabren los 7 métodos de reporte. 0.105 deja como texto las fechas escritas con `ToShortDateString()`, así que `ReportMascota` y `ReportSeguimientoReporte` escriben ahora el `DateTime`. Desaparece el aviso crítico de `System.Drawing.Common`, que arrastraba ClosedXML 0.95. Pendiente verificar los Excel generados abriéndolos en el entorno de despliegue (el código no usa `AdjustToContents`).
+- **Fase 1, minimal hosting, hecho:** `Program.cs` con todo el arranque y `Startup.cs` eliminado; `MapStaticAssets()` con `.WithStaticAssets()` en lugar de `UseDefaultFiles`/`UseStaticFiles`; una sola ruta de áreas `{area:exists}/{controller}/{action}/{id?}` (los 11 controladores de área ya tenían `[Area]`). Servicios y orden del pipeline sin cambios (se rehacen en la Fase 2). Se retiró `AddMvc()` (redundante; no hay Razor Pages) y `ImplicitUsings` quedó activo en `Directory.Build.props`. Comprobado en ejecución: rutas públicas `200`, rutas protegidas y ruta de área `401`, estáticos con ETag y gzip. `/` da `500` sin la API levantada (`Listado()` lanza `throw new Exception()`; Fase 5). Un estático nuevo en `wwwroot` requiere recompilar.
 - **Fase 1, pendiente, en este orden:**
-  1. Minimal hosting (`Program.cs`, sin `Startup.cs`), `MapStaticAssets()` y ruta única de áreas con `[Area]`.
-  2. File-scoped namespaces con `dotnet format` (commit mecánico).
-  3. Activar `Nullable` y corregir advertencias (ver riesgo 1).
-  4. Al cerrar la fase: PR de `phase-1-platform` a `main`.
-- **Hallazgos para fases posteriores:** `ReportSeguimientoReporte.ExcelReportes` define la cabecera "Estado Mascota" (columna 2) pero nunca escribe esa columna, que queda vacía; decidir más adelante si se valida o se descarta. `ASP0019` en `Startup.cs` (`Headers.Add`; Fase 2); `[Authorize]` anulado por `[AllowAnonymous]` de la clase en `LoginAccountController.LogOut` (`ASP0026`; Fase 2); `Mascota.DenunciaId` es `int` en el cliente y `int?` en la API (Fase 3, test de contrato).
+  1. File-scoped namespaces con `dotnet format` (commit mecánico).
+  2. Activar `Nullable` y corregir advertencias (ver riesgo 1).
+  3. Al cerrar la fase: PR de `phase-1-platform` a `main`.
+- **Hallazgos para fases posteriores:** `ReportSeguimientoReporte.ExcelReportes` define la cabecera "Estado Mascota" (columna 2) pero nunca escribe esa columna, que queda vacía; decidir más adelante si se valida o se descarta. `ASP0019` en `Program.cs` (`Headers.Add`; Fase 2); `[Authorize]` anulado por `[AllowAnonymous]` de la clase en `LoginAccountController.LogOut` (`ASP0026`; Fase 2); `Mascota.DenunciaId` es `int` en el cliente y `int?` en la API (Fase 3, test de contrato).
 - **No probado todavía:** un JWT válido ni ningún flujo con la API en marcha. Las pruebas de arranque cubren rutas públicas y rechazos `401` de una ruta protegida.
 - **Flujo de trabajo:** una rama por fase y PR a `main` sin squash; los `.md` y lo ajeno a la fase en curso se commitean directamente en `main` (ver `CLAUDE.md`, "Flujo de ramas").
 - **Nomenclatura en inglés:** ciclo posterior (sección "Nomenclatura" y Fase 7), coordinado con `SpatWebAPI`. Mientras tanto rige la regla transitoria de esa sección.
@@ -25,7 +25,7 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 
 ### Plataforma
 - Destino `net10.0` en todos los proyectos; SDK fijado con `global.json`.
-- `Nullable` e `ImplicitUsings` activos (configurados en `Directory.Build.props`).
+- `Nullable` e `ImplicitUsings` activos (configurados en `Directory.Build.props`; `ImplicitUsings` ya lo está, `Nullable` se activa al final de la Fase 1).
 - *File-scoped namespaces* en todo archivo `.cs`.
 - Minimal hosting: todo el arranque en `Program.cs`, sin `Startup.cs`.
 - Gestión central de paquetes (`Directory.Packages.props`): las versiones viven solo ahí.
@@ -150,7 +150,7 @@ La limpieza de paquetes va **antes** del salto de framework, para reducir la sup
 - [x] `DATA`: sustituir `IdentityUserRole<int>` (`UserRole`) e `IdentityRole` (`Role`) por POCOs con las mismas propiedades y retirar `Microsoft.EntityFrameworkCore.SqlServer`, `Microsoft.AspNetCore.Identity.EntityFrameworkCore` y `Microsoft.AspNetCore.Http` (de 17 a 9 avisos). `Role` y `UserRole` no se usan en el cliente y la API no los envía, así que la deserialización no cambia en la práctica; queda cubierta por el test de contrato de la Fase 3
 - [x] `DATA` y cliente a `net10.0`; alinear temporalmente `JwtBearer` a 10.x y `System.IdentityModel.Tokens.Jwt` a 8.x hasta la Fase 2. Con `net10.0` se fija la línea **10.x** de los paquetes `Microsoft.*` aunque NuGet ya ofrezca 11.x; `System.IdentityModel.Tokens.Jwt` figura como en desuso (*Legacy*). Hecho con `JwtBearer` 10.0.15, `System.IdentityModel.Tokens.Jwt` 8.23.0 y, de paso, `Newtonsoft.Json` 13.0.4 (quita un aviso de gravedad alta). Build con 0 errores y 4 avisos (de 9). Comprobado en ejecución que la aplicación arranca y que una ruta protegida responde `401` sin token, con token inventado y con JWT de firma falsa. **No se probó un token válido** (requiere la clave de firma, que no se usa en pruebas)
 - [x] Actualizar ClosedXML con el test de reportes Excel como red de seguridad; probar en el sistema operativo de despliegue (el cálculo de fuentes en `AdjustToContents` puede variar). Hecho con 0.105.1 y 11 tests (ver "Estado actual"); queda la comprobación visual en el SO de despliegue
-- [ ] Minimal hosting (`Program.cs`, eliminar `Startup.cs`); `MapStaticAssets()` y ruta única de áreas con `[Area]`
+- [x] Minimal hosting (`Program.cs`, eliminar `Startup.cs`); `MapStaticAssets()` y ruta única de áreas con `[Area]`
 - [ ] File-scoped namespaces con `dotnet format` (commit mecánico)
 - [ ] Activar `Nullable` y corregir advertencias (`DATA`, luego cliente); ver el riesgo del `[Required]` implícito
 
