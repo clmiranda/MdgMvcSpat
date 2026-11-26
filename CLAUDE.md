@@ -19,7 +19,7 @@ Está en proceso de modernización a .NET 10.
 ```bash
 dotnet restore ModalidadGradoSpat.sln
 dotnet build ModalidadGradoSpat.sln
-dotnet test                       # cuando exista el proyecto de tests
+dotnet test --solution ModalidadGradoSpat.sln   # runner Microsoft.Testing.Platform (global.json)
 dotnet run --project ModalidadGradoSpat
 ```
 

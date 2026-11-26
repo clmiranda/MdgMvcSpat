@@ -5,21 +5,21 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 
 ## Estado actual
 
-Última actualización: 2026-11-16.
+Última actualización: 2026-11-26.
 
 - **Fase 0: completa.** `DATA` no se comparte con la API (verificado en `SpatWebAPI`); ver "Contrato observado de la API".
 - **Fase 1 (rama `phase-1-platform`), hecho:** paquetes redundantes retirados; `RuntimeCompilation` y `Microsoft.jQuery.Unobtrusive.Ajax` retirados; `DATA` sin EF Core ni Identity (POCOs); `DATA` y cliente en `net10.0` con `JwtBearer` 10.0.15, `System.IdentityModel.Tokens.Jwt` 8.23.0 y `Newtonsoft.Json` 13.0.4. Build con 0 errores y 4 avisos (22 en la línea base).
+- **Fase 1, ClosedXML, hecho:** 0.95.4 → 0.105.1 con red de seguridad. Proyecto `ModalidadGradoSpat.Tests` (xunit v3, runner Microsoft.Testing.Platform fijado en `global.json`) con 11 tests que generan y reabren los 7 métodos de reporte. 0.105 deja como texto las fechas escritas con `ToShortDateString()`, así que `ReportMascota` y `ReportSeguimientoReporte` escriben ahora el `DateTime`. Desaparece el aviso crítico de `System.Drawing.Common`, que arrastraba ClosedXML 0.95. Pendiente verificar los Excel generados abriéndolos en el entorno de despliegue (el código no usa `AdjustToContents`).
 - **Fase 1, pendiente, en este orden:**
-  1. Actualizar ClosedXML (0.95.4 → 0.105.x). Propuesta: crear antes un proyecto de tests mínimo que genere cada uno de los 5 reportes de `Reports/` y los reabra; adelanta una parte de la Fase 6. *(decisión pendiente del mantenedor: tests primero o actualizar y probar a mano)*
-  2. Minimal hosting (`Program.cs`, sin `Startup.cs`), `MapStaticAssets()` y ruta única de áreas con `[Area]`.
-  3. File-scoped namespaces con `dotnet format` (commit mecánico).
-  4. Activar `Nullable` y corregir advertencias (ver riesgo 1).
-  5. Al cerrar la fase: PR de `phase-1-platform` a `main`.
-- **Hallazgos para fases posteriores:** `ASP0019` en `Startup.cs` (`Headers.Add`; Fase 2); `[Authorize]` anulado por `[AllowAnonymous]` de la clase en `LoginAccountController.LogOut` (`ASP0026`; Fase 2); `Mascota.DenunciaId` es `int` en el cliente y `int?` en la API (Fase 3, test de contrato).
+  1. Minimal hosting (`Program.cs`, sin `Startup.cs`), `MapStaticAssets()` y ruta única de áreas con `[Area]`.
+  2. File-scoped namespaces con `dotnet format` (commit mecánico).
+  3. Activar `Nullable` y corregir advertencias (ver riesgo 1).
+  4. Al cerrar la fase: PR de `phase-1-platform` a `main`.
+- **Hallazgos para fases posteriores:** `ReportSeguimientoReporte.ExcelReportes` define la cabecera "Estado Mascota" (columna 2) pero nunca escribe esa columna, que queda vacía; decidir más adelante si se valida o se descarta. `ASP0019` en `Startup.cs` (`Headers.Add`; Fase 2); `[Authorize]` anulado por `[AllowAnonymous]` de la clase en `LoginAccountController.LogOut` (`ASP0026`; Fase 2); `Mascota.DenunciaId` es `int` en el cliente y `int?` en la API (Fase 3, test de contrato).
 - **No probado todavía:** un JWT válido ni ningún flujo con la API en marcha. Las pruebas de arranque cubren rutas públicas y rechazos `401` de una ruta protegida.
 - **Flujo de trabajo:** una rama por fase y PR a `main` sin squash; los `.md` y lo ajeno a la fase en curso se commitean directamente en `main` (ver `CLAUDE.md`, "Flujo de ramas").
 - **Nomenclatura en inglés:** ciclo posterior (sección "Nomenclatura" y Fase 7), coordinado con `SpatWebAPI`. Mientras tanto rige la regla transitoria de esa sección.
-- **Decisiones ya tomadas:** .NET 10, autenticación por cookie con `DelegatingHandler`, `HttpClient` tipado con `System.Text.Json`, y tests, CI, eliminación de `static` y logging dentro del alcance. El ajuste visual de Bootstrap queda fuera por ahora.
+- **Decisiones ya tomadas:** .NET 10, autenticación por cookie con `DelegatingHandler`, `HttpClient` tipado con `System.Text.Json`, tests de reportes antes de actualizar ClosedXML, y tests, CI, eliminación de `static` y logging dentro del alcance. El ajuste visual de Bootstrap queda fuera por ahora.
 
 ## Estándares de código
 
@@ -149,7 +149,7 @@ La limpieza de paquetes va **antes** del salto de framework, para reducir la sup
 - [x] Retirar `Microsoft.jQuery.Unobtrusive.Ajax`: verificado que ninguna vista ni script usa `unobtrusive-ajax`, `data-ajax` ni `Ajax.BeginForm`. Era la única fuente del paquete `jQuery` 1.8.0 (5 avisos de vulnerabilidad menos: de 22 a 17)
 - [x] `DATA`: sustituir `IdentityUserRole<int>` (`UserRole`) e `IdentityRole` (`Role`) por POCOs con las mismas propiedades y retirar `Microsoft.EntityFrameworkCore.SqlServer`, `Microsoft.AspNetCore.Identity.EntityFrameworkCore` y `Microsoft.AspNetCore.Http` (de 17 a 9 avisos). `Role` y `UserRole` no se usan en el cliente y la API no los envía, así que la deserialización no cambia en la práctica; queda cubierta por el test de contrato de la Fase 3
 - [x] `DATA` y cliente a `net10.0`; alinear temporalmente `JwtBearer` a 10.x y `System.IdentityModel.Tokens.Jwt` a 8.x hasta la Fase 2. Con `net10.0` se fija la línea **10.x** de los paquetes `Microsoft.*` aunque NuGet ya ofrezca 11.x; `System.IdentityModel.Tokens.Jwt` figura como en desuso (*Legacy*). Hecho con `JwtBearer` 10.0.15, `System.IdentityModel.Tokens.Jwt` 8.23.0 y, de paso, `Newtonsoft.Json` 13.0.4 (quita un aviso de gravedad alta). Build con 0 errores y 4 avisos (de 9). Comprobado en ejecución que la aplicación arranca y que una ruta protegida responde `401` sin token, con token inventado y con JWT de firma falsa. **No se probó un token válido** (requiere la clave de firma, que no se usa en pruebas)
-- [ ] Actualizar ClosedXML con el test de reportes Excel como red de seguridad; probar en el sistema operativo de despliegue (el cálculo de fuentes en `AdjustToContents` puede variar)
+- [x] Actualizar ClosedXML con el test de reportes Excel como red de seguridad; probar en el sistema operativo de despliegue (el cálculo de fuentes en `AdjustToContents` puede variar). Hecho con 0.105.1 y 11 tests (ver "Estado actual"); queda la comprobación visual en el SO de despliegue
 - [ ] Minimal hosting (`Program.cs`, eliminar `Startup.cs`); `MapStaticAssets()` y ruta única de áreas con `[Area]`
 - [ ] File-scoped namespaces con `dotnet format` (commit mecánico)
 - [ ] Activar `Nullable` y corregir advertencias (`DATA`, luego cliente); ver el riesgo del `[Required]` implícito
@@ -182,7 +182,7 @@ La limpieza de paquetes va **antes** del salto de framework, para reducir la sup
 - [ ] Endpoint `/health` con comprobación de la API y `UseRequestLocalization`
 
 ### Fase 6: tests, CI y documentación
-- [ ] Proyecto de tests (handler, cliente, integración, reportes Excel, regresión de estado compartido)
+- [ ] Proyecto de tests (handler, cliente, integración, reportes Excel, regresión de estado compartido). El proyecto y los tests de reportes ya existen desde la Fase 1; falta lo demás
 - [ ] Workflow de CI en GitHub Actions (con auditoría de paquetes) y Dependabot
 - [ ] Activar `TreatWarningsAsErrors` de forma gradual (primero `nullable`)
 - [ ] README con arquitectura, configuración y decisiones técnicas
@@ -205,7 +205,7 @@ No empieza hasta terminar las fases 0 a 6 y planificar el trabajo en `SpatWebAPI
 4. **Salto directo de 3.1 a 10.** Son siete versiones mayores sin pasos intermedios. De ahí que cada paso exija build verde y que la limpieza de paquetes se haga antes del retarget.
 5. **CSRF y sesiones al pasar a cookies.** Sin antiforgery global y sin Data Protection persistente, la migración introduce un riesgo de seguridad y cierres de sesión en cada despliegue.
 6. **Reintentos y duplicados.** Reintentar un `POST` puede duplicar registros; los reintentos solo aplican a métodos idempotentes.
-7. **ClosedXML.** El salto desde 0.95 trae cambios de API y de fuentes; sin test de los reportes el riesgo no se ve hasta producción.
+7. **ClosedXML.** Mitigado: los tests de reportes cubren el salto 0.95 → 0.105 y detectaron que las fechas escritas como texto dejaban de ser celdas de fecha. Sigue pendiente la comprobación visual en el SO de despliegue.
 8. **Renombrar a inglés rompe contratos si no se coordina (Fase 7).** Los nombres de propiedades JSON, las rutas, las tablas y las columnas son contrato entre cliente, API y BD. Un renombrado de código sin `[JsonPropertyName]`, `[Column]` o `[Route]` de compatibilidad rompe el otro lado sin avisos de compilación. Las cadenas en vistas (`asp-controller`, `asp-action`) tampoco las detecta el compilador. Hay que hacer copia de seguridad de la BD antes de la migración y desplegar API y cliente en el mismo momento, o con una versión de API intermedia.
 
 ## Contrato observado de la API
