@@ -28,8 +28,8 @@ namespace ModalidadGradoSpat.Reports
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = seguimiento.Id;
-                    worksheet.Cell(currentRow, 2).Value = seguimiento.FechaInicio.ToShortDateString();
-                    worksheet.Cell(currentRow, 3).Value = seguimiento.FechaFin.ToShortDateString();
+                    worksheet.Cell(currentRow, 2).Value = seguimiento.FechaInicio;
+                    worksheet.Cell(currentRow, 3).Value = seguimiento.FechaFin;
                     worksheet.Cell(currentRow, 4).Value = seguimiento.ReporteSeguimientos.Count();
                     worksheet.Cell(currentRow, 5).Value = seguimiento.SolicitudAdopcion.Mascota.Nombre;
                     worksheet.Cell(currentRow, 6).Value = seguimiento.SolicitudAdopcion.Mascota.Id;

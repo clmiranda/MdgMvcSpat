@@ -37,7 +37,7 @@ namespace ModalidadGradoSpat.Reports
                     worksheet.Cell(currentRow, 7).Value = mascota.Tamano;
                     worksheet.Cell(currentRow, 8).Value = mascota.Edad;
                     worksheet.Cell(currentRow, 9).Value = mascota.Estado;
-                    worksheet.Cell(currentRow, 10).Value = mascota.FechaCreacion.ToShortDateString();
+                    worksheet.Cell(currentRow, 10).Value = mascota.FechaCreacion;
                     if (mascota.Denuncia == null)
                     {
                         worksheet.Cell(currentRow, 11).Value = "No tiene denuncia creada.";
