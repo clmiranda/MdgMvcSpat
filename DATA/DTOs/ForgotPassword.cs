@@ -6,5 +6,5 @@ public class ForgotPassword
 {
     [Required(ErrorMessage ="El correo es requerido.")]
     [EmailAddress(ErrorMessage ="Ingrese un Email válido.")]
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
 }

@@ -8,12 +8,12 @@ public class ResetPassword
     [Required(ErrorMessage ="La nueva contraseña es requerida.")]
     [DataType(DataType.Password)]
     [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d]).{8,}$", ErrorMessage = "La contraseña no cumple con los requisitos.")]
-    public string Password { get; set; }
+    public string Password { get; set; } = null!;
     [NotMapped]
     [Required(ErrorMessage ="Debe confirmar la contraseña.")]
     [DataType(DataType.Password)]
     [Compare("Password",ErrorMessage ="Las contraseñas no coinciden.")]
-    public string ConfirmPassword { get; set; }
-    public string Email { get; set; }
-    public string Token { get; set; }
+    public string ConfirmPassword { get; set; } = null!;
+    public string? Email { get; set; }
+    public string? Token { get; set; }
 }

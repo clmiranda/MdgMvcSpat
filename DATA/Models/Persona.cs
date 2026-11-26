@@ -6,21 +6,21 @@ public class Persona: BaseEntity
 {
     [Required(ErrorMessage = "El Nombre es requerido.")]
     [MaxLength(100)]
-    public string Nombres { get; set; }
+    public string Nombres { get; set; } = null!;
     [Required(ErrorMessage = "Los Apellidos son requeridos.")]
     [MaxLength(200)]
-    public string Apellidos { get; set; }
+    public string Apellidos { get; set; } = null!;
     [Required(ErrorMessage = "El Domicilio es requerido.")]
     [MaxLength(200)]
-    public string Domicilio { get; set; }
+    public string Domicilio { get; set; } = null!;
     [Required(ErrorMessage = "El Numero de Celular es requerido.")]
     [MaxLength(20)]
-    public string Telefono { get; set; }
+    public string Telefono { get; set; } = null!;
     [Required(ErrorMessage = "La Fecha de Nacimiento es requerida.")]
     public DateTime FechaNacimiento { get; set; }
     [Required(ErrorMessage = "El Género del usuario es requerido.")]
     [MaxLength(20)]
-    public string Genero { get; set; }
-    public string Edad { get; set; }
-    public virtual User User { get; set; }
+    public string Genero { get; set; } = null!;
+    public string? Edad { get; set; }
+    public virtual User? User { get; set; }
 }

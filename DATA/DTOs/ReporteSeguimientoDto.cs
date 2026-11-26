@@ -10,11 +10,11 @@ public class ReporteSeguimientoDto
     [Required(ErrorMessage = "Debe ingresar la descripción del actual reporte.")]
     [MaxLength(300)]
     [StringLength(maximumLength: 3000, MinimumLength = 20, ErrorMessage = "La descripción debe contener como mínimo 20 caracteres.")]
-    public string Observaciones { get; set; }
+    public string Observaciones { get; set; } = null!;
     [Required(ErrorMessage = "Debe contener una imagen de la mascota.")]
     [DataType(DataType.Upload)]
     [MaxFileSize(3 * 1024 * 1024)]
-    public virtual IFormFile Foto { get; set; }
+    public virtual IFormFile Foto { get; set; } = null!;
 }
 public class MaxFileSizeAttribute : ValidationAttribute
 {
@@ -24,8 +24,8 @@ public class MaxFileSizeAttribute : ValidationAttribute
         _maxFileSize = maxFileSize;
     }
 
-    protected override ValidationResult IsValid(
-    object value, ValidationContext validationContext)
+    protected override ValidationResult? IsValid(
+    object? value, ValidationContext validationContext)
     {
         var file = value as IFormFile;
         if (file != null)

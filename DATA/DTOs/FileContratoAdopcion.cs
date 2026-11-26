@@ -6,5 +6,5 @@ namespace DATA.DTOs;
 public class FileContratoAdopcion
 {
     [Required]
-    public IFormFile Archivo { get; set; }
+    public IFormFile Archivo { get; set; } = null!;
 }

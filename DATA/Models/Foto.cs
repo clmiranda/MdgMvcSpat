@@ -5,12 +5,12 @@ namespace DATA.Models;
 
 public class Foto: BaseEntity
 {
-    public string Url { get; set; }
+    public string? Url { get; set; }
     public bool IsPrincipal { get; set; }
-    public string IdPublico { get; set; }
+    public string? IdPublico { get; set; }
     public DateTime? FechaCreacion { get; set; }
     public int? UserId { get; set; }
     public int? MascotaId { get; set; }
     [Required(ErrorMessage = "Es necesario que incluya la foto.")]
-    public IFormFile File { get; set; }
+    public IFormFile File { get; set; } = null!;
 }

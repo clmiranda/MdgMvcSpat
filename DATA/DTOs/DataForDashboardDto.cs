@@ -12,6 +12,6 @@ public class DataForDashboardDto
     public int ContadorAdopcionesCanceladas { get; set; }
     public int ContadorSeguimientosActuales { get; set; }
     public int ContadorVoluntariosRegistrados { get; set; }
-    public List<DataGraficaDto> DataGraficaMascota { get; set; }
-    public List<DataGraficaDto> DataGraficaSolicitudAdopcion { get; set; }
+    public List<DataGraficaDto>? DataGraficaMascota { get; set; }
+    public List<DataGraficaDto>? DataGraficaSolicitudAdopcion { get; set; }
 }
