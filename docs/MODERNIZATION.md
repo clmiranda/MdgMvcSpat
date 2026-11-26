@@ -7,15 +7,18 @@ Este documento es la fuente de verdad: cada paso se marca al terminarse y se com
 
 Última actualización: 2026-11-16.
 
-- **Hecho:** redacción de `CLAUDE.md` y de este documento (sin commitear todavía).
-- **Añadido el 2026-11-16:** auditoría de paquetes NuGet, estándares de seguridad web y sección de riesgos de migración. Lo marcado como *(a verificar)* depende de comprobar el código o la API antes de ejecutarlo.
-- **Pendiente del mantenedor, antes de seguir:**
-  1. Revisar `CLAUDE.md` y `docs/MODERNIZATION.md` (incluidas las secciones nuevas) y ajustar lo que haga falta.
-  2. Commitear ambos archivos (mensaje sugerido: `docs: add project conventions and modernization roadmap`).
-- **Hecho en Fase 0 (2026-11-16, sin commitear):** `global.json`, `Directory.Build.props`, `Directory.Packages.props`, `.editorconfig`, línea base y inventario de paquetes.
-- **Fase 0 completa:** `DATA` no se comparte con la API (verificado en `SpatWebAPI`); el hallazgo y el contrato observado están en la sección "Contrato observado de la API".
-- **Añadido (2026-11-16):** nomenclatura en inglés como ciclo posterior (sección "Nomenclatura" y Fase 7). No empieza hasta terminar las fases 0 a 6 y coordinar el trabajo con `SpatWebAPI`; mientras tanto rige la regla transitoria de esa sección.
-- **Siguiente paso:** primer paso de la Fase 1, retirar los paquetes redundantes.
+- **Fase 0: completa.** `DATA` no se comparte con la API (verificado en `SpatWebAPI`); ver "Contrato observado de la API".
+- **Fase 1 (rama `phase-1-platform`), hecho:** paquetes redundantes retirados; `RuntimeCompilation` y `Microsoft.jQuery.Unobtrusive.Ajax` retirados; `DATA` sin EF Core ni Identity (POCOs); `DATA` y cliente en `net10.0` con `JwtBearer` 10.0.15, `System.IdentityModel.Tokens.Jwt` 8.23.0 y `Newtonsoft.Json` 13.0.4. Build con 0 errores y 4 avisos (22 en la línea base).
+- **Fase 1, pendiente, en este orden:**
+  1. Actualizar ClosedXML (0.95.4 → 0.105.x). Propuesta: crear antes un proyecto de tests mínimo que genere cada uno de los 5 reportes de `Reports/` y los reabra; adelanta una parte de la Fase 6. *(decisión pendiente del mantenedor: tests primero o actualizar y probar a mano)*
+  2. Minimal hosting (`Program.cs`, sin `Startup.cs`), `MapStaticAssets()` y ruta única de áreas con `[Area]`.
+  3. File-scoped namespaces con `dotnet format` (commit mecánico).
+  4. Activar `Nullable` y corregir advertencias (ver riesgo 1).
+  5. Al cerrar la fase: PR de `phase-1-platform` a `main`.
+- **Hallazgos para fases posteriores:** `ASP0019` en `Startup.cs` (`Headers.Add`; Fase 2); `[Authorize]` anulado por `[AllowAnonymous]` de la clase en `LoginAccountController.LogOut` (`ASP0026`; Fase 2); `Mascota.DenunciaId` es `int` en el cliente y `int?` en la API (Fase 3, test de contrato).
+- **No probado todavía:** un JWT válido ni ningún flujo con la API en marcha. Las pruebas de arranque cubren rutas públicas y rechazos `401` de una ruta protegida.
+- **Flujo de trabajo:** una rama por fase y PR a `main` sin squash; los `.md` y lo ajeno a la fase en curso se commitean directamente en `main` (ver `CLAUDE.md`, "Flujo de ramas").
+- **Nomenclatura en inglés:** ciclo posterior (sección "Nomenclatura" y Fase 7), coordinado con `SpatWebAPI`. Mientras tanto rige la regla transitoria de esa sección.
 - **Decisiones ya tomadas:** .NET 10, autenticación por cookie con `DelegatingHandler`, `HttpClient` tipado con `System.Text.Json`, y tests, CI, eliminación de `static` y logging dentro del alcance. El ajuste visual de Bootstrap queda fuera por ahora.
 
 ## Estándares de código
