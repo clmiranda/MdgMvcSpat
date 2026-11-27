@@ -26,7 +26,7 @@ dotnet run --project ModalidadGradoSpat
 ## Configuración local
 - Copiar `ModalidadGradoSpat/appsettings.example.json` a `appsettings.json` y rellenar los valores.
 - `appsettings.json` está en `.gitignore`. **Nunca** se versiona ni se imprime su contenido.
-- La clave de firma del JWT debe coincidir con la de la API (mínimo 64 caracteres ASCII).
+- El cliente no necesita la clave de firma del JWT: desde la Fase 2 solo la usa la API.
 
 ## Reglas de trabajo
 - Responder y documentar en español; identificadores de código y términos técnicos en su forma original.
